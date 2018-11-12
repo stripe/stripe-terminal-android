@@ -44,6 +44,7 @@ Next, since the SDK relies on Java 8, you’ll need to specify that as your targ
     }
 
 **Configure your app**
+
 Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_COARSE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
 
 
