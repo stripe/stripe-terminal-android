@@ -75,7 +75,7 @@ Location access must be enabled in order to use the SDK. You’ll need to make s
 
 To connect to a reader, the Android SDK needs to retrieve a short-lived connection token from Stripe, proxied through your server. On your backend, add an endpoint that creates a connection token and returns its value. 
 
-Refer to our \[iOS documentation\](https://stripe.com/docs/terminal/ios#connection-token) for instructions on setting up this endpoint.
+Refer to our [iOS documentation](https://stripe.com/docs/terminal/ios#connection-token) for instructions on setting up this endpoint.
 
 To give the SDK access to this endpoint, implement the `ConnectionTokenProvider` interface in your app, which defines a single function that requests a connection token from your backend.
 
@@ -98,7 +98,7 @@ To give the SDK access to this endpoint, implement the `ConnectionTokenProvider`
 This function is called whenever the SDK is initialized. It's also called when a new token is needed to connect to a reader (for example, when your app disconnects from a reader). If the SDK is unable to retrieve a new token from your backend, connecting to a reader fails with the error from your server.
 
 
-> Do not cache or hardcode the connection token. The iOS SDK manages the token's lifecycle.
+> Do not cache or hardcode the connection token. The SDK manages the token's lifecycle.
 ## Step 3: Create your Terminal instance
 
 The `Terminal` object made available by the Stripe Terminal SDK exposes a generic interface for discovering readers, connecting to a reader, and creating payments. To initialize a `Terminal` instance, you’ll need to provide your ConnectionTokenProvider implemented in Step 2. The listener you provide can be used to handle events from the SDK, such as disconnects.
