@@ -143,7 +143,7 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
 
         @Override
         public void onSuccess() {
-            setStatusText(getString(R.string.not_connected));
+            getActivity().runOnUiThread(() ->setStatusText(getString(R.string.not_connected)));
         }
 
         @Override
