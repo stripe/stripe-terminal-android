@@ -24,6 +24,10 @@ public class TerminalEventListener implements TerminalListener {
         listeners.add(listener);
     }
 
+    static void deregisterListener(TerminalListener listener) {
+        listeners.remove(listener);
+    }
+
     @Override
     public void onReportReaderEvent(ReaderEvent event) {
         for (TerminalListener listener : listeners) {
