@@ -129,6 +129,12 @@ public class PaymentFragment extends Fragment implements TerminalListener {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        TerminalEventListener.deregisterListener(this);
+    }
+
     /**
      * A simple callback that will run after a payment method is collected
      */
