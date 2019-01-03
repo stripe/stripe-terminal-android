@@ -14,14 +14,14 @@ import android.widget.Toast;
 
 import com.stripe.stripeterminal.Callback;
 import com.stripe.stripeterminal.Cancelable;
-import com.stripe.stripeterminal.PaymentIntent;
-import com.stripe.stripeterminal.PaymentIntentCallback;
 import com.stripe.stripeterminal.PaymentIntentParameters;
 import com.stripe.stripeterminal.PaymentStatus;
 import com.stripe.stripeterminal.ReaderInputListener;
 import com.stripe.stripeterminal.ReaderInputOptions;
 import com.stripe.stripeterminal.ReaderInputPrompt;
 import com.stripe.stripeterminal.Terminal;
+import com.stripe.stripeterminal.PaymentIntentCallback;
+import com.stripe.stripeterminal.PaymentIntent;
 import com.stripe.stripeterminal.TerminalException;
 import com.stripe.stripeterminal.TerminalListener;
 
