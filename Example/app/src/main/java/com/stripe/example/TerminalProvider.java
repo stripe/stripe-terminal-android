@@ -1,14 +1,19 @@
 package com.stripe.example;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.stripe.exception.StripeException;
+import com.stripe.stripeterminal.ConnectionStatus;
 import com.stripe.stripeterminal.ConnectionTokenCallback;
 import com.stripe.stripeterminal.ConnectionTokenException;
 import com.stripe.stripeterminal.ConnectionTokenProvider;
+import com.stripe.stripeterminal.Reader;
+import com.stripe.stripeterminal.ReaderEvent;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.TerminalConfiguration;
 import com.stripe.stripeterminal.TerminalConfiguration.LogLevel;
+import com.stripe.stripeterminal.TerminalListener;
 
 /**
  * The {@code TerminalProvider} will create a new {@link Terminal} instance the first time it's

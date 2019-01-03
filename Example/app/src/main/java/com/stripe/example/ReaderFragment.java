@@ -128,6 +128,10 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
         @Override
         public void onSuccess(Reader reader) {
             getActivity().runOnUiThread(() -> setStatusText(reader.getSerialNumber()));
+
+            // Clear the reader list so that we start fresh on the next discovery attempt
+            discoveredReaders.clear();
+            ReaderList.update(new String[0]);
         }
 
         @Override
@@ -143,7 +147,7 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
 
         @Override
         public void onSuccess() {
-            getActivity().runOnUiThread(() ->setStatusText(getString(R.string.not_connected)));
+            getActivity().runOnUiThread(() -> setStatusText(getString(R.string.not_connected)));
         }
 
         @Override
