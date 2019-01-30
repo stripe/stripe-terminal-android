@@ -22,7 +22,7 @@ In order to use the Android version of the Terminal SDK, you’ll first have to 
 
 
     dependencies {
-      implementation "com.stripe.stripeterminal:0.3"
+      implementation "com.stripe:stripeterminal:0.3"
     }
 
 Additionally, since the SDK doesn’t include transitive dependencies, you’ll have to include a few of its dependencies as well:
@@ -32,7 +32,7 @@ Additionally, since the SDK doesn’t include transitive dependencies, you’ll 
       implementation "com.jakewharton.timber:timber:4.7.1"
       implementation "com.google.dagger:dagger:2.17"
       implementation "com.squareup.okhttp3:okhttp:3.11.0"
-      implementation "com.google.guava:guava:26.0-android
+      implementation "com.google.guava:guava:26.0-android"
     }
 
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`:
