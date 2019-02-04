@@ -40,8 +40,6 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
     private Button discoverButton;
     private Button disconnectButton;
 
-    private Terminal terminal;
-
     // Keep a map of all discovered readers and their names
     private Map<String, Reader> discoveredReaders = Maps.newHashMap();
 
@@ -55,7 +53,8 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
         if (requestCode == REQUEST_CODE_SELECTED_READER) {
             String readerSelectionName = ReaderSelectionActivity.getReaderSelection(data);
             if (discoveredReaders.containsKey(readerSelectionName)) {
-                terminal.connectReader(discoveredReaders.get(readerSelectionName), new ConnectionCallback());
+                Terminal.getInstance().connectReader(discoveredReaders.get(readerSelectionName),
+                        new ConnectionCallback());
             }
         }
     }
@@ -65,13 +64,10 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reader, container, false);
 
-        // Initialize the BBPOSConnector on creation
-        terminal = TerminalProvider.getInstance(getActivity());
-
         // Grab connection status to update later
         connectionStatus = view.findViewById(R.id.connection_status);
-        if (terminal.getConnectedReader() != null) {
-            setStatusText(terminal.getConnectedReader().getSerialNumber());
+        if (Terminal.getInstance().getConnectedReader() != null) {
+            setStatusText(Terminal.getInstance().getConnectedReader().getSerialNumber());
         } else {
             setStatusText(getString(R.string.not_connected));
         }
@@ -79,15 +75,16 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
         // Set click listener to find devices
         discoverButton = view.findViewById(R.id.discover_button);
         discoverButton.setOnClickListener(v -> {
-            terminal.discoverReaders(new DiscoveryConfiguration(), new ReaderDiscoveryListener(),
-                    new DiscoveryCallback());
+            Terminal.getInstance().discoverReaders(new DiscoveryConfiguration(),
+                    new ReaderDiscoveryListener(), new DiscoveryCallback());
             Intent intent = new Intent(getActivity(), ReaderSelectionActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SELECTED_READER);
         });
 
         // Set click listener to disconnectReader from all devices
         disconnectButton = view.findViewById(R.id.disconnect_button);
-        disconnectButton.setOnClickListener(v -> terminal.disconnectReader(new DisconnectionCallback()));
+        disconnectButton.setOnClickListener(
+                v -> Terminal.getInstance().disconnectReader(new DisconnectionCallback()));
 
         return view;
     }
@@ -115,7 +112,9 @@ public class ReaderFragment extends Fragment implements OnRequestPermissionsResu
 
         @Override
         public void onUpdateDiscoveredReaders(List<Reader> readers) {
-            readers.forEach(reader -> discoveredReaders.put(reader.getSerialNumber(), reader));
+            for (Reader reader : readers) {
+                discoveredReaders.put(reader.getSerialNumber(), reader);
+            }
             ReaderList.update(discoveredReaders.keySet().toArray(new String[0]));
         }
     }
