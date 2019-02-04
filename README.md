@@ -2,7 +2,7 @@
 
 # Requirements
 
-The Stripe Terminal Android SDK is compatible with apps supporting Android API level 24 and above.
+The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above.
 
 # Try the example app
 
@@ -22,7 +22,7 @@ In order to use the Android version of the Terminal SDK, you’ll first have to 
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:0.3"
+      implementation "com.stripe:stripeterminal:0.4"
     }
 
 Additionally, since the SDK doesn’t include transitive dependencies, you’ll have to include a few of its dependencies as well:
@@ -99,26 +99,31 @@ This function is called whenever the SDK is initialized. It's also called when a
 
 
 > Do not cache or hardcode the connection token. The SDK manages the token's lifecycle.
-## Step 3: Create your Terminal instance
+## Step 3: Initialize the Terminal instance
 
 The `Terminal` object made available by the Stripe Terminal SDK exposes a generic interface for discovering readers, connecting to a reader, and creating payments. To initialize a `Terminal` instance, you’ll need to provide your ConnectionTokenProvider implemented in Step 2. The listener you provide can be used to handle events from the SDK, such as disconnects.
 
 
     // Create your listener object. Override any methods that you want to be notified of.
     TerminalListener listener = new TerminalListener() {};
+    
     // Create your token provider.
     MyTokenProvider tokenProvider = new MyTokenProvider();
-    // Pass in your API key, the listener you created, and the current application context
-    Terminal terminal = Terminal.initTerminal(getActivity(), tokenProvider, listener);
+    
+    // Pass in the current application context, the desired log level, your token provider, and the listener you created
+    Terminal.initTerminal(getActivity(), tokenProvider, listener);
+    
+    // Since the Terminal is a singleton, you can call getInstance whenever you need it
+    Terminal.getInstance();
 
 
 ## Step 4: Connect to a reader
 
-After setting up your reader, call `terminal.discoverReaders` in your application to find and display readers to connect to. You will need to provide a `DiscoveryListener` to handle updating your app as the SDK updates the list of discovered readers.
+After setting up your reader, call `discoverReaders` in your application to find and display readers to connect to. You will need to provide a `DiscoveryListener` to handle updating your app as the SDK updates the list of discovered readers.
 
 
     DiscoveryConfiguration config = new DiscoveryConfiguration();
-    terminal.discoverReaders(config, readers -> {
+    Terminal.getInstance().discoverReaders(config, readers -> {
       System.out.println(readers);
     }, new DiscoveryCallback() {
       @Override
@@ -150,7 +155,7 @@ The following example shows how to create a PaymentIntent [client-side](https://
       .setAmount(100)
       .setCurrency("usd")
       .build();
-    terminal.createPaymentIntent(params, new PaymentIntentCallback() {
+    Terminal.getInstance().createPaymentIntent(params, new PaymentIntentCallback() {
       // Placeholder for continueing payment with the created PaymentIntent
     }
 
@@ -188,7 +193,7 @@ Now you can pass the listener into `collectPaymentMethod` in order to read a car
 
     // This should be the payment intent you received back from createPaymentIntent
     PaymentIntent paymentIntent; 
-    Cancelable cancelable = terminal.collectPaymentMethod(paymentIntent, 
+    Cancelable cancelable = Terminal.getInstance().collectPaymentMethod(paymentIntent, 
       new MyReaderListener(),
       new PaymentIntentCallback() {
         @Override
@@ -204,12 +209,12 @@ Now you can pass the listener into `collectPaymentMethod` in order to read a car
 
 If collecting a payment method fails, the callback completes with an exception. If collecting a payment method succeeds, the callback completes with the updated PaymentIntent, which will now have a status of `requires_confirmation`.
 
-To proceed with the payment, call `terminal.confirmPaymentIntent`.
+To proceed with the payment, call `confirmPaymentIntent`.
 
 
     // This should be the PaymentIntent you received back from collectPaymentMethod
     PaymentIntent paymentIntent;
-    Cancelable cancelable = terminal.confirmPaymentIntent(paymentIntent, 
+    Cancelable cancelable = Terminal.getInstance().confirmPaymentIntent(paymentIntent, 
       new PaymentIntentCallback() {
         @Override
         public void onSuccess(PaymentIntent intent) {
