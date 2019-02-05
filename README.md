@@ -101,7 +101,7 @@ This function is called whenever the SDK is initialized. It's also called when a
 > Do not cache or hardcode the connection token. The SDK manages the token's lifecycle.
 ## Step 3: Initialize the Terminal instance
 
-The `Terminal` object made available by the Stripe Terminal SDK exposes a generic interface for discovering readers, connecting to a reader, and creating payments. To initialize a `Terminal` instance, you’ll need to provide your ConnectionTokenProvider implemented in Step 2. The listener you provide can be used to handle events from the SDK, such as disconnects.
+The `Terminal` singleton object made available by the Stripe Terminal SDK exposes a generic interface for discovering readers, connecting to a reader, and creating payments. To initialize the `Terminal`, you’ll need to provide your ConnectionTokenProvider implemented in Step 2. The listener you provide can be used to handle events from the SDK, such as disconnects.
 
 
     // Create your listener object. Override any methods that you want to be notified of.
