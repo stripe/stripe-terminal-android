@@ -8,19 +8,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.stripe.stripeterminal.PaymentIntentCallback;
 import com.stripe.stripeterminal.PaymentIntent;
+import com.stripe.stripeterminal.PaymentIntentCallback;
+import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.TerminalException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * The {@code PaymentIntentActivity} shows the payment intent object that has been used for the
@@ -57,7 +56,7 @@ public class PaymentIntentActivity extends AppCompatActivity {
 
         // If the cancellation button is clicked, cancel the current payment intent
         cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(view -> TerminalProvider.getInstance(getApplicationContext())
+        cancelButton.setOnClickListener(view -> Terminal.getInstance()
                 .cancelPaymentIntent(intent,
                         new PaymentIntentCallback() {
                             @Override

@@ -40,7 +40,6 @@ public class PaymentFragment extends Fragment implements TerminalListener {
     private Button startButton;
     private Button cancelButton;
 
-    private Terminal terminal;
     private Cancelable cancelable;
 
     public PaymentFragment() {
@@ -53,9 +52,6 @@ public class PaymentFragment extends Fragment implements TerminalListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payment, container, false);
-
-        // Create a Terminal instance (or use the existing one)
-        terminal = TerminalProvider.getInstance(getActivity());
 
         // Prep the input fields
         amountEditText = view.findViewById(R.id.amount_edit_text);
@@ -71,7 +67,7 @@ public class PaymentFragment extends Fragment implements TerminalListener {
                     .setAmount(amount)
                     .setCurrency(currency.toLowerCase())
                     .build();
-            terminal.createPaymentIntent(params, new CreatePaymentIntentCallback());
+            Terminal.getInstance().createPaymentIntent(params, new CreatePaymentIntentCallback());
         });
 
         // Set the PaymentStatus to the current status
@@ -143,7 +139,8 @@ public class PaymentFragment extends Fragment implements TerminalListener {
         @Override
         public void onSuccess(@Nonnull PaymentIntent paymentIntent) {
             // If we've collected a payment method, it's time to confirm the payment intent
-            terminal.confirmPaymentIntent(paymentIntent, new ConfirmPaymentIntentCallback());
+            Terminal.getInstance().confirmPaymentIntent(paymentIntent,
+                    new ConfirmPaymentIntentCallback());
         }
 
         @Override
@@ -161,8 +158,8 @@ public class PaymentFragment extends Fragment implements TerminalListener {
         public void onSuccess(@Nonnull PaymentIntent paymentIntent) {
             // After we have a new payment intent, we should try to collect a payment method
             // We'll also save the Cancelable object so that we can cancel collection if needed
-            cancelable = terminal.collectPaymentMethod(paymentIntent, new ReaderListener(),
-                    new CollectPaymentMethodCallback());
+            cancelable = Terminal.getInstance().collectPaymentMethod(paymentIntent,
+                    new ReaderListener(), new CollectPaymentMethodCallback());
         }
 
         @Override

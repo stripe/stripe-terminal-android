@@ -29,7 +29,9 @@ public class ReaderList {
      */
     public static void update(String[] newReaders) {
         readers = newReaders;
-        listeners.forEach(listener -> listener.updateReaders(readers));
+        for (ReaderSelectionListener listener : listeners) {
+            listener.updateReaders(readers);
+        }
     }
 
     /**

@@ -13,6 +13,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.stripe.exception.StripeException;
+import com.stripe.stripeterminal.ConnectionTokenCallback;
+import com.stripe.stripeterminal.ConnectionTokenException;
+import com.stripe.stripeterminal.ConnectionTokenProvider;
+import com.stripe.stripeterminal.LogLevel;
+import com.stripe.stripeterminal.Terminal;
+
 import javax.annotation.Nullable;
 
 /**
@@ -39,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
             String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION);
         }
+
+        // Initialize the Terminal as soon as possible
+        Terminal.initTerminal(getApplicationContext(), LogLevel.VERBOSE, new TokenProvider(),
+                new TerminalEventListener());
 
         // Get the FragmentManager
         fragmentManager = getSupportFragmentManager();
@@ -72,6 +83,23 @@ public class MainActivity extends AppCompatActivity {
                 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             throw new RuntimeException("Location services are required in order to connect to a " +
                     "reader.");
+        }
+    }
+
+    /**
+     * A simple implementation of the {@link ConnectionTokenProvider} interface. We just request a
+     * new token from our backend simulator and forward any exceptions along to the SDK.
+     */
+    private static class TokenProvider implements ConnectionTokenProvider {
+
+        @Override
+        public void fetchConnectionToken(ConnectionTokenCallback callback) {
+            try {
+                String token = BackendSimulator.createConnectionToken();
+                callback.onSuccess(token);
+            } catch (StripeException e) {
+                callback.onFailure(new ConnectionTokenException(e.getMessage(), e));
+            }
         }
     }
 }
