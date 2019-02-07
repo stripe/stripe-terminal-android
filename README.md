@@ -22,7 +22,7 @@ In order to use the Android version of the Terminal SDK, you’ll first have to 
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:0.4"
+      implementation "com.stripe:stripeterminal:0.4.1"
     }
 
 Additionally, since the SDK doesn’t include transitive dependencies, you’ll have to include a few of its dependencies as well:
