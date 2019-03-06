@@ -11,9 +11,8 @@ The Stripe Terminal SDK includes an example Android app, which you can use to fa
 To build the example app:
 
 1. Import the `Example` project into Android Studio
-2. In `BackendSimulator.java`, set your Stripe Account’s test secret API key. A backend simulator has been included as part of the example app for demonstration purposes only. Note that you should *never* store your Stripe account's secret API key in your own app. For more information, see [https://stripe.com/docs/keys](https://stripe.com/docs/keys)
-3. Build and run the app. Note that the example app won’t work on a simulated device due to lack of Bluetooth connectivity. In the future, the SDK will include a reader simulator, so you can get started without any physical hardware.
-
+2. In `BackendSimulator.kt`, set your Stripe Account’s test secret API key. A backend simulator has been included as part of the example app for demonstration purposes only. Note that you should *never* store your Stripe account's secret API key in your own app. For more information, see [https://stripe.com/docs/keys](https://stripe.com/docs/keys)
+3. Build and run the app. Note that the example app won’t work on an emulated Android device due to lack of Bluetooth connectivity. However, the app does include a reader simulator, so you have no need for a physical reader to start your integration.
 
 # Getting started
 ## Step 1: Set up the SDK
@@ -22,7 +21,7 @@ In order to use the Android version of the Terminal SDK, you’ll first have to 
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:0.4.1"
+      implementation "com.stripe:stripeterminal:0.5.1"
     }
 
 Additionally, since the SDK doesn’t include transitive dependencies, you’ll have to include a few of its dependencies as well:
@@ -51,6 +50,7 @@ Location access must be enabled in order to use the SDK. You’ll need to make s
     if (ContextCompat.checkSelfPermission(getActivity(), 
       Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
+        
         // REQUEST_CODE should be defined on your app level
         ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_CODE);
     }
