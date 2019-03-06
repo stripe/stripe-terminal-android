@@ -1,63 +1,31 @@
-0.4.1
+0.5
   
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:0.4.1"
+implementation "com.stripe:stripeterminal:0.5"
 ```
 
-## Fix to the RetrievePaymentIntent Path
-Fixed a bug preventing confirmation of a PaymentIntent that had been retrieved by `retrievePaymentIntent`.
+## Update to Example App
 
-0.4
+The example app has been rewritten in Kotlin to be simpler and more feature-rich than the existing app.
 
-If you're using Gradle, update your build file to:
+## Added Simulator
+
+A `simulated` flag has been added to the `DiscoveryConfiguration` constructor. When set, this will allow you to discover a simulated version of the device you specify. 
+
+Once you connect to this device, it will handle all interactions with the reader for you, allowing you to quickly iterate on your integration. Here's an example showing how to use the simulator:
 
 ```
-implementation "com.stripe:stripeterminal:0.4"
+// Create a simulated configuration object
+DiscoveryConfiguration config = new DiscoveryConfiguration(0, DeviceType.CHIPPER_2X, true);
+
+// Create a ReaderDiscoveryListener
+ReaderDiscoveryListener listener = new ReaderDiscoveryListener();
+
+// Create a discovery Callback
+Callback callback = new Callback();
+
+// Request discovery of a simulated Chipper 2X reader
+Terminal.getInstance().discoverReaders(config, listener, callback);
 ```
-
-## Update to minSdkVersion
-
-Due to requests from a few of our Alpha users, we've decided to support API versions down to 21, instead of the 24 we had previously. We hope that gives you the flexibility to use the Terminal SDK on more devices.
-
-## Singleton initializer
-
-`Terminal` is now a singleton, so you will need to update your integration.
-
-Before:
-```
-// Create your listener object. Override any methods that you want to be notified of.
-TerminalListener listener = new TerminalListener() {};
-
-// Create your token provider.
-MyTokenProvider tokenProvider = new MyTokenProvider();
-
-// Create an instance of TerminalConfiguration
-TerminalConfiguration config = new TerminalConfiguration(LogLevel.VERBOSE);
-
-// Initialize your Terminal instance
-Terminal terminal = Terminal.initTerminal(getActivity(), config, tokenProvider, listener);
-```
-
-After:
-```
-// Create your listener object. Override any methods that you want to be notified of.
-TerminalListener listener = new TerminalListener() {};
-
-// Create your token provider.
-MyTokenProvider tokenProvider = new MyTokenProvider();
-
-// Initialize your Terminal instance
-Terminal.initTerminal(getActivity(), LogLevel.VERBOSE, tokenProvider, listener);
-
-// Retrieve the Terminal instance any time you need it
-Terminal.getInstance();
-```
-
-If you were relying on destroying and recreating `Terminal` instances to clear state (for example, to switch between different Stripe accounts in your app), you should instead use the `clearCachedCredentials` method.
-
-As noted in the code example above, `TerminalConfiguration` has also been removed, and the `logLevel` parameter that was previously passed into the `TerminalConfiguration` constructor is now passed into `initTerminal` directly.
-
-
-
