@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         private const val REQUEST_CODE_LOCATION = 1;
     }
 
+    private var collectCancelable: Cancelable? = null
+    private var discoveryCancelable: Cancelable? = null
+    private var simulated: Boolean = false
+
     /**
      * Upon starting, we should verify we have the permissions we need, then start the app
      */
@@ -52,6 +56,20 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     // Navigation callbacks
 
     /**
+     * Callback function called when there's been a request to cancel collect payment method
+     */
+    override fun onRequestCancelCollectPaymentMethod() {
+        collectCancelable?.cancel(CollectPaymentMethodCancellationCallback(this))
+    }
+
+    /**
+     * Callback function called when there's been a request to cancel discovery
+     */
+    override fun onRequestCancelDiscovery() {
+        discoveryCancelable?.cancel(DiscoveryCancellationCallback(this))
+    }
+
+    /**
      * Callback function called once disconnect has been selected by the [ConnectedReaderFragment]
      */
     override fun onRequestDisconnect() {
@@ -62,7 +80,17 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      * Callback function called once discovery has been selected by the [TerminalFragment]
      */
     override fun onRequestDiscovery() {
-        navigateTo(DiscoveryFragment(), true)
+        val fragment = DiscoveryFragment()
+        navigateTo(fragment)
+        discoveryCancelable = Terminal.getInstance().discoverReaders(DiscoveryConfiguration(0,
+                DeviceType.CHIPPER_2X, simulated), fragment, DiscoveryCallback(this))
+    }
+
+    /**
+     * Callback function called to exit the payment workflow
+     */
+    override fun onRequestExitPaymentWorkflow() {
+        navigateTo(ConnectedReaderFragment())
     }
 
     /**
@@ -73,7 +101,7 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
                 .setAmount(amount)
                 .setCurrency(currency.toLowerCase())
                 .build()
-        navigateTo(EventFragment(), false)
+        navigateTo(EventFragment())
         Terminal.getInstance().createPaymentIntent(params, CreatePaymentIntentCallback(this))
     }
 
@@ -82,19 +110,41 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      * [ConnectedReaderFragment]
      */
     override fun onSelectPaymentWorkflow() {
-        navigateTo(PaymentFragment(), true)
+        navigateTo(PaymentFragment())
     }
 
     /**
      * Callback function called once a [Reader] has been selected by the [DiscoveryFragment]
      */
     override fun onSelectReader(reader: Reader) {
-        supportFragmentManager.popBackStack()
-
+        navigateTo(ConnectingFragment())
         Terminal.getInstance().connectReader(reader, ConnectionCallback(this))
     }
 
+    /**
+     * Callback function called when the simulated switch has been toggled in the [TerminalFragment]
+     */
+    override fun onToggleSimulatedSwitch(isOn: Boolean) {
+        simulated = isOn
+    }
+
     // Terminal event callbacks
+
+    /**
+     * Callback function called when collect payment method has been canceled
+     */
+    override fun onCancelCollectPaymentMethod() {
+        collectCancelable = null
+        navigateTo(ConnectedReaderFragment())
+    }
+
+    /**
+     * Callback function called when discovery has been canceled
+     */
+    override fun onCancelDiscovery() {
+        discoveryCancelable = null
+        navigateTo(TerminalFragment().setSimulatedSwitch(simulated))
+    }
 
     /**
      * Callback function called on completion of [Terminal.collectPaymentMethod]
@@ -102,6 +152,7 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     override fun onCollectPaymentMethod(paymentIntent: PaymentIntent) {
         displayEvent("Collected PaymentMethod", "terminal.collectPaymentMethod")
         Terminal.getInstance().confirmPaymentIntent(paymentIntent, ConfirmPaymentIntentCallback(this))
+        collectCancelable = null
     }
 
     /**
@@ -111,13 +162,21 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         displayEvent("Confirmed PaymentIntent", "terminal.confirmPaymentIntent")
         BackendSimulator.capturePaymentIntent(paymentIntent.id)
         displayEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
+
+        // Tell the EventFragment that the flow has completed
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is EventFragment) {
+            runOnUiThread {
+                fragment.completeFlow()
+            }
+        }
     }
 
     /**
      * Callback function called on completion of [Terminal.connectReader]
      */
     override fun onConnectReader() {
-        navigateTo(ConnectedReaderFragment(), true)
+        navigateTo(ConnectedReaderFragment())
     }
 
     /**
@@ -125,7 +184,7 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      */
     override fun onCreatePaymentIntent(paymentIntent: PaymentIntent) {
         displayEvent("Created PaymentIntent", "terminal.createPaymentIntent")
-        Terminal.getInstance().collectPaymentMethod(paymentIntent, this,
+        collectCancelable = Terminal.getInstance().collectPaymentMethod(paymentIntent, this,
                 CollectPaymentMethodCallback(this))
     }
 
@@ -133,7 +192,14 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      * Callback function called on completion of [Terminal.disconnectReader]
      */
     override fun onDisconnectReader() {
-        navigateTo(TerminalFragment(), false)
+        navigateTo(TerminalFragment().setSimulatedSwitch(simulated))
+    }
+
+    /**
+     * Callback function called on completion of [Terminal.discoverReaders]
+     */
+    override fun onDiscoverReaders() {
+        discoveryCancelable = null
     }
 
     /**
@@ -160,15 +226,14 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     }
 
     /**
-     * Display [Terminal] events in the event container
+     * Display [Terminal] events in the EventFragment if it's visible
      */
     private fun displayEvent(message: String, method: String) {
         runOnUiThread {
-            val eventContainer = findViewById<LinearLayout>(R.id.event_container)
-            val view = layoutInflater.inflate(R.layout.log_event_layout, eventContainer, false)
-            view.message.text = message
-            view.method.text = method
-            eventContainer.addView(view)
+            val fragment = supportFragmentManager.findFragmentById(R.id.container)
+            if (fragment is EventFragment) {
+                fragment.displayEvent(message, method)
+            }
         }
     }
 
@@ -185,26 +250,20 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
                     "the Terminal.", e)
         }
 
-        navigateTo(TerminalFragment(), false)
+        navigateTo(TerminalFragment().setSimulatedSwitch(simulated))
     }
 
 
     /**
      * Navigate to the given fragment.
      *
-     * @param fragment       Fragment to navigate to.
-     * @param addToBackstack Whether or not the current fragment should be added to the backstack.
+     * @param fragment Fragment to navigate to.
      */
-    fun navigateTo(fragment: Fragment, addToBackstack: Boolean) {
-        val transaction = supportFragmentManager
+    fun navigateTo(fragment: Fragment) {
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container, fragment)
-
-        if (addToBackstack) {
-            transaction.addToBackStack(null)
-        }
-
-        transaction.commit()
+                .commit()
     }
 
 }

@@ -11,6 +11,16 @@ import com.stripe.stripeterminal.TerminalException
 interface TerminalStateManager {
 
     /**
+     * Notify the `Activity` that collecting payment method has been canceled
+     */
+    fun onCancelCollectPaymentMethod()
+
+    /**
+     * Notify the `Activity` that discovery has been canceled
+     */
+    fun onCancelDiscovery()
+
+    /**
      * Notify the `Activity` that a payment method has been collected
      */
     fun onCollectPaymentMethod(paymentIntent: PaymentIntent)
@@ -34,6 +44,11 @@ interface TerminalStateManager {
      * Notify the `Activity` that we've disconnected from all [Reader]s
      */
     fun onDisconnectReader()
+
+    /**
+     * Notify the `Activity` that [Reader] discovery has completed
+     */
+    fun onDiscoverReaders()
 
     /**
      * Notify the `Activity` that a [TerminalException] has been thrown

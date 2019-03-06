@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_discovery.view.*
  * The `DiscoveryFragment` shows the list of recognized readers and allows the user to
  * select one to connect to.
  */
-class DiscoveryFragment : Fragment() {
+class DiscoveryFragment : Fragment(), DiscoveryListener {
 
     private var adapter: ReaderAdapter? = null
     private var readerRecyclerView: RecyclerView? = null
@@ -35,10 +35,19 @@ class DiscoveryFragment : Fragment() {
             readerRecyclerView?.adapter = adapter
         }
 
-        Terminal.getInstance().discoverReaders(DiscoveryConfiguration(0,
-                DeviceType.CHIPPER_2X), adapter, DiscoveryCallback())
+        view.cancel_button.setOnClickListener {
+            if (activity is NavigationListener) {
+                (activity as NavigationListener).onRequestCancelDiscovery()
+            }
+        }
 
         return view
+    }
+
+    override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
+        activity?.runOnUiThread {
+            adapter?.updateReaders(readers)
+        }
     }
 
     /**
@@ -73,11 +82,11 @@ class DiscoveryFragment : Fragment() {
      * Our [RecyclerView.Adapter] implementation that allows us to update the list of readers
      */
     private class ReaderAdapter(val activity: Activity) :
-            RecyclerView.Adapter<ReaderHolder>(), DiscoveryListener {
+            RecyclerView.Adapter<ReaderHolder>() {
 
         var readers = emptyList<Reader>()
 
-        override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
+        fun updateReaders(readers: List<Reader>) {
             this.readers = readers
             notifyDataSetChanged()
         }
@@ -95,20 +104,4 @@ class DiscoveryFragment : Fragment() {
         }
 
     }
-
-    /**
-     * No-op [Callback] implementation to use when discovery completes
-     */
-    private class DiscoveryCallback : Callback {
-        override fun onSuccess() {
-            // No need to do anything here. Next steps are handled in the connection callback
-        }
-
-        override fun onFailure(e: TerminalException) {
-            // Just log the exception
-            Log.e(javaClass.simpleName, e.errorMessage, e)
-        }
-    }
-
-
 }

@@ -45,6 +45,21 @@ class CollectPaymentMethodCallback(private val manager: TerminalStateManager): P
 }
 
 /**
+ * A [Callback] that notifies the [TerminalStateManager] that [Terminal.collectPaymentMethod] has
+ * been canceled
+ */
+class CollectPaymentMethodCancellationCallback(private val manager: TerminalStateManager): Callback {
+    override fun onSuccess() {
+        manager.onCancelCollectPaymentMethod()
+    }
+
+    override fun onFailure(e: TerminalException) {
+        manager.onFailure(e)
+    }
+
+}
+
+/**
  * A [PaymentIntentCallback] that notifies the [TerminalStateManager] that [PaymentIntent]
  * confirmation has completed
  */
@@ -64,6 +79,32 @@ class ConfirmPaymentIntentCallback(private val manager: TerminalStateManager): P
 class DisconnectCallback(private val manager: TerminalStateManager) : Callback {
     override fun onSuccess() {
         manager.onDisconnectReader()
+    }
+
+    override fun onFailure(e: TerminalException) {
+        manager.onFailure(e)
+    }
+}
+
+/**
+ * A [Callback] that notifes the [TerminalStateManager] when discovery has completed
+ */
+class DiscoveryCallback(private val manager: TerminalStateManager) : Callback {
+    override fun onSuccess() {
+        manager.onDiscoverReaders()
+    }
+
+    override fun onFailure(e: TerminalException) {
+        manager.onFailure(e)
+    }
+}
+
+/**
+ * A [Callback] that notifies the [TerminalStateManager] when discovery has been canceled
+ */
+class DiscoveryCancellationCallback(private val manager: TerminalStateManager): Callback {
+    override fun onSuccess() {
+        manager.onCancelDiscovery()
     }
 
     override fun onFailure(e: TerminalException) {

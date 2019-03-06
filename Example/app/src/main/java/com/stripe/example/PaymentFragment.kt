@@ -43,6 +43,12 @@ class PaymentFragment : Fragment() {
             }
         }
 
+        view.home_button.setOnClickListener {
+            if (activity is NavigationListener) {
+                (activity as NavigationListener).onRequestExitPaymentWorkflow()
+            }
+        }
+
         return view
     }
 
