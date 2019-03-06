@@ -1,9 +1,9 @@
-0.5
+0.5.1
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:0.5"
+implementation "com.stripe:stripeterminal:0.5.1"
 ```
 
 ## Updates to PaymentStatus and ConnectionStatus
