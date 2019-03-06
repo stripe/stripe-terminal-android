@@ -1,93 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Example.Backdrop"
     tools:context=".PaymentFragment">
 
-    <TextView
-        android:id="@+id/amount_label"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/amount_label"
-        android:textStyle="bold"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/payment_status"
-        app:layout_constraintEnd_toStartOf="@+id/amount_edit_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/amount_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/amount_default"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintStart_toEndOf="@id/amount_label"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/currency_label"
-        app:layout_constraintBottom_toTopOf="@id/payment_status" />
-
-    <TextView
-        android:id="@+id/currency_label"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/currency_label"
-        android:gravity="center"
-        android:textStyle="bold"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/amount_edit_text"
-        app:layout_constraintEnd_toStartOf="@id/currency_edit_text"
-        app:layout_constraintBottom_toTopOf="@id/payment_status" />
-
-
-    <EditText
-        android:id="@+id/currency_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/currency_default"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintStart_toEndOf="@id/currency_label"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/payment_status" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/nearby_readers_layout" >
 
-    <TextView
-        android:id="@+id/payment_status"
+        <TextView
+            android:id="@+id/home_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textAlignment="textStart"
+            android:layout_gravity="start"
+            android:paddingStart="12dp"
+            android:paddingTop="16dp"
+            android:text="@string/terminal"
+            android:textColor="@color/colorAccent" />
+
+        <android.support.v7.widget.Toolbar
+            style="@style/Widget.Example.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
+            app:contentInsetStart="0dp"
+            app:title="@string/collect_card_payment" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/backdrop"
+        style="@style/Widget.Example.Backdrop"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintTop_toBottomOf="@id/amount_edit_text"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/start_button" />
-
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/start_button"
-        app:layout_constraintVertical_weight="2"
-        app:layout_constraintBottom_toTopOf="@id/cancel_button"
-        app:layout_constraintTop_toBottomOf="@id/payment_status"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
 
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/cancel_button"
-        app:layout_constraintVertical_weight="2"
-        app:layout_constraintTop_toBottomOf="@id/start_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingStart="16dp"
+            android:text="@string/amount"
+            android:paddingTop="40dp"/>
 
+        <android.support.design.widget.TextInputLayout
+            style="@style/Widget.Example.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/amount_edit_text"
+                style="@style/Widget.Example.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@string/default_amount_int"
+                android:textColor="?android:attr/textColorPrimary"
+                android:paddingStart="16dp"
+                android:maxLines="1"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingStart="16dp"
+            android:text="@string/currency"
+            android:paddingTop="40dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/Widget.Example.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/currency_edit_text"
+                style="@style/Widget.Example.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                android:enabled="false"
+                android:text="@string/usd"
+                android:textColor="@color/colorPrimaryDark"
+                android:paddingStart="16dp"
+                android:maxLines="1"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/charge_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingStart="16dp"
+            android:paddingTop="40dp"
+            android:text="@string/default_amount_string"/>
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/collect_payment_button"
+            style="@style/Widget.Example.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadius="0dp"
+            android:textAlignment="textStart"
+            android:text="@string/collect_payment"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/collect_payment_description"/>
+
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
