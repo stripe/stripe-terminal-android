@@ -1,4 +1,4 @@
-# Stripe Terminal Android <img src="https://img.shields.io/badge/Alpha-yellow.svg">
+# Stripe Terminal Android <img src="https://img.shields.io/badge/Beta-yellow.svg">
 
 # Requirements
 
