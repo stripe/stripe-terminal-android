@@ -61,7 +61,7 @@ Location access must be enabled in order to use the SDK. You’ll need to make s
 
 
 ## Documentation
- - [Getting Started](https://stripe.com/docs/terminal/android)
+ - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
  - [API Reference](https://stripe.dev/stripe-terminal-android)
 
 
