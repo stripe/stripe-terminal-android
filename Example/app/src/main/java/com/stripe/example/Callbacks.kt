@@ -3,10 +3,28 @@ package com.stripe.example
 import com.stripe.stripeterminal.*
 
 /**
+ * A [ReaderSoftwareUpdateCallback] that notifies the [TerminalStateManager] when an update process
+ * has completed
+ */
+class CheckForUpdateCallback(private val manager: TerminalStateManager): ReaderSoftwareUpdateCallback {
+    override fun onSuccess(update: ReaderSoftwareUpdate) {
+        manager.onReturnReaderSoftwareUpdate(update)
+    }
+
+    override fun onFailure(e: TerminalException) {
+        if (e.errorCode == TerminalException.TerminalErrorCode.NO_AVAILABLE_READER_SOFTWARE_UPDATE) {
+            // NO_AVAILABLE_READER_SOFTWARE_UPDATE errors are expected
+            manager.onReturnReaderSoftwareUpdate(null)
+        } else {
+            manager.onFailure(e)
+        }
+    }
+}
+
+/**
  * A [ReaderCallback] that notifies the [TerminalStateManager] that connection has completed
  */
 class ConnectionCallback(private val manager: TerminalStateManager) : ReaderCallback {
-
     override fun onSuccess(reader: Reader?) {
         manager.onConnectReader()
     }
@@ -60,20 +78,6 @@ class CollectPaymentMethodCancellationCallback(private val manager: TerminalStat
 }
 
 /**
- * A [PaymentIntentCallback] that notifies the [TerminalStateManager] that [PaymentIntent]
- * confirmation has completed
- */
-class ConfirmPaymentIntentCallback(private val manager: TerminalStateManager): PaymentIntentCallback {
-    override fun onSuccess(paymentIntent: PaymentIntent) {
-        manager.onConfirmPaymentIntent(paymentIntent)
-    }
-
-    override fun onFailure(e: TerminalException) {
-        manager.onFailure(e)
-    }
-}
-
-/**
  * A [Callback] that notifies the [TerminalStateManager] when disconnect has completed
  */
 class DisconnectCallback(private val manager: TerminalStateManager) : Callback {
@@ -105,6 +109,34 @@ class DiscoveryCallback(private val manager: TerminalStateManager) : Callback {
 class DiscoveryCancellationCallback(private val manager: TerminalStateManager): Callback {
     override fun onSuccess() {
         manager.onCancelDiscovery()
+    }
+
+    override fun onFailure(e: TerminalException) {
+        manager.onFailure(e)
+    }
+}
+
+/**
+ * A [Callback] that notifies the [TerminalStateManager] when installation of an update has
+ * completed
+ */
+class InstallUpdateCallback(private val manager: TerminalStateManager): Callback {
+    override fun onSuccess() {
+        manager.onInstallReaderSoftwareUpdate()
+    }
+
+    override fun onFailure(e: TerminalException) {
+        manager.onFailure(e)
+    }
+}
+
+/**
+ * A [PaymentIntentCallback] that notifies the [TerminalStateManager] that [Terminal.processPayment]
+ * has completed
+ */
+class ProcessPaymentCallback(private val manager: TerminalStateManager): PaymentIntentCallback {
+    override fun onSuccess(paymentIntent: PaymentIntent) {
+        manager.onProcessPayment(paymentIntent)
     }
 
     override fun onFailure(e: TerminalException) {

@@ -1,39 +1,54 @@
-0.5.1
+1.0.0-b2
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:0.5.1"
+implementation "com.stripe:stripeterminal:1.0.0-b2"
 ```
 
-## Updates to PaymentStatus and ConnectionStatus
+## Added the ability to update reader software
+The update reader flow consists of two methods. The first method (`checkForUpdate`) will return a
+`ReaderSoftwareUpdate` object if an update is available, or throw a
+`NO_AVAILABLE_READER_SOFTWARE_UPDATE` exception if it isn't. The second method (`installUpdate`)
+will handle installation if necessary.
 
-In order to more clearly communicate the internal status of the SDK, we've decided to update both
-`PaymentStatus` and `ConnectionStatus`. `PaymentStatus` has had two of its values renamed
-(from `COLLECTING_PAYMENT_METHOD` and `CONFIRMING_PAYMENT_INTENT` to `WAITING_FOR_INPUT` and
-`PROCESSING`). Meanwhile, we've removed the `BUSY` value from `ConnectionStatus` and added
-`CONNECTING`. We hope that these values are helpful in your integration.
+## Made ApiError field public on TerminalException
+If a `TerminalException` is of type `API_ERROR`, it will contain an `ApiError` field giving more
+details about exactly what went wrong.
 
-## Update to Example App
+## Added CARD_READ_TIMED_OUT error code
+Now, if the reader times out (which will happen 60 seconds after `collectPaymentMethod` is called),
+a `CARD_READ_TIMED_OUT` error will be thrown.
 
-The example app has been rewritten in Kotlin to be simpler and more feature-rich than the existing app.
+## Added PaymentMethodDetails to the PaymentIntent object
+A `PaymentMethodDetails` object has been added to the `PaymentIntent`. This will surface details
+about the payment method used to complete the `PaymentIntent`, like it's brand, expiration date,
+and country.
 
-## Added Simulator
+## Implemented readReusableCard method
+The `readReusableCard` method can be used to read a card and save it as a `PaymentMethod` to be used
+in the future (e.g. for subscriptions).
+NOTE: Most integrations should not use `readReusableCard`. If your integration only needs to read
+cards and charge them immediately, you should instead be using `Terminal#collectPaymentMethod` and
+`Terminal#processPayment`.
 
-A `simulated` flag has been added to the `DiscoveryConfiguration` constructor. When set, this will allow you to discover a simulated version of the device you specify.
+## Added a setTerminalListener method to Terminal
+Now you can change the `TerminalListener` on the fly in order to continue receiving updates in a
+new activity. Use the `setTerminalListener` method to do this.
 
-Once you connect to this device, it will handle all interactions with the reader for you, allowing you to quickly iterate on your integration. Here's an example showing how to use the simulator:
+## Made onUnexpectedReaderDisconnect mandatory
+While the rest of the functions on the `TerminalListener` interface are optional, we think the
+`onUnexpectedReaderDisconnect` method is important enough to be implemented in all integrations.
 
-```
-// Create a simulated configuration object
-DiscoveryConfiguration config = new DiscoveryConfiguration(0, DeviceType.CHIPPER_2X, true);
+## Renamed confirmPaymentIntent -> processPayment
 
-// Create a ReaderDiscoveryListener
-ReaderDiscoveryListener listener = new ReaderDiscoveryListener();
+This `Terminal` method was renamed to be clearer about the purpose of the method, regardless of the
+implementation details.
 
-// Create a discovery Callback
-Callback callback = new Callback();
+## Renamed ReaderInputListener -> ReaderDisplayListener
 
-// Request discovery of a simulated Chipper 2X reader
-Terminal.getInstance().discoverReaders(config, listener, callback);
-```
+The `ReaderInputListener` was renamed to `ReaderDisplayListener` to be clearer about its purpose.
+Additionally, both of its methods were renamed (from `onBeginWaitingForReaderInput` and
+`onRequestReaderInputPrompt` to `onRequestReaderInput` and `onRequestDisplayReaderMessage`). The
+functionality has remained the same.
+

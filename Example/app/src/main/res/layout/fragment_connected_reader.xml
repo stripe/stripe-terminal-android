@@ -97,6 +97,18 @@
             app:icon="@drawable/ic_right_arrow"
             app:iconTint="@color/colorPrimaryDark" />
 
+        <android.support.design.button.MaterialButton
+            android:id="@+id/update_reader_button"
+            style="@style/Widget.Example.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            app:cornerRadius="0dp"
+            android:textAlignment="textStart"
+            android:text="@string/update_reader_software"
+            app:icon="@drawable/ic_right_arrow"
+            app:iconTint="@color/colorPrimaryDark" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
