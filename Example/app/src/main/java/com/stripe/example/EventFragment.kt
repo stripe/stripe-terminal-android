@@ -38,7 +38,7 @@ class EventFragment : Fragment() {
 
         doneButton?.setOnClickListener {
             if (activity is NavigationListener) {
-                (activity as NavigationListener).onRequestExitPaymentWorkflow()
+                (activity as NavigationListener).onRequestExitWorkflow()
             }
         }
 

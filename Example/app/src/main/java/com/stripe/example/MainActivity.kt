@@ -2,17 +2,16 @@ package com.stripe.example
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.widget.LinearLayout
 import com.stripe.stripeterminal.*
-import kotlinx.android.synthetic.main.log_event_layout.view.*
 
 class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManager,
-        ReaderInputListener {
+        ReaderDisplayListener, ReaderSoftwareUpdateListener {
 
     companion object {
 
@@ -22,6 +21,7 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
 
     private var collectCancelable: Cancelable? = null
     private var discoveryCancelable: Cancelable? = null
+    private var readerUpdate: ReaderSoftwareUpdate? = null
     private var simulated: Boolean = false
 
     /**
@@ -70,6 +70,13 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     }
 
     /**
+     * Callback function called when there's been a request to check for updates
+     */
+    override fun onRequestCheckForUpdate() {
+        Terminal.getInstance().checkForUpdate(CheckForUpdateCallback(this))
+    }
+
+    /**
      * Callback function called once disconnect has been selected by the [ConnectedReaderFragment]
      */
     override fun onRequestDisconnect() {
@@ -89,8 +96,15 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     /**
      * Callback function called to exit the payment workflow
      */
-    override fun onRequestExitPaymentWorkflow() {
+    override fun onRequestExitWorkflow() {
         navigateTo(ConnectedReaderFragment())
+    }
+
+    /**
+     * Callback function called to start installation of a reader software update
+     */
+    override fun onRequestInstallUpdate() {
+        Terminal.getInstance().installUpdate(readerUpdate, this, InstallUpdateCallback(this))
     }
 
     /**
@@ -119,6 +133,14 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     override fun onSelectReader(reader: Reader) {
         navigateTo(ConnectingFragment())
         Terminal.getInstance().connectReader(reader, ConnectionCallback(this))
+    }
+
+    /**
+     * Callback function called once the update reader workflow has been selected by the
+     * [ConnectedReaderFragment]
+     */
+    override fun onSelectUpdateWorkflow() {
+        navigateTo(UpdateReaderFragment())
     }
 
     /**
@@ -151,25 +173,8 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      */
     override fun onCollectPaymentMethod(paymentIntent: PaymentIntent) {
         displayEvent("Collected PaymentMethod", "terminal.collectPaymentMethod")
-        Terminal.getInstance().confirmPaymentIntent(paymentIntent, ConfirmPaymentIntentCallback(this))
+        Terminal.getInstance().processPayment(paymentIntent, ProcessPaymentCallback(this))
         collectCancelable = null
-    }
-
-    /**
-     * Callback function called on completion of [Terminal.confirmPaymentIntent]
-     */
-    override fun onConfirmPaymentIntent(paymentIntent: PaymentIntent) {
-        displayEvent("Confirmed PaymentIntent", "terminal.confirmPaymentIntent")
-        BackendSimulator.capturePaymentIntent(paymentIntent.id)
-        displayEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
-
-        // Tell the EventFragment that the flow has completed
-        val fragment = supportFragmentManager.findFragmentById(R.id.container)
-        if (fragment is EventFragment) {
-            runOnUiThread {
-                fragment.completeFlow()
-            }
-        }
     }
 
     /**
@@ -209,29 +214,86 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         displayEvent(e.errorMessage, e.errorCode.toString())
     }
 
-    // Reader prompt callbacks
+    /**
+     * Callback function called on completion of [Terminal.installUpdate]
+     */
+    override fun onInstallReaderSoftwareUpdate() {
+        // Tell the UpdateReaderFragment that the update flow has completed
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is UpdateReaderFragment) {
+            runOnUiThread {
+                fragment.onCompleteUpdate()
+            }
+        }
+    }
+
+    /**
+     * Callback function called on completion of [Terminal.processPayment]
+     */
+    override fun onProcessPayment(paymentIntent: PaymentIntent) {
+        displayEvent("Processed payment", "terminal.processPayment")
+        ApiClient.capturePaymentIntent(paymentIntent.id)
+        displayEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
+
+        // Tell the EventFragment that the flow has completed
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is EventFragment) {
+            runOnUiThread {
+                fragment.completeFlow()
+            }
+        }
+    }
+
+    /**
+     * Callback function called on completion of [Terminal.checkForUpdate]
+     */
+    override fun onReturnReaderSoftwareUpdate(update: ReaderSoftwareUpdate?) {
+        readerUpdate = update
+
+        // Tell the UpdateReaderFragment that an update is available
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is UpdateReaderFragment) {
+            runOnUiThread {
+                fragment.onUpdateAvailable(update)
+            }
+        }
+    }
+
+    // Reader output callbacks
+
+    /**
+     * Callback function called when the [Reader] needs to display a message
+     */
+    override fun onRequestReaderDisplayMessage(message: ReaderDisplayMessage) {
+        displayEvent(message.toString(), "listener.onRequestReaderDisplayMessage")
+    }
 
     /**
      * Callback function called when the [Reader] is ready for input
      */
-    override fun onBeginWaitingForReaderInput(options: ReaderInputOptions) {
-        displayEvent(options.toString(), "listener.onBeginWaitingForReaderInput")
+    override fun onRequestReaderInput(options: ReaderInputOptions) {
+        displayEvent(options.toString(), "listener.onRequestReaderInput")
     }
 
-    /**
-     * Callback function called when the [Reader] needs to display a prompt
-     */
-    override fun onRequestReaderInputPrompt(prompt: ReaderInputPrompt) {
-        displayEvent(prompt.toString(), "listener.onRequestReaderInputPrompt")
+    // Reader software update callbacks
+
+    override fun onReportReaderSoftwareUpdateProgress(progress: Float) {
+        // Tell the UpdateReaderFragment about the progress
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is UpdateReaderFragment) {
+            runOnUiThread {
+                fragment.onUpdateProgress(progress)
+            }
+        }
     }
 
     /**
      * Display [Terminal] events in the EventFragment if it's visible
      */
     private fun displayEvent(message: String, method: String) {
-        runOnUiThread {
-            val fragment = supportFragmentManager.findFragmentById(R.id.container)
-            if (fragment is EventFragment) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is EventFragment) {
+            runOnUiThread {
                 fragment.displayEvent(message, method)
             }
         }

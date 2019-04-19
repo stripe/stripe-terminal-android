@@ -18,6 +18,11 @@ interface NavigationListener {
     fun onRequestCancelDiscovery()
 
     /**
+     * Notify the `Activity` that the user wants to initiate an update
+     */
+    fun onRequestCheckForUpdate()
+
+    /**
      * Notify the `Activity` that disconnect has been requested
      */
     fun onRequestDisconnect()
@@ -28,9 +33,14 @@ interface NavigationListener {
     fun onRequestDiscovery()
 
     /**
-     * Notify the `Activity` that the user wants to exit the payment workflow
+     * Notify the `Activity` that the user wants to exit the current workflow
      */
-    fun onRequestExitPaymentWorkflow()
+    fun onRequestExitWorkflow()
+
+    /**
+     * Notify the `Activity` that the user wants to install a software update
+     */
+    fun onRequestInstallUpdate()
 
     /**
      * Notify the `Activity` that the user wants to initiate a payment
@@ -46,6 +56,11 @@ interface NavigationListener {
      * Notify the `Activity` that a [Reader] has been selected
      */
     fun onSelectReader(reader: Reader)
+
+    /**
+     * Notify the `Activity` that the user wants to start the update reader workflow
+     */
+    fun onSelectUpdateWorkflow()
 
     /**
      * Notify the `Activity` that the simulated switch has been toggled

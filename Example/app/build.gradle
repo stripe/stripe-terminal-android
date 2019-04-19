@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -33,38 +33,31 @@ ext {
     supportLibVersion = "28.0.0"
 
     constraintVersion = '1.1.3'
+    okhttpVersion = '3.11.0'
+    retrofitVersion = '2.5.0'
     stripeVersion = '7.1.0'
-    stripeTerminalVersion = '0.5.1'
-
-    daggerVersion = '2.17'
-    guavaVersion = '26.0-android'
-    okHttpVersion = '3.11.0'
-    timberVersion = '4.7.1'
+    stripeTerminalVersion = '1.0.0-b2'
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Android dependencies
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation "com.android.support.constraint:constraint-layout:$constraintVersion"
+    api "com.android.support:design:$supportLibVersion"
     implementation "com.android.support:support-v4:$supportLibVersion"
-    implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraintVersion"
 
-    // Terminal library
-    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
+    // OK HTTP
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     // Stripe Java library
     implementation "com.stripe:stripe-java:$stripeVersion"
 
-    // Transitive dependencies
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    implementation "com.google.guava:guava:$guavaVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
+    // Stripe Terminal library
+    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
 }

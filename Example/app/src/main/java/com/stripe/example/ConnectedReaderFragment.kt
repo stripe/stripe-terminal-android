@@ -42,6 +42,13 @@ class ConnectedReaderFragment : Fragment() {
             }
         }
 
+        // Set up the update reader button
+        view.update_reader_button.setOnClickListener {
+            if (activity is NavigationListener) {
+                (activity as NavigationListener).onSelectUpdateWorkflow()
+            }
+        }
+
         return view
     }
 
