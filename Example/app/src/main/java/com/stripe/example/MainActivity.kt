@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
 
         // Check for location permissions
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             initialize()
         } else {
             // If we don't have them yet, request them before doing anything else
-            val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION)
         }
     }

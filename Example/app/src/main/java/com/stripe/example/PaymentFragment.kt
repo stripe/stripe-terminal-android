@@ -30,7 +30,9 @@ class PaymentFragment : Fragment() {
             }
 
             override fun afterTextChanged(editable: Editable?) {
-                view.charge_amount.text = formatCentsToString(editable.toString().toInt())
+                if (!editable.toString().isEmpty()) {
+                    view.charge_amount.text = formatCentsToString(editable.toString().toInt())
+                }
             }
 
         })
