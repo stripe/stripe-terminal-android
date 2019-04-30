@@ -1,3 +1,24 @@
+1.0.0-b3
+
+If you're using Gradle, update your build file to:
+
+```
+implementation "com.stripe:stripeterminal:1.0.0-b3"
+```
+
+## Allows example app use in Android emulator
+Made the changes necessary to allow the example app to be used by an Android emulator.
+NOTE: This will only work with a simulated reader, since there are no bluetooth capabilities
+available in Android emulators.
+
+## Other changes
+
+- Fixed bug preventing metadata passed in `PaymentIntentParameters` from showing up on the
+PaymentIntent.
+- The `ReadReusableCardParameters` object passed to `Terminal#readReusableCard` now includes a
+`customer` parameter which, if included, will attach the newly created `PaymentMethod` to the
+specified customer.
+
 1.0.0-b2
 
 If you're using Gradle, update your build file to:
