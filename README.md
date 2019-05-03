@@ -2,7 +2,7 @@
 
 # Requirements
 
-The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above. Apps can be written using Kotlin or Java 8.
+The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
 
 # Try the example app
 
