@@ -2,7 +2,6 @@ package com.stripe.example
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -16,7 +15,10 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     companion object {
 
         // The code that denotes the request for location permissions
-        private const val REQUEST_CODE_LOCATION = 1;
+        private const val REQUEST_CODE_LOCATION = 1
+
+        // A string to store if the simulated switch is set
+        private const val SIMULATED_SWITCH_VALUE = "com.stripe.example.simulated"
     }
 
     private var collectCancelable: Cancelable? = null
@@ -31,6 +33,11 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Initialize the simulated flag
+        if (savedInstanceState != null) {
+            simulated = savedInstanceState.getBoolean(SIMULATED_SWITCH_VALUE, false)
+        }
+
         // Check for location permissions
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -40,6 +47,14 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
             val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION)
         }
+    }
+
+    /**
+     * Make sure to save the state of the simulated switch when necessary
+     */
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putBoolean(SIMULATED_SWITCH_VALUE, simulated)
+        super.onSaveInstanceState(outState)
     }
 
     /**
@@ -136,6 +151,16 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     }
 
     /**
+     * Callback function called once the read card workflow has been selected by the
+     * [ConnectedReaderFragment]
+     */
+    override fun onSelectReadReusableCardWorkflow() {
+        navigateTo(EventFragment())
+        Terminal.getInstance().readReusableCard(ReadReusableCardParameters.NULL, this,
+                ReadReusableCardCallback(this))
+    }
+
+    /**
      * Callback function called once the update reader workflow has been selected by the
      * [ConnectedReaderFragment]
      */
@@ -211,7 +236,13 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      * Callback function called whenever a [Terminal] method fails
      */
     override fun onFailure(e: TerminalException) {
-        displayEvent(e.errorMessage, e.errorCode.toString())
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is EventFragment) {
+            displayEvent(e.errorMessage, e.errorCode.toString())
+            runOnUiThread {
+                fragment.completeFlow()
+            }
+        }
     }
 
     /**
@@ -234,6 +265,22 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         displayEvent("Processed payment", "terminal.processPayment")
         ApiClient.capturePaymentIntent(paymentIntent.id)
         displayEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
+
+        // Tell the EventFragment that the flow has completed
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (fragment is EventFragment) {
+            runOnUiThread {
+                fragment.completeFlow()
+            }
+        }
+    }
+
+    /**
+     * Callback function called on completion of [Terminal.readReusableCard]
+     */
+    override fun onReadReusableCard(paymentMethod: PaymentMethod) {
+        displayEvent("Created PaymentMethod: ${paymentMethod.id}",
+                "terminal.readReusableCard")
 
         // Tell the EventFragment that the flow has completed
         val fragment = supportFragmentManager.findFragmentById(R.id.container)

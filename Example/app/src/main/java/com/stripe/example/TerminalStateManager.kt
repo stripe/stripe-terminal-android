@@ -58,6 +58,11 @@ interface TerminalStateManager {
     fun onProcessPayment(paymentIntent: PaymentIntent)
 
     /**
+     * Notify the `Activity` that the payment method has been created
+     */
+    fun onReadReusableCard(paymentMethod: PaymentMethod)
+
+    /**
      * Notify the `Activity` that a reader software update has been found
      */
     fun onReturnReaderSoftwareUpdate(update: ReaderSoftwareUpdate?)

@@ -42,6 +42,13 @@ class ConnectedReaderFragment : Fragment() {
             }
         }
 
+        // Set up the read reusable card button
+        view.read_reusable_card_button.setOnClickListener {
+            if (activity is NavigationListener) {
+                (activity as NavigationListener).onSelectReadReusableCardWorkflow()
+            }
+        }
+
         // Set up the update reader button
         view.update_reader_button.setOnClickListener {
             if (activity is NavigationListener) {
