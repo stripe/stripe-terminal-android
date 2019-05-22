@@ -27,6 +27,7 @@
     <string name="nearby_readers">NEARBY READERS</string>
     <string name="no_reader">No reader connected</string>
     <string name="no_update_available">No update available</string>
+    <string name="read_card_for_recurring_payment">Read card for recurring payment</string>
     <string name="reader">Reader</string>
     <string name="reader_connection">READER CONNECTION</string>
     <string name="reader_description">%1$s %2$s</string>

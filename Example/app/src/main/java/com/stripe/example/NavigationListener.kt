@@ -58,6 +58,11 @@ interface NavigationListener {
     fun onSelectReader(reader: Reader)
 
     /**
+     * Notify the `Activity` that the user wants to start the workflow to read a reusable card
+     */
+    fun onSelectReadReusableCardWorkflow()
+
+    /**
      * Notify the `Activity` that the user wants to start the update reader workflow
      */
     fun onSelectUpdateWorkflow()
