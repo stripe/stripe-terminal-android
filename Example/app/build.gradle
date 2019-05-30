@@ -14,17 +14,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/proguard/androidx-annotations.pro'
-    }
 }
 
 ext {
@@ -36,7 +25,7 @@ ext {
     okhttpVersion = '3.11.0'
     retrofitVersion = '2.5.0'
     stripeVersion = '7.1.0'
-    stripeTerminalVersion = '1.0.0-b4'
+    stripeTerminalVersion = '1.0.0-b5'
 }
 
 dependencies {

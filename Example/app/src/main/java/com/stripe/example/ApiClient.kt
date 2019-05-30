@@ -4,6 +4,7 @@ import com.stripe.stripeterminal.ConnectionTokenException
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 /**
  * The `ApiClient` is a singleton object used to make calls to our backend and return their results
@@ -18,9 +19,9 @@ object ApiClient {
      *
      * After deploying your backend, replace "" on the line below with the URL of your Heroku app.
      *
-     * private const val BACKEND_URL = "https://your-app.herokuapp.com"
+     * const val BACKEND_URL = "https://your-app.herokuapp.com"
      */
-    private const val BACKEND_URL = ""
+    const val BACKEND_URL = ""
 
     private val client = OkHttpClient()
     private val retrofit : Retrofit = Retrofit.Builder()
@@ -32,12 +33,16 @@ object ApiClient {
 
     @Throws(ConnectionTokenException::class)
     internal fun createConnectionToken(): String {
-        val result = service.getConnectionToken().execute()
-        if (result.isSuccessful && result.body() != null) {
-            return result.body()!!.secret
+        try {
+            val result = service.getConnectionToken().execute()
+            if (result.isSuccessful && result.body() != null) {
+                return result.body()!!.secret
+            } else {
+                throw ConnectionTokenException("Creating connection token failed")
+            }
+        } catch (e: IOException) {
+            throw ConnectionTokenException("Creating connection token failed", e)
         }
-
-        throw ConnectionTokenException("Creating connection token failed")
     }
 
     internal fun capturePaymentIntent(id: String) {
