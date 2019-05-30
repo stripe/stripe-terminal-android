@@ -1,10 +1,25 @@
-1.0.0-b4
+# 1.0.0-b5
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.0-b4"
+implementation "com.stripe:stripeterminal:1.0.0-b5"
 ```
+
+## Disconnect reader when session is invalidated
+Added a `SESSION_EXPIRED` error code that will be thrown when the Stripe session is out-of-date.
+This should be handled by prompting the user to reconnect to any device.
+
+## Added ALREADY_CONNECTED_TO_READER error code
+In order to prevent the user from getting into a bad state by connecting to multiple readers, we'll
+now return this error code on `discoverReaders` or `connectReader` when already connected to a
+reader.
+
+## Other changes
+- Fix NullPointerException on some unexpected disconnects
+- Update example app to handle unexpected disconnects smoothly
+
+# 1.0.0-b4
 
 ## Returning generated card ID after `processPayment`
 After a successful payment, a generated card ID will be included on the `CardPresentDetails` object.
@@ -21,23 +36,3 @@ we'll now call `onSuccess` with `null`.
 - Check for location services on SDK initialization to avoid failing at payment creation
 - Added overloaded `initTerminal` method with no need for `LogLevel` parameter (defaults to NONE)
 
-1.0.0-b3
-
-If you're using Gradle, update your build file to:
-
-```
-implementation "com.stripe:stripeterminal:1.0.0-b3"
-```
-
-## Allows example app use in Android emulator
-Made the changes necessary to allow the example app to be used by an Android emulator.
-NOTE: This will only work with a simulated reader, since there are no bluetooth capabilities
-available in Android emulators.
-
-## Other changes
-
-- Fixed bug preventing metadata passed in `PaymentIntentParameters` from showing up on the
-PaymentIntent.
-- The `ReadReusableCardParameters` object passed to `Terminal#readReusableCard` now includes a
-`customer` parameter which, if included, will attach the newly created `PaymentMethod` to the
-specified customer.

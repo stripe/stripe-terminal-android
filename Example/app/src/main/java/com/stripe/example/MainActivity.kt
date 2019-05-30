@@ -33,6 +33,12 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Check that the example app has been configured correctly
+        if (ApiClient.BACKEND_URL.isEmpty()) {
+            throw RuntimeException("You need to set the BACKEND_URL constant in ApiClient.kt " +
+                    "before you'll be able to use the example app.")
+        }
+
         // Initialize the simulated flag
         if (savedInstanceState != null) {
             simulated = savedInstanceState.getBoolean(SIMULATED_SWITCH_VALUE, false)
@@ -112,7 +118,11 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      * Callback function called to exit the payment workflow
      */
     override fun onRequestExitWorkflow() {
-        navigateTo(ConnectedReaderFragment())
+        if (Terminal.getInstance().connectionStatus == ConnectionStatus.CONNECTED) {
+            navigateTo(ConnectedReaderFragment())
+        } else {
+            navigateTo(TerminalFragment())
+        }
     }
 
     /**
