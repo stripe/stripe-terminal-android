@@ -1,7 +1,8 @@
 # 1.0.0-b7
+NOTE: 1.0.0-b6 was an internal-only release, so this is the next release chronologically after 1.0.0-b5
 
 ## Added annotations to all public facing methods/params
-Note that this will change the type of some parameters if you're writing a Kotlin app.
+Note that this will change the nullability of some parameters if you're writing a Kotlin app.
 
 ## Other changes
 - Removed obsolete `InstallUpdateCallback`
