@@ -129,7 +129,9 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      * Callback function called to start installation of a reader software update
      */
     override fun onRequestInstallUpdate() {
-        Terminal.getInstance().installUpdate(readerUpdate, this, InstallUpdateCallback(this))
+        if (readerUpdate != null) {
+            Terminal.getInstance().installUpdate(readerUpdate!!, this, InstallUpdateCallback(this))
+        }
     }
 
     /**
@@ -273,7 +275,7 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
      */
     override fun onProcessPayment(paymentIntent: PaymentIntent) {
         displayEvent("Processed payment", "terminal.processPayment")
-        ApiClient.capturePaymentIntent(paymentIntent.id)
+        ApiClient.capturePaymentIntent(paymentIntent.id!!)
         displayEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
 
         // Tell the EventFragment that the flow has completed
