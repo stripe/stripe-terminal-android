@@ -1,10 +1,19 @@
-# 1.0.0-b5
+# 1.0.0-b7
+NOTE: 1.0.0-b6 was an internal-only release, so this is the next release chronologically after 1.0.0-b5
+
+## Added annotations to all public facing methods/params
+Note that this will change the nullability of some parameters if you're writing a Kotlin app.
+
+## Other changes
+- Removed obsolete `InstallUpdateCallback`
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.0-b5"
+implementation "com.stripe:stripeterminal:1.0.0-b7"
 ```
+
+# 1.0.0-b5
 
 ## Disconnect reader when session is invalidated
 Added a `SESSION_EXPIRED` error code that will be thrown when the Stripe session is out-of-date.

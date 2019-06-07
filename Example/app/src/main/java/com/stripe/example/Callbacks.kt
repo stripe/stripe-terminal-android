@@ -20,7 +20,7 @@ class CheckForUpdateCallback(private val manager: TerminalStateManager): ReaderS
  * A [ReaderCallback] that notifies the [TerminalStateManager] that connection has completed
  */
 class ConnectionCallback(private val manager: TerminalStateManager) : ReaderCallback {
-    override fun onSuccess(reader: Reader?) {
+    override fun onSuccess(reader: Reader) {
         manager.onConnectReader()
     }
 
