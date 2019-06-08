@@ -1,5 +1,7 @@
 # Stripe Terminal Android <img src="https://img.shields.io/badge/Beta-yellow.svg">
 
+For information on migrating from earlier beta versions of the Android SDK, see the [Stripe Terminal Beta Migration Guide](https://stripe.com/docs/terminal/beta-migration-guide).
+
 # Requirements
 
 The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
