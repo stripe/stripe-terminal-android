@@ -1,17 +1,27 @@
-# 1.0.0-b7
-NOTE: 1.0.0-b6 was an internal-only release, so this is the next release chronologically after 1.0.0-b5
-
-## Added annotations to all public facing methods/params
-Note that this will change the nullability of some parameters if you're writing a Kotlin app.
-
-## Other changes
-- Removed obsolete `InstallUpdateCallback`
+# 1.0.0-b8
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.0-b7"
+implementation "com.stripe:stripeterminal:1.0.0-b8"
 ```
+
+## Multiple connectivity fixes
+We made a few fixes that should prevent the reader from disconnecting as often, and should make
+reconnection more consistent when it does.
+
+## Other changes
+- Fixed issue preventing some parameters in `PaymentIntentParameters` from doing anything
+- Made `ErrorCallback` public to help with Xamarin integration
+- Prevented race condition with BBPOS hardware from failing operations
+
+# 1.0.0-b7
+
+## Added annotations to all public facing methods/params
+Note that this will change the type of some parameters if you're writing a Kotlin app.
+
+## Other changes
+- Removed obsolete `InstallUpdateCallback`
 
 # 1.0.0-b5
 
@@ -27,21 +37,3 @@ reader.
 ## Other changes
 - Fix NullPointerException on some unexpected disconnects
 - Update example app to handle unexpected disconnects smoothly
-
-# 1.0.0-b4
-
-## Returning generated card ID after `processPayment`
-After a successful payment, a generated card ID will be included on the `CardPresentDetails` object.
-This can be used for recurring payments with the same card. Note: This ID will only be returned for
-swiped/inserted payments (i.e. not contactless).
-
-## ReaderSoftwareUpdateCallback called with null when no update available
-Instead of calling the `onFailure` method with exception type `NO_AVAILABLE_READER_SOFTWARE_UPDATE`,
-we'll now call `onSuccess` with `null`.
-
-## Other changes
-
-- Stop prompting for tap during `readReusableCard`
-- Check for location services on SDK initialization to avoid failing at payment creation
-- Added overloaded `initTerminal` method with no need for `LogLevel` parameter (defaults to NONE)
-
