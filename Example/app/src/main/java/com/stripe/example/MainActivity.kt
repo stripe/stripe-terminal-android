@@ -254,6 +254,8 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
             runOnUiThread {
                 fragment.completeFlow()
             }
+        } else if (fragment is ConnectingFragment) {
+            navigateTo(TerminalFragment())
         }
     }
 
