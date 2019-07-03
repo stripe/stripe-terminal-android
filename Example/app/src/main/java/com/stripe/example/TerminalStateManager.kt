@@ -66,5 +66,4 @@ interface TerminalStateManager {
      * Notify the `Activity` that a reader software update has been found
      */
     fun onReturnReaderSoftwareUpdate(update: ReaderSoftwareUpdate?)
-
 }

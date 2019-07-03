@@ -24,12 +24,12 @@ object ApiClient {
     const val BACKEND_URL = ""
 
     private val client = OkHttpClient()
-    private val retrofit : Retrofit = Retrofit.Builder()
+    private val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(BACKEND_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    private val service : BackendService = retrofit.create(BackendService::class.java)
+    private val service: BackendService = retrofit.create(BackendService::class.java)
 
     @Throws(ConnectionTokenException::class)
     internal fun createConnectionToken(): String {

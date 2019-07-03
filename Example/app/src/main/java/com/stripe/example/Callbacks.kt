@@ -6,7 +6,7 @@ import com.stripe.stripeterminal.*
  * A [ReaderSoftwareUpdateCallback] that notifies the [TerminalStateManager] when an update process
  * has completed
  */
-class CheckForUpdateCallback(private val manager: TerminalStateManager): ReaderSoftwareUpdateCallback {
+class CheckForUpdateCallback(private val manager: TerminalStateManager) : ReaderSoftwareUpdateCallback {
     override fun onSuccess(update: ReaderSoftwareUpdate?) {
         manager.onReturnReaderSoftwareUpdate(update)
     }
@@ -33,7 +33,7 @@ class ConnectionCallback(private val manager: TerminalStateManager) : ReaderCall
  * A [PaymentIntentCallback] that notifies the [TerminalStateManager] that [PaymentIntent] creation
  * has completed
  */
-class CreatePaymentIntentCallback(private val manager: TerminalStateManager): PaymentIntentCallback {
+class CreatePaymentIntentCallback(private val manager: TerminalStateManager) : PaymentIntentCallback {
     override fun onSuccess(paymentIntent: PaymentIntent) {
         manager.onCreatePaymentIntent(paymentIntent)
     }
@@ -47,7 +47,7 @@ class CreatePaymentIntentCallback(private val manager: TerminalStateManager): Pa
  * A [PaymentIntentCallback] that notifies the [TerminalStateManager] that payment method collection
  * has completed
  */
-class CollectPaymentMethodCallback(private val manager: TerminalStateManager): PaymentIntentCallback {
+class CollectPaymentMethodCallback(private val manager: TerminalStateManager) : PaymentIntentCallback {
     override fun onSuccess(paymentIntent: PaymentIntent) {
         manager.onCollectPaymentMethod(paymentIntent)
     }
@@ -61,7 +61,7 @@ class CollectPaymentMethodCallback(private val manager: TerminalStateManager): P
  * A [Callback] that notifies the [TerminalStateManager] that [Terminal.collectPaymentMethod] has
  * been canceled
  */
-class CollectPaymentMethodCancellationCallback(private val manager: TerminalStateManager): Callback {
+class CollectPaymentMethodCancellationCallback(private val manager: TerminalStateManager) : Callback {
     override fun onSuccess() {
         manager.onCancelCollectPaymentMethod()
     }
@@ -69,7 +69,6 @@ class CollectPaymentMethodCancellationCallback(private val manager: TerminalStat
     override fun onFailure(e: TerminalException) {
         manager.onFailure(e)
     }
-
 }
 
 /**
@@ -101,7 +100,7 @@ class DiscoveryCallback(private val manager: TerminalStateManager) : Callback {
 /**
  * A [Callback] that notifies the [TerminalStateManager] when discovery has been canceled
  */
-class DiscoveryCancellationCallback(private val manager: TerminalStateManager): Callback {
+class DiscoveryCancellationCallback(private val manager: TerminalStateManager) : Callback {
     override fun onSuccess() {
         manager.onCancelDiscovery()
     }
@@ -115,7 +114,7 @@ class DiscoveryCancellationCallback(private val manager: TerminalStateManager): 
  * A [Callback] that notifies the [TerminalStateManager] when installation of an update has
  * completed
  */
-class InstallUpdateCallback(private val manager: TerminalStateManager): Callback {
+class InstallUpdateCallback(private val manager: TerminalStateManager) : Callback {
     override fun onSuccess() {
         manager.onInstallReaderSoftwareUpdate()
     }
@@ -129,7 +128,7 @@ class InstallUpdateCallback(private val manager: TerminalStateManager): Callback
  * A [PaymentIntentCallback] that notifies the [TerminalStateManager] that [Terminal.processPayment]
  * has completed
  */
-class ProcessPaymentCallback(private val manager: TerminalStateManager): PaymentIntentCallback {
+class ProcessPaymentCallback(private val manager: TerminalStateManager) : PaymentIntentCallback {
     override fun onSuccess(paymentIntent: PaymentIntent) {
         manager.onProcessPayment(paymentIntent)
     }
@@ -143,7 +142,7 @@ class ProcessPaymentCallback(private val manager: TerminalStateManager): Payment
  * A [PaymentMethodCallback] that notifies the [TerminalStateManager] that readReusableCard
  * has completed
  */
-class ReadReusableCardCallback(private val manager: TerminalStateManager): PaymentMethodCallback {
+class ReadReusableCardCallback(private val manager: TerminalStateManager) : PaymentMethodCallback {
     override fun onSuccess(paymentMethod: PaymentMethod) {
         manager.onReadReusableCard(paymentMethod)
     }

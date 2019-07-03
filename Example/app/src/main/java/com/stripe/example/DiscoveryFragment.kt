@@ -2,9 +2,9 @@ package com.stripe.example
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +21,11 @@ class DiscoveryFragment : Fragment(), DiscoveryListener {
     private var adapter: ReaderAdapter? = null
     private var readerRecyclerView: RecyclerView? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_discovery, container, false)
 
@@ -74,7 +77,6 @@ class DiscoveryFragment : Fragment(), DiscoveryListener {
             this.reader = reader
             readerTextView?.text = reader.serialNumber
         }
-
     }
 
     /**
@@ -101,6 +103,5 @@ class DiscoveryFragment : Fragment(), DiscoveryListener {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReaderHolder {
             return ReaderHolder(activity, parent)
         }
-
     }
 }

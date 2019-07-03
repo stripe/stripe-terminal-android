@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ConnectedReaderFragment">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/backdrop" >
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             style="@style/Widget.Example.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -29,7 +29,7 @@
             app:contentInsetStart="0dp"
             app:title="@string/terminal" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/backdrop"
@@ -67,7 +67,7 @@
             android:text="@string/reader_connection"
             android:paddingTop="40dp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/disconnect_button"
             style="@style/Widget.Example.Button"
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
             android:text="@string/common_workflows"
             android:paddingTop="40dp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/collect_card_payment_button"
             style="@style/Widget.Example.Button"
             android:layout_width="match_parent"
@@ -97,7 +97,7 @@
             app:icon="@drawable/ic_right_arrow"
             app:iconTint="@color/colorPrimaryDark" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/read_reusable_card_button"
             style="@style/Widget.Example.Button"
             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
             app:icon="@drawable/ic_right_arrow"
             app:iconTint="@color/colorPrimaryDark" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/update_reader_button"
             style="@style/Widget.Example.Button"
             android:layout_width="match_parent"
@@ -123,4 +123,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

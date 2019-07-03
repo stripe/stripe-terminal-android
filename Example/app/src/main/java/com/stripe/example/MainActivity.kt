@@ -3,10 +3,10 @@ package com.stripe.example
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.stripe.stripeterminal.*
 
 class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManager,
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         // Check for location permissions
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            initialize()
+            safeInitialize()
         } else {
             // If we don't have them yet, request them before doing anything else
             val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -66,8 +66,11 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     /**
      * Receive the result of our permissions check, and initialize if we can
      */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         // If we receive a response to our permission check, initialize
         if (requestCode == REQUEST_CODE_LOCATION) {
             initialize()
@@ -361,6 +364,20 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
     }
 
     /**
+     * A version of initialize that is safe to call multiple times, and can be called
+     * even if the Terminal has been initialized previously
+     */
+    private fun safeInitialize() {
+        try {
+            Terminal.getInstance()
+            // Terminal has already been initialized, ignore...
+        } catch (e: IllegalStateException) {
+            // Terminal has not been initialized, so do so now
+            initialize()
+        }
+    }
+
+    /**
      * Initialize the [Terminal] and go to the [TerminalFragment]
      */
     private fun initialize() {
@@ -376,7 +393,6 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
         navigateTo(TerminalFragment().setSimulatedSwitch(simulated))
     }
 
-
     /**
      * Navigate to the given fragment.
      *
@@ -388,5 +404,4 @@ class MainActivity : AppCompatActivity(), NavigationListener, TerminalStateManag
                 .replace(R.id.container, fragment)
                 .commit()
     }
-
 }

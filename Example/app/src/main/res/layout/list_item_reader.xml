@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.button.MaterialButton android:id="@+id/reader_name"
+<com.google.android.material.button.MaterialButton android:id="@+id/reader_name"
     style="@style/Widget.Example.Button"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
