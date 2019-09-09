@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="handler"
+            type="com.stripe.example.javaapp.fragment.discovery.ReaderClickListener" />
+        <variable
+            name="item"
+            type="com.stripe.stripeterminal.model.external.Reader" />
+    </data>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reader_name"
+        style="@style/Widget.Example.Button"
+        android:onClick="@{() -> handler.onClick(item)}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{item.serialNumber}"
+        app:cornerRadius="0dp"
+        android:textAlignment="textStart" />
+</layout>
