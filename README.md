@@ -61,6 +61,52 @@ Location access must be enabled in order to use the SDK. You’ll need to make s
 
 > Note: Stripe needs to know where payments occur to reduce risks associated with those charges and to minimize disputes. If the SDK can’t determine the Android device’s location, payments are disabled until location access is restored.
 
+### Have an Application Class
+
+As of RC1, we've worked hard to make our SDK lifecycle aware. In order to prevent memory leaks and enable proper cleaning up of long running Terminal processes, your application needs to have a subclass of `Application`, where the `TerminalLifeCycleObserver` is configured. Notably, it needs to both register the activity lifecycle callbacks as well as implement the `onTrimMemory` method, so that if your application is ever running low on memory we can suitably prune our memory usage and keep your app responsive for users! Check out the example app for how to do this:
+
+```kotlin
+// Substitue with your application name
+class StripeTerminalApplication : Application() {
+    private val observer: TerminalLifecycleObserver = TerminalLifecycleObserver.getInstance()
+
+    override fun onCreate() {
+        super.onCreate()
+
+        // Register our observer for all lifecycle hooks!
+        registerActivityLifecycleCallbacks(observer)
+    }
+
+    // Don't forget to let the observer know if your application is running low on memory!
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        observer.onTrimMemory(level, this)
+    }
+}
+```
+
+Lastly, don't forget to set your Application class in your `AndroidManifest.xml` accordingly. See the following taken from the example app:
+
+```xml
+<application
+    android:name=".StripeTerminalApplication" // Or whatever your application class name is
+    android:allowBackup="false"
+    android:icon="@mipmap/launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.Example"
+    tools:ignore="GoogleAppIndexingWarning">
+    <activity android:name="com.stripe.example.MainActivity"
+        android:screenOrientation="fullSensor">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+</application>
+```
+
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
