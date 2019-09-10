@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ConnectedReaderFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:paddingTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/backdrop" >
+
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Widget.Example.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
+            app:contentInsetStart="0dp"
+            app:title="@string/terminal" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        style="@style/Widget.Example.Backdrop"
+        android:id="@+id/backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/reader"
+                android:src="@mipmap/reader"
+                android:alpha="1"
+                android:paddingTop="40dp" />
+
+            <TextView
+                android:id="@+id/reader_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/reader_connection"
+                android:paddingTop="40dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/disconnect_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/disconnect"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/common_workflows"
+                android:paddingTop="40dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/collect_card_payment_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/collect_card_payment"
+                app:icon="@drawable/ic_right_arrow"
+                app:iconTint="@color/colorPrimaryDark" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/read_reusable_card_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/read_card_for_recurring_payment"
+                app:icon="@drawable/ic_right_arrow"
+                app:iconTint="@color/colorPrimaryDark" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/update_reader_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/update_reader_software"
+                app:icon="@drawable/ic_right_arrow"
+                app:iconTint="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

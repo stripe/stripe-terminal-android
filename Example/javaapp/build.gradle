@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+ext {
+    buildToolsVersion = "29.0.0"
+    compileSdkVersion = 29
+    supportLibVersion = "28.0.0"
+
+    appcompatVersion = '1.0.2'
+    constraintVersion = '1.1.3'
+    constraintlayoutVersion = '1.1.3'
+    coreTestingVersion = '2.0.1'
+    coroutineVersion = '1.3.0'
+    databindingVersion = '3.1.4'
+    legacysupportVersion = '1.0.0'
+    materialVersion = '1.0.0'
+    okhttpVersion = '4.1.0'
+    retrofitVersion = '2.6.1'
+    stethoVersion = '1.5.1'
+    viewModelVersion = '2.0.0'
+
+    leakCanaryVersion = '2.0-beta-3'
+
+    stripeTerminalVersion = '1.0.0-rc1'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api "com.google.android.material:material:$materialVersion"
+    implementation "androidx.legacy:legacy-support-v4:$legacysupportVersion"
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "com.facebook.stetho:stetho:$stethoVersion"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$viewModelVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$viewModelVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$viewModelVersion"
+    testImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+
+    // Databinding
+    annotationProcessor "com.android.databinding:compiler:$databindingVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
+    // OK HTTP
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // Stripe Terminal library
+    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
+
+    // Leak canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+}

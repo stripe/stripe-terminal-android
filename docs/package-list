@@ -1,1 +1,5 @@
 com.stripe.stripeterminal
+com.stripe.stripeterminal.api
+com.stripe.stripeterminal.callable
+com.stripe.stripeterminal.log
+com.stripe.stripeterminal.model.external

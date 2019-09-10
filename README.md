@@ -14,7 +14,7 @@ To build the example app:
 
 1. Import the `Example` project into Android Studio
 2. Navigate to our [example backend](https://github.com/stripe/example-terminal-backend) and click the button to deploy it on Heroku.
-2. In `ApiClient.kt`, set the URL of the Heroku app you just deployed
+2. In `ApiClient.kt` (or `ApiClient.java` if you're using the Java example), set the URL of the Heroku app you just deployed
 3. Build and run the app. The app includes a reader simulator, so you have no need for a physical reader to start your integration. Note that while the example app will work in an Android emulator, you will only be able to connect to a simulated reader due to lack of bluetooth capabilities. 
 
 ## Installation
@@ -22,7 +22,7 @@ In order to use the Android version of the Terminal SDK, you first have to add t
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:1.0.0-b8"
+      implementation "com.stripe:stripeterminal:1.0.0-rc1"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`:
