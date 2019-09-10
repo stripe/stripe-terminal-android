@@ -49,7 +49,7 @@ if (ContextCompat.checkSelfPermission(getActivity(),
 
  You should also verify that the user allowed the location permission, since the SDK won’t function without it. To do this, override the `onRequestPermissionsResult` method in your app and check the permission result.
 
-```
+```java
 @Override
 public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     if (requestCode == REQUEST_CODE_LOCATION && grantResults.length > 0
