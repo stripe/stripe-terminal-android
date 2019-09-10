@@ -8,7 +8,7 @@ The Stripe Terminal Android SDK is compatible with apps supporting Android API l
 
 # Try the example app
 
-The Stripe Terminal Android SDK includes an open-source example app, which you can use to familiarize yourself with the SDK before starting your own integration. To get started with the example app, clone the repo from \[Github\](https://github.com/stripe/stripe-terminal-android).
+The Stripe Terminal Android SDK includes two open-source example apps (one in Java and the other in Kotlin), which you can use to familiarize yourself with the SDK before starting your own integration. To get started with the example app, clone the repo from \[Github\](https://github.com/stripe/stripe-terminal-android).
 
 To build the example app:
 
@@ -37,26 +37,28 @@ Next, since the SDK relies on Java 8, you’ll need to specify that as your targ
 
 Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_COARSE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
 
-
-    if (ContextCompat.checkSelfPermission(getActivity(), 
-      Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
+```java
+if (ContextCompat.checkSelfPermission(getActivity(), 
+  Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
         
-        // REQUEST_CODE should be defined on your app level
-        ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_CODE);
-    }
+    // REQUEST_CODE should be defined on your app level
+    ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_CODE);
+}
+```
 
  You should also verify that the user allowed the location permission, since the SDK won’t function without it. To do this, override the `onRequestPermissionsResult` method in your app and check the permission result.
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE_LOCATION && grantResults.length > 0
-                && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            throw new RuntimeException("Location services are required in order to " +
-                    "connect to a reader.");
-        }
+```
+@Override
+public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    if (requestCode == REQUEST_CODE_LOCATION && grantResults.length > 0
+            && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+        throw new RuntimeException("Location services are required in order to " +
+                "connect to a reader.");
     }
+}
+```
 
 
 > Note: Stripe needs to know where payments occur to reduce risks associated with those charges and to minimize disputes. If the SDK can’t determine the Android device’s location, payments are disabled until location access is restored.
