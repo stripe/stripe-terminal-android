@@ -14,17 +14,12 @@ import kotlin.math.roundToInt
 
 class UpdateReaderViewModel
 constructor(application: Application) : AndroidViewModel(application) {
-    var progress: MutableLiveData<Double> = MutableLiveData<Double>().apply { value = 0.0 }
-    var hasStartedFetchingUpdate: MutableLiveData<Boolean> =
-            MutableLiveData<Boolean>().apply { value = false }
-    var hasFinishedFetchingUpdate: MutableLiveData<Boolean> =
-            MutableLiveData<Boolean>().apply { value = false }
-    var hasStartedInstallingUpdate: MutableLiveData<Boolean> =
-            MutableLiveData<Boolean>().apply { value = false }
-    var hasFinishedInstallingUpdate: MutableLiveData<Boolean> =
-            MutableLiveData<Boolean>().apply { value = false }
-    var readerSoftwareUpdate: MutableLiveData<ReaderSoftwareUpdate?> =
-            MutableLiveData<ReaderSoftwareUpdate?>().apply { value = null }
+    var progress: MutableLiveData<Double> = MutableLiveData(0.0)
+    var hasStartedFetchingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
+    var hasFinishedFetchingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
+    var hasStartedInstallingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
+    var hasFinishedInstallingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
+    var readerSoftwareUpdate: MutableLiveData<ReaderSoftwareUpdate?> = MutableLiveData(null)
     var fetchUpdateOperation: Cancelable? = null
     var installOperation: Cancelable? = null
     var reader: Reader? = null

@@ -87,12 +87,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/event_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:paddingTop="10dp"
             app:events="@{viewModel.events}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/event_label" />
+            app:layout_constraintTop_toBottomOf="@id/event_label"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

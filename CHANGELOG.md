@@ -1,10 +1,16 @@
-# 1.0.0-rc1
+# 1.0.0-rc2
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.0-rc1"
+implementation "com.stripe:stripeterminal:1.0.0-rc2"
 ```
+
+## Made SDK compatible with React Native
+The Stripe Terminal Android SDK uses OkHttp 4.x, while React Native uses 3.x, which was causing a
+collision. This release hides our use of OkHttp, so React Native should no longer cause problems.
+
+# 1.0.0-rc1
 
 ## Switched to BLE for reader discovery
 This should speed up discovery times slightly, and will prevent some edge cases where the user has

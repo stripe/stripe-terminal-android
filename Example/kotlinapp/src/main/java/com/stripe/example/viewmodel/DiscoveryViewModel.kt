@@ -8,8 +8,8 @@ import com.stripe.stripeterminal.model.external.Reader
 
 class DiscoveryViewModel constructor(readersParam: List<Reader> = listOf()) : ViewModel() {
 
-    val readers = MutableLiveData<List<Reader>>().apply { value = readersParam }
-    var isConnecting: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
+    val readers = MutableLiveData(readersParam)
+    var isConnecting: MutableLiveData<Boolean> = MutableLiveData(false)
     var discoveryTask: Cancelable? = null
     var readerClickListener: ReaderClickListener? = null
 }
