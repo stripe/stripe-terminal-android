@@ -75,6 +75,8 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
     private FragmentEventBinding binding;
     private EventViewModel viewModel;
 
+    private PaymentIntent paymentIntent;
+
     @NotNull private final PaymentIntentCallback processPaymentCallback = new PaymentIntentCallback() {
         @Override
         public void onSuccess(@NotNull PaymentIntent paymentIntent) {
@@ -86,6 +88,22 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
             } catch (IOException e) {
                 Log.e("StripeExample", e.getMessage(), e);
                 completeFlow();
+            }
+        }
+
+        @Override
+        public void onFailure(@NotNull TerminalException e) {
+            EventFragment.this.onFailure(e);
+        }
+    };
+
+    @NotNull private final PaymentIntentCallback cancelPaymentIntentCallback = new PaymentIntentCallback() {
+        @Override
+        public void onSuccess(@NotNull PaymentIntent paymentIntent) {
+            addEvent("Canceled PaymentIntent", "terminal.cancelPaymentIntent");
+            final FragmentActivity activity = activityRef.get();
+            if (activity instanceof NavigationListener) {
+                activity.runOnUiThread(((NavigationListener) activity)::onCancelCollectPaymentMethod);
             }
         }
 
@@ -111,7 +129,8 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
 
     @NotNull private final PaymentIntentCallback createPaymentIntentCallback = new PaymentIntentCallback() {
         @Override
-        public void onSuccess(@NotNull PaymentIntent paymentIntent) {
+        public void onSuccess(@NotNull PaymentIntent intent) {
+            paymentIntent = intent;
             addEvent("Created PaymentIntent", "terminal.createPaymentIntent");
             viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
                     paymentIntent, EventFragment.this, collectPaymentMethodCallback);
@@ -192,9 +211,8 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
                     @Override
                     public void onSuccess() {
                         viewModel.collectTask = null;
-                        final FragmentActivity activity = activityRef.get();
-                        if (activity instanceof NavigationListener) {
-                            activity.runOnUiThread(((NavigationListener) activity)::onCancelCollectPaymentMethod);
+                        if (paymentIntent != null) {
+                            Terminal.getInstance().cancelPaymentIntent(paymentIntent, cancelPaymentIntentCallback);
                         }
                     }
 

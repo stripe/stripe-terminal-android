@@ -67,6 +67,7 @@ class DiscoveryFragment : Fragment(), DiscoveryListener {
 
             override fun onFailure(e: TerminalException) {
                 viewModel.discoveryTask = null
+                activityRef.get()?.onCancelDiscovery()
             }
         }
 
