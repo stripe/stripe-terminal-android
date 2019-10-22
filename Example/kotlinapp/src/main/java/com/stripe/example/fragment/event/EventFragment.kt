@@ -75,6 +75,8 @@ class EventFragment : Fragment(), ReaderDisplayListener {
     private lateinit var binding: FragmentEventBinding
     private lateinit var viewModel: EventViewModel
 
+    private var paymentIntent: PaymentIntent? = null
+
     private val processPaymentCallback by lazy {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
@@ -82,6 +84,25 @@ class EventFragment : Fragment(), ReaderDisplayListener {
                 ApiClient.capturePaymentIntent(paymentIntent.id)
                 addEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
                 completeFlow()
+            }
+
+            override fun onFailure(e: TerminalException) {
+                this@EventFragment.onFailure(e)
+            }
+        }
+    }
+
+    private val cancelPaymentIntentCallback by lazy {
+        object : PaymentIntentCallback {
+            override fun onSuccess(paymentIntent: PaymentIntent) {
+                addEvent("Canceled PaymentIntent", "terminal.cancelPaymentIntent")
+                activityRef.get()?.let {
+                    if (it is NavigationListener) {
+                        it.runOnUiThread {
+                            it.onCancelCollectPaymentMethod()
+                        }
+                    }
+                }
             }
 
             override fun onFailure(e: TerminalException) {
@@ -106,10 +127,11 @@ class EventFragment : Fragment(), ReaderDisplayListener {
 
     private val createPaymentIntentCallback by lazy {
         object : PaymentIntentCallback {
-            override fun onSuccess(paymentIntent: PaymentIntent) {
+            override fun onSuccess(intent: PaymentIntent) {
+                paymentIntent = intent
                 addEvent("Created PaymentIntent", "terminal.createPaymentIntent")
                 viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                        paymentIntent, this@EventFragment, collectPaymentMethodCallback)
+                        intent, this@EventFragment, collectPaymentMethodCallback)
             }
 
             override fun onFailure(e: TerminalException) {
@@ -175,12 +197,8 @@ class EventFragment : Fragment(), ReaderDisplayListener {
             viewModel.collectTask?.cancel(object : Callback {
                 override fun onSuccess() {
                     viewModel.collectTask = null
-                    activityRef.get()?.let {
-                        if (it is NavigationListener) {
-                            it.runOnUiThread {
-                                it.onCancelCollectPaymentMethod()
-                            }
-                        }
+                    paymentIntent?.let {
+                        Terminal.getInstance().cancelPaymentIntent(it, cancelPaymentIntentCallback)
                     }
                 }
 

@@ -1,10 +1,15 @@
-# 1.0.0-rc2
+# 1.0.0
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.0-rc2"
+implementation "com.stripe:stripeterminal:1.0.0"
 ```
+
+## Other changes
+- Fixed timeout functionality in `discoverReaders`
+
+# 1.0.0-rc2
 
 ## Made SDK compatible with React Native
 The Stripe Terminal Android SDK uses OkHttp 4.x, while React Native uses 3.x, which was causing a
@@ -42,14 +47,3 @@ is to prevent unpredictable failures due to caching readers.
 ## Other changes
 - Renamed `CONFIRM_PAYMENT_INTENT_ERROR` to `PAYMENT_DECLINED_BY_STRIPE_API` to stay consistent
 - Fixed error with dip on cards with multiple applications
-
-# 1.0.0-b8
-
-## Multiple connectivity fixes
-We made a few fixes that should prevent the reader from disconnecting as often, and should make
-reconnection more consistent when it does.
-
-## Other changes
-- Fixed issue preventing some parameters in `PaymentIntentParameters` from doing anything
-- Made `ErrorCallback` public to help with Xamarin integration
-- Prevented race condition with BBPOS hardware from failing operations

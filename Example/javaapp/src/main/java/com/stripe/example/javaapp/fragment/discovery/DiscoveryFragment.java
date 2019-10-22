@@ -70,6 +70,10 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener {
             @Override
             public void onFailure(@NotNull TerminalException e) {
                 viewModel.discoveryTask = null;
+                final MainActivity activity = activityRef.get();
+                if (activity != null) {
+                    activity.onCancelDiscovery();
+                }
             }
         };
 
