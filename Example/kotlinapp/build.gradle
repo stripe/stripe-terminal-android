@@ -34,18 +34,18 @@ ext {
     constraintVersion = '1.1.3'
     constraintlayoutVersion = '1.1.3'
     coreTestingVersion = '2.1.0'
-    coroutineVersion = '1.3.1'
+    coroutineVersion = '1.3.2'
     databindingVersion = '3.1.4'
     legacysupportVersion = '1.0.0'
     materialVersion = '1.0.0'
-    okhttpVersion = '4.2.0'
+    okhttpVersion = '4.2.2'
     retrofitVersion = '2.6.2'
     stethoVersion = '1.5.1'
     viewModelVersion = '2.1.0'
 
     leakCanaryVersion = '2.0-beta-3'
 
-    stripeTerminalVersion = '1.0.0'
+    stripeTerminalVersion = '1.0.1'
 }
 
 dependencies {

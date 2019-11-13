@@ -1,10 +1,15 @@
-# 1.0.0
+# 1.0.1
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.0"
+implementation "com.stripe:stripeterminal:1.0.1"
 ```
+
+## Other changes
+- Fixed race condition in multi-activity apps that could lead to DB exception
+
+# 1.0.0
 
 ## Other changes
 - Fixed timeout functionality in `discoverReaders`
@@ -35,15 +40,3 @@ This can be used to check if there's an existing Terminal object before calling 
 ## Other changes
 - Made all user-facing objects Parcelable
 - Reorganized SDK into packages, so you might need to update your imports
-
-# 1.0.0-b9
-
-## Added a number of new error codes
-Added a bunch of new error codes that should make failures clearer. One to highlight is
-`MUST_BE_DISCOVERING_TO_CONNECT`, which explicitly verifies that `discoverReaders` is running when
-`connectReader` is called. If it isn't, this error is thrown to your `connectReader` callback. This
-is to prevent unpredictable failures due to caching readers.
-
-## Other changes
-- Renamed `CONFIRM_PAYMENT_INTENT_ERROR` to `PAYMENT_DECLINED_BY_STRIPE_API` to stay consistent
-- Fixed error with dip on cards with multiple applications

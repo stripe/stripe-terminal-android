@@ -63,10 +63,6 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     /**
      * Receive the result of our permissions check, and initialize if we can
      */
