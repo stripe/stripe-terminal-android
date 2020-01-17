@@ -127,11 +127,11 @@ class EventFragment : Fragment(), ReaderDisplayListener {
 
     private val createPaymentIntentCallback by lazy {
         object : PaymentIntentCallback {
-            override fun onSuccess(intent: PaymentIntent) {
-                paymentIntent = intent
+            override fun onSuccess(paymentIntent: PaymentIntent) {
+                this@EventFragment.paymentIntent = paymentIntent
                 addEvent("Created PaymentIntent", "terminal.createPaymentIntent")
                 viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                        intent, this@EventFragment, collectPaymentMethodCallback)
+                        paymentIntent, this@EventFragment, collectPaymentMethodCallback)
             }
 
             override fun onFailure(e: TerminalException) {

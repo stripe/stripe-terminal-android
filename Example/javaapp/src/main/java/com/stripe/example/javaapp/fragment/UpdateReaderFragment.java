@@ -1,15 +1,16 @@
 package com.stripe.example.javaapp.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import androidx.databinding.DataBindingUtil;
+import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.button.MaterialButton;
 import com.stripe.example.javaapp.MainActivity;
 import com.stripe.example.javaapp.R;
-import com.stripe.example.javaapp.databinding.FragmentUpdateReaderBinding;
 import com.stripe.example.javaapp.viewmodel.UpdateReaderViewModel;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.callable.Callback;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 /**
  * The `UpdateReaderFragment` allows the user to check the current version of the [Reader] software,
@@ -31,7 +33,6 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
 
     @NotNull public static final String TAG = "com.stripe.example.fragment.UpdateReaderFragment";
 
-    private FragmentUpdateReaderBinding binding;
     private UpdateReaderViewModel viewModel;
     private WeakReference<MainActivity> activityRef;
 
@@ -39,26 +40,9 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
         viewModel = ViewModelProviders.of(this).get(UpdateReaderViewModel.class);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(
-        @NotNull LayoutInflater inflater,
-        @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_update_reader, container, false);
-        binding.setLifecycleOwner(this);
-        binding.setViewModel(viewModel);
-
         if (viewModel.reader == null) {
             viewModel.reader = Terminal.getInstance().getConnectedReader();
         }
-
-        return binding.getRoot();
     }
 
     @Override
@@ -141,6 +125,45 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
 
         // Done button onClick listeners
         view.findViewById(R.id.done_button).setOnClickListener(v -> exitWorkflow(activityRef));
+
+        viewModel.doneButtonVisibility.observe(this, visibility -> {
+            final TextView textView = view.findViewById(R.id.cancel_button);
+            textView.setTextColor(ContextCompat.getColor(
+                    Objects.requireNonNull(getContext()),
+                    visibility ? R.color.colorPrimaryDark : R.color.colorAccent));
+            view.findViewById(R.id.done_button)
+                    .setVisibility(visibility ? View.VISIBLE : View.GONE);
+        });
+
+        ((TextView) view.findViewById(R.id.reader_description)).setText(
+                Objects.requireNonNull(getContext()).getString(
+                        R.string.reader_description,
+                        Objects.requireNonNull(viewModel.reader).getDeviceType().name(),
+                        viewModel.reader.getSerialNumber()));
+
+        ((MaterialButton) view.findViewById(R.id.current_version)).setText(
+                viewModel.reader.getSoftwareVersion());
+
+        viewModel.checkForUpdateButtonVisibility.observe(this, visibility ->
+            view.findViewById(R.id.check_for_update_description)
+                    .setVisibility(visibility ? View.VISIBLE : View.GONE));
+
+        viewModel.checkForUpdateButtonText.observe(this, text ->
+            ((MaterialButton) view.findViewById(R.id.check_for_update_button)).setText(text));
+
+        viewModel.checkForUpdateButtonColor.observe(this, color ->
+            ((MaterialButton) view.findViewById(R.id.check_for_update_button)).setTextColor(color));
+
+        viewModel.checkForUpdateDescriptionText.observe(this, text ->
+                ((TextView) view.findViewById(R.id.check_for_update_description)).setText(text));
+
+        viewModel.checkForUpdateDescriptionVisibility.observe(this, visibility ->
+                view.findViewById(R.id.check_for_update_description)
+                        .setVisibility(visibility ? View.VISIBLE : View.GONE));
+
+        viewModel.installDisclaimerVisibility.observe(this, visibility ->
+                view.findViewById(R.id.install_disclaimer)
+                        .setVisibility(visibility ? View.VISIBLE : View.GONE));
     }
 
     private void onCompleteUpdate() {

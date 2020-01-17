@@ -3,15 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <import type="android.view.View"/>
-        <import type="androidx.core.content.ContextCompat"/>
-        <import type="com.stripe.example.javaapp.R"/>
-        <variable
-            name="viewModel"
-            type="com.stripe.example.javaapp.viewmodel.EventViewModel"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +30,7 @@
                     android:paddingEnd="12dp"
                     android:paddingTop="16dp"
                     android:text="@string/cancel"
-                    android:textColor="@{ContextCompat.getColor(context, viewModel.isComplete.getValue() ? R.color.colorPrimaryDark : R.color.colorAccent)}"
+                    android:textColor="@color/colorAccent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -54,7 +45,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingTop="16dp"
-                    android:visibility="@{viewModel.isComplete.getValue() ? View.VISIBLE : View.GONE}"
+                    android:visibility="gone"
                     android:text="@string/done"
                     android:textColor="@color/colorAccent" />
 
@@ -89,7 +80,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingTop="10dp"
-            app:events="@{viewModel.events}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/event_label"

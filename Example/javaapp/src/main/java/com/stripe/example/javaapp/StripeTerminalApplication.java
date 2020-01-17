@@ -2,6 +2,7 @@ package com.stripe.example.javaapp;
 
 import android.app.Application;
 import android.os.StrictMode;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.facebook.stetho.Stetho;
 import com.stripe.stripeterminal.TerminalLifecycleObserver;
@@ -33,6 +34,7 @@ public class StripeTerminalApplication extends Application {
         Stetho.initializeWithDefaults(this);
 
         registerActivityLifecycleCallbacks(observer);
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(observer);
     }
 
     @Override

@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.stripe.example.javaapp.viewmodel.TerminalViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -111,7 +105,7 @@
                 <Switch
                     android:id="@+id/simulated_switch"
                     style="@style/Widget.Example.Switch"
-                    android:checked="@={viewModel.simulated}"
+                    android:checked="false"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="40dp"

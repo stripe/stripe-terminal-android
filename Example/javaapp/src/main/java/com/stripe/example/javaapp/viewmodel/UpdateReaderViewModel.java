@@ -29,6 +29,7 @@ public class UpdateReaderViewModel extends AndroidViewModel {
     @NotNull public MediatorLiveData<Integer> checkForUpdateButtonText = new MediatorLiveData<>();
     @NotNull public MediatorLiveData<String> checkForUpdateDescriptionText = new MediatorLiveData<>();
     @NotNull public MediatorLiveData<Boolean> doneButtonVisibility = new MediatorLiveData<>();
+    @NotNull public MediatorLiveData<Boolean> installDisclaimerVisibility = new MediatorLiveData<>();
 
     @Nullable public Cancelable fetchUpdateOperation = null;
     @Nullable public Cancelable installOperation = null;
@@ -86,6 +87,11 @@ public class UpdateReaderViewModel extends AndroidViewModel {
         doneButtonVisibility.addSource(hasFinishedFetchingUpdate, doneButtonVisibilityLambda);
         doneButtonVisibility.addSource(hasStartedInstallingUpdate, doneButtonVisibilityLambda);
         doneButtonVisibility.addSource(readerSoftwareUpdate, doneButtonVisibilityLambda);
+
+        final Observer<Object> installDisclaimerVisibilityLambda =
+                value -> installDisclaimerVisibility.setValue(getInstallDisclaimerVisiblity());
+        installDisclaimerVisibility.addSource(hasStartedInstallingUpdate, installDisclaimerVisibilityLambda);
+        installDisclaimerVisibility.addSource(hasFinishedFetchingUpdate, installDisclaimerVisibilityLambda);
     }
 
     private boolean getCheckForUpdateDescriptionVisibility() {
@@ -146,5 +152,9 @@ public class UpdateReaderViewModel extends AndroidViewModel {
         return hasFinishedInstallingUpdate.getValue() || (hasStartedFetchingUpdate.getValue() &&
                 hasFinishedFetchingUpdate.getValue() && !hasStartedInstallingUpdate.getValue() &&
                 readerSoftwareUpdate.getValue() == null);
+    }
+
+    private boolean getInstallDisclaimerVisiblity() {
+        return hasStartedInstallingUpdate.getValue() && hasFinishedFetchingUpdate.getValue();
     }
 }
