@@ -13,8 +13,8 @@ import java.util.List;
 
 public class EventViewModel extends ViewModel {
     @NotNull private List<Event> eventList;
-    @NotNull public MutableLiveData<List<Event>> events;
-    @NotNull public MutableLiveData<Boolean> isComplete;
+    @NotNull public final MutableLiveData<List<Event>> events;
+    @NotNull public final MutableLiveData<Boolean> isComplete;
     @Nullable public Cancelable collectTask;
 
     public EventViewModel() {

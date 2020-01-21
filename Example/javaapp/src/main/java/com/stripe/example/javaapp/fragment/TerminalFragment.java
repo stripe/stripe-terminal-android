@@ -3,18 +3,14 @@ package com.stripe.example.javaapp.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
-import com.stripe.example.javaapp.databinding.FragmentTerminalBinding;
 import com.stripe.example.javaapp.viewmodel.TerminalViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +25,6 @@ public class TerminalFragment extends Fragment {
     public static final String TAG = "com.stripe.example.fragment.TerminalFragment";
     private static final String SIMULATED_SWITCH = "simulated_switch";
 
-    private FragmentTerminalBinding binding;
     private TerminalViewModel viewModel;
 
     @Override
@@ -54,20 +49,6 @@ public class TerminalFragment extends Fragment {
         }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(
-            @NotNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_terminal, container, false);
-        binding.setLifecycleOwner(this);
-        binding.setViewModel(viewModel);
-        return binding.getRoot();
-    }
-
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -75,8 +56,12 @@ public class TerminalFragment extends Fragment {
         view.findViewById(R.id.discover_button).setOnClickListener(v -> {
             final FragmentActivity activity = getActivity();
             if (activity instanceof NavigationListener) {
-                ((NavigationListener) activity).onRequestDiscovery(viewModel.getSimulated());
+                ((NavigationListener) activity).onRequestDiscovery(viewModel.simulated.getValue());
             }
+        });
+
+        view.findViewById(R.id.simulated_switch).setOnClickListener(v -> {
+            viewModel.simulated.setValue(!viewModel.simulated.getValue());
         });
 
         // TODO: Do this dynamically from the type selected
@@ -90,7 +75,7 @@ public class TerminalFragment extends Fragment {
         if (activity != null) {
             final SharedPreferences prefs = activity.getSharedPreferences(TAG, Context.MODE_PRIVATE);
             if (prefs != null) {
-                prefs.edit().putBoolean(SIMULATED_SWITCH, viewModel.getSimulated()).apply();
+                prefs.edit().putBoolean(SIMULATED_SWITCH, viewModel.simulated.getValue()).apply();
             }
         }
     }

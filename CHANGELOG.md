@@ -1,10 +1,17 @@
-# 1.0.1
+# 1.0.2
 
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.1"
+implementation "com.stripe:stripeterminal:1.0.2"
 ```
+
+## Other changes
+- Update gradle dependencies to work on latest gradle plugin
+- Example apps (databinding specifically) now compile on latest gradle plugin
+- Minor polish for multi-activity apps' lifecycle automatic cleanup
+
+# 1.0.1
 
 ## Other changes
 - Fixed race condition in multi-activity apps that could lead to DB exception

@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-        <variable
-            name="event"
-            type="com.stripe.example.javaapp.model.Event" />
-    </data>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -22,7 +15,6 @@
             android:layout_height="wrap_content"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp"
-            android:text="@{event.message}"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
 
@@ -30,9 +22,7 @@
             android:id="@+id/method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{event.method}"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
-
     </LinearLayout>
 </layout>

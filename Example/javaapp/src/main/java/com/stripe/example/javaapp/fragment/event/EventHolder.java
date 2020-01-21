@@ -1,7 +1,10 @@
 package com.stripe.example.javaapp.fragment.event;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BR;
@@ -17,28 +20,15 @@ import org.jetbrains.annotations.NotNull;
  * A simple [RecyclerView.ViewHolder] that displays various events
  */
 public class EventHolder extends RecyclerView.ViewHolder {
-    @NotNull private final ListItemEventBinding binding;
 
     public EventHolder(
-        @NotNull ViewGroup parent
+        @NotNull View itemView
     ) {
-        this(DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
-                R.layout.list_item_event,
-                parent,
-                false
-        ));
-    }
-
-    private EventHolder(
-        @NotNull ListItemEventBinding binding
-    ) {
-        super(binding.getRoot());
-        this.binding = binding;
+        super(itemView);
     }
 
     public void bind(@NotNull Event event) {
-        binding.setVariable(BR.event, event);
-        binding.executePendingBindings();
+        ((TextView) itemView.findViewById(R.id.method)).setText(event.getMethod());
+        ((TextView) itemView.findViewById(R.id.message)).setText(event.getMessage());
     }
 }

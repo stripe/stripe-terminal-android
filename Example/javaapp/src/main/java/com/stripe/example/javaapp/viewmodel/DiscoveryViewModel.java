@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DiscoveryViewModel extends ViewModel {
     public final MutableLiveData<List<? extends Reader>> readers;
-    public MutableLiveData<Boolean> isConnecting;
+    public final MutableLiveData<Boolean> isConnecting;
     @Nullable public Cancelable discoveryTask;
     @Nullable public ReaderClickListener readerClickListener;
 

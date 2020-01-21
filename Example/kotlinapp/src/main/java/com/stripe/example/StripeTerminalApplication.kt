@@ -2,6 +2,7 @@ package com.stripe.example
 
 import android.app.Application
 import android.os.StrictMode
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.facebook.stetho.Stetho
 import com.stripe.stripeterminal.TerminalLifecycleObserver
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +37,7 @@ class StripeTerminalApplication : Application() {
         }
 
         registerActivityLifecycleCallbacks(observer)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(observer)
     }
 
     override fun onTrimMemory(level: Int) {

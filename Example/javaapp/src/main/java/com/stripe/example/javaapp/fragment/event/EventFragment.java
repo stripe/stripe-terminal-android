@@ -2,10 +2,10 @@ package com.stripe.example.javaapp.fragment.event;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import androidx.databinding.DataBindingUtil;
+import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -160,7 +160,6 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
         super.onCreate(savedInstanceState);
         activityRef = new WeakReference<>(getActivity());
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
-        adapter = new EventAdapter(viewModel);
 
         if (savedInstanceState == null) {
             final Bundle arguments = getArguments();
@@ -184,27 +183,13 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
         }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(
-        @NotNull LayoutInflater inflater,
-        @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false);
-        binding.setLifecycleOwner(this);
-        binding.setViewModel(viewModel);
-
-        eventRecyclerView = binding.getRoot().findViewById(R.id.event_recycler_view);
-        eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        eventRecyclerView.setAdapter(adapter);
-
-        return binding.getRoot();
-    }
-
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+        eventRecyclerView = view.findViewById(R.id.event_recycler_view);
+        eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new EventAdapter();
+        eventRecyclerView.setAdapter(adapter);
+
         view.findViewById(R.id.cancel_button).setOnClickListener(v -> {
             if (viewModel.collectTask != null) {
                 viewModel.collectTask.cancel(new Callback() {
@@ -231,6 +216,16 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
                 activity.runOnUiThread(((NavigationListener) activity)::onRequestExitWorkflow);
             }
         });
+
+        viewModel.isComplete.observe(this, isComplete -> {
+            ((TextView) view.findViewById(R.id.cancel_button))
+                    .setTextColor(ContextCompat.getColor(getContext(),
+                            isComplete ? R.color.colorPrimaryDark : R.color.colorAccent));
+
+            view.findViewById(R.id.done_button).setVisibility(isComplete ? View.VISIBLE : View.GONE);
+        });
+
+        viewModel.events.observe(this, events -> adapter.updateEvents(events));
     }
 
     @Override

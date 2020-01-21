@@ -6,6 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stripe.example.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.model.external.Reader
 
+object ItemsBindingAdapter {
+    @BindingAdapter("items")
+    @JvmStatic
+    fun RecyclerView.bindItems(items: List<Reader>) {
+        val adapter = adapter as ReaderAdapter
+        adapter.updateReaders(items)
+    }
+}
+
 /**
  * Our [RecyclerView.Adapter] implementation that allows us to update the list of readers
  */
@@ -29,14 +38,5 @@ class ReaderAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReaderHolder {
         return ReaderHolder(parent, viewModel.readerClickListener!!)
-    }
-
-    companion object {
-        @BindingAdapter("items")
-        @JvmStatic
-        fun RecyclerView.bindItems(items: List<Reader>) {
-            val adapter = adapter as ReaderAdapter
-            adapter.updateReaders(items)
-        }
     }
 }

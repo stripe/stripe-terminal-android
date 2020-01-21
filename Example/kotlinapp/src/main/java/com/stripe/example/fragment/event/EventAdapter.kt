@@ -6,6 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stripe.example.model.Event
 import com.stripe.example.viewmodel.EventViewModel
 
+object EventsBindingAdapter {
+    @BindingAdapter("events")
+    @JvmStatic
+    fun RecyclerView.bindItems(events: List<Event>) {
+        val adapter = adapter as EventAdapter
+        adapter.updateEvents(events)
+    }
+}
+
 /**
  * Our [RecyclerView.Adapter] implementation that allows us to update the list of events
  */
@@ -29,14 +38,5 @@ class EventAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
         return EventHolder(parent)
-    }
-
-    companion object {
-        @BindingAdapter("events")
-        @JvmStatic
-        fun RecyclerView.bindItems(events: List<Event>) {
-            val adapter = adapter as EventAdapter
-            adapter.updateEvents(events)
-        }
     }
 }
