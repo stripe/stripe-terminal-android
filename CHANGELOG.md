@@ -1,9 +1,9 @@
 # CHANGELOG
 
-## 1.0.7 - 2020-01-20
+## 1.0.7 - 2020-01-30
 - No changes relative to 1.0.2; we've migrated our deploy process internally, and this was a no-op deploy to test the new publishing mechanism
 
-## 1.0.6 - 2020-01-20
+## 1.0.6 - 2020-01-30
 - No changes relative to 1.0.2; we've migrated our deploy process internally, and this was a no-op deploy to test the new publishing mechanism
 
 ## 1.0.2 - 2020-01-21
