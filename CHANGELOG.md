@@ -1,10 +1,15 @@
-# 1.0.2
+# 1.0.6
 
 If you're using Gradle, update your build file to:
 
 ```
 implementation "com.stripe:stripeterminal:1.0.2"
 ```
+
+## Other changes
+- No changes relative to 1.0.2; we've migrated our deploy process internally, and this was a no-op deploy to test the new publishing mechanism
+
+# 1.0.2
 
 ## Other changes
 - Update gradle dependencies to work on latest gradle plugin
