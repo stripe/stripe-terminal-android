@@ -3,7 +3,7 @@
 If you're using Gradle, update your build file to:
 
 ```
-implementation "com.stripe:stripeterminal:1.0.2"
+implementation "com.stripe:stripeterminal:1.0.6"
 ```
 
 ## Other changes
