@@ -38,14 +38,14 @@ ext {
     databindingVersion = '3.1.4'
     legacysupportVersion = '1.0.0'
     materialVersion = '1.0.0'
-    okhttpVersion = '4.2.2'
-    retrofitVersion = '2.7.0'
+    okhttpVersion = '4.3.1'
+    retrofitVersion = '2.7.1'
     stethoVersion = '1.5.1'
-    viewModelVersion = '2.1.0'
+    viewModelVersion = '2.2.0'
 
-    leakCanaryVersion = '2.0'
+    leakCanaryVersion = '2.1'
 
-    stripeTerminalVersion = '1.0.7'
+    stripeTerminalVersion = '1.0.8'
 }
 
 dependencies {

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.8 - 2020-01-31
+- Fixes Retrofit absolute path [bug](https://github.com/stripe/stripe-terminal-android/issues/82)
+- Bumps internal dependency versions
+
 ## 1.0.7 - 2020-01-30
 - No changes relative to 1.0.2; we've migrated our deploy process internally, and this was a no-op deploy to test the new publishing mechanism
 

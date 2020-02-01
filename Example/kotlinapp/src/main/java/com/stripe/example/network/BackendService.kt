@@ -14,13 +14,13 @@ interface BackendService {
     /**
      * Get a connection token string from the backend
      */
-    @POST("/connection_token")
+    @POST("connection_token")
     fun getConnectionToken(): Call<ConnectionToken>
 
     /**
      * Capture a specific payment intent on our backend
      */
     @FormUrlEncoded
-    @POST("/capture_payment_intent")
+    @POST("capture_payment_intent")
     fun capturePaymentIntent(@Field("payment_intent_id") id: String): Call<Void>
 }

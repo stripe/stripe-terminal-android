@@ -17,13 +17,13 @@ public interface BackendService {
     /**
      * Get a connection token string from the backend
      */
-    @POST("/connection_token")
+    @POST("connection_token")
     Call<ConnectionToken> getConnectionToken();
 
     /**
      * Capture a specific payment intent on our backend
      */
     @FormUrlEncoded
-    @POST("/capture_payment_intent")
+    @POST("capture_payment_intent")
     Call<Void> capturePaymentIntent(@Field("payment_intent_id") @NotNull String id);
 }
