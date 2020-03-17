@@ -1,8 +1,21 @@
 # CHANGELOG
 
+## 1.0.12 - 2020-03-16
+- No changes relative to 1.0.11
+
+## 1.0.11 - 2020-03-16
+- Change .aar name, but no external user changes since 1.0.9
+
+## 1.0.10 - 2020-03-16
+- No change relative to 1.0.9
+
+## 1.0.9 - 2020-03-16
+- Fixes a bug when launching the example app with location turned off would crash on start
+- Updated gradle dependencies for various libraries
+- Introduce `cardholder_name` as part of `CardPresentDetails`
+
 ## 1.0.8 - 2020-01-31
 - Fixes Retrofit absolute path [bug](https://github.com/stripe/stripe-terminal-android/issues/82)
-- Bumps internal dependency versions
 
 ## 1.0.7 - 2020-01-30
 - No changes relative to 1.0.2; we've migrated our deploy process internally, and this was a no-op deploy to test the new publishing mechanism

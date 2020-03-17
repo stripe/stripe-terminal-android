@@ -2,10 +2,17 @@ package com.stripe.example.javaapp;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -58,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
         // Check for location permissions
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (!Terminal.isInitialized()) {
+            if (!Terminal.isInitialized() && verifyGpsEnabled()) {
                 initialize();
             }
         } else {
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
             @NotNull int[] grantResults
     ) {
         // If we receive a response to our permission check, initialize
-        if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized()) {
+        if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized() && verifyGpsEnabled()) {
             initialize();
         }
     }
@@ -203,5 +210,31 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
                 .beginTransaction()
                 .replace(R.id.container, frag != null ? frag : fragment, tag)
                 .commitAllowingStateLoss();
+    }
+
+    private boolean verifyGpsEnabled() {
+        final LocationManager locationManager =
+                (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        boolean gpsEnabled = false;
+        try {
+            gpsEnabled = locationManager != null &&
+                    locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception exception) {
+        }
+
+        if (!gpsEnabled) {
+            // notify user
+            new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
+                    .setMessage("Please enable location services")
+                    .setCancelable(false)
+                    .setPositiveButton("Open location settings", (dialog, which) -> {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    })
+                    .create()
+                    .show();
+        }
+
+        return gpsEnabled;
     }
 }

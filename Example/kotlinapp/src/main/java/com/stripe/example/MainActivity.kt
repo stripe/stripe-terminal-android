@@ -2,8 +2,14 @@ package com.stripe.example
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
+import android.view.ContextThemeWrapper
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         // Check for location permissions
         if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (!Terminal.isInitialized()) {
+            if (!Terminal.isInitialized() && verifyGpsEnabled()) {
                 initialize()
             }
         } else {
@@ -72,7 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         grantResults: IntArray
     ) {
         // If we receive a response to our permission check, initialize
-        if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized()) {
+        if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized() && verifyGpsEnabled()) {
             initialize()
         }
     }
@@ -182,5 +188,29 @@ class MainActivity : AppCompatActivity(), NavigationListener {
                 .beginTransaction()
                 .replace(R.id.container, frag, tag)
                 .commitAllowingStateLoss()
+    }
+
+    private fun verifyGpsEnabled(): Boolean {
+        val locationManager: LocationManager? =
+                applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        var gpsEnabled = false
+
+        try {
+            gpsEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
+        } catch (exception: Exception) {}
+
+        if (!gpsEnabled) {
+            // notify user
+            AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
+                    .setMessage("Please enable location services")
+                    .setCancelable(false)
+                    .setPositiveButton("Open location settings") { param, paramInt ->
+                        this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    }
+                    .create()
+                    .show()
+        }
+
+        return gpsEnabled
     }
 }
