@@ -10,6 +10,7 @@ buildscript {
     ext.lifecycle_version = '2.2.0'
     ext.material_version = '1.1.0'
     ext.okhttp_version = '4.4.1'
+    ext.retrofit_version = '2.7.2'
     ext.stetho_version = '1.5.1'
 
     repositories {
@@ -19,7 +20,7 @@ buildscript {
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.5.0"
+        classpath 'com.android.tools.build:gradle:3.6.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
