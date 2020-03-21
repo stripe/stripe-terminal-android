@@ -35,7 +35,7 @@ ext {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
 
     api "com.google.android.material:material:$rootProject.ext.material_version"
     implementation "androidx.legacy:legacy-support-v4:$legacysupportVersion"
@@ -66,8 +66,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit_version"
 
-    // Stripe Terminal library
-    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
+//    // Stripe Terminal library
+//    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
 
     // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary_version"

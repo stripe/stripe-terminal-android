@@ -1,17 +1,11 @@
 package com.stripe.example.javaapp.fragment.event;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stripe.example.javaapp.R;
-import com.stripe.example.javaapp.databinding.ListItemEventBinding;
 import com.stripe.example.javaapp.model.Event;
 
 import org.jetbrains.annotations.NotNull;

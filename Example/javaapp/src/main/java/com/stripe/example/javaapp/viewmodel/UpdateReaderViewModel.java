@@ -21,7 +21,7 @@ public class UpdateReaderViewModel extends AndroidViewModel {
     @NotNull public MutableLiveData<Boolean> hasFinishedFetchingUpdate;
     @NotNull public MutableLiveData<Boolean> hasStartedInstallingUpdate;
     @NotNull public MutableLiveData<Boolean> hasFinishedInstallingUpdate;
-    @NotNull public MutableLiveData<@Nullable ReaderSoftwareUpdate> readerSoftwareUpdate;
+    @NotNull public MutableLiveData<ReaderSoftwareUpdate> readerSoftwareUpdate;
 
     @NotNull public MediatorLiveData<Boolean> checkForUpdateDescriptionVisibility = new MediatorLiveData<>();
     @NotNull public MediatorLiveData<Boolean> checkForUpdateButtonVisibility = new MediatorLiveData<>();
