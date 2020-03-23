@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.13 - 2020-03-23
+- Modify our shading approach to make Android Studio happy - folks should no longer see red underlines when using the Stripe SDK!
+- Remove extraneous imports in our sample Java app
+- Remove unnecessary tests in both our example apps
+
 ## 1.0.12 - 2020-03-16
 - No changes relative to 1.0.11
 
