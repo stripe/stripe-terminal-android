@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.13 - 2020-03-23
+- Remove extraneous imports in our sample Java app
+- Remove unnecessary tests in both our example apps
+
 ## 1.0.12 - 2020-03-16
 - No changes relative to 1.0.11
 
