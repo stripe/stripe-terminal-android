@@ -1,6 +1,10 @@
 # CHANGELOG
 
+## 1.0.14 - 2020-03-27
+- Fix [bug](https://github.com/stripe/stripe-terminal-android/issues/73) where Android Studio cannot find `stripeterminal` classes
+
 ## 1.0.13 - 2020-03-23
+- Modify our shading approach to make Android Studio happy - folks should no longer see red underlines when using the Stripe SDK!
 - Remove extraneous imports in our sample Java app
 - Remove unnecessary tests in both our example apps
 
