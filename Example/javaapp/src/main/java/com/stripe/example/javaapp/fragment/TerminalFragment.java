@@ -3,14 +3,18 @@ package com.stripe.example.javaapp.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
+import com.stripe.example.javaapp.databinding.FragmentTerminalBinding;
 import com.stripe.example.javaapp.viewmodel.TerminalViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,6 +51,19 @@ public class TerminalFragment extends Fragment {
             }
             viewModel = new TerminalViewModel(isSimulated);
         }
+    }
+
+    @Override
+    public @Nullable View onCreateView(
+            @NotNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
+        // Inflate the layout for this fragment
+        final FragmentTerminalBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_terminal, container, false);
+        binding.setLifecycleOwner(this);
+        binding.setViewModel(viewModel);
+        return binding.getRoot();
     }
 
     @Override
