@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.15 - 2020-04-06
+- Fix [issue 99](https://github.com/stripe/stripe-terminal-android/issues/99)
+- Fix [issue 103](https://github.com/stripe/stripe-terminal-android/issues/103)
+- Fix EventFragment in Java example app showing empty screen
+- Fix UpdateReaderFragment in Java example app showing empty screen
+
 ## 1.0.14 - 2020-03-27
 - Fix [bug](https://github.com/stripe/stripe-terminal-android/issues/73) where Android Studio cannot find `stripeterminal` classes
 
