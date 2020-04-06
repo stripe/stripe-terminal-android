@@ -1,7 +1,9 @@
 package com.stripe.example.javaapp.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -43,6 +45,16 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
         if (viewModel.reader == null) {
             viewModel.reader = Terminal.getInstance().getConnectedReader();
         }
+    }
+
+    @Override
+    @Nullable
+    public View onCreateView(
+        @NotNull LayoutInflater inflater,
+        @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState
+    ) {
+        return inflater.inflate(R.layout.fragment_update_reader, container, false);
     }
 
     @Override
