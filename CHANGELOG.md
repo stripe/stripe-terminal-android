@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.0.17 - 2020-05-29
+- Fix [issue 109](https://github.com/stripe/stripe-terminal-android/issues/109)
+
 ## 1.0.15 - 2020-04-06
 - Fix [issue 99](https://github.com/stripe/stripe-terminal-android/issues/99)
 - Fix [issue 103](https://github.com/stripe/stripe-terminal-android/issues/103)

@@ -42,7 +42,7 @@ ext {
     okhttp_version = '4.4.1'
     retrofit_version = '2.7.2'
     stetho_version = '1.5.1'
-    stripeTerminalVersion = '1.0.15'
+    stripeTerminalVersion = '1.0.17'
 }
 
 dependencies {
@@ -97,10 +97,3 @@ task ktlint(type: JavaExec, group: "verification") {
     // see https://github.com/pinterest/ktlint#usage for more
 }
 check.dependsOn ktlint
-
-task ktlintFormat(type: JavaExec, group: "formatting") {
-    description = "Fix Kotlin code style deviations."
-    main = "com.pinterest.ktlint.Main"
-    classpath = configurations.ktlint
-    args "-F", "src/**/*.kt"
-}
