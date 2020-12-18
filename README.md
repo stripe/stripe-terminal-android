@@ -4,7 +4,8 @@ For information on migrating from earlier beta versions of the Android SDK, see 
 
 # Requirements
 
-The Stripe Terminal Android SDK is compatible with apps supporting Android API level 24 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
+The Stripe Terminal Android SDK is compatible with apps supporting Android API level 24 and above. Apps can be written using Kotlin or [Java 11](https://developer.android.com/studio/write/java8-support).
+This repo assumes you are using [Android Studio Arctic Fox or later](https://android-developers.googleblog.com/2020/12/announcing-android-studio-arctic-fox.html).
 
 # Try the example app
 
