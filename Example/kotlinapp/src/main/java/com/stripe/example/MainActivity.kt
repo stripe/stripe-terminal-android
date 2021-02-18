@@ -44,9 +44,13 @@ class MainActivity : AppCompatActivity(), NavigationListener {
 
         // Check that the example app has been configured correctly
         if (ApiClient.BACKEND_URL.isEmpty()) {
-            throw RuntimeException("You need to set the BACKEND_URL constant in ApiClient.kt " +
-                    "before you'll be able to use the example app.")
-        }
+            // notify user
+            AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
+                    .setMessage("You need to set the BACKEND_URL constant in ApiClient.kt " +
+                            "before you'll be able to use the example app.")
+                    .setCancelable(false)
+                    .create()
+                    .show() }
 
         if (BluetoothAdapter.getDefaultAdapter()?.isEnabled == false) {
             BluetoothAdapter.getDefaultAdapter().enable()
