@@ -47,12 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
 
         // Check that the example app has been configured correctly
         if (ApiClient.BACKEND_URL.isEmpty()) {
-            new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
-                    .setMessage("You need to set the BACKEND_URL constant in ApiClient.java before you'll be able to use the " +
-                            "example app.")
-                    .setCancelable(false)
-                    .create()
-                    .show();
+            throw new RuntimeException(
+                    "You need to set the BACKEND_URL constant in ApiClient.java " +
+                    "before you'll be able to use the example app.");
         }
 
         if (BluetoothAdapter.getDefaultAdapter() != null &&
