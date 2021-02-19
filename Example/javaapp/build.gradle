@@ -8,8 +8,8 @@ android {
         targetSdkVersion maxSdkVersion
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
 
     compileOptions {
