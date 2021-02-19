@@ -43,6 +43,16 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="Widget.Example.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Example.MaterialComponents.Button.TextButton.Dialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Example.MaterialComponents.Button.TextButton.Dialog</item>
+    </style>
+
+    <style name="Widget.Example.MaterialComponents.Button.TextButton.Dialog" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
     <style name="Widget.Example.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:paddingTop">4dp</item>
         <item name="boxBackgroundColor">?attr/colorPrimaryDark</item>

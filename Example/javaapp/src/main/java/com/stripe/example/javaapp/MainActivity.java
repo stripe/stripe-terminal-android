@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.stripe.example.javaapp.fragment.ConnectedReaderFragment;
 import com.stripe.example.javaapp.fragment.PaymentFragment;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
@@ -47,9 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
 
         // Check that the example app has been configured correctly
         if (ApiClient.BACKEND_URL.isEmpty()) {
-            new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
-                    .setMessage("You need to set the BACKEND_URL constant in ApiClient.java before you'll be able to use the " +
-                            "example app.")
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.update_background_url)
                     .setCancelable(false)
                     .create()
                     .show();
@@ -228,12 +228,11 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
 
         if (!gpsEnabled) {
             // notify user
-            new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
-                    .setMessage("Please enable location services")
+            new MaterialAlertDialogBuilder(this, R.style.Widget_Example_MaterialComponents_MaterialAlertDialog)
+                    .setMessage(R.string.enabled_location_services)
                     .setCancelable(false)
-                    .setPositiveButton("Open location settings", (dialog, which) -> {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    })
+                    .setPositiveButton(R.string.open_location_settings, ((dialog, which) ->
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))))
                     .create()
                     .show();
         }

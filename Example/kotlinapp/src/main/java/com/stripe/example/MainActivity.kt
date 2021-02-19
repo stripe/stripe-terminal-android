@@ -8,12 +8,12 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.view.ContextThemeWrapper
-import androidx.appcompat.app.AlertDialog
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.stripe.example.fragment.ConnectedReaderFragment
 import com.stripe.example.fragment.PaymentFragment
 import com.stripe.example.fragment.TerminalFragment
@@ -45,12 +45,12 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         // Check that the example app has been configured correctly
         if (ApiClient.BACKEND_URL.isEmpty()) {
             // notify user
-            AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
-                    .setMessage("You need to set the BACKEND_URL constant in ApiClient.kt " +
-                            "before you'll be able to use the example app.")
+            MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.update_background_url)
                     .setCancelable(false)
                     .create()
-                    .show() }
+                    .show()
+        }
 
         if (BluetoothAdapter.getDefaultAdapter()?.isEnabled == false) {
             BluetoothAdapter.getDefaultAdapter().enable()
@@ -205,10 +205,9 @@ class MainActivity : AppCompatActivity(), NavigationListener {
 
         if (!gpsEnabled) {
             // notify user
-            AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
-                    .setMessage("Please enable location services")
-                    .setCancelable(false)
-                    .setPositiveButton("Open location settings") { param, paramInt ->
+            MaterialAlertDialogBuilder(this, R.style.Widget_Example_MaterialComponents_MaterialAlertDialog)
+                    .setMessage(R.string.enabled_location_services)
+                    .setPositiveButton(R.string.open_location_settings) { _, _ ->
                         this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                     }
                     .create()
