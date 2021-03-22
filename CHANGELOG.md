@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.0.18 - 2021-03-23
+- Fix [issue 128](https://github.com/stripe/stripe-terminal-android/issues/128) by upgrading and unshading OkHTTP to version 4.7.2 in the SDK.
+
 ## 1.0.17 - 2020-05-29
 - Fix [issue 109](https://github.com/stripe/stripe-terminal-android/issues/109)
 
