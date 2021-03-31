@@ -22,7 +22,7 @@ In order to use the Android version of the Terminal SDK, you first have to add t
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:1.0.17"
+      implementation "com.stripe:stripeterminal:1.0.18"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`:
