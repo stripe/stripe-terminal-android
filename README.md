@@ -1,28 +1,27 @@
-# Stripe Terminal Android <img src="https://img.shields.io/badge/Beta-yellow.svg">
+# Stripe Terminal Android
 
-For information on migrating from earlier beta versions of the Android SDK, see the [Stripe Terminal Beta Migration Guide](https://stripe.com/docs/terminal/beta-migration-guide).
+For information on migrating from earlier versions of the Android SDK, see the [migration guide](https://stripe.com/docs/terminal/sdk-migration-guide).
 
 # Requirements
 
-The Stripe Terminal Android SDK is compatible with apps supporting Android API level 24 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
+The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
 
 # Try the example app
 
-The Stripe Terminal Android SDK includes two open-source example apps (one in Java and the other in Kotlin), which you can use to familiarize yourself with the SDK before starting your own integration. To get started with the example app, clone the repo from \[Github\](https://github.com/stripe/stripe-terminal-android).
+The Stripe Terminal Android SDK includes two open-source example apps (one in Java and the other in Kotlin), which you can use to familiarize yourself with the SDK before starting your own integration. To build the example app:
 
-To build the example app:
-
-1. Import the `Example` project into Android Studio
-2. Navigate to our [example backend](https://github.com/stripe/example-terminal-backend) and click the button to deploy it on Heroku.
-2. In `ApiClient.kt` (or `ApiClient.java` if you're using the Java example), set the URL of the Heroku app you just deployed
-3. Build and run the app. The app includes a reader simulator, so you have no need for a physical reader to start your integration. Note that while the example app will work in an Android emulator, you will only be able to connect to a simulated reader due to lack of bluetooth capabilities. 
+1. Clone this repo.
+2. Import the `Example` project into Android Studio.
+3. Navigate to our [example backend](https://github.com/stripe/example-terminal-backend) and click the button to deploy it on Heroku.
+4. In `ApiClient.kt` (or `ApiClient.java` if you're using the Java example), set the URL of the Heroku app you just deployed.
+5. Build and run the app. The app includes a reader simulator, so you have no need for a physical reader to start your integration. Note that while the example app will work in an Android emulator, you will only be able to connect to a simulated reader due to lack of Bluetooth capabilities.
 
 ## Installation
-In order to use the Android version of the Terminal SDK, you first have to add the SDK to the `dependencies` block of your `build.gradle` file:
+To use the Android SDK, add the SDK to the `dependencies` block of your `build.gradle` file:
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:1.0.22"
+      implementation "com.stripe:stripeterminal:2.0.0"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`:
@@ -61,28 +60,25 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 ```
 
 
-> Note: Stripe needs to know where payments occur to reduce risks associated with those charges and to minimize disputes. If the SDK can’t determine the Android device’s location, payments are disabled until location access is restored.
+**Note**: Stripe needs to know where payments occur to reduce risks associated with those charges and to minimize disputes. If the SDK can’t determine the Android device’s location, payments are disabled until location access is restored.
 
 ### Have an Application Class
 
-As of RC1, we've worked hard to make our SDK lifecycle aware. In order to prevent memory leaks and enable proper cleaning up of long running Terminal processes, your application needs to have a subclass of `Application`, where the `TerminalLifeCycleObserver` is configured. Notably, it needs to both register the activity lifecycle callbacks as well as implement the `onTrimMemory` method, so that if your application is ever running low on memory we can suitably prune our memory usage and keep your app responsive for users! Check out the example app for how to do this:
+In order to prevent memory leaks and enable proper cleaning up of long running Terminal processes, your application needs to have a subclass of `Application`, where the `TerminalLifeCycleObserver` is configured. Notably, it needs to both register the activity lifecycle callbacks as well as implement the `onTrimMemory` method, so that if your application is ever running low on memory we can suitably prune our memory usage and keep your app responsive for users! Check out the example app for how to do this:
 
 ```kotlin
 // Substitue with your application name
 class StripeTerminalApplication : Application() {
-    private val observer: TerminalLifecycleObserver = TerminalLifecycleObserver.getInstance()
-
     override fun onCreate() {
         super.onCreate()
 
-        // Register our observer for all lifecycle hooks!
-        registerActivityLifecycleCallbacks(observer)
+        TerminalApplicationDelegate.onCreate(this)
     }
 
     // Don't forget to let the observer know if your application is running low on memory!
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        observer.onTrimMemory(level, this)
+        TerminalApplicationDelegate.onTrimMemory(this, level)
     }
 }
 ```
@@ -112,6 +108,5 @@ Lastly, don't forget to set your Application class in your `AndroidManifest.xml`
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
- - [API Reference](https://stripe.dev/stripe-terminal-android)
-
-
+ - [2.x API Reference](https://stripe.dev/stripe-terminal-android/v2)
+ - [1.x API Reference](https://stripe.dev/stripe-terminal-android/v1)
