@@ -1,6 +1,6 @@
 # CHANGELOG
 ## 1.0.22 - 2021-06-15
-- Updates a vendor SDK to address Google Play Store issue
+- Bump vendor SDK
 
 ## 1.0.18 - 2021-03-23
 - Fix [issue 128](https://github.com/stripe/stripe-terminal-android/issues/128) by upgrading and unshading OkHTTP to version 4.7.2 in the SDK.
