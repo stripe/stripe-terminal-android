@@ -42,7 +42,7 @@ ext {
     okhttp_version = '4.4.1'
     retrofit_version = '2.7.2'
     stetho_version = '1.5.1'
-    stripeTerminalVersion = '1.0.18'
+    stripeTerminalVersion = '1.0.22'
 }
 
 dependencies {
