@@ -20,6 +20,7 @@
     <string name="discover_readers">Discover Readers</string>
     <string name="done">Done</string>
     <string name="empty_reader">Empty Reader</string>
+    <string name="enabled_location_services">Please enable location services</string>
     <string name="event_log">EVENT LOG</string>
     <string name="install_explanation">Version %1$s available. The reader will become unresponsive until the update is complete. Estimated update time: %2$s.</string>
     <string name="install_update">Install update</string>
@@ -27,6 +28,7 @@
     <string name="nearby_readers">NEARBY READERS</string>
     <string name="no_reader">No reader connected</string>
     <string name="no_update_available">No update available</string>
+    <string name="open_location_settings">Open location settings</string>
     <string name="read_card_for_recurring_payment">Read card for recurring payment</string>
     <string name="reader">Reader</string>
     <string name="reader_connection">READER CONNECTION</string>
@@ -35,6 +37,7 @@
     <string name="simulation_explanation">The SDK comes with the ability to simulate behavior without using physical hardware. This makes it easy to quickly test your integration end-to-end, from connecting a reader to taking payments.</string>
     <string name="terminal">Terminal</string>
     <string name="testing">Testing</string>
+    <string name="update_background_url">You need to set the BACKEND_URL constant in ApiClient.kt before you\'ll be able to use the example app."</string>
     <string name="update_complete">Update complete</string>
     <string name="update_explanation">Check if a reader software update is available.</string>
     <string name="update_in_progress">Update in progress</string>
