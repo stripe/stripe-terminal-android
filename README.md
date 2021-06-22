@@ -108,5 +108,5 @@ Lastly, don't forget to set your Application class in your `AndroidManifest.xml`
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
- - [2.x API Reference](https://stripe.dev/stripe-terminal-android/v2)
+ - [2.x API Reference](https://stripe.dev/stripe-terminal-android)
  - [1.x API Reference](https://stripe.dev/stripe-terminal-android/v1)
