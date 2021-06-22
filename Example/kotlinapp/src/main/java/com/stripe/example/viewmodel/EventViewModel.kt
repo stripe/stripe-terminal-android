@@ -3,7 +3,7 @@ package com.stripe.example.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stripe.example.model.Event
-import com.stripe.stripeterminal.callable.Cancelable
+import com.stripe.stripeterminal.external.callable.Cancelable
 
 class EventViewModel constructor(eventsList: List<Event> = mutableListOf()) : ViewModel() {
     private val eventList: ArrayList<Event> = ArrayList(eventsList)

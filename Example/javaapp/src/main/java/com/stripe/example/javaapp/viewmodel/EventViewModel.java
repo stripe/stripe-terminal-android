@@ -3,7 +3,7 @@ package com.stripe.example.javaapp.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.stripe.example.javaapp.model.Event;
-import com.stripe.stripeterminal.callable.Cancelable;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

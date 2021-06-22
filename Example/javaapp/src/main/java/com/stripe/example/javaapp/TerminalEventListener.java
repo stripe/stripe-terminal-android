@@ -1,11 +1,10 @@
 package com.stripe.example.javaapp;
 
 import android.util.Log;
-import com.stripe.stripeterminal.callable.TerminalListener;
-import com.stripe.stripeterminal.model.external.ConnectionStatus;
-import com.stripe.stripeterminal.model.external.PaymentStatus;
-import com.stripe.stripeterminal.model.external.Reader;
-import com.stripe.stripeterminal.model.external.ReaderEvent;
+import com.stripe.stripeterminal.external.callable.TerminalListener;
+import com.stripe.stripeterminal.external.models.ConnectionStatus;
+import com.stripe.stripeterminal.external.models.PaymentStatus;
+import com.stripe.stripeterminal.external.models.Reader;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,16 +15,6 @@ import org.jetbrains.annotations.NotNull;
  * TODO: Finish implementing
  */
 public class TerminalEventListener implements TerminalListener {
-
-    @Override
-    public void onReportReaderEvent(@NotNull ReaderEvent event) {
-        Log.i("ReaderEvent", event.toString());
-    }
-
-    @Override
-    public void onReportLowBatteryWarning() {
-        Log.i("LowBatteryWarning", "");
-    }
 
     @Override
     public void onUnexpectedReaderDisconnect(@NotNull Reader reader) {

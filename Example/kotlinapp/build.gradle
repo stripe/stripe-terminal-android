@@ -1,99 +1,65 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-
-configurations {
-    ktlint
-}
+apply from: "$rootProject.projectDir/configurations/application.gradle"
 
 android {
-    compileSdkVersion maxSdkVersion
+    compileSdkVersion rootProject.ext.maxSdkVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion maxSdkVersion
+        minSdkVersion minTerminalSdkVersion
+        targetSdkVersion rootProject.ext.maxSdkVersion
     }
 
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    lintOptions {
+        disable "IconLauncherShape"
+        disable "LogNotTimber"
+        disable "MergeRootFrame"
+        disable "RtlSymmetry"
+        disable "TypographyEllipsis"
     }
 }
 
 ext {
-    maxSdkVersion = 29
-
-    appcompat_version = '1.1.0'
-    constraint_layout_version = '1.1.3'
-    core_testing_version = '2.1.0'
-    databinding_version = '3.1.4'
-    kotlin_version = '1.3.70'
-    kotlin_coroutines_version = '1.3.4'
-    ktlint_version = '0.36.0'
-    legacy_support_version = '1.0.0'
-    leakcanary_version = '2.2'
-    lifecycle_version = '2.2.0'
-    material_version = '1.1.0'
-    okhttp_version = '4.4.1'
-    retrofit_version = '2.7.2'
-    stetho_version = '1.5.1'
-    stripeTerminalVersion = '1.0.22'
+    stripeTerminalVersion = '2.0.0'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    api "com.google.android.material:material:$material_version"
-    implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
-    implementation "com.facebook.stetho:stetho:$stetho_version"
-    implementation "com.facebook.stetho:stetho-okhttp3:$stetho_version"
+    implementation com_google_android_material_material_legacy
+    implementation androidx_appcompat_appcompat
+    implementation androidx_core_core_ktx
+    implementation org_jetbrains_kotlin_kotlin_stdlib_jdk7
+    implementation androidx_constraintlayout_constraintlayout
 
     // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation androidx_lifecycle_lifecycle_livedata_ktx
+    implementation androidx_lifecycle_lifecycle_viewmodel_ktx
+    implementation androidx_lifecycle_lifecycle_process
+    implementation androidx_lifecycle_lifecycle_runtime_ktx
     // We are using Kotlin, and not Java 8, so do not use the recommended Java 8 library
     //noinspection LifecycleAnnotationProcessorWithJava8
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
-    testImplementation "androidx.arch.core:core-testing:$core_testing_version"
-
-    // Databinding
-    kapt "com.android.databinding:compiler:$databinding_version"
+    kapt androidx_lifecycle_lifecycle_compiler
+    testImplementation androidx_arch_core_core_testing
 
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
+    implementation org_jetbrains_kotlinx_kotlinx_coroutines_core
+    implementation org_jetbrains_kotlinx_kotlinx_coroutines_android
 
     // OK HTTP
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation com_squareup_okhttp3_okhttp
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation com_squareup_retrofit2_retrofit
+    implementation com_squareup_retrofit2_converter_gson
 
     // Stripe Terminal library
     implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
 
     // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
-
-    // Ktlint
-    ktlint "com.pinterest:ktlint:$ktlint_version"
+    debugImplementation com_squareup_leakcanary_leakcanary_android
 }
 
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    main = "com.pinterest.ktlint.Main"
-    classpath = configurations.ktlint
-    args "src/**/*.kt"
-    // to generate report in checkstyle format prepend following args:
-    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
-    // see https://github.com/pinterest/ktlint#usage for more
-}
-check.dependsOn ktlint

@@ -8,15 +8,15 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import com.stripe.example.javaapp.R;
-import com.stripe.stripeterminal.callable.Cancelable;
-import com.stripe.stripeterminal.model.external.Reader;
-import com.stripe.stripeterminal.model.external.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.Reader;
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class UpdateReaderViewModel extends AndroidViewModel {
-    @NotNull public MutableLiveData<Double> progress;
+    @NotNull public MutableLiveData<Float> progress;
     @NotNull public MutableLiveData<Boolean> hasStartedFetchingUpdate;
     @NotNull public MutableLiveData<Boolean> hasFinishedFetchingUpdate;
     @NotNull public MutableLiveData<Boolean> hasStartedInstallingUpdate;
@@ -31,14 +31,13 @@ public class UpdateReaderViewModel extends AndroidViewModel {
     @NotNull public MediatorLiveData<Boolean> doneButtonVisibility = new MediatorLiveData<>();
     @NotNull public MediatorLiveData<Boolean> installDisclaimerVisibility = new MediatorLiveData<>();
 
-    @Nullable public Cancelable fetchUpdateOperation = null;
     @Nullable public Cancelable installOperation = null;
     @Nullable public Reader reader = null;
 
     public UpdateReaderViewModel(@NotNull Application app) {
         super(app);
 
-        progress = new MutableLiveData<>(0.0);
+        progress = new MutableLiveData<>(0F);
         hasStartedFetchingUpdate = new MutableLiveData<>(false);
         hasFinishedFetchingUpdate = new MutableLiveData<>(false);
         hasStartedInstallingUpdate = new MutableLiveData<>(false);
@@ -141,8 +140,7 @@ public class UpdateReaderViewModel extends AndroidViewModel {
                     readerSoftwareUpdate.getValue().getTimeEstimate().getDescription());
         } else if (hasStartedInstallingUpdate.getValue()) {
             return hasFinishedInstallingUpdate.getValue() ? context.getString(R.string.update_complete) :
-                context.getString(R.string.update_progress, Double.toString(
-                        Math.round((progress.getValue() != null ? progress.getValue() : 0.0) * 100)));
+                context.getString(R.string.update_progress, (progress.getValue() != null ? progress.getValue() : 0F) * 100);
         } else {
             return context.getString(R.string.update_explanation);
         }

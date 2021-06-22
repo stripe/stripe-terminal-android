@@ -1,14 +1,14 @@
 package com.stripe.example.javaapp.fragment.discovery;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.content.res.Resources;
+import android.view.View;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stripe.example.javaapp.R;
-import com.stripe.example.javaapp.databinding.ListItemReaderBinding;
-import com.stripe.stripeterminal.model.external.Reader;
+import com.stripe.stripeterminal.external.models.Location;
+import com.stripe.stripeterminal.external.models.Reader;
+import com.stripe.example.javaapp.databinding.ListItemCardBinding;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -18,31 +18,37 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ReaderHolder extends RecyclerView.ViewHolder {
     @NotNull private final ReaderClickListener clickListener;
-    @NotNull private final ListItemReaderBinding binding;
+    @NotNull private final ListItemCardBinding binding;
+    @NotNull private final Resources resources;
 
     public ReaderHolder(
-        @NotNull ViewGroup parent,
+        @NotNull View parent,
         @NotNull ReaderClickListener clickListener
     ) {
-        this(clickListener, DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
-                R.layout.list_item_reader,
-                parent,
-                false));
-    }
-
-    private ReaderHolder(
-        @NotNull ReaderClickListener clickListener,
-        @NotNull ListItemReaderBinding binding
-    ) {
-        super(binding.getRoot());
-        this.binding = binding;
+        super(parent);
+        this.binding = ListItemCardBinding.bind(parent);
+        this.resources = parent.getResources();
         this.clickListener = clickListener;
     }
 
-    void bind(@NotNull Reader reader) {
-        binding.setItem(reader);
-        binding.setHandler(clickListener);
-        binding.executePendingBindings();
+    void bind(@NotNull Reader reader, Location location) {
+        binding.listItemCardTitle.setText(
+            reader.getSerialNumber() != null ? reader.getSerialNumber() : reader.getId()
+        );
+        if (location == null && reader.getLocation() == null) {
+            binding.listItemCardDescription.setText(R.string.discovery_reader_location_unavailable);
+        } else if (location == null) {
+            binding.listItemCardDescription.setText(
+                resources.getString(
+                    R.string.discovery_reader_location_last,
+                    reader.getLocation().getDisplayName()
+                )
+            );
+        } else {
+            binding.listItemCardDescription.setText(
+                resources.getString(R.string.discovery_reader_location, location.getDisplayName())
+            );
+        }
+        binding.listItemCard.setOnClickListener((View.OnClickListener) v -> clickListener.onClick(reader));
     }
 }

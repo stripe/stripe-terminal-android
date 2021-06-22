@@ -3,39 +3,51 @@ package com.stripe.example.javaapp;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.stripe.example.javaapp.fragment.ConnectedReaderFragment;
 import com.stripe.example.javaapp.fragment.PaymentFragment;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
 import com.stripe.example.javaapp.fragment.UpdateReaderFragment;
-import com.stripe.example.javaapp.fragment.event.EventFragment;
 import com.stripe.example.javaapp.fragment.discovery.DiscoveryFragment;
+import com.stripe.example.javaapp.fragment.event.EventFragment;
+import com.stripe.example.javaapp.fragment.location.LocationCreateFragment;
+import com.stripe.example.javaapp.fragment.location.LocationSelectionController;
+import com.stripe.example.javaapp.fragment.location.LocationSelectionFragment;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.network.TokenProvider;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.TerminalLifecycleObserver;
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
+import com.stripe.stripeterminal.external.callable.Cancelable;
+import com.stripe.stripeterminal.external.models.ConnectionStatus;
+import com.stripe.stripeterminal.external.models.Location;
+import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
+import com.stripe.stripeterminal.external.models.ReaderEvent;
+import com.stripe.stripeterminal.external.models.ReaderInputOptions;
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.log.LogLevel;
-import com.stripe.stripeterminal.model.external.ConnectionStatus;
-import com.stripe.stripeterminal.model.external.TerminalException;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationListener, BluetoothReaderListener, LocationSelectionController {
 
     private static final int REQUEST_CODE_LOCATION = 1;
 
@@ -49,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
         if (ApiClient.BACKEND_URL.isEmpty()) {
             throw new RuntimeException(
                     "You need to set the BACKEND_URL constant in ApiClient.java " +
-                    "before you'll be able to use the example app.");
+                            "before you'll be able to use the example app.");
         }
 
         if (BluetoothAdapter.getDefaultAdapter() != null &&
@@ -70,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
             }
         } else {
             // If we don't have them yet, request them before doing anything else
-            final String[] permissions = { Manifest.permission.ACCESS_FINE_LOCATION };
+            final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION);
         }
     }
@@ -86,9 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
     @Override
     public void onRequestPermissionsResult(
             int requestCode,
-            @NotNull String[] permissions,
-            @NotNull int[] grantResults
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // If we receive a response to our permission check, initialize
         if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized() && verifyGpsEnabled()) {
             initialize();
@@ -103,6 +116,28 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
     @Override
     public void onCancelDiscovery() {
         navigateTo(TerminalFragment.TAG, new TerminalFragment());
+    }
+
+    @Override
+    public void onRequestChangeLocation() {
+        navigateTo(
+            LocationSelectionFragment.TAG,
+            LocationSelectionFragment.newInstance(),
+            false,
+            true
+        );
+    }
+
+    @Override
+    public void onRequestCreateLocation() {
+        navigateTo(LocationCreateFragment.TAG, LocationCreateFragment.newInstance(), false, true);
+    }
+
+    @Override
+    public void onLocationCreated() {
+        getSupportFragmentManager().popBackStackImmediate();
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        ((LocationSelectionFragment) fragments.get(fragments.size() - 1)).reload();
     }
 
     /**
@@ -183,6 +218,114 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
         navigateTo(TerminalFragment.TAG, new TerminalFragment());
     }
 
+    @Override
+    public void onStartInstallingUpdate(@NotNull ReaderSoftwareUpdate update, @Nullable Cancelable cancelable) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onStartInstallingUpdate(update, cancelable);
+            }
+        });
+    }
+
+    @Override
+    public void onReportReaderSoftwareUpdateProgress(float progress) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onReportReaderSoftwareUpdateProgress(progress);
+            }
+        });
+    }
+
+    @Override
+    public void onFinishInstallingUpdate(@Nullable ReaderSoftwareUpdate update, @Nullable TerminalException e) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onFinishInstallingUpdate(update, e);
+            }
+        });
+    }
+
+    @Override
+    public void onRequestReaderInput(@NotNull ReaderInputOptions options) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onRequestReaderInput(options);
+            }
+        });
+    }
+
+    @Override
+    public void onRequestReaderDisplayMessage(@NotNull ReaderDisplayMessage message) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onRequestReaderDisplayMessage(message);
+            }
+        });
+    }
+
+    @Override
+    public void onReportAvailableUpdate(@NotNull ReaderSoftwareUpdate update) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onReportAvailableUpdate(update);
+            }
+        });
+    }
+
+    @Override
+    public void onReportReaderEvent(@NotNull ReaderEvent event) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onReportReaderEvent(event);
+            }
+        });
+    }
+
+    @Override
+    public void onReportLowBatteryWarning() {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof BluetoothReaderListener) {
+                ((BluetoothReaderListener) currentFragment).onReportLowBatteryWarning();
+            }
+        });
+    }
+
+    @Override
+    public void onLocationSelected(Location location) {
+        getSupportFragmentManager().popBackStackImmediate();
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        Fragment lastFragment = fragments.get(fragments.size() - 1);
+        if (lastFragment instanceof LocationSelectionController) {
+            ((LocationSelectionController) lastFragment).onLocationSelected(location);
+        }
+    }
+
+    @Override
+    public void onLocationCleared() {
+        getSupportFragmentManager().popBackStackImmediate();
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        Fragment lastFragment = fragments.get(fragments.size() - 1);
+        if (lastFragment instanceof LocationSelectionController) {
+            ((LocationSelectionController) lastFragment).onLocationCleared();
+        }
+    }
+
     /**
      * Initialize the [Terminal] and go to the [TerminalFragment]
      */
@@ -205,13 +348,29 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
      * @param fragment Fragment to navigate to.
      */
     private void navigateTo(String tag, Fragment fragment) {
-        final Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, frag != null ? frag : fragment, tag)
-                .commitAllowingStateLoss();
+        navigateTo(tag, fragment, true, false);
     }
 
+    /**
+     * Navigate to the given fragment.
+     *
+     * @param fragment Fragment to navigate to.
+     */
+    private void navigateTo(String tag, Fragment fragment, boolean replace, boolean addToBackstack) {
+        final Fragment frag = getSupportFragmentManager().findFragmentByTag(tag);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (replace) {
+            transaction.replace(R.id.container, frag != null ? frag : fragment, tag);
+        } else {
+            transaction.add(R.id.container, fragment, tag);
+        }
+
+        if (addToBackstack) {
+            transaction.addToBackStack(tag);
+        }
+
+        transaction.commitAllowingStateLoss();
+    }
     private boolean verifyGpsEnabled() {
         final LocationManager locationManager =
                 (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);

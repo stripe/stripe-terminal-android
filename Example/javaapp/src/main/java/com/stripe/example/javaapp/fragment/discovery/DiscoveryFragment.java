@@ -4,22 +4,33 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.stripe.example.javaapp.MainActivity;
+import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.databinding.FragmentDiscoveryBinding;
+import com.stripe.example.javaapp.fragment.location.LocationSelectionController;
 import com.stripe.example.javaapp.viewmodel.DiscoveryViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.callable.Callback;
-import com.stripe.stripeterminal.callable.DiscoveryListener;
-import com.stripe.stripeterminal.model.external.DeviceType;
-import com.stripe.stripeterminal.model.external.DiscoveryConfiguration;
-import com.stripe.stripeterminal.model.external.Reader;
-import com.stripe.stripeterminal.model.external.TerminalException;
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
+import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.callable.DiscoveryListener;
+import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
+import com.stripe.stripeterminal.external.models.DiscoveryMethod;
+import com.stripe.stripeterminal.external.models.Location;
+import com.stripe.stripeterminal.external.models.Reader;
+import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
+import com.stripe.stripeterminal.external.models.ReaderEvent;
+import com.stripe.stripeterminal.external.models.ReaderInputOptions;
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.TerminalException;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +42,7 @@ import java.util.List;
  * The `DiscoveryFragment` shows the list of recognized readers and allows the user to
  * select one to connect to.
  */
-public class DiscoveryFragment extends Fragment implements DiscoveryListener {
+public class DiscoveryFragment extends Fragment implements DiscoveryListener, BluetoothReaderListener, LocationSelectionController {
 
     public static final String TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment";
     private static final String SIMULATED_KEY = "simulated";
@@ -44,16 +55,15 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener {
         return fragment;
     }
 
-    private ReaderAdapter adapter;
-    private FragmentDiscoveryBinding binding;
-    private RecyclerView readerRecyclerView;
     private DiscoveryViewModel viewModel;
+    private ReaderAdapter adapter;
     private WeakReference<MainActivity> activityRef;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(DiscoveryViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
+        viewModel.navigationListener = (NavigationListener) getActivity();
         activityRef = new WeakReference<>((MainActivity) getActivity());
         if (viewModel.readerClickListener == null) {
             viewModel.readerClickListener = new ReaderClickListener(activityRef, viewModel);
@@ -79,7 +89,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener {
 
         if (getArguments() != null) {
             final DiscoveryConfiguration config = new DiscoveryConfiguration(
-                    0, DeviceType.CHIPPER_2X, getArguments().getBoolean(SIMULATED_KEY));
+                    0, DiscoveryMethod.BLUETOOTH_SCAN, getArguments().getBoolean(SIMULATED_KEY));
             if (viewModel.discoveryTask == null && Terminal.getInstance().getConnectedReader() == null) {
                 viewModel.discoveryTask = Terminal
                         .getInstance()
@@ -96,14 +106,15 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener {
             @Nullable Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_discovery, container, false);
+        final FragmentDiscoveryBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_discovery, container, false
+        );
         binding.setLifecycleOwner(this);
-        readerRecyclerView = binding.getRoot().findViewById(R.id.reader_recycler_view);
+        final RecyclerView readerRecyclerView = binding.getRoot().findViewById(R.id.reader_recycler_view);
         readerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.setViewModel(viewModel);
+        adapter = new ReaderAdapter(viewModel, inflater);
 
-        adapter = new ReaderAdapter(viewModel);
         readerRecyclerView.setAdapter(adapter);
 
         binding.getRoot()
@@ -132,10 +143,53 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener {
     }
 
     @Override
+    public void onStartInstallingUpdate(@NotNull ReaderSoftwareUpdate update, @Nullable Cancelable cancelable) {
+        viewModel.isConnecting.setValue(false);
+        viewModel.isUpdating.setValue(false);
+        viewModel.discoveryTask = cancelable;
+    }
+
+    @Override
+    public void onReportReaderSoftwareUpdateProgress(float progress) {
+        viewModel.updateProgress.setValue(progress);
+    }
+
+    @Override
     public void onUpdateDiscoveredReaders(@NotNull List<? extends Reader> readers) {
         final MainActivity activity = activityRef.get();
         if (activity != null) {
             activity.runOnUiThread(() -> viewModel.readers.setValue(readers));
         }
+    }
+
+    // Unused imports
+    @Override
+    public void onFinishInstallingUpdate(@Nullable ReaderSoftwareUpdate update, @Nullable TerminalException e) { }
+
+    @Override
+    public void onRequestReaderInput(@NotNull ReaderInputOptions options) { }
+
+    @Override
+    public void onRequestReaderDisplayMessage(@NotNull ReaderDisplayMessage message) { }
+
+    @Override
+    public void onReportAvailableUpdate(@NotNull ReaderSoftwareUpdate update) { }
+
+    @Override
+    public void onReportReaderEvent(@NotNull ReaderEvent event) { }
+
+    @Override
+    public void onReportLowBatteryWarning() { }
+
+    @Override
+    public void onLocationSelected(Location location) {
+        viewModel.selectedLocation.postValue(location);
+        adapter.updateLocationSelection(location);
+    }
+
+    @Override
+    public void onLocationCleared() {
+        viewModel.selectedLocation.postValue(null);
+        adapter.updateLocationSelection(null);
     }
 }

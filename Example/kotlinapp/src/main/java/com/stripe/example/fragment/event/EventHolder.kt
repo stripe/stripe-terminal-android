@@ -14,7 +14,8 @@ import com.stripe.example.model.Event
 class EventHolder(
     parent: ViewGroup,
     private val binding: ListItemEventBinding = DataBindingUtil.inflate(
-        LayoutInflater.from(parent.context), R.layout.list_item_event, parent, false)
+        LayoutInflater.from(parent.context), R.layout.list_item_event, parent, false
+    )
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(event: Event) {

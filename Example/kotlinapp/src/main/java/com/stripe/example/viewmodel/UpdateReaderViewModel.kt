@@ -7,20 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.stripe.example.R
 import com.stripe.example.StripeTerminalApplication
-import com.stripe.stripeterminal.callable.Cancelable
-import com.stripe.stripeterminal.model.external.Reader
-import com.stripe.stripeterminal.model.external.ReaderSoftwareUpdate
-import kotlin.math.roundToInt
+import com.stripe.stripeterminal.external.callable.Cancelable
+import com.stripe.stripeterminal.external.models.Reader
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
 
 class UpdateReaderViewModel
 constructor(application: Application) : AndroidViewModel(application) {
-    var progress: MutableLiveData<Double> = MutableLiveData(0.0)
+    var progress: MutableLiveData<Float> = MutableLiveData(0F)
     var hasStartedFetchingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
     var hasFinishedFetchingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
     var hasStartedInstallingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
     var hasFinishedInstallingUpdate: MutableLiveData<Boolean> = MutableLiveData(false)
     var readerSoftwareUpdate: MutableLiveData<ReaderSoftwareUpdate?> = MutableLiveData(null)
-    var fetchUpdateOperation: Cancelable? = null
     var installOperation: Cancelable? = null
     var reader: Reader? = null
 
@@ -36,11 +34,11 @@ constructor(application: Application) : AndroidViewModel(application) {
             checkForUpdateDescriptionVisibility.value = getCheckForUpdateDescriptionVisibility()
         }
         checkForUpdateDescriptionVisibility
-                .addSource(hasStartedFetchingUpdate, updateDescriptionVisibilityLambda)
+            .addSource(hasStartedFetchingUpdate, updateDescriptionVisibilityLambda)
         checkForUpdateDescriptionVisibility
-                .addSource(hasFinishedFetchingUpdate, updateDescriptionVisibilityLambda)
+            .addSource(hasFinishedFetchingUpdate, updateDescriptionVisibilityLambda)
         checkForUpdateDescriptionVisibility
-                .addSource(hasStartedInstallingUpdate, updateDescriptionVisibilityLambda)
+            .addSource(hasStartedInstallingUpdate, updateDescriptionVisibilityLambda)
         checkForUpdateDescriptionVisibility.addSource(readerSoftwareUpdate) {
             checkForUpdateDescriptionVisibility.value = getCheckForUpdateDescriptionVisibility()
         }
@@ -49,13 +47,13 @@ constructor(application: Application) : AndroidViewModel(application) {
             checkForUpdateButtonVisibility.value = getCheckForUpdateButtonVisibility()
         }
         checkForUpdateButtonVisibility
-                .addSource(hasStartedInstallingUpdate, checkForUpdateButtonVisibilityLambda)
+            .addSource(hasStartedInstallingUpdate, checkForUpdateButtonVisibilityLambda)
         checkForUpdateButtonVisibility
-                .addSource(hasFinishedInstallingUpdate, checkForUpdateButtonVisibilityLambda)
+            .addSource(hasFinishedInstallingUpdate, checkForUpdateButtonVisibilityLambda)
         checkForUpdateButtonVisibility
-                .addSource(hasStartedFetchingUpdate, checkForUpdateButtonVisibilityLambda)
+            .addSource(hasStartedFetchingUpdate, checkForUpdateButtonVisibilityLambda)
         checkForUpdateButtonVisibility
-                .addSource(hasFinishedFetchingUpdate, checkForUpdateButtonVisibilityLambda)
+            .addSource(hasFinishedFetchingUpdate, checkForUpdateButtonVisibilityLambda)
         checkForUpdateButtonVisibility.addSource(readerSoftwareUpdate) {
             checkForUpdateButtonVisibility.value = getCheckForUpdateButtonVisibility()
         }
@@ -64,19 +62,19 @@ constructor(application: Application) : AndroidViewModel(application) {
             checkForUpdateButtonColor.value = getCheckForUpdateButtonColor()
         }
         checkForUpdateButtonColor
-                .addSource(hasStartedFetchingUpdate, checkForUpdateButtonColorLambda)
+            .addSource(hasStartedFetchingUpdate, checkForUpdateButtonColorLambda)
         checkForUpdateButtonColor
-                .addSource(hasFinishedFetchingUpdate, checkForUpdateButtonColorLambda)
+            .addSource(hasFinishedFetchingUpdate, checkForUpdateButtonColorLambda)
 
         val checkForUpdateButtonTextLambda = Observer<Boolean> {
             checkForUpdateButtonText.value = getCheckForUpdateButtonText()
         }
         checkForUpdateButtonText
-                .addSource(hasStartedFetchingUpdate, checkForUpdateButtonTextLambda)
+            .addSource(hasStartedFetchingUpdate, checkForUpdateButtonTextLambda)
         checkForUpdateButtonText
-                .addSource(hasFinishedFetchingUpdate, checkForUpdateButtonTextLambda)
+            .addSource(hasFinishedFetchingUpdate, checkForUpdateButtonTextLambda)
         checkForUpdateButtonText
-                .addSource(hasStartedInstallingUpdate, checkForUpdateButtonTextLambda)
+            .addSource(hasStartedInstallingUpdate, checkForUpdateButtonTextLambda)
         checkForUpdateButtonText.addSource(readerSoftwareUpdate) {
             checkForUpdateButtonText.value = getCheckForUpdateButtonText()
         }
@@ -104,15 +102,19 @@ constructor(application: Application) : AndroidViewModel(application) {
 
     private fun getCheckForUpdateDescriptionVisibility(): Boolean {
         return (hasStartedFetchingUpdate.value!! && !hasFinishedFetchingUpdate.value!!) ||
-                (hasStartedFetchingUpdate.value!! && hasFinishedFetchingUpdate.value!! &&
-                !hasStartedInstallingUpdate.value!! && readerSoftwareUpdate.value != null) ||
-                hasStartedInstallingUpdate.value!!
+            (
+                hasStartedFetchingUpdate.value!! && hasFinishedFetchingUpdate.value!! &&
+                    !hasStartedInstallingUpdate.value!! && readerSoftwareUpdate.value != null
+                ) ||
+            hasStartedInstallingUpdate.value!!
     }
 
     private fun getCheckForUpdateButtonVisibility(): Boolean {
         return !(hasStartedInstallingUpdate.value!! && hasFinishedInstallingUpdate.value!!) ||
-                (hasStartedFetchingUpdate.value!! && hasFinishedFetchingUpdate.value!! &&
-                        !hasStartedInstallingUpdate.value!! && readerSoftwareUpdate.value != null)
+            (
+                hasStartedFetchingUpdate.value!! && hasFinishedFetchingUpdate.value!! &&
+                    !hasStartedInstallingUpdate.value!! && readerSoftwareUpdate.value != null
+                )
     }
 
     private fun getCheckForUpdateButtonColor(): Int {
@@ -127,7 +129,8 @@ constructor(application: Application) : AndroidViewModel(application) {
         return if (hasStartedFetchingUpdate.value!! && !hasFinishedFetchingUpdate.value!!) {
             R.string.checking_for_update
         } else if (hasStartedFetchingUpdate.value!! && hasFinishedFetchingUpdate.value!! &&
-                !hasStartedInstallingUpdate.value!!) {
+            !hasStartedInstallingUpdate.value!!
+        ) {
             if (readerSoftwareUpdate.value != null) R.string.install_update else R.string.no_update_available
         } else if (hasStartedInstallingUpdate.value!!) {
             R.string.update_in_progress
@@ -141,21 +144,26 @@ constructor(application: Application) : AndroidViewModel(application) {
         return if (hasStartedFetchingUpdate.value!! && !hasFinishedFetchingUpdate.value!!) {
             context.getString(R.string.checking_for_update)
         } else if (hasStartedFetchingUpdate.value!! && hasFinishedFetchingUpdate.value!! &&
-                !hasStartedInstallingUpdate.value!! && readerSoftwareUpdate.value != null) {
-            context.getString(R.string.install_explanation,
-                    readerSoftwareUpdate.value!!.version,
-                    readerSoftwareUpdate.value!!.timeEstimate.description)
+            !hasStartedInstallingUpdate.value!! && readerSoftwareUpdate.value != null
+        ) {
+            context.getString(
+                R.string.install_explanation,
+                readerSoftwareUpdate.value!!.version,
+                readerSoftwareUpdate.value!!.timeEstimate.description
+            )
         } else if (hasStartedInstallingUpdate.value!!) {
             if (hasFinishedInstallingUpdate.value!!) context.getString(R.string.update_complete)
-            else context.getString(R.string.update_progress, (((progress.value ?: 0.0) * 100).roundToInt()).toString())
+            else context.getString(R.string.update_progress, (progress.value ?: 0F) * 100)
         } else {
             context.getString(R.string.update_explanation)
         }
     }
 
     private fun getDoneButtonVisibility(): Boolean {
-        return hasFinishedInstallingUpdate.value!! || (hasStartedFetchingUpdate.value!! &&
+        return hasFinishedInstallingUpdate.value!! || (
+            hasStartedFetchingUpdate.value!! &&
                 hasFinishedFetchingUpdate.value!! && !hasStartedInstallingUpdate.value!! &&
-                readerSoftwareUpdate.value == null)
+                readerSoftwareUpdate.value == null
+            )
     }
 }

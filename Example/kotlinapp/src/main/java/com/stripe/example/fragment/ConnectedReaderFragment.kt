@@ -4,18 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.callable.Callback
-import com.stripe.stripeterminal.model.external.TerminalException
+import com.stripe.stripeterminal.external.callable.Callback
+import com.stripe.stripeterminal.external.models.TerminalException
 import java.lang.ref.WeakReference
-import kotlinx.android.synthetic.main.fragment_connected_reader.view.collect_card_payment_button
-import kotlinx.android.synthetic.main.fragment_connected_reader.view.disconnect_button
-import kotlinx.android.synthetic.main.fragment_connected_reader.view.read_reusable_card_button
-import kotlinx.android.synthetic.main.fragment_connected_reader.view.reader_description
-import kotlinx.android.synthetic.main.fragment_connected_reader.view.update_reader_button
 
 /**
  * The `ConnectedReaderFragment` displays the reader that's currently connected and provides
@@ -38,20 +34,24 @@ class ConnectedReaderFragment : Fragment() {
 
         // Set the description of the connected reader
         Terminal.getInstance().connectedReader?.let {
-            view.reader_description.text = getString(R.string.reader_description,
-                    it.deviceType, it.serialNumber)
+            view.findViewById<TextView>(R.id.reader_description).text = getString(
+                R.string.reader_description,
+                it.deviceType, it.serialNumber
+            )
             // TODO: Set status as well
         }
 
         // Set up the disconnect button
         val activityRef = WeakReference(activity)
-        view.disconnect_button.setOnClickListener {
+        view.findViewById<View>(R.id.disconnect_button).setOnClickListener {
             Terminal.getInstance().disconnectReader(object : Callback {
 
                 override fun onSuccess() {
                     activityRef.get()?.let {
                         if (it is NavigationListener) {
-                            it.onDisconnectReader()
+                            it.runOnUiThread {
+                                it.onDisconnectReader()
+                            }
                         }
                     }
                 }
@@ -62,24 +62,18 @@ class ConnectedReaderFragment : Fragment() {
         }
 
         // Set up the collect payment button
-        view.collect_card_payment_button.setOnClickListener {
-            if (activity is NavigationListener) {
-                (activity as NavigationListener).onSelectPaymentWorkflow()
-            }
+        view.findViewById<View>(R.id.collect_card_payment_button).setOnClickListener {
+            (activity as? NavigationListener)?.onSelectPaymentWorkflow()
         }
 
         // Set up the read reusable card button
-        view.read_reusable_card_button.setOnClickListener {
-            if (activity is NavigationListener) {
-                (activity as NavigationListener).onSelectReadReusableCardWorkflow()
-            }
+        view.findViewById<View>(R.id.read_reusable_card_button).setOnClickListener {
+            (activity as? NavigationListener)?.onSelectReadReusableCardWorkflow()
         }
 
         // Set up the update reader button
-        view.update_reader_button.setOnClickListener {
-            if (activity is NavigationListener) {
-                (activity as NavigationListener).onSelectUpdateWorkflow()
-            }
+        view.findViewById<View>(R.id.update_reader_button).setOnClickListener {
+            (activity as? NavigationListener)?.onSelectUpdateWorkflow()
         }
 
         return view
