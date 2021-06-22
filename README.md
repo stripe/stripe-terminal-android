@@ -2,6 +2,8 @@
 
 For information on migrating from earlier versions of the Android SDK, see the [migration guide](https://stripe.com/docs/terminal/sdk-migration-guide).
 
+Please note: if you use Firebase within your application, there's [a known issue](https://github.com/stripe/stripe-terminal-android/issues/135) that causes an incompatibility with this SDK. We're currently working on a fix.
+
 # Requirements
 
 The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
@@ -17,6 +19,7 @@ The Stripe Terminal Android SDK includes two open-source example apps (one in Ja
 5. Build and run the app. The app includes a reader simulator, so you have no need for a physical reader to start your integration. Note that while the example app will work in an Android emulator, you will only be able to connect to a simulated reader due to lack of Bluetooth capabilities.
 
 ## Installation
+
 To use the Android SDK, add the SDK to the `dependencies` block of your `build.gradle` file:
 
 
