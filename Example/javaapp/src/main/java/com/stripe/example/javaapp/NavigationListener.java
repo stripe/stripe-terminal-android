@@ -55,4 +55,19 @@ public interface NavigationListener {
      * Notify the `Activity` that the user wants to start the update reader workflow
      */
     void onSelectUpdateWorkflow();
+
+    /**
+     * Notify the `Activity` that the user has requested to change the location.
+     */
+    void onRequestChangeLocation();
+
+    /**
+     * Notify the `Activity` that the user has requested to add a location.
+     */
+    void onRequestCreateLocation();
+
+    /**
+     * Notify the `Activity` that the user has finished creating a location.
+     */
+    void onLocationCreated();
 }

@@ -12,10 +12,10 @@
         android:theme="@style/Theme.Example"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.stripe.example.MainActivity"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullSensor"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

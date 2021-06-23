@@ -6,6 +6,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="alertDialogTheme">@style/alertDialog</item>
+    </style>
+
+    <style name="alertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/alertButtonStyle</item>
+    </style>
+
+    <style name="alertButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Widget.Example.Backdrop" parent="">

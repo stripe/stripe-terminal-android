@@ -10,34 +10,42 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
-import com.stripe.example.javaapp.databinding.FragmentEventBinding;
 import com.stripe.example.javaapp.model.Event;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.callable.Callback;
-import com.stripe.stripeterminal.callable.PaymentIntentCallback;
-import com.stripe.stripeterminal.callable.PaymentMethodCallback;
-import com.stripe.stripeterminal.callable.ReaderDisplayListener;
-import com.stripe.stripeterminal.model.external.*;
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
+import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
+import com.stripe.stripeterminal.external.callable.PaymentMethodCallback;
+import com.stripe.stripeterminal.external.models.PaymentIntent;
+import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
+import com.stripe.stripeterminal.external.models.PaymentMethod;
+import com.stripe.stripeterminal.external.models.ReadReusableCardParameters;
+import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
+import com.stripe.stripeterminal.external.models.ReaderEvent;
+import com.stripe.stripeterminal.external.models.ReaderInputOptions;
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.TerminalException;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.*;
+import java.util.Locale;
 
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-public class EventFragment extends Fragment implements ReaderDisplayListener {
+public class EventFragment extends Fragment implements BluetoothReaderListener {
 
     @NotNull public static final String TAG = "com.stripe.example.fragment.event.EventFragment";
 
@@ -71,10 +79,8 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
     }
 
     private EventAdapter adapter;
-    private RecyclerView eventRecyclerView;
     private WeakReference<FragmentActivity> activityRef;
 
-    private FragmentEventBinding binding;
     private EventViewModel viewModel;
 
     private PaymentIntent paymentIntent;
@@ -135,7 +141,7 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
             paymentIntent = intent;
             addEvent("Created PaymentIntent", "terminal.createPaymentIntent");
             viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                    paymentIntent, EventFragment.this, collectPaymentMethodCallback);
+                    paymentIntent, collectPaymentMethodCallback);
         }
 
         @Override
@@ -161,7 +167,7 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRef = new WeakReference<>(getActivity());
-        viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        viewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
         if (savedInstanceState == null) {
             final Bundle arguments = getArguments();
@@ -178,7 +184,6 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
                             .getInstance()
                             .readReusableCard(
                                     ReadReusableCardParameters.Companion.getNULL(),
-                                    EventFragment.this,
                                     reusablePaymentMethodCallback);
                 }
             }
@@ -196,7 +201,7 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
 
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
-        eventRecyclerView = view.findViewById(R.id.event_recycler_view);
+        final RecyclerView eventRecyclerView = view.findViewById(R.id.event_recycler_view);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new EventAdapter();
         eventRecyclerView.setAdapter(adapter);
@@ -228,7 +233,7 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
             }
         });
 
-        viewModel.isComplete.observe(this, isComplete -> {
+        viewModel.isComplete.observe(getViewLifecycleOwner(), isComplete -> {
             ((TextView) view.findViewById(R.id.cancel_button))
                     .setTextColor(ContextCompat.getColor(getContext(),
                             isComplete ? R.color.colorPrimaryDark : R.color.colorAccent));
@@ -236,7 +241,7 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
             view.findViewById(R.id.done_button).setVisibility(isComplete ? View.VISIBLE : View.GONE);
         });
 
-        viewModel.events.observe(this, events -> adapter.updateEvents(events));
+        viewModel.events.observe(getViewLifecycleOwner(), events -> adapter.updateEvents(events));
     }
 
     @Override
@@ -267,4 +272,23 @@ public class EventFragment extends Fragment implements ReaderDisplayListener {
         addEvent(e.getErrorMessage(), e.getErrorCode().toString());
         completeFlow();
     }
+
+    // Unused overrides
+    @Override
+    public void onStartInstallingUpdate(@NotNull ReaderSoftwareUpdate update, @Nullable Cancelable cancelable) { }
+
+    @Override
+    public void onReportReaderSoftwareUpdateProgress(float progress) { }
+
+    @Override
+    public void onFinishInstallingUpdate(@Nullable ReaderSoftwareUpdate update, @Nullable TerminalException e) { }
+
+    @Override
+    public void onReportAvailableUpdate(@NotNull ReaderSoftwareUpdate update) { }
+
+    @Override
+    public void onReportReaderEvent(@NotNull ReaderEvent event) { }
+
+    @Override
+    public void onReportLowBatteryWarning() { }
 }

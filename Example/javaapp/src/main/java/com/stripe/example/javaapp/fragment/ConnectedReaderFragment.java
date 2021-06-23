@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentActivity;
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.callable.Callback;
-import com.stripe.stripeterminal.model.external.Reader;
-import com.stripe.stripeterminal.model.external.TerminalException;
+import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.models.Reader;
+import com.stripe.stripeterminal.external.models.TerminalException;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,7 +56,9 @@ public class ConnectedReaderFragment extends Fragment {
                         final FragmentActivity activity = activityRef.get();
                         if (activity != null) {
                             if (activity instanceof NavigationListener) {
-                                ((NavigationListener) activity).onDisconnectReader();
+                                activity.runOnUiThread(
+                                    ((NavigationListener) activity)::onDisconnectReader
+                                );
                             }
                         }
                     }

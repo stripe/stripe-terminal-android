@@ -1,8 +1,7 @@
 package com.stripe.example.javaapp.network;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.stripe.example.javaapp.model.ConnectionToken;
-import com.stripe.stripeterminal.model.external.ConnectionTokenException;
+import com.stripe.stripeterminal.external.models.ConnectionTokenException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,12 +29,9 @@ public class ApiClient {
      */
     public static final String BACKEND_URL = "";
 
-    private static final OkHttpClient mClient = new OkHttpClient.Builder()
-            .addNetworkInterceptor(new StethoInterceptor())
-            .build();
     private static final Retrofit mRetrofit = new Retrofit.Builder()
             .baseUrl(BACKEND_URL)
-            .client(mClient)
+            .client(new OkHttpClient.Builder().build())
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     private static final BackendService mService = mRetrofit.create(BackendService.class);
@@ -51,6 +47,18 @@ public class ApiClient {
         } catch (IOException e) {
             throw new ConnectionTokenException("Creating connection token failed", e);
         }
+    }
+
+    public static void createLocation(
+        String displayName,
+        String city,
+        String country,
+        String line1,
+        String line2,
+        String postalCode,
+        String state
+    ) {
+        // TODO: Call backend to create location
     }
 
     public static void capturePaymentIntent(@NotNull String id) throws IOException {

@@ -1,6 +1,6 @@
 package com.stripe.example
 
-import com.stripe.stripeterminal.model.external.Reader
+import com.stripe.stripeterminal.external.models.Reader
 
 /**
  * An `Activity` that should be notified when various navigation activities have been triggered
@@ -34,7 +34,7 @@ interface NavigationListener {
     /**
      * Notify the `Activity` that the user wants to initiate a payment
      */
-    fun onRequestPayment(amount: Int, currency: String)
+    fun onRequestPayment(amount: Long, currency: String)
 
     /**
      * Notify the `Activity` that a [Reader] has been connected
@@ -55,4 +55,19 @@ interface NavigationListener {
      * Notify the `Activity` that the user wants to start the update reader workflow
      */
     fun onSelectUpdateWorkflow()
+
+    /**
+     * Notify the `Activity` that the user has requested to change the location.
+     */
+    fun onRequestChangeLocation()
+
+    /**
+     * Notify the `Activity` that the user has requested to add a location.
+     */
+    fun onRequestCreateLocation()
+
+    /**
+     * Notify the `Activity` that the user has finished creating a location.
+     */
+    fun onLocationCreated()
 }

@@ -94,11 +94,11 @@
                     android:layout_gravity="start"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="@string/device_type"
+                    android:text="@string/discovery_method"
                     android:paddingTop="40dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/device_type_button"
+                    android:id="@+id/discovery_method_button"
                     style="@style/Widget.Example.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                     app:icon="@drawable/ic_right_arrow"
                     app:iconTint="@color/colorPrimaryDark" />
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/simulated_switch"
                     style="@style/Widget.Example.Switch"
                     android:checked="false"

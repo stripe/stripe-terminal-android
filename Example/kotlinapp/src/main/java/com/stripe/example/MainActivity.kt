@@ -20,14 +20,23 @@ import com.stripe.example.fragment.TerminalFragment
 import com.stripe.example.fragment.UpdateReaderFragment
 import com.stripe.example.fragment.discovery.DiscoveryFragment
 import com.stripe.example.fragment.event.EventFragment
+import com.stripe.example.fragment.location.LocationCreateFragment
+import com.stripe.example.fragment.location.LocationSelectionController
+import com.stripe.example.fragment.location.LocationSelectionFragment
 import com.stripe.example.network.ApiClient
 import com.stripe.example.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
+import com.stripe.stripeterminal.external.callable.Cancelable
+import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.Location
+import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
+import com.stripe.stripeterminal.external.models.ReaderInputOptions
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
+import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
-import com.stripe.stripeterminal.model.external.ConnectionStatus
-import com.stripe.stripeterminal.model.external.TerminalException
 
-class MainActivity : AppCompatActivity(), NavigationListener {
+class MainActivity : AppCompatActivity(), NavigationListener, BluetoothReaderListener, LocationSelectionController {
 
     companion object {
         // The code that denotes the request for location permissions
@@ -44,8 +53,10 @@ class MainActivity : AppCompatActivity(), NavigationListener {
 
         // Check that the example app has been configured correctly
         if (ApiClient.BACKEND_URL.isEmpty()) {
-            throw RuntimeException("You need to set the BACKEND_URL constant in ApiClient.kt " +
-                    "before you'll be able to use the example app.")
+            throw RuntimeException(
+                "You need to set the BACKEND_URL constant in ApiClient.kt " +
+                    "before you'll be able to use the example app."
+            )
         }
 
         if (BluetoothAdapter.getDefaultAdapter()?.isEnabled == false) {
@@ -57,8 +68,11 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         super.onResume()
 
         // Check for location permissions
-        if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             if (!Terminal.isInitialized() && verifyGpsEnabled()) {
                 initialize()
             }
@@ -77,6 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // If we receive a response to our permission check, initialize
         if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized() && verifyGpsEnabled()) {
             initialize()
@@ -90,6 +105,29 @@ class MainActivity : AppCompatActivity(), NavigationListener {
      */
     override fun onCancelDiscovery() {
         navigateTo(TerminalFragment.TAG, TerminalFragment())
+    }
+
+    override fun onRequestChangeLocation() {
+        navigateTo(
+            LocationSelectionFragment.TAG,
+            LocationSelectionFragment.newInstance(),
+            replace = false,
+            addToBackStack = true,
+        )
+    }
+
+    override fun onRequestCreateLocation() {
+        navigateTo(
+            LocationCreateFragment.TAG,
+            LocationCreateFragment.newInstance(),
+            replace = false,
+            addToBackStack = true,
+        )
+    }
+
+    override fun onLocationCreated() {
+        supportFragmentManager.popBackStackImmediate()
+        (supportFragmentManager.fragments.last() as? LocationSelectionFragment)?.reload()
     }
 
     /**
@@ -113,7 +151,7 @@ class MainActivity : AppCompatActivity(), NavigationListener {
     /**
      * Callback function called to start a payment by the [PaymentFragment]
      */
-    override fun onRequestPayment(amount: Int, currency: String) {
+    override fun onRequestPayment(amount: Long, currency: String) {
         navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency))
     }
 
@@ -151,7 +189,7 @@ class MainActivity : AppCompatActivity(), NavigationListener {
     }
 
     /**
-     * Callback function called on completion of [Terminal.connectReader]
+     * Callback function called on completion of [Terminal.connectBluetoothReader]
      */
     override fun onConnectReader() {
         navigateTo(ConnectedReaderFragment.TAG, ConnectedReaderFragment())
@@ -161,17 +199,87 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         navigateTo(TerminalFragment.TAG, TerminalFragment())
     }
 
+    override fun onStartInstallingUpdate(update: ReaderSoftwareUpdate, cancelable: Cancelable?) {
+        runOnUiThread {
+            // Delegate out to the current fragment, if it acts as a BluetoothReaderListener
+            supportFragmentManager.fragments.last()?.let {
+                if (it is BluetoothReaderListener) {
+                    it.onStartInstallingUpdate(update, cancelable)
+                }
+            }
+        }
+    }
+
+    override fun onReportReaderSoftwareUpdateProgress(progress: Float) {
+        runOnUiThread {
+            // Delegate out to the current fragment, if it acts as a BluetoothReaderListener
+            supportFragmentManager.fragments.last()?.let {
+                if (it is BluetoothReaderListener) {
+                    it.onReportReaderSoftwareUpdateProgress(progress)
+                }
+            }
+        }
+    }
+
+    override fun onFinishInstallingUpdate(update: ReaderSoftwareUpdate?, e: TerminalException?) {
+        runOnUiThread {
+            // Delegate out to the current fragment, if it acts as a BluetoothReaderListener
+            supportFragmentManager.fragments.last()?.let {
+                if (it is BluetoothReaderListener) {
+                    it.onFinishInstallingUpdate(update, e)
+                }
+            }
+        }
+    }
+
+    override fun onRequestReaderInput(options: ReaderInputOptions) {
+        runOnUiThread {
+            // Delegate out to the current fragment, if it acts as a BluetoothReaderListener
+            supportFragmentManager.fragments.last()?.let {
+                if (it is BluetoothReaderListener) {
+                    it.onRequestReaderInput(options)
+                }
+            }
+        }
+    }
+
+    override fun onRequestReaderDisplayMessage(message: ReaderDisplayMessage) {
+        runOnUiThread {
+            // Delegate out to the current fragment, if it acts as a BluetoothReaderListener
+            supportFragmentManager.fragments.last()?.let {
+                if (it is BluetoothReaderListener) {
+                    it.onRequestReaderDisplayMessage(message)
+                }
+            }
+        }
+    }
+
+    override fun onLocationSelected(location: Location) {
+        supportFragmentManager.popBackStackImmediate()
+        (supportFragmentManager.fragments.last() as? LocationSelectionController)?.onLocationSelected(location)
+    }
+
+    override fun onLocationCleared() {
+        supportFragmentManager.popBackStackImmediate()
+        (supportFragmentManager.fragments.last() as? LocationSelectionController)?.onLocationCleared()
+    }
+
     /**
      * Initialize the [Terminal] and go to the [TerminalFragment]
      */
     private fun initialize() {
         // Initialize the Terminal as soon as possible
         try {
-            Terminal.initTerminal(applicationContext, LogLevel.VERBOSE, TokenProvider(),
-                    TerminalEventListener())
+            Terminal.initTerminal(
+                applicationContext, LogLevel.VERBOSE, TokenProvider(),
+                TerminalEventListener()
+            )
         } catch (e: TerminalException) {
-            throw RuntimeException("Location services are required in order to initialize " +
-                    "the Terminal.", e)
+            throw RuntimeException(
+                "Location services are required in order to initialize " +
+                    "the Terminal.",
+                e
+            )
         }
 
         navigateTo(TerminalFragment.TAG, TerminalFragment())
@@ -182,17 +290,32 @@ class MainActivity : AppCompatActivity(), NavigationListener {
      *
      * @param fragment Fragment to navigate to.
      */
-    private fun navigateTo(tag: String, fragment: Fragment) {
+    private fun navigateTo(
+        tag: String,
+        fragment: Fragment,
+        replace: Boolean = true,
+        addToBackStack: Boolean = false,
+    ) {
         val frag = supportFragmentManager.findFragmentByTag(tag) ?: fragment
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, frag, tag)
-                .commitAllowingStateLoss()
+            .beginTransaction()
+            .apply {
+                if (replace) {
+                    replace(R.id.container, frag, tag)
+                } else {
+                    add(R.id.container, frag, tag)
+                }
+
+                if (addToBackStack) {
+                    addToBackStack(tag)
+                }
+            }
+            .commitAllowingStateLoss()
     }
 
     private fun verifyGpsEnabled(): Boolean {
         val locationManager: LocationManager? =
-                applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+            applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         var gpsEnabled = false
 
         try {
@@ -202,13 +325,13 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         if (!gpsEnabled) {
             // notify user
             AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
-                    .setMessage("Please enable location services")
-                    .setCancelable(false)
-                    .setPositiveButton("Open location settings") { param, paramInt ->
-                        this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                    }
-                    .create()
-                    .show()
+                .setMessage("Please enable location services")
+                .setCancelable(false)
+                .setPositiveButton("Open location settings") { param, paramInt ->
+                    this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+                .create()
+                .show()
         }
 
         return gpsEnabled

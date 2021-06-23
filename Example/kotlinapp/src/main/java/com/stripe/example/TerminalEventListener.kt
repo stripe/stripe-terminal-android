@@ -1,11 +1,10 @@
 package com.stripe.example
 
 import android.util.Log
-import com.stripe.stripeterminal.callable.TerminalListener
-import com.stripe.stripeterminal.model.external.ConnectionStatus
-import com.stripe.stripeterminal.model.external.PaymentStatus
-import com.stripe.stripeterminal.model.external.Reader
-import com.stripe.stripeterminal.model.external.ReaderEvent
+import com.stripe.stripeterminal.external.callable.TerminalListener
+import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.PaymentStatus
+import com.stripe.stripeterminal.external.models.Reader
 
 /**
  * The `TerminalEventListener` implements the [TerminalListener] interface and will
@@ -14,14 +13,6 @@ import com.stripe.stripeterminal.model.external.ReaderEvent
  * TODO: Finish implementing
  */
 class TerminalEventListener : TerminalListener {
-
-    override fun onReportReaderEvent(event: ReaderEvent) {
-        Log.i("ReaderEvent", event.toString())
-    }
-
-    override fun onReportLowBatteryWarning() {
-        Log.i("LowBatteryWarning", "")
-    }
 
     override fun onUnexpectedReaderDisconnect(reader: Reader) {
         Log.i("UnexpectedDisconnect", reader.serialNumber ?: "reader's serialNumber is null!")

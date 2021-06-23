@@ -82,7 +82,7 @@ public class TerminalFragment extends Fragment {
         });
 
         // TODO: Do this dynamically from the type selected
-        ((TextView) view.findViewById(R.id.device_type_button)).setText(R.string.chipper_2x);
+        ((TextView) view.findViewById(R.id.discovery_method_button)).setText(R.string.bluetooth);
     }
 
     @Override

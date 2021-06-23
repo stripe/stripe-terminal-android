@@ -11,8 +11,6 @@ import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentTerminalBinding
 import com.stripe.example.viewmodel.TerminalViewModel
-import kotlinx.android.synthetic.main.fragment_terminal.*
-import kotlinx.android.synthetic.main.fragment_terminal.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,8 +37,10 @@ class TerminalFragment : Fragment() {
             viewModel = TerminalViewModel(it.getBoolean(SIMULATED_SWITCH))
         } ?: run {
             CoroutineScope(Dispatchers.IO).launch {
-                val isSimulated = activity?.getSharedPreferences(TAG,
-                        Context.MODE_PRIVATE)?.getBoolean(SIMULATED_SWITCH, false) ?: false
+                val isSimulated = activity?.getSharedPreferences(
+                    TAG,
+                    Context.MODE_PRIVATE
+                )?.getBoolean(SIMULATED_SWITCH, false) ?: false
                 viewModel = TerminalViewModel(isSimulated)
             }
         }
@@ -50,7 +50,7 @@ class TerminalFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_terminal, container, false)
         binding.lifecycleOwner = this
@@ -62,20 +62,18 @@ class TerminalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Link up the discovery button
-        discover_button.setOnClickListener {
-            if (activity is NavigationListener) {
-                (activity as NavigationListener).onRequestDiscovery(viewModel.simulated)
-            }
+        binding.discoverButton.setOnClickListener {
+            (activity as? NavigationListener)?.onRequestDiscovery(viewModel.simulated)
         }
 
         // TODO: Do this dynamically from the type selected
-        view.device_type_button.setText(R.string.chipper_2x)
+        binding.discoveryMethodButton.setText(R.string.bluetooth)
     }
 
     override fun onPause() {
         super.onPause()
         activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)?.edit()
-                ?.putBoolean(SIMULATED_SWITCH, viewModel.simulated)
-                ?.apply()
+            ?.putBoolean(SIMULATED_SWITCH, viewModel.simulated)
+            ?.apply()
     }
 }

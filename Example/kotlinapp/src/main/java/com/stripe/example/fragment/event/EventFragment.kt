@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stripe.example.NavigationListener
@@ -17,27 +17,24 @@ import com.stripe.example.model.Event
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.callable.Callback
-import com.stripe.stripeterminal.callable.PaymentIntentCallback
-import com.stripe.stripeterminal.callable.PaymentMethodCallback
-import com.stripe.stripeterminal.callable.ReaderDisplayListener
-import com.stripe.stripeterminal.model.external.PaymentIntent
-import com.stripe.stripeterminal.model.external.PaymentIntentParameters
-import com.stripe.stripeterminal.model.external.PaymentMethod
-import com.stripe.stripeterminal.model.external.ReadReusableCardParameters
-import com.stripe.stripeterminal.model.external.ReaderDisplayMessage
-import com.stripe.stripeterminal.model.external.ReaderInputOptions
-import com.stripe.stripeterminal.model.external.TerminalException
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
+import com.stripe.stripeterminal.external.callable.Callback
+import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
+import com.stripe.stripeterminal.external.callable.PaymentMethodCallback
+import com.stripe.stripeterminal.external.models.PaymentIntent
+import com.stripe.stripeterminal.external.models.PaymentIntentParameters
+import com.stripe.stripeterminal.external.models.PaymentMethod
+import com.stripe.stripeterminal.external.models.ReadReusableCardParameters
+import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
+import com.stripe.stripeterminal.external.models.ReaderInputOptions
+import com.stripe.stripeterminal.external.models.TerminalException
 import java.lang.ref.WeakReference
 import java.util.Locale
-import kotlinx.android.synthetic.main.fragment_event.cancel_button
-import kotlinx.android.synthetic.main.fragment_event.done_button
-import kotlinx.android.synthetic.main.fragment_event.view.event_recycler_view
 
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-class EventFragment : Fragment(), ReaderDisplayListener {
+class EventFragment : Fragment(), BluetoothReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.event.EventFragment"
@@ -56,10 +53,10 @@ class EventFragment : Fragment(), ReaderDisplayListener {
             return fragment
         }
 
-        fun requestPayment(amount: Int, currency: String): EventFragment {
+        fun requestPayment(amount: Long, currency: String): EventFragment {
             val fragment = EventFragment()
             val bundle = Bundle()
-            bundle.putInt(AMOUNT, amount)
+            bundle.putLong(AMOUNT, amount)
             bundle.putString(CURRENCY, currency)
             bundle.putBoolean(REQUEST_PAYMENT, true)
             bundle.putBoolean(READ_REUSABLE_CARD, false)
@@ -131,7 +128,8 @@ class EventFragment : Fragment(), ReaderDisplayListener {
                 this@EventFragment.paymentIntent = paymentIntent
                 addEvent("Created PaymentIntent", "terminal.createPaymentIntent")
                 viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                        paymentIntent, this@EventFragment, collectPaymentMethodCallback)
+                    paymentIntent, collectPaymentMethodCallback
+                )
             }
 
             override fun onFailure(e: TerminalException) {
@@ -156,20 +154,21 @@ class EventFragment : Fragment(), ReaderDisplayListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityRef = WeakReference(activity)
-        viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        viewModel = ViewModelProvider(this)[EventViewModel::class.java]
         adapter = EventAdapter(viewModel)
 
         if (savedInstanceState == null) {
             arguments?.let {
                 if (it.getBoolean(REQUEST_PAYMENT)) {
                     val params = PaymentIntentParameters.Builder()
-                            .setAmount(it.getInt(AMOUNT))
-                            .setCurrency(it.getString(CURRENCY)?.toLowerCase(Locale.ENGLISH) ?: "usd")
-                            .build()
+                        .setAmount(it.getLong(AMOUNT))
+                        .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
+                        .build()
                     Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback)
                 } else if (it.getBoolean(READ_REUSABLE_CARD)) {
                     viewModel.collectTask = Terminal.getInstance().readReusableCard(
-                            ReadReusableCardParameters.NULL, this@EventFragment, reusablePaymentMethodCallback)
+                        ReadReusableCardParameters.NULL, reusablePaymentMethodCallback
+                    )
                 }
             }
         }
@@ -179,13 +178,13 @@ class EventFragment : Fragment(), ReaderDisplayListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        eventRecyclerView = binding.root.event_recycler_view
+        eventRecyclerView = binding.eventRecyclerView
         eventRecyclerView.layoutManager = LinearLayoutManager(activity)
         eventRecyclerView.adapter = adapter
 
@@ -193,7 +192,7 @@ class EventFragment : Fragment(), ReaderDisplayListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        cancel_button.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             viewModel.collectTask?.cancel(object : Callback {
                 override fun onSuccess() {
                     viewModel.collectTask = null
@@ -209,7 +208,7 @@ class EventFragment : Fragment(), ReaderDisplayListener {
             })
         }
 
-        done_button.setOnClickListener {
+        binding.doneButton.setOnClickListener {
             activityRef.get()?.let {
                 if (it is NavigationListener) {
                     it.runOnUiThread {

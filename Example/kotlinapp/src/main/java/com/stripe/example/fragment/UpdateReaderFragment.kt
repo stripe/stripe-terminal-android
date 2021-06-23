@@ -6,28 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.stripe.example.MainActivity
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentUpdateReaderBinding
 import com.stripe.example.viewmodel.UpdateReaderViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.callable.Callback
-import com.stripe.stripeterminal.callable.ReaderSoftwareUpdateCallback
-import com.stripe.stripeterminal.callable.ReaderSoftwareUpdateListener
-import com.stripe.stripeterminal.model.external.Reader
-import com.stripe.stripeterminal.model.external.ReaderSoftwareUpdate
-import com.stripe.stripeterminal.model.external.TerminalException
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
+import com.stripe.stripeterminal.external.callable.Callback
+import com.stripe.stripeterminal.external.callable.Cancelable
+import com.stripe.stripeterminal.external.models.Reader
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
+import com.stripe.stripeterminal.external.models.TerminalException
 import java.lang.ref.WeakReference
-import kotlinx.android.synthetic.main.fragment_update_reader.cancel_button
-import kotlinx.android.synthetic.main.fragment_update_reader.check_for_update_button
-import kotlinx.android.synthetic.main.fragment_update_reader.done_button
 
 /**
  * The `UpdateReaderFragment` allows the user to check the current version of the [Reader] software,
  * as well as update it when necessary.
  */
-class UpdateReaderFragment : Fragment(), ReaderSoftwareUpdateListener {
+class UpdateReaderFragment : Fragment(), BluetoothReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.UpdateReaderFragment"
@@ -39,14 +36,14 @@ class UpdateReaderFragment : Fragment(), ReaderSoftwareUpdateListener {
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
-        viewModel = ViewModelProviders.of(this).get(UpdateReaderViewModel::class.java)
+        viewModel = ViewModelProvider(this)[UpdateReaderViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_update_reader, container, false)
         binding.lifecycleOwner = this
@@ -62,7 +59,7 @@ class UpdateReaderFragment : Fragment(), ReaderSoftwareUpdateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Cancel update on button click
         activityRef = WeakReference(activity as MainActivity)
-        cancel_button.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             viewModel.installOperation?.cancel(object : Callback {
                 override fun onSuccess() {
                     exitWorkflow(activityRef)
@@ -78,49 +75,24 @@ class UpdateReaderFragment : Fragment(), ReaderSoftwareUpdateListener {
 
         // We overload the "check_for_update_button" for multiple uses
         // Fetch update on button click
-        check_for_update_button.setOnClickListener {
+        binding.checkForUpdateButton.setOnClickListener {
             // If we haven't checked if there is an update, check
             if (!viewModel.hasStartedFetchingUpdate.value!!) {
                 viewModel.hasStartedFetchingUpdate.value = true
-                viewModel.fetchUpdateOperation = Terminal.getInstance()
-                        .checkForUpdate(object : ReaderSoftwareUpdateCallback {
-                            override fun onSuccess(update: ReaderSoftwareUpdate?) {
-                                activityRef.get()?.runOnUiThread {
-                                    viewModel.fetchUpdateOperation = null
-                                    onUpdateAvailable(update)
-                                }
-                            }
-
-                            override fun onFailure(e: TerminalException) {
-                                activityRef.get()?.runOnUiThread {
-                                    viewModel.fetchUpdateOperation = null
-                                }
-                            }
-                        })
+                activityRef.get()?.runOnUiThread {
+                    onUpdateAvailable(Terminal.getInstance().connectedReader?.availableUpdate)
+                }
                 // If we have an update ready, and we haven't installed it, do so
             } else if (viewModel.hasFinishedFetchingUpdate.value!!) {
                 viewModel.readerSoftwareUpdate.value?.let {
                     viewModel.hasStartedInstallingUpdate.value = true
-                    viewModel.installOperation = Terminal.getInstance().installUpdate(it, this, object : Callback {
-                        override fun onSuccess() {
-                            activityRef.get()?.runOnUiThread {
-                                onCompleteUpdate()
-                                viewModel.installOperation = null
-                            }
-                        }
-
-                        override fun onFailure(e: TerminalException) {
-                            activityRef.get()?.runOnUiThread {
-                                viewModel.installOperation = null
-                            }
-                        }
-                    })
+                    Terminal.getInstance().installAvailableUpdate()
                 }
             }
         }
 
         // Done button onClick listeners
-        done_button.setOnClickListener { exitWorkflow(activityRef) }
+        binding.doneButton.setOnClickListener { exitWorkflow(activityRef) }
     }
 
     fun onCompleteUpdate() {
@@ -133,9 +105,18 @@ class UpdateReaderFragment : Fragment(), ReaderSoftwareUpdateListener {
     }
 
     override fun onReportReaderSoftwareUpdateProgress(progress: Float) {
-        activityRef.get()?.runOnUiThread {
-            viewModel.progress.value = progress.toDouble()
+        viewModel.progress.value = progress
+    }
+
+    override fun onStartInstallingUpdate(update: ReaderSoftwareUpdate, cancelable: Cancelable?) {
+        viewModel.installOperation = cancelable
+    }
+
+    override fun onFinishInstallingUpdate(update: ReaderSoftwareUpdate?, e: TerminalException?) {
+        if (e == null) {
+            onCompleteUpdate()
         }
+        viewModel.installOperation = null
     }
 
     private fun exitWorkflow(activityRef: WeakReference<MainActivity>) {

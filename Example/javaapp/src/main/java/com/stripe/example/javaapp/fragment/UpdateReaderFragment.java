@@ -8,18 +8,22 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.stripe.example.javaapp.MainActivity;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.viewmodel.UpdateReaderViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.callable.Callback;
-import com.stripe.stripeterminal.callable.ReaderSoftwareUpdateCallback;
-import com.stripe.stripeterminal.callable.ReaderSoftwareUpdateListener;
-import com.stripe.stripeterminal.model.external.ReaderSoftwareUpdate;
-import com.stripe.stripeterminal.model.external.TerminalException;
+import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
+import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.callable.ReaderSoftwareUpdateCallback;
+import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
+import com.stripe.stripeterminal.external.models.ReaderEvent;
+import com.stripe.stripeterminal.external.models.ReaderInputOptions;
+import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.TerminalException;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +35,7 @@ import java.util.Objects;
  * The `UpdateReaderFragment` allows the user to check the current version of the [Reader] software,
  * as well as update it when necessary.
  */
-public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpdateListener {
+public class UpdateReaderFragment extends Fragment implements BluetoothReaderListener {
 
     @NotNull public static final String TAG = "com.stripe.example.fragment.UpdateReaderFragment";
 
@@ -41,7 +45,7 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        viewModel = ViewModelProviders.of(this).get(UpdateReaderViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UpdateReaderViewModel.class);
         if (viewModel.reader == null) {
             viewModel.reader = Terminal.getInstance().getConnectedReader();
         }
@@ -85,52 +89,20 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
             // If we haven't checked if there is an update, check
             if (!viewModel.hasStartedFetchingUpdate.getValue()) {
                 viewModel.hasStartedFetchingUpdate.setValue(true);
-                viewModel.fetchUpdateOperation = Terminal.getInstance().checkForUpdate(
-                        new ReaderSoftwareUpdateCallback() {
-                            @Override
-                            public void onSuccess(@Nullable ReaderSoftwareUpdate update) {
-                                final MainActivity activity = activityRef.get();
-                                if (activity != null) {
-                                    activity.runOnUiThread(() -> {
-                                        viewModel.fetchUpdateOperation = null;
-                                        onUpdateAvailable(update);
-                                    });
-                                }
-                            }
+                final MainActivity activity = activityRef.get();
 
-                            @Override
-                            public void onFailure(@NotNull TerminalException e) {
-                                final MainActivity activity = activityRef.get();
-                                if (activity != null) {
-                                    activity.runOnUiThread(() -> viewModel.fetchUpdateOperation = null);
-                                }
-                            }
-                        });
+                ReaderSoftwareUpdate update = (
+                        Terminal.getInstance().getConnectedReader() != null ?
+                                Terminal.getInstance().getConnectedReader().getAvailableUpdate() :
+                                null
+                );
+                activity.runOnUiThread(() -> { onUpdateAvailable(update); });
             // If we have an update ready, and we haven't installed it, do so
             } else if (viewModel.hasFinishedFetchingUpdate.getValue()) {
                 final ReaderSoftwareUpdate update = viewModel.readerSoftwareUpdate.getValue();
                 if (update != null) {
                     viewModel.hasStartedInstallingUpdate.setValue(true);
-                    viewModel.installOperation = Terminal.getInstance().installUpdate(update, this, new Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    final MainActivity activity = activityRef.get();
-                                    if (activity != null) {
-                                        activity.runOnUiThread(() -> {
-                                            onCompleteUpdate();
-                                            viewModel.installOperation = null;
-                                        });
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(@NotNull TerminalException e) {
-                                    final MainActivity activity = activityRef.get();
-                                    if (activity != null) {
-                                        activity.runOnUiThread(() -> viewModel.installOperation = null);
-                                    }
-                                }
-                            });
+                    Terminal.getInstance().installAvailableUpdate();
                 }
             }
         });
@@ -138,7 +110,7 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
         // Done button onClick listeners
         view.findViewById(R.id.done_button).setOnClickListener(v -> exitWorkflow(activityRef));
 
-        viewModel.doneButtonVisibility.observe(this, visibility -> {
+        viewModel.doneButtonVisibility.observe(getViewLifecycleOwner(), visibility -> {
             final TextView textView = view.findViewById(R.id.cancel_button);
             textView.setTextColor(ContextCompat.getColor(
                     Objects.requireNonNull(getContext()),
@@ -156,24 +128,24 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
         ((MaterialButton) view.findViewById(R.id.current_version)).setText(
                 viewModel.reader.getSoftwareVersion());
 
-        viewModel.checkForUpdateButtonVisibility.observe(this, visibility ->
+        viewModel.checkForUpdateButtonVisibility.observe(getViewLifecycleOwner(), visibility ->
             view.findViewById(R.id.check_for_update_description)
                     .setVisibility(visibility ? View.VISIBLE : View.GONE));
 
-        viewModel.checkForUpdateButtonText.observe(this, text ->
+        viewModel.checkForUpdateButtonText.observe(getViewLifecycleOwner(), text ->
             ((MaterialButton) view.findViewById(R.id.check_for_update_button)).setText(text));
 
-        viewModel.checkForUpdateButtonColor.observe(this, color ->
+        viewModel.checkForUpdateButtonColor.observe(getViewLifecycleOwner(), color ->
             ((MaterialButton) view.findViewById(R.id.check_for_update_button)).setTextColor(color));
 
-        viewModel.checkForUpdateDescriptionText.observe(this, text ->
+        viewModel.checkForUpdateDescriptionText.observe(getViewLifecycleOwner(), text ->
                 ((TextView) view.findViewById(R.id.check_for_update_description)).setText(text));
 
-        viewModel.checkForUpdateDescriptionVisibility.observe(this, visibility ->
+        viewModel.checkForUpdateDescriptionVisibility.observe(getViewLifecycleOwner(), visibility ->
                 view.findViewById(R.id.check_for_update_description)
                         .setVisibility(visibility ? View.VISIBLE : View.GONE));
 
-        viewModel.installDisclaimerVisibility.observe(this, visibility ->
+        viewModel.installDisclaimerVisibility.observe(getViewLifecycleOwner(), visibility ->
                 view.findViewById(R.id.install_disclaimer)
                         .setVisibility(visibility ? View.VISIBLE : View.GONE));
     }
@@ -191,7 +163,28 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
     public void onReportReaderSoftwareUpdateProgress(float progress) {
         final MainActivity activity = activityRef.get();
         if (activity != null) {
-            activity.runOnUiThread(() -> viewModel.progress.setValue((double) progress));
+            activity.runOnUiThread(() -> viewModel.progress.setValue(progress));
+        }
+    }
+
+    @Override
+    public void onStartInstallingUpdate(@NotNull ReaderSoftwareUpdate update, @Nullable Cancelable cancelable) {
+        final MainActivity activity = activityRef.get();
+        if (activity != null) {
+            activity.runOnUiThread(() -> viewModel.installOperation = cancelable);
+        }
+    }
+
+    @Override
+    public void onFinishInstallingUpdate(@Nullable ReaderSoftwareUpdate update, @Nullable TerminalException e) {
+        final MainActivity activity = activityRef.get();
+        if (activity != null) {
+            activity.runOnUiThread(() -> {
+                if (e == null) {
+                    onCompleteUpdate();
+                }
+                viewModel.installOperation = null;
+            });
         }
     }
 
@@ -201,4 +194,20 @@ public class UpdateReaderFragment extends Fragment implements ReaderSoftwareUpda
             activity.runOnUiThread(activity::onRequestExitWorkflow);
         }
     }
+
+    // Unused overrides
+    @Override
+    public void onRequestReaderInput(@NotNull ReaderInputOptions options) { }
+
+    @Override
+    public void onRequestReaderDisplayMessage(@NotNull ReaderDisplayMessage message) { }
+
+    @Override
+    public void onReportAvailableUpdate(@NotNull ReaderSoftwareUpdate update) { }
+
+    @Override
+    public void onReportReaderEvent(@NotNull ReaderEvent event) { }
+
+    @Override
+    public void onReportLowBatteryWarning() { }
 }
