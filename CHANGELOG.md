@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.0.0 - 2021-XX-XX
+## 2.0.0 - 2021-06-23
 
 ### Summary
 
@@ -149,6 +149,9 @@ manually.
 - Added support for setting a `SimulatedCard` on the `SimulatorConfiguration`
   object, allowing simulation of different card brands and decline types
 - Added support for the P400 in the U.S.
+
+## 1.0.22 - 2021-06-15
+- Bump vendor SDK
 
 ## 1.0.17 - 2020-05-29
 - Fix [issue 109](https://github.com/stripe/stripe-terminal-android/issues/109)
