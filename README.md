@@ -27,7 +27,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
       implementation "com.stripe:stripeterminal:2.0.0"
     }
     
-Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`:
+Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):
 
 
     compileOptions {
