@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 
     dependencies {
-      implementation "com.stripe:stripeterminal:2.0.0"
+        implementation "com.stripe:stripeterminal:2.0.0"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):
@@ -33,6 +33,26 @@ Next, since the SDK relies on Java 8, you’ll need to specify that as your targ
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+Then, ensure that your kotlin version is >= 1.5.0 (in your application-level `build.gradle`):
+
+
+    buildscript {
+        repositories {
+            ...
+        }
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0"
+            ...
+        }
+    }
+
+And in your module-specific `build.gradle`
+
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"
     }
 
 ### Configure your app
