@@ -87,18 +87,23 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 
 ### Have an Application Class
 
-In order to prevent memory leaks and enable proper cleaning up of long running Terminal processes, your application needs to have a subclass of `Application`, where the `TerminalLifeCycleObserver` is configured. Notably, it needs to both register the activity lifecycle callbacks as well as implement the `onTrimMemory` method, so that if your application is ever running low on memory we can suitably prune our memory usage and keep your app responsive for users! Check out the example app for how to do this:
+The Android SDK is lifecycle aware. To prevent memory leaks and ensure proper cleanup of long-running Terminal SDK processes, your application must have the `Application` subclass where `TerminalApplicationDelegate` is used to inform the SDK of lifecycle events.
+
+This subclass should do the following:
+
+* Call `TerminalApplicationDelegate.onCreate` from your application's `onCreate` method.
+* Implement the [onTrimMemory](https://developer.android.com/reference/android/app/Application#onTrimMemory(int)) method and call `TerminalApplicationDelegate.onTrimMemory` from your implementation.
+
+For example:
 
 ```kotlin
-// Substitue with your application name
+// Substitute with your application name, and remember to keep it the same as your AndroidManifest.xml
 class StripeTerminalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
         TerminalApplicationDelegate.onCreate(this)
     }
 
-    // Don't forget to let the observer know if your application is running low on memory!
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         TerminalApplicationDelegate.onTrimMemory(this, level)
@@ -127,7 +132,6 @@ Lastly, don't forget to set your Application class in your `AndroidManifest.xml`
     </activity>
 </application>
 ```
-
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
