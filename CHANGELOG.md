@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.1.0 - 2021-08-02
+
+- New: Added `STRIPE_M2` to `DeviceType`. This reader is in beta testing and
+  not yet generally available.
+
 ## 2.0.0 - 2021-06-23
 
 ### Summary
