@@ -100,9 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
-                android:enabled="false"
                 android:text="@string/usd"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?android:attr/textColorPrimary"
                 android:paddingStart="16dp"
                 android:maxLines="1"/>
 
