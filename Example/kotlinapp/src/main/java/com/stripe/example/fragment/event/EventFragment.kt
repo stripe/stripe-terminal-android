@@ -181,7 +181,7 @@ class EventFragment : Fragment(), BluetoothReaderListener {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         eventRecyclerView = binding.eventRecyclerView
