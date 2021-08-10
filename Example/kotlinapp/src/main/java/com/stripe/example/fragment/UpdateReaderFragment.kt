@@ -46,7 +46,7 @@ class UpdateReaderFragment : Fragment(), BluetoothReaderListener {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_update_reader, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         if (viewModel.reader == null) {

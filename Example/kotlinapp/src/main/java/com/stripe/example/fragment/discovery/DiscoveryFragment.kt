@@ -93,7 +93,7 @@ class DiscoveryFragment : Fragment(), DiscoveryListener, BluetoothReaderListener
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_discovery, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         readerRecyclerView = binding.readerRecyclerView
         readerRecyclerView.layoutManager = LinearLayoutManager(activity)
         binding.viewModel = viewModel

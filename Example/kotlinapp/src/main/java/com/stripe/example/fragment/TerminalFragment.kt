@@ -53,7 +53,7 @@ class TerminalFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_terminal, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         return binding.root
     }
