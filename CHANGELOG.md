@@ -1,5 +1,60 @@
 # CHANGELOG
 
+## 2.2.0 - 2021-08-23
+
+- Fix: Resolved intermittent unexpected token invalidation errors when using simlated
+readers, and when a connected reader is left idle for a long period of time prior to completing a transaction.
+
+- Fix: Duplicate class conflict with Firebase and other libraries that use `protobuf-javalite` resolved.
+See [issue 135](https://github.com/stripe/stripe-terminal-android/issues/135) for details.
+
+- New: [Setup Future Usage](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage)
+field added to `PaymentIntentParameters`.
+
+- Fix: When using a simulated BBPOS reader, starting, cancelling, and restarting an update now works as expected.
+
+- Update: Location updates are now only requested when the application consuming the SDK is foregrounded.
+
+- Fix: throw `TerminalException` if `processPayment` gets a success HTTP request (code=200) but with
+  `lastPaymentError` being non-null, since it's also a form of decline.
+
+- Update: we will use more precise and consistent `TerminalErrorCode` and error messages for failures of all confirmation operations,
+  including processRefund, processPayment, confirmSetupIntent. Specifically,
+  For `TerminalErrorCode`:
+  - Use `UNSUPPORTED_SDK` if stripe server declined with `terminal_unsupported_sdk_version`.
+  - Use `UNSUPPORTED_READER_VERSION` if stripe server declined with `terminal_unsupported_reader_version`.
+  - Use `API_SESSION_EXPIRED` if stripe server declined with `api_key_expired`.
+  - Use new enum code `STRIPE_API_CONNECTION_ERROR` for general internet connection failures or timeouts.
+  - Use `DECLINED_BY_STRIPE_API` for other failures with decode-able responses.
+  Comparing to in the past we:
+  - Used `STRIPE_API_ERROR` for internet connection failures and all failures with decode-able responses for processRefund.
+  - Used `DECLINED_BY_STRIPE_API` for internet connection failures and all failures with decode-able responses for processPayment.
+  - Used `DECLINED_BY_STRIPE_API` for internet connection failures and all failures with decode-able responses for confirmSetupIntent.
+  What's unchanged:
+  - Use `STRIPE_API_RESPONSE_DECODING_ERROR` if SDK fails to decode response from Stripe service.
+  For error messages:
+  - Use "Could not connect  to Stripe. Please retry." for general connection errors, timeouts.
+  - Use the message sent from server.
+  Comparing to in the past we:
+  - Always used "Stripe API error".
+
+- Update: When discovering readers in our handoff integration mode, `discoverReaders` will only return a
+reader if it has been registered. If the current reader has not been registered, `discoverReaders` 
+will return an empty list of readers.
+
+- Fix: Each of the Terminal SDK AARs now contain keep rules. This allows you to enable Proguard/R8
+minification without configuring your own keep rules. See [issue 142](https://github.com/stripe/stripe-terminal-android/issues/142) for details.
+
+- New: Added `generateRegistrationCode` for generating a smart reader registration code without human
+intervention. Note that this functionality is only available when the SDK is running directly on a
+smart reader device.
+
+- New: Support displaying transaction information on-screen for internet readers using
+`Terminal.setReaderDisplay` and `Terminal.clearReaderDisplay`.
+
+- New: `Cart` and `CartLineItem` classes have been added to hold transaction
+information used for setting the reader display
+
 ## 2.1.0 - 2021-08-02
 
 - New: Added `STRIPE_M2` to `DeviceType`. This reader is in beta testing and
