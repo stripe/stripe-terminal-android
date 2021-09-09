@@ -6,7 +6,9 @@ Please note: if you use Firebase within your application, there's [a known issue
 
 # Requirements
 
-The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21 and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
+The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21* and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
+
+\* Note that attempting to override `minSdkVersion` to decrease the minimum supported API level will not work due to internal runtime API level validation.
 
 # Try the example app
 
