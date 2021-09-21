@@ -1,14 +1,12 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+apply from: "$rootProject.projectDir/configurations/application.gradle"
+apply from: "$rootProject.projectDir/configurations/kapt_testsDisabled.gradle"
 
 android {
-    compileSdkVersion maxSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion maxSdkVersion
+        minSdkVersion minTerminalSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
     buildFeatures {
@@ -17,52 +15,51 @@ android {
     }
 
     lintOptions {
-        enable "Interoperability"
-        // Current lint error:
-        // Use getViewLifecycleOwner() as the LifecycleOwner instead
-        // of a Fragment instance when observing a LiveData object.
-        abortOnError false
+        disable "IconLauncherShape"
+        disable "LogNotTimber"
+        disable "MergeRootFrame"
+        disable "RtlSymmetry"
+        disable "TypographyEllipsis"
     }
 }
 
 ext {
-    maxSdkVersion = 30
-
-    androidx_lifecycle_version = "2.3.1"
-    stripeTerminalVersion = "2.2.0"
+    stripeTerminalVersion = '2.3.0'
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation "com.google.android.material:material:1.1.0"
-    implementation "androidx.appcompat:appcompat:1.3.0"
-    implementation "androidx.core:core-ktx:1.5.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation com_google_android_material_material_legacy
+    implementation androidx_appcompat_appcompat
+    implementation androidx_core_core_ktx
+    implementation androidx_constraintlayout_constraintlayout
 
     // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-process:$androidx_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
-
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    implementation androidx_lifecycle_lifecycle_livedata_ktx
+    implementation androidx_lifecycle_lifecycle_viewmodel_ktx
+    implementation androidx_lifecycle_lifecycle_process
+    implementation androidx_lifecycle_lifecycle_runtime_ktx
+    // We are using Kotlin, and not Java 8, so do not use the recommended Java 8 library
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    kapt androidx_lifecycle_lifecycle_compiler
+    testImplementation androidx_arch_core_core_testing
 
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation org_jetbrains_kotlinx_kotlinx_coroutines_core
+    implementation org_jetbrains_kotlinx_kotlinx_coroutines_android
 
     // OK HTTP
-    implementation "com.squareup.okhttp3:okhttp:4.7.2"
+    implementation com_squareup_okhttp3_okhttp
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation com_squareup_retrofit2_retrofit
+    implementation com_squareup_retrofit2_converter_gson
 
     // Stripe Terminal library
     implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
 
     // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.7"
+    debugImplementation com_squareup_leakcanary_leakcanary_android
 }
+

@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 2.x.x - 2021-XX-XX
+
+- Fix: Resolved issue that led to some optional reader updates being incorrectly marked as required.
+
+- Fix: Removed `ClassNotFoundException: com.stripe.cots.CotsAdapterProvider` stacktrace on SDK
+  initialization. See [issue 155](https://github.com/stripe/stripe-terminal-android/issues/155) for details.
+- New: Use `retrieveSetupIntent` to get any SetupIntents that were created outside of your app.
+- Update: fields in the `Reader` class have been added/removed. All newly added fields correspond to the same values
+  returned by the [Stripe API](https://stripe.com/docs/api/terminal/readers/object)
+  - Added `id`, `networkStatus`, `label`, `baseUrl`, `ipAddress`, `livemode`
+  - Removed `ipReader`, `cotsDescriptor`
+
 ## 2.2.0 - 2021-08-23
 
 - Fix: Resolved intermittent unexpected token invalidation errors when using simlated

@@ -155,7 +155,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
     }
 
     @Override
-    public void onUpdateDiscoveredReaders(@NotNull List<? extends Reader> readers) {
+    public void onUpdateDiscoveredReaders(@NotNull List<Reader> readers) {
         final MainActivity activity = activityRef.get();
         if (activity != null) {
             activity.runOnUiThread(() -> viewModel.readers.setValue(readers));
