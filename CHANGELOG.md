@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.x.x - 2021-XX-XX
+## 2.3.0 - 2021-09-21
 
 - Fix: Resolved issue that led to some optional reader updates being incorrectly marked as required.
 
