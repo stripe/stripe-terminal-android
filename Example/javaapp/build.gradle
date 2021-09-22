@@ -29,7 +29,7 @@ ext {
     retrofit_version = "2.9.0"
     okhttp_version = "4.7.2"
     androidx_lifecycle_version = "2.3.1"
-    stripeTerminalVersion = '2.3.0'
+    stripeTerminalVersion = "2.3.1"
 }
 
 dependencies {

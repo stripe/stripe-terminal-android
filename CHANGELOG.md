@@ -1,6 +1,12 @@
 # CHANGELOG
 
+## 2.3.1 - 2021-09-22
+
+ - Fix: Resolved an issue with class loading in the SDK
+
 ## 2.3.0 - 2021-09-21
+
+**Note**: This release has an issue with loading internal classes and should not be used. Update to 2.3.1 instead.
 
 - Fix: Resolved issue that led to some optional reader updates being incorrectly marked as required.
 
