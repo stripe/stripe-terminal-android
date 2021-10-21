@@ -21,7 +21,7 @@ $dokka.location:com.stripe.stripeterminal.adapter/CotsAdapterProviderMap/classNa
 $dokka.location:com.stripe.stripeterminal.adapter/CotsAdapterProviderMap/provideCotsAdapter/#/PointingToDeclaration/core/com.stripe.stripeterminal.adapter/-cots-adapter-provider-map/provide-cots-adapter.html
 $dokka.location:com.stripe.stripeterminal.adapter/CotsReaderMap///PointingToDeclaration/core/com.stripe.stripeterminal.adapter/-cots-reader-map/index.html
 $dokka.location:com.stripe.stripeterminal.adapter/CotsReaderMap/className/#/PointingToDeclaration/core/com.stripe.stripeterminal.adapter/-cots-reader-map/class-name.html
-$dokka.location:com.stripe.stripeterminal.adapter/CotsReaderMap/getDiscoveryError/#/PointingToDeclaration/core/com.stripe.stripeterminal.adapter/-cots-reader-map/get-discovery-error.html
+$dokka.location:com.stripe.stripeterminal.adapter/CotsReaderMap/getErrorCode/#/PointingToDeclaration/core/com.stripe.stripeterminal.adapter/-cots-reader-map/get-error-code.html
 $dokka.location:com.stripe.stripeterminal.adapter/CotsReaderMap/getSerial/#/PointingToDeclaration/core/com.stripe.stripeterminal.adapter/-cots-reader-map/get-serial.html
 $dokka.location:com.stripe.stripeterminal.log////PointingToDeclaration/core/com.stripe.stripeterminal.log/index.html
 $dokka.location:com.stripe.stripeterminal.log/LogLevel.ERROR///PointingToDeclaration/core/com.stripe.stripeterminal.log/-log-level/-e-r-r-o-r/index.html
@@ -65,7 +65,6 @@ $dokka.location:com.stripe.stripeterminal/Terminal/createPaymentIntent/#com.stri
 $dokka.location:com.stripe.stripeterminal/Terminal/createSetupIntent/#com.stripe.stripeterminal.external.models.SetupIntentParameters#com.stripe.stripeterminal.external.callable.SetupIntentCallback/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/create-setup-intent.html
 $dokka.location:com.stripe.stripeterminal/Terminal/disconnectReader/#com.stripe.stripeterminal.external.callable.Callback/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/disconnect-reader.html
 $dokka.location:com.stripe.stripeterminal/Terminal/discoverReaders/#com.stripe.stripeterminal.external.models.DiscoveryConfiguration#com.stripe.stripeterminal.external.callable.DiscoveryListener#com.stripe.stripeterminal.external.callable.Callback/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/discover-readers.html
-$dokka.location:com.stripe.stripeterminal/Terminal/generateRegistrationCode/#com.stripe.stripeterminal.external.callable.GenerateRegistrationCodeCallback/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/generate-registration-code.html
 $dokka.location:com.stripe.stripeterminal/Terminal/installAvailableUpdate/#/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/install-available-update.html
 $dokka.location:com.stripe.stripeterminal/Terminal/listLocations/#com.stripe.stripeterminal.external.models.ListLocationsParameters#com.stripe.stripeterminal.external.callable.LocationListCallback/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/list-locations.html
 $dokka.location:com.stripe.stripeterminal/Terminal/paymentStatus/#/PointingToDeclaration/core/com.stripe.stripeterminal/-terminal/payment-status.html

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2.4.0 - 2021-10-21
+
+- New: Strong Customer Authentication (SCA) support was added for internet readers.
+- Update: EMV online processing timeout increased from 15s to 30s. Note that this timeout isn't
+used by Chipper devices.
+- Remove: Remove Machine Driven Registration. It's been moved to the DeviceManagementSDK.
+- Fix: Amex cards no longer decline when used via Apple Pay. See [issue 166](https://github.com/stripe/stripe-terminal-android/issues/166) for details.
+
 ## 2.3.1 - 2021-09-22
 
  - Fix: Resolved an issue with class loading in the SDK
@@ -12,7 +20,9 @@
 
 - Fix: Removed `ClassNotFoundException: com.stripe.cots.CotsAdapterProvider` stacktrace on SDK
   initialization. See [issue 155](https://github.com/stripe/stripe-terminal-android/issues/155) for details.
+
 - New: Use `retrieveSetupIntent` to get any SetupIntents that were created outside of your app.
+
 - Update: fields in the `Reader` class have been added/removed. All newly added fields correspond to the same values
   returned by the [Stripe API](https://stripe.com/docs/api/terminal/readers/object)
   - Added `id`, `networkStatus`, `label`, `baseUrl`, `ipAddress`, `livemode`
@@ -57,7 +67,7 @@ field added to `PaymentIntentParameters`.
   - Always used "Stripe API error".
 
 - Update: When discovering readers in our handoff integration mode, `discoverReaders` will only return a
-reader if it has been registered. If the current reader has not been registered, `discoverReaders` 
+reader if it has been registered. If the current reader has not been registered, `discoverReaders`
 will return an empty list of readers.
 
 - Fix: Each of the Terminal SDK AARs now contain keep rules. This allows you to enable Proguard/R8
