@@ -24,12 +24,7 @@ android {
 }
 
 ext {
-    maxSdkVersion = 30
-    kotlin_coroutines_version = "1.5.1"
-    retrofit_version = "2.9.0"
-    okhttp_version = "4.7.2"
-    androidx_lifecycle_version = "2.3.1"
-    stripeTerminalVersion = "2.4.0"
+    stripeTerminalVersion = '2.4.1'
 }
 
 dependencies {
