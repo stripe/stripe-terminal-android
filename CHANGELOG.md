@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.4.1 - 2021-10-25
+- Fix: Removed Android 12 bluetooth permissions. See [issue 171](https://github.com/stripe/stripe-terminal-android/issues/171) for details.
+
 ## 2.4.0 - 2021-10-21
 
 - New: Strong Customer Authentication (SCA) support was added for internet readers.
