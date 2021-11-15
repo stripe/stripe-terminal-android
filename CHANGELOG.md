@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.5.0 - 2021-11-15
+
+- Fix: Pre-dipping now works as expected with Chippers. See [issue 173](https://github.com/stripe/stripe-terminal-android/issues/173) for details.
+- Fix: Failure to issue a card-present refund will now invoke error callbacks properly.
+
 ## 2.4.1 - 2021-10-25
 - Fix: Removed Android 12 bluetooth permissions. See [issue 171](https://github.com/stripe/stripe-terminal-android/issues/171) for details.
 
