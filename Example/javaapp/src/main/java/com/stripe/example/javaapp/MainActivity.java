@@ -6,19 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.stripe.example.javaapp.fragment.ConnectedReaderFragment;
 import com.stripe.example.javaapp.fragment.PaymentFragment;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
@@ -41,15 +41,21 @@ import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.log.LogLevel;
-
 import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationListener, BluetoothReaderListener, LocationSelectionController {
+public class MainActivity extends AppCompatActivity implements
+        NavigationListener,
+        BluetoothReaderListener,
+        LocationSelectionController {
 
-    private static final int REQUEST_CODE_LOCATION = 1;
+    // Register the permissions callback to handles the response to the system permissions dialog.
+    private final ActivityResultLauncher<String[]> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            this::onActivityResult
+    );
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,16 +80,10 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        // Check for location permissions
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (!Terminal.isInitialized() && verifyGpsEnabled()) {
-                initialize();
-            }
+        if (Build.VERSION.SDK_INT >= 31) {
+            checkPermissionsSdk31();
         } else {
-            // If we don't have them yet, request them before doing anything else
-            final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION);
+            checkPermissions();
         }
     }
 
@@ -92,18 +92,57 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+    private boolean isGranted(String permission) {
+        return ContextCompat.checkSelfPermission(
+                this,
+                permission
+        ) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void checkPermissions() {
+        // Check for location permissions
+        if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // If we don't have them yet, request them before doing anything else
+            final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+            requestPermissionLauncher.launch(permissions);
+        } else if (!Terminal.isInitialized() && verifyGpsEnabled()) {
+            initialize();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    private void checkPermissionsSdk31() {
+        // Check for location and bluetooth permissions
+        List<String> deniedPermissions = new ArrayList<>();
+        if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
+            deniedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (!isGranted(Manifest.permission.BLUETOOTH_CONNECT))
+            deniedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+        if (!isGranted(Manifest.permission.BLUETOOTH_SCAN))
+            deniedPermissions.add(Manifest.permission.BLUETOOTH_SCAN);
+
+        if (!deniedPermissions.isEmpty()) {
+            // If we don't have them yet, request them before doing anything else
+            String[] deniedPermissionsArray = new String[deniedPermissions.size()];
+            deniedPermissionsArray = deniedPermissions.toArray(deniedPermissionsArray);
+            requestPermissionLauncher.launch(deniedPermissionsArray);
+        } else if (!Terminal.isInitialized() && verifyGpsEnabled()) {
+            initialize();
+        }
+    }
+
     /**
      * Receive the result of our permissions check, and initialize if we can
      */
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // If we receive a response to our permission check, initialize
-        if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized() && verifyGpsEnabled()) {
+    private void onActivityResult(Map<String, Boolean> result) {
+        List<String> deniedPermissions = new ArrayList<>();
+        for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+            if (!entry.getValue()) {
+                deniedPermissions.add(entry.getKey());
+            }
+        }
+
+        if (deniedPermissions.isEmpty() && !Terminal.isInitialized() && verifyGpsEnabled()) {
             initialize();
         }
     }

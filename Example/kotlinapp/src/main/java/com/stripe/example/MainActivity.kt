@@ -6,12 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.ContextThemeWrapper
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.stripe.example.fragment.ConnectedReaderFragment
@@ -36,12 +38,17 @@ import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
 
-class MainActivity : AppCompatActivity(), NavigationListener, BluetoothReaderListener, LocationSelectionController {
+class MainActivity :
+    AppCompatActivity(),
+    NavigationListener,
+    BluetoothReaderListener,
+    LocationSelectionController {
 
-    companion object {
-        // The code that denotes the request for location permissions
-        private const val REQUEST_CODE_LOCATION = 1
-    }
+    // Register the permissions callback to handles the response to the system permissions dialog.
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions(),
+        ::onPermissionResult
+    )
 
     /**
      * Upon starting, we should verify we have the permissions we need, then start the app
@@ -66,34 +73,57 @@ class MainActivity : AppCompatActivity(), NavigationListener, BluetoothReaderLis
 
     override fun onResume() {
         super.onResume()
-
-        // Check for location permissions
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            if (!Terminal.isInitialized() && verifyGpsEnabled()) {
-                initialize()
-            }
+        if (Build.VERSION.SDK_INT >= 31) {
+            checkPermissionsSdk31()
         } else {
+            checkPermissions()
+        }
+    }
+
+    private fun isGranted(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkPermissions() {
+        // Check for location permissions
+        if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             // If we don't have them yet, request them before doing anything else
-            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION)
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+        } else if (!Terminal.isInitialized() && verifyGpsEnabled()) {
+            initialize()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun checkPermissionsSdk31() {
+        // Check for location and bluetooth permissions
+        val deniedPermissions = mutableListOf<String>().apply {
+            if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) add(Manifest.permission.ACCESS_FINE_LOCATION)
+            if (!isGranted(Manifest.permission.BLUETOOTH_CONNECT)) add(Manifest.permission.BLUETOOTH_CONNECT)
+            if (!isGranted(Manifest.permission.BLUETOOTH_SCAN)) add(Manifest.permission.BLUETOOTH_SCAN)
+        }.toTypedArray()
+
+        if (deniedPermissions.isNotEmpty()) {
+            // If we don't have them yet, request them before doing anything else
+            requestPermissionLauncher.launch(deniedPermissions)
+        } else if (!Terminal.isInitialized() && verifyGpsEnabled()) {
+            initialize()
         }
     }
 
     /**
      * Receive the result of our permissions check, and initialize if we can
      */
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    private fun onPermissionResult(result: Map<String, Boolean>) {
+        val deniedPermissions: List<String> = result
+            .filter { !it.value }
+            .map { it.key }
+
         // If we receive a response to our permission check, initialize
-        if (requestCode == REQUEST_CODE_LOCATION && !Terminal.isInitialized() && verifyGpsEnabled()) {
+        if (deniedPermissions.isEmpty() && !Terminal.isInitialized() && verifyGpsEnabled()) {
             initialize()
         }
     }
