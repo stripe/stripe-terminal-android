@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.5.1 - 2021-11-16
+
+- Fix: Pre-dipping following a cancelled transaction now works as expected. See [issue 179](https://github.com/stripe/stripe-terminal-android/issues/179) for details.
+
 ## 2.5.0 - 2021-11-15
 
 - Fix: Pre-dipping now works as expected with Chippers. See [issue 173](https://github.com/stripe/stripe-terminal-android/issues/173) for details.
