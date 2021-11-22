@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.5.2 - 2021-11-22
+
+- Fix: Calling `discoverReaders` with `DiscoveryMethod.BLUETOOTH_SCAN` returns local bluetooth readers regardless of whether or not the SDK has internet connectivity.
+- Fix: Manual transaction cancellation during online processing now works as expected. See [issue 181](https://github.com/stripe/stripe-terminal-android/issues/181) for details.
+- Fix: Pre-dipping immediately after connecting to a bluetooth reader now works as expected. See [issue 182](https://github.com/stripe/stripe-terminal-android/issues/182) for details.
+
 ## 2.5.1 - 2021-11-16
 
 - Fix: Pre-dipping following a cancelled transaction now works as expected. See [issue 179](https://github.com/stripe/stripe-terminal-android/issues/179) for details.
