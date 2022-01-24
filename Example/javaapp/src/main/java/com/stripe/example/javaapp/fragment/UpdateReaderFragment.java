@@ -17,13 +17,12 @@ import com.stripe.example.javaapp.viewmodel.UpdateReaderViewModel;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
-import com.stripe.stripeterminal.external.callable.ReaderSoftwareUpdateCallback;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.TerminalException;
-import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -113,14 +112,14 @@ public class UpdateReaderFragment extends Fragment implements BluetoothReaderLis
         viewModel.doneButtonVisibility.observe(getViewLifecycleOwner(), visibility -> {
             final TextView textView = view.findViewById(R.id.cancel_button);
             textView.setTextColor(ContextCompat.getColor(
-                    Objects.requireNonNull(getContext()),
+                    requireContext(),
                     visibility ? R.color.colorPrimaryDark : R.color.colorAccent));
             view.findViewById(R.id.done_button)
                     .setVisibility(visibility ? View.VISIBLE : View.GONE);
         });
 
         ((TextView) view.findViewById(R.id.reader_description)).setText(
-                Objects.requireNonNull(getContext()).getString(
+                getString(
                         R.string.reader_description,
                         Objects.requireNonNull(viewModel.reader).getDeviceType().name(),
                         viewModel.reader.getSerialNumber()));

@@ -1,5 +1,6 @@
 package com.stripe.example
 
+import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Reader
 
 /**
@@ -14,7 +15,7 @@ interface NavigationListener {
     /**
      * Notify the `Activity` that discovery should begin
      */
-    fun onRequestDiscovery(isSimulated: Boolean)
+    fun onRequestDiscovery(isSimulated: Boolean, discoveryMethod: DiscoveryMethod)
 
     /**
      * Notify the `Activity` that discovery has been canceled

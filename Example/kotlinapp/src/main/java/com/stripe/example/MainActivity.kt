@@ -31,6 +31,7 @@ import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
 import com.stripe.stripeterminal.external.models.ReaderInputOptions
@@ -163,8 +164,8 @@ class MainActivity :
     /**
      * Callback function called once discovery has been selected by the [TerminalFragment]
      */
-    override fun onRequestDiscovery(isSimulated: Boolean) {
-        navigateTo(DiscoveryFragment.TAG, DiscoveryFragment.newInstance(isSimulated))
+    override fun onRequestDiscovery(isSimulated: Boolean, discoveryMethod: DiscoveryMethod) {
+        navigateTo(DiscoveryFragment.TAG, DiscoveryFragment.newInstance(isSimulated, discoveryMethod))
     }
 
     /**

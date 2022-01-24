@@ -1,5 +1,7 @@
 package com.stripe.example.javaapp;
 
+import com.stripe.stripeterminal.external.models.DiscoveryMethod;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,7 +16,7 @@ public interface NavigationListener {
     /**
      * Notify the `Activity` that discovery should begin
      */
-    void onRequestDiscovery(boolean isSimulated);
+    void onRequestDiscovery(boolean isSimulated, DiscoveryMethod discoveryMethod);
 
     /**
      * Notify the `Activity` that discovery has been canceled
@@ -34,7 +36,7 @@ public interface NavigationListener {
     /**
      * Notify the `Activity` that the user wants to initiate a payment
      */
-    void onRequestPayment(int amount, @NotNull String currency);
+    void onRequestPayment(long amount, @NotNull String currency);
 
     /**
      * Notify the `Activity` that a [Reader] has been connected

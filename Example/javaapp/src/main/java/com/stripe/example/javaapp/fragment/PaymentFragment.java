@@ -61,7 +61,7 @@ public class PaymentFragment extends Fragment {
                         .getText().toString();
                 final String currency = ((TextView) view.findViewById(R.id.currency_edit_text))
                         .getText().toString();
-                ((NavigationListener) activity).onRequestPayment(Integer.parseInt(amount), currency);
+                ((NavigationListener) activity).onRequestPayment(Long.parseLong(amount), currency);
             }
         });
 

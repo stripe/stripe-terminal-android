@@ -1,16 +1,18 @@
 package com.stripe.example.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.core.content.edit
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentTerminalBinding
 import com.stripe.example.viewmodel.TerminalViewModel
+import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,61 +21,84 @@ import kotlinx.coroutines.launch
  * The `TerminalFragment` is the main [Fragment] shown in the app, and handles navigation to any
  * other [Fragment]s as necessary.
  */
-class TerminalFragment : Fragment() {
+class TerminalFragment : Fragment(R.layout.fragment_terminal) {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.TerminalFragment"
 
         // A string to store if the simulated switch is set
         private const val SIMULATED_SWITCH = "simulated_switch"
+
+        // A string to store the selected discovery method
+        private const val DISCOVERY_METHOD = "discovery_method"
+
+        fun getCurrentDiscoveryMethod(activity: Activity?): DiscoveryMethod {
+            val pos = activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)
+                ?.getInt(DISCOVERY_METHOD, 0) ?: 0
+
+            return DiscoveryMethod.values()[pos]
+        }
     }
 
-    private lateinit var binding: FragmentTerminalBinding
+    private val discoveryMethods = listOf(DiscoveryMethod.BLUETOOTH_SCAN, DiscoveryMethod.INTERNET)
     private lateinit var viewModel: TerminalViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            viewModel = TerminalViewModel(it.getBoolean(SIMULATED_SWITCH))
+            viewModel = TerminalViewModel(
+                it.getSerializable(DISCOVERY_METHOD) as DiscoveryMethod,
+                it.getBoolean(SIMULATED_SWITCH)
+            )
         } ?: run {
             CoroutineScope(Dispatchers.IO).launch {
                 val isSimulated = activity?.getSharedPreferences(
                     TAG,
                     Context.MODE_PRIVATE
                 )?.getBoolean(SIMULATED_SWITCH, false) ?: false
-                viewModel = TerminalViewModel(isSimulated)
+                val discoveryMethod = activity?.getSharedPreferences(
+                    TAG,
+                    Context.MODE_PRIVATE
+                )?.getInt(DISCOVERY_METHOD, 0) ?: 0
+                viewModel =
+                    TerminalViewModel(DiscoveryMethod.values()[discoveryMethod], isSimulated)
             }
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_terminal, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Link up the discovery button
-        binding.discoverButton.setOnClickListener {
-            (activity as? NavigationListener)?.onRequestDiscovery(viewModel.simulated)
-        }
+        // Inflate the layout for this fragment
+        val viewBinding = requireNotNull(
+            DataBindingUtil.bind<FragmentTerminalBinding>(view)
+        )
+        viewBinding.lifecycleOwner = viewLifecycleOwner
+        viewBinding.viewModel = viewModel
 
-        // TODO: Do this dynamically from the type selected
-        binding.discoveryMethodButton.setText(R.string.bluetooth)
+        // Set the device type spinner
+        viewBinding.discoveryMethodSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            discoveryMethods
+        )
+
+        // Link up the discovery button
+        viewBinding.discoverButton.setOnClickListener {
+            (activity as? NavigationListener)?.onRequestDiscovery(
+                viewModel.simulated,
+                viewModel.discoveryMethod,
+            )
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)?.edit()
-            ?.putBoolean(SIMULATED_SWITCH, viewModel.simulated)
-            ?.apply()
+        activity?.let {
+            it.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit {
+                putBoolean(SIMULATED_SWITCH, viewModel.simulated)
+                putInt(DISCOVERY_METHOD, viewModel.discoveryMethodPosition)
+            }
+        }
     }
 }

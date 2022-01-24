@@ -17,13 +17,13 @@ final public class InfiniteScrollListener extends RecyclerView.OnScrollListener 
 
     /**
      * @param layoutManager The layoutManager of the Recyclerview being scrolled.
-     * @param loadAction Action to take when within [threshold] position of the bottom of the list.
      * @param threshold The number of items from the bottom to invoke [loadAction]
+     * @param loadAction Action to take when within [threshold] position of the bottom of the list.
      */
     public InfiniteScrollListener(
         LinearLayoutManager layoutManager,
-        Listener loadAction,
-        int threshold
+        int threshold,
+        Listener loadAction
     ) {
         this.layoutManager = layoutManager;
         this.loadAction = loadAction;
@@ -38,7 +38,7 @@ final public class InfiniteScrollListener extends RecyclerView.OnScrollListener 
         LinearLayoutManager layoutManager,
         Listener loadAction
     ) {
-        this(layoutManager, loadAction, 5);
+        this(layoutManager, 5, loadAction);
     }
 
     @Override

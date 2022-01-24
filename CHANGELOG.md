@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 2.6.0 - 2022-01-24
+
+- Fix: Resolved an issue where connecting to a WP3 immediately after an M2 can cause update failures.
+- Fix: Stripe M2 Bluetooth pairing dialog is no longer displayed twice.
+- Fix: Resolved NullPointerException thrown when `BluetoothDevice.name` isn't available during discovery. See [issue 196](https://github.com/stripe/stripe-terminal-android/issues/196) for details.
+- Fix: Resolved an issue with Gson not being included as an explicit dependency. See [issue 188](https://github.com/stripe/stripe-terminal-android/issues/188) for details.
+- Fix: Updated R8 keep rules to resolve an issue where Stripe M2 readers would fail to connect with minification enabled.
+- Fix: Added Bluetooth scan rate limiting to avoid Android SDK silently failing when the scan rate limit is exceeded.
+- Update: Added Bluetooth scan error handling and retries when scans fail due to `ScanCallback.SCAN_FAILED_OUT_OF_HARDWARE_RESOURCES` and `ScanCallback.SCAN_FAILED_SCANNING_TOO_FREQUENTLY`.
+- Fix: Resolved an issue where errors thrown by the BBPOS SDK during Bluetooth reader updates can cause a deadlock and break future discovery attempts.
+
 ## 2.5.2 - 2021-11-22
 
 - Fix: Calling `discoverReaders` with `DiscoveryMethod.BLUETOOTH_SCAN` returns local bluetooth readers regardless of whether or not the SDK has internet connectivity.
@@ -16,6 +27,7 @@
 - Fix: Failure to issue a card-present refund will now invoke error callbacks properly.
 
 ## 2.4.1 - 2021-10-25
+
 - Fix: Removed Android 12 bluetooth permissions. See [issue 171](https://github.com/stripe/stripe-terminal-android/issues/171) for details.
 
 ## 2.4.0 - 2021-10-21

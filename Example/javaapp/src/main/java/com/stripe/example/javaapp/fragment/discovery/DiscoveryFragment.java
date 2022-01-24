@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.stripe.example.javaapp.viewmodel.DiscoveryViewModel;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.DiscoveryListener;
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
@@ -30,7 +33,6 @@ import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.TerminalException;
-import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,11 +48,13 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
 
     public static final String TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment";
     private static final String SIMULATED_KEY = "simulated";
+    private static final String DISCOVERY_METHOD = "discovery_method";
 
-    public static DiscoveryFragment newInstance(boolean simulated) {
+    public static DiscoveryFragment newInstance(boolean simulated, DiscoveryMethod discoveryMethod) {
         final DiscoveryFragment fragment = new DiscoveryFragment();
         final Bundle bundle = new Bundle();
         bundle.putBoolean(SIMULATED_KEY, simulated);
+        bundle.putSerializable(DISCOVERY_METHOD, discoveryMethod);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,7 +66,8 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(DiscoveryViewModel.class);
+        DiscoveryViewModelFactory discoveryViewModelFactory = new DiscoveryViewModelFactory(requireArguments());
+        viewModel = new ViewModelProvider(this, discoveryViewModelFactory).get(DiscoveryViewModel.class);
         viewModel.navigationListener = (NavigationListener) getActivity();
         activityRef = new WeakReference<>((MainActivity) getActivity());
         if (viewModel.readerClickListener == null) {
@@ -89,7 +94,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
 
         if (getArguments() != null) {
             final DiscoveryConfiguration config = new DiscoveryConfiguration(
-                    0, DiscoveryMethod.BLUETOOTH_SCAN, getArguments().getBoolean(SIMULATED_KEY));
+                    0, (DiscoveryMethod) getArguments().getSerializable(DISCOVERY_METHOD), getArguments().getBoolean(SIMULATED_KEY));
             if (viewModel.discoveryTask == null && Terminal.getInstance().getConnectedReader() == null) {
                 viewModel.discoveryTask = Terminal
                         .getInstance()
@@ -191,5 +196,19 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
     public void onLocationCleared() {
         viewModel.selectedLocation.postValue(null);
         adapter.updateLocationSelection(null);
+    }
+
+    static class DiscoveryViewModelFactory implements ViewModelProvider.Factory {
+        private Bundle args;
+
+        public DiscoveryViewModelFactory(Bundle args) {
+            this.args = args;
+        }
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            return (T) new DiscoveryViewModel((DiscoveryMethod) args.getSerializable(DISCOVERY_METHOD));
+        }
     }
 }

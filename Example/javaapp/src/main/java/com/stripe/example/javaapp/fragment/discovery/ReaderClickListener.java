@@ -1,6 +1,7 @@
 package com.stripe.example.javaapp.fragment.discovery;
 
 import android.content.DialogInterface;
+import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -9,6 +10,7 @@ import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.viewmodel.DiscoveryViewModel;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.ReaderCallback;
+import com.stripe.stripeterminal.external.models.ConnectionConfiguration;
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration.BluetoothConnectionConfiguration;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
@@ -23,8 +25,8 @@ public class ReaderClickListener {
     @NotNull private final DiscoveryViewModel viewModel;
 
     ReaderClickListener(
-        @NotNull WeakReference<MainActivity> activityRef,
-        @NotNull DiscoveryViewModel viewModel
+            @NotNull WeakReference<MainActivity> activityRef,
+            @NotNull DiscoveryViewModel viewModel
     ) {
         this.activityRef = activityRef;
         this.viewModel = viewModel;
@@ -47,16 +49,15 @@ public class ReaderClickListener {
             connectLocationId = readerLocation.getId();
         } else {
             new AlertDialog.Builder(activity)
-                .setPositiveButton(R.string.alert_acknowledge_button, (DialogInterface.OnClickListener) (dialog, which) -> {})
-                .setTitle(R.string.location_required_dialog_title)
-                .setMessage(R.string.location_required_dialog_message)
-                .show();
+                    .setPositiveButton(R.string.alert_acknowledge_button, (DialogInterface.OnClickListener) (dialog, which) -> {
+                    })
+                    .setTitle(R.string.location_required_dialog_title)
+                    .setMessage(R.string.location_required_dialog_message)
+                    .show();
             return;
         }
 
-        viewModel.isConnecting.setValue(true);
-        Terminal.getInstance().connectBluetoothReader(reader, new BluetoothConnectionConfiguration(connectLocationId),
-                activityRef.get(), new ReaderCallback() {
+        ReaderCallback readerCallback = new ReaderCallback() {
             @Override
             public void onSuccess(@NotNull Reader reader) {
                 final MainActivity activity = activityRef.get();
@@ -80,6 +81,22 @@ public class ReaderClickListener {
                     });
                 }
             }
-        });
+        };
+        viewModel.isConnecting.setValue(true);
+
+        switch (viewModel.discoveryMethod) {
+            case BLUETOOTH_SCAN:
+                Terminal.getInstance().connectBluetoothReader(reader, new BluetoothConnectionConfiguration(connectLocationId),
+                        activityRef.get(), readerCallback);
+            case INTERNET:
+                Terminal.getInstance().connectInternetReader(
+                        reader,
+                        new ConnectionConfiguration.InternetConnectionConfiguration(),
+                        readerCallback
+                );
+            default:
+                Log.w(getClass().getSimpleName(), "Trying to connect unsupported reader");
+
+        }
     }
 }

@@ -58,4 +58,9 @@
         <item name="boxBackgroundColor">?attr/colorPrimaryDark</item>
     </style>
 
+    <style name="Widget.Example.Dropdown" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
 </resources>
