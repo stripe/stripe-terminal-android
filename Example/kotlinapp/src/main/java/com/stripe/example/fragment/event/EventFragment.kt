@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentEventBinding
+import com.stripe.example.fragment.TerminalFragment
 import com.stripe.example.model.Event
+import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
@@ -21,6 +24,7 @@ import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
 import com.stripe.stripeterminal.external.callable.PaymentMethodCallback
+import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters
 import com.stripe.stripeterminal.external.models.PaymentMethod
@@ -28,6 +32,8 @@ import com.stripe.stripeterminal.external.models.ReadReusableCardParameters
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
 import com.stripe.stripeterminal.external.models.ReaderInputOptions
 import com.stripe.stripeterminal.external.models.TerminalException
+import retrofit2.Call
+import retrofit2.Response
 import java.lang.ref.WeakReference
 import java.util.Locale
 
@@ -160,11 +166,50 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         if (savedInstanceState == null) {
             arguments?.let {
                 if (it.getBoolean(REQUEST_PAYMENT)) {
-                    val params = PaymentIntentParameters.Builder()
-                        .setAmount(it.getLong(AMOUNT))
-                        .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
-                        .build()
-                    Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback)
+                    // For internet-connected readers, PaymentIntents must be created via your backend
+                    if (TerminalFragment.getCurrentDiscoveryMethod(activityRef.get()) == DiscoveryMethod.INTERNET) {
+                        ApiClient.createPaymentIntent(
+                            it.getLong(AMOUNT),
+                            it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd",
+                            object : retrofit2.Callback<PaymentIntentCreationResponse> {
+                                override fun onResponse(
+                                    call: Call<PaymentIntentCreationResponse>,
+                                    response: Response<PaymentIntentCreationResponse>
+                                ) {
+                                    if (response.isSuccessful && response.body() != null)
+                                        Terminal.getInstance().retrievePaymentIntent(
+                                            response.body()?.secret!!,
+                                            createPaymentIntentCallback
+                                        )
+                                    else {
+                                        Toast.makeText(
+                                            activity,
+                                            "PaymentIntent creation failed",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<PaymentIntentCreationResponse>,
+                                    t: Throwable
+                                ) {
+                                    Toast.makeText(
+                                        activity,
+                                        "PaymentIntent creation failed",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                        )
+                    } else {
+                        val params = PaymentIntentParameters.Builder()
+                            .setAmount(it.getLong(AMOUNT))
+                            .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
+                            .build()
+                        Terminal.getInstance()
+                            .createPaymentIntent(params, createPaymentIntentCallback)
+                    }
                 } else if (it.getBoolean(READ_REUSABLE_CARD)) {
                     viewModel.collectTask = Terminal.getInstance().readReusableCard(
                         ReadReusableCardParameters.NULL, reusablePaymentMethodCallback

@@ -1,7 +1,9 @@
 package com.stripe.example.network
 
+import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import okhttp3.OkHttpClient
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -60,5 +62,18 @@ object ApiClient {
 
     internal fun capturePaymentIntent(id: String) {
         service.capturePaymentIntent(id).execute()
+    }
+
+    /**
+     * This method is calling the example backend (https://github.com/stripe/example-terminal-backend)
+     * to create paymentIntent for Internet based readers, for example WisePOS E. For your own application, you
+     * should create paymentIntent in your own merchant backend.
+     */
+    internal fun createPaymentIntent(
+        amount: Long,
+        currency: String,
+        callback: Callback<PaymentIntentCreationResponse>
+    ) {
+        service.createPaymentIntent(amount, currency).enqueue(callback)
     }
 }

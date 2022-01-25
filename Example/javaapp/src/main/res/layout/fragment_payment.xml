@@ -23,6 +23,7 @@
             android:textAlignment="textStart"
             android:layout_gravity="start"
             android:paddingStart="12dp"
+            android:paddingEnd="0dp"
             android:paddingTop="16dp"
             android:text="@string/terminal"
             android:textColor="@color/colorAccent" />
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:paddingStart="16dp"
+            android:paddingEnd="0dp"
             android:text="@string/amount"
             android:paddingTop="40dp"/>
 
@@ -76,6 +78,7 @@
                 android:text="@string/default_amount_int"
                 android:textColor="?android:attr/textColorPrimary"
                 android:paddingStart="16dp"
+                android:paddingEnd="0dp"
                 android:maxLines="1"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -85,6 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:paddingStart="16dp"
+            android:paddingEnd="0dp"
             android:text="@string/currency"
             android:paddingTop="40dp"/>
 
@@ -103,6 +107,7 @@
                 android:text="@string/usd"
                 android:textColor="?android:attr/textColorPrimary"
                 android:paddingStart="16dp"
+                android:paddingEnd="0dp"
                 android:maxLines="1"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -113,6 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:paddingStart="16dp"
+            android:paddingEnd="0dp"
             android:paddingTop="40dp"
             android:text="@string/default_amount_string"/>
 

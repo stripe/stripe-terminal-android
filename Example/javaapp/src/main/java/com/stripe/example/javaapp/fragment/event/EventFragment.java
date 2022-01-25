@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -16,14 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
+import com.stripe.example.javaapp.fragment.TerminalFragment;
 import com.stripe.example.javaapp.model.Event;
+import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.PaymentMethodCallback;
+import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
 import com.stripe.stripeterminal.external.models.PaymentMethod;
@@ -33,7 +38,6 @@ import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.TerminalException;
-import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,20 +46,28 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
 public class EventFragment extends Fragment implements BluetoothReaderListener {
 
-    @NotNull public static final String TAG = "com.stripe.example.fragment.event.EventFragment";
+    @NotNull
+    public static final String TAG = "com.stripe.example.fragment.event.EventFragment";
 
-    @NotNull private static final String AMOUNT =
+    @NotNull
+    private static final String AMOUNT =
             "com.stripe.example.fragment.event.EventFragment.amount";
-    @NotNull private static final String CURRENCY =
+    @NotNull
+    private static final String CURRENCY =
             "com.stripe.example.fragment.event.EventFragment.currency";
-    @NotNull private static final String REQUEST_PAYMENT =
+    @NotNull
+    private static final String REQUEST_PAYMENT =
             "com.stripe.example.fragment.event.EventFragment.request_payment";
-    @NotNull private static final String READ_REUSABLE_CARD =
+    @NotNull
+    private static final String READ_REUSABLE_CARD =
             "com.stripe.example.fragment.event.EventFragment.read_reusable_card";
 
     public static EventFragment readReusableCard() {
@@ -67,10 +79,10 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
         return fragment;
     }
 
-    public static EventFragment requestPayment(int amount, @NotNull String currency) {
+    public static EventFragment requestPayment(long amount, @NotNull String currency) {
         final EventFragment fragment = new EventFragment();
         final Bundle bundle = new Bundle();
-        bundle.putInt(AMOUNT, amount);
+        bundle.putLong(AMOUNT, amount);
         bundle.putString(CURRENCY, currency);
         bundle.putBoolean(REQUEST_PAYMENT, true);
         bundle.putBoolean(READ_REUSABLE_CARD, false);
@@ -173,12 +185,34 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
             final Bundle arguments = getArguments();
             if (arguments != null) {
                 if (arguments.getBoolean(REQUEST_PAYMENT)) {
-                    final String currency = arguments.getString(CURRENCY);
-                    final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
-                            .setAmount(arguments.getInt(AMOUNT))
-                            .setCurrency(currency != null ? currency.toLowerCase(Locale.ENGLISH) : "usd")
-                            .build();
-                    Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
+                    final String currency = arguments.getString(CURRENCY) != null ? arguments.getString(CURRENCY).toLowerCase(Locale.ENGLISH) : "usd";
+                    if (TerminalFragment.getCurrentDiscoveryMethod(getActivity()) == DiscoveryMethod.INTERNET) {
+                        ApiClient.createPaymentIntent(arguments.getLong(AMOUNT), currency, new retrofit2.Callback<PaymentIntentCreationResponse>() {
+                            @Override
+                            public void onResponse(Call<PaymentIntentCreationResponse> call, Response<PaymentIntentCreationResponse> response) {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    Terminal.getInstance().retrievePaymentIntent(
+                                            response.body().getSecret(),
+                                            createPaymentIntentCallback
+                                    );
+                                } else {
+                                    Toast.makeText(getActivity(), "PaymentIntent creation failed", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<PaymentIntentCreationResponse> call, Throwable t) {
+                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+
+                        final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
+                                .setAmount(arguments.getLong(AMOUNT))
+                                .setCurrency(currency)
+                                .build();
+                        Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
+                    }
                 } else if (arguments.getBoolean(READ_REUSABLE_CARD)) {
                     viewModel.collectTask = Terminal
                             .getInstance()
@@ -192,9 +226,9 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
 
     @Nullable
     public View onCreateView(
-        @NotNull LayoutInflater inflater,
-        @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState
+            @NotNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
     ) {
         return inflater.inflate(R.layout.fragment_event, container, false);
     }

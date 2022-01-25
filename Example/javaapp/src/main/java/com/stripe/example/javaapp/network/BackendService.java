@@ -1,6 +1,7 @@
 package com.stripe.example.javaapp.network;
 
 import com.stripe.example.javaapp.model.ConnectionToken;
+import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,4 +27,13 @@ public interface BackendService {
     @FormUrlEncoded
     @POST("capture_payment_intent")
     Call<Void> capturePaymentIntent(@Field("payment_intent_id") @NotNull String id);
+
+    /**
+     * Create a PaymentIntent in example backend and return PaymentIntentCreationResponse
+     * For internet readers, you need to create paymentIntent in backend
+     * https://stripe.com/docs/terminal/payments/collect-payment?terminal-sdk-platform=android#create-payment
+     */
+    @FormUrlEncoded
+    @POST("create_payment_intent")
+    Call<PaymentIntentCreationResponse> createPaymentIntent(@Field("amount") Long amount, @Field("currency") String currency);
 }

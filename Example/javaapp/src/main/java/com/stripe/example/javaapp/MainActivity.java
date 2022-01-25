@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.stripe.example.javaapp.fragment.ConnectedReaderFragment;
 import com.stripe.example.javaapp.fragment.PaymentFragment;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
@@ -34,6 +36,7 @@ import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
+import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
@@ -41,7 +44,9 @@ import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.log.LogLevel;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -160,10 +165,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onRequestChangeLocation() {
         navigateTo(
-            LocationSelectionFragment.TAG,
-            LocationSelectionFragment.newInstance(),
-            false,
-            true
+                LocationSelectionFragment.TAG,
+                LocationSelectionFragment.newInstance(),
+                false,
+                true
         );
     }
 
@@ -183,8 +188,8 @@ public class MainActivity extends AppCompatActivity implements
      * Callback function called once discovery has been selected by the [TerminalFragment]
      */
     @Override
-    public void onRequestDiscovery(boolean isSimulated) {
-        navigateTo(DiscoveryFragment.TAG, DiscoveryFragment.newInstance(isSimulated));
+    public void onRequestDiscovery(boolean isSimulated, DiscoveryMethod discoveryMethod) {
+        navigateTo(DiscoveryFragment.TAG, DiscoveryFragment.newInstance(isSimulated, discoveryMethod));
     }
 
     /**
@@ -203,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements
      * Callback function called to start a payment by the [PaymentFragment]
      */
     @Override
-    public void onRequestPayment(int amount, @NotNull String currency) {
+    public void onRequestPayment(long amount, @NotNull String currency) {
         navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency));
     }
 

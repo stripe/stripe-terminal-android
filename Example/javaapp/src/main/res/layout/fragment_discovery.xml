@@ -94,7 +94,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location_caption"
-            android:drawableTop="@mipmap/readerempty" />
+            app:drawableTopCompat="@mipmap/readerempty" />
 
         <TextView
             android:id="@+id/update_description"
@@ -109,7 +109,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location_caption"
-            android:drawableTop="@mipmap/readerempty" />
+            app:drawableTopCompat="@mipmap/readerempty" />
 
         <TextView
             android:id="@+id/update_progress"

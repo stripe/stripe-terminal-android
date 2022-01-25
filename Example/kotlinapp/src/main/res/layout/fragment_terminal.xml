@@ -97,16 +97,14 @@
                     android:text="@string/discovery_method"
                     android:paddingTop="40dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/discovery_method_button"
-                    style="@style/Widget.Example.Button"
+                <Spinner
+                    android:id="@+id/discovery_method_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl"
-                    app:cornerRadius="0dp"
-                    android:textAlignment="textStart"
-                    app:icon="@drawable/ic_right_arrow"
-                    app:iconTint="@color/colorPrimaryDark" />
+                    android:layout_height="40dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="0dp"
+                    style="@style/Widget.Example.Dropdown"
+                    android:selectedItemPosition="@={viewModel.discoveryMethodPosition}" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/simulated_switch"
