@@ -20,6 +20,7 @@ import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.OnReaderTips
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
@@ -128,6 +129,7 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         }
     }
 
+    @OptIn(OnReaderTips::class)
     private val createPaymentIntentCallback by lazy {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {

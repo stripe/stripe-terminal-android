@@ -9,9 +9,11 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -35,6 +37,7 @@ import com.stripe.example.javaapp.network.TokenProvider;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Cancelable;
+import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.Location;
@@ -75,26 +78,37 @@ public class MainActivity extends AppCompatActivity implements
                             "before you'll be able to use the example app.");
         }
 
-        if (BluetoothAdapter.getDefaultAdapter() != null &&
-                !BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-            BluetoothAdapter.getDefaultAdapter().enable();
+        requestPermissionsIfNecessary();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT)
+                == PackageManager.PERMISSION_GRANTED
+        ) {
+            final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+            if (adapter != null && !adapter.isEnabled()) {
+                adapter.enable();
+            }
+        } else {
+            Log.w(getClass().getSimpleName(), "Failed to acquire Bluetooth permission");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        if (Build.VERSION.SDK_INT >= 31) {
-            checkPermissionsSdk31();
-        } else {
-            checkPermissions();
-        }
+        requestPermissionsIfNecessary();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    private void requestPermissionsIfNecessary() {
+        if (Build.VERSION.SDK_INT >= 31) {
+            requestPermissionsIfNecessarySdk31();
+        } else {
+            requestPermissionsIfNecessarySdkBelow31();
+        }
     }
 
     private boolean isGranted(String permission) {
@@ -104,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements
         ) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void checkPermissions() {
+    private void requestPermissionsIfNecessarySdkBelow31() {
         // Check for location permissions
         if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             // If we don't have them yet, request them before doing anything else
@@ -116,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
-    private void checkPermissionsSdk31() {
+    private void requestPermissionsIfNecessarySdk31() {
         // Check for location and bluetooth permissions
         List<String> deniedPermissions = new ArrayList<>();
         if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
@@ -349,6 +363,9 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
     }
+
+    @Override
+    public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
 
     @Override
     public void onLocationSelected(Location location) {

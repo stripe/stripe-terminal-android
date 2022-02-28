@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -67,17 +68,34 @@ class MainActivity :
             )
         }
 
-        if (BluetoothAdapter.getDefaultAdapter()?.isEnabled == false) {
-            BluetoothAdapter.getDefaultAdapter().enable()
+        requestPermissionsIfNecessary()
+
+        if (
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_CONNECT
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            BluetoothAdapter.getDefaultAdapter()?.let { adapter ->
+                if (!adapter.isEnabled) {
+                    adapter.enable()
+                }
+            }
+        } else {
+            Log.w(MainActivity::class.java.simpleName, "Failed to acquire Bluetooth permission")
         }
     }
 
     override fun onResume() {
         super.onResume()
+        requestPermissionsIfNecessary()
+    }
+
+    private fun requestPermissionsIfNecessary() {
         if (Build.VERSION.SDK_INT >= 31) {
-            checkPermissionsSdk31()
+            requestPermissionsIfNecessarySdk31()
         } else {
-            checkPermissions()
+            requestPermissionsIfNecessarySdkBelow31()
         }
     }
 
@@ -88,7 +106,7 @@ class MainActivity :
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun checkPermissions() {
+    private fun requestPermissionsIfNecessarySdkBelow31() {
         // Check for location permissions
         if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             // If we don't have them yet, request them before doing anything else
@@ -99,7 +117,7 @@ class MainActivity :
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    private fun checkPermissionsSdk31() {
+    private fun requestPermissionsIfNecessarySdk31() {
         // Check for location and bluetooth permissions
         val deniedPermissions = mutableListOf<String>().apply {
             if (!isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) add(Manifest.permission.ACCESS_FINE_LOCATION)

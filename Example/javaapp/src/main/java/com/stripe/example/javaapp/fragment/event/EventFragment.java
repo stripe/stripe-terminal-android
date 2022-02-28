@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -28,6 +29,7 @@ import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.PaymentMethodCallback;
+import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
@@ -325,4 +327,7 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
 
     @Override
     public void onReportLowBatteryWarning() { }
+
+    @Override
+    public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
 }
