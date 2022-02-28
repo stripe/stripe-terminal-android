@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 2.7.0 - 2022-02-28
+
+- New: `CollectConfiguration` object to provide an option to skip tipping when
+  calling `Terminal.collectPaymentMethod`. It requires the use of a new `@OptIn`
+  annotation; `@OnReaderTips`. See
+  [Collect on-reader tips](https://stripe.com/docs/terminal/features/collecting-tips/on-reader)
+  for details. Note that on-reader tips is in beta.
+- New: Added `onBatteryLevelUpdate` callback in `ReaderListener` both for bluetooth and usb readers when connected.
+  It reports battery info for every 10 minutes. See [issue 199](https://github.com/stripe/stripe-terminal-android/issues/199)
+- New: The Example apps can now connect to internet readers. See [issue 174](https://github.com/stripe/stripe-terminal-android/issues/174) for details.
+- Fix: Removed Android 12 Bluetooth permissions from the Android manifest. This
+  fixes a Bluetooth-related permissions exception that was happening on Android
+  12 devices when the application did not explicitly request the permisions.
+- Fix: `ReaderListener.onReportLowBatteryWarning` can now be invoked during connect. See [issue 175](https://github.com/stripe/stripe-terminal-android/issues/175) for details.
+- Beta: Usb connectivity available via `Terminal.connectUsbReader` for Chipper and WP3 readers. Note that this API isn't
+finalized and may be changed. As a result, it requires use of a new `@OptIn` annotation;
+`@UsbConnectivity`.
+
 ## 2.6.0 - 2022-01-24
 
 - Fix: Resolved an issue where connecting to a WP3 immediately after an M2 can cause update failures.

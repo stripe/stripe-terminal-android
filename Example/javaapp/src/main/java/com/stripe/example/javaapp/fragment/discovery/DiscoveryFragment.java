@@ -24,6 +24,7 @@ import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.DiscoveryListener;
+import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.Location;
@@ -185,6 +186,9 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
 
     @Override
     public void onReportLowBatteryWarning() { }
+
+    @Override
+    public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
 
     @Override
     public void onLocationSelected(Location location) {
