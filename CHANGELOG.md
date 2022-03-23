@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.7.1 - 2022-03-21
+
+- Fix: Resolved an issue causing the SDK to become unresponsive during payment collection.
+
 ## 2.7.0 - 2022-02-28
 
 - New: `CollectConfiguration` object to provide an option to skip tipping when
