@@ -36,7 +36,7 @@ public interface NavigationListener {
     /**
      * Notify the `Activity` that the user wants to initiate a payment
      */
-    void onRequestPayment(long amount, @NotNull String currency);
+    void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth);
 
     /**
      * Notify the `Activity` that a [Reader] has been connected

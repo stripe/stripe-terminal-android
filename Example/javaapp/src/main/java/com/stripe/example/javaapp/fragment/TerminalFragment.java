@@ -51,10 +51,12 @@ public class TerminalFragment extends Fragment {
 
         discoveryMethods.add(DiscoveryMethod.BLUETOOTH_SCAN);
         discoveryMethods.add(DiscoveryMethod.INTERNET);
+        discoveryMethods.add(DiscoveryMethod.USB);
 
         if (getArguments() != null) {
             viewModel = new TerminalViewModel(getArguments().getBoolean(SIMULATED_SWITCH),
-                    (DiscoveryMethod) getArguments().getSerializable(DISCOVERY_METHOD));
+                    (DiscoveryMethod) getArguments().getSerializable(DISCOVERY_METHOD),
+                    discoveryMethods);
         } else {
             final FragmentActivity activity = getActivity();
             final boolean isSimulated;
@@ -72,7 +74,7 @@ public class TerminalFragment extends Fragment {
                 isSimulated = false;
                 discoveryMethod = 0;
             }
-            viewModel = new TerminalViewModel(isSimulated, DiscoveryMethod.values()[discoveryMethod]);
+            viewModel = new TerminalViewModel(isSimulated, discoveryMethods.get(discoveryMethod), discoveryMethods);
         }
     }
 

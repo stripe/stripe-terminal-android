@@ -7,6 +7,8 @@ import com.stripe.stripeterminal.external.models.ConnectionTokenException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Callback;
@@ -73,7 +75,23 @@ public class ApiClient {
      * to create paymentIntent for Internet based readers, for example WisePOS E. For your own application, you
      * should create paymentIntent in your own merchant backend.
      */
-    public static void createPaymentIntent(Long amount, String currency, Callback<PaymentIntentCreationResponse> callback) {
-        mService.createPaymentIntent(amount, currency).enqueue(callback);
+    public static void createPaymentIntent(
+            Long amount,
+            String currency,
+            boolean extendedAuth,
+            boolean incrementalAuth,
+            Callback<PaymentIntentCreationResponse> callback
+    ) {
+        final Map<String, String> createPaymentIntentParams = new HashMap<>();
+        createPaymentIntentParams.put("amount", amount.toString());
+        createPaymentIntentParams.put("currency", currency);
+        if (extendedAuth) {
+            createPaymentIntentParams.put("payment_method_options[card_present[request_extended_authorization]]", "true");
+        }
+        if (incrementalAuth) {
+            createPaymentIntentParams.put("payment_method_options[card_present[request_incremental_authorization_support]]", "true");
+        }
+
+        mService.createPaymentIntent(createPaymentIntentParams).enqueue(callback);
     }
 }

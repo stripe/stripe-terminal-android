@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.8.0 - 2022-03-28
+
+- Beta: Incremental or extended authorization can be requested with `CardPresentParameters` and
+  `PaymentMethodOptionsParameters` objects. See [extended auhorizations](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity) and [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations)
+
 ## 2.7.1 - 2022-03-21
 
 - Fix: Resolved an issue causing the SDK to become unresponsive during payment collection.

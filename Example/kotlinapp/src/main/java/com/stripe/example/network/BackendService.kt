@@ -4,6 +4,7 @@ import com.stripe.example.model.ConnectionToken
 import com.stripe.example.model.PaymentIntentCreationResponse
 import retrofit2.Call
 import retrofit2.http.Field
+import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
@@ -32,5 +33,7 @@ interface BackendService {
      */
     @FormUrlEncoded
     @POST("create_payment_intent")
-    fun createPaymentIntent(@Field("amount") amount: Long, @Field("currency") currency: String): Call<PaymentIntentCreationResponse>
+    fun createPaymentIntent(
+        @FieldMap createPaymentIntentParams: Map<String, String>
+    ): Call<PaymentIntentCreationResponse>
 }

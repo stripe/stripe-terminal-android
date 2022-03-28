@@ -19,6 +19,7 @@ import com.stripe.stripeterminal.external.models.TerminalException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
+import kotlin.OptIn;
 
 public class ReaderClickListener {
     @NotNull private WeakReference<MainActivity> activityRef;
@@ -36,6 +37,7 @@ public class ReaderClickListener {
         activityRef = newRef;
     }
 
+    @OptIn(markerClass = com.stripe.stripeterminal.external.UsbConnectivity.class)
     public void onClick(@NotNull Reader reader) {
         MainActivity activity = activityRef.get();
         if (activity == null) return;
@@ -88,15 +90,20 @@ public class ReaderClickListener {
             case BLUETOOTH_SCAN:
                 Terminal.getInstance().connectBluetoothReader(reader, new BluetoothConnectionConfiguration(connectLocationId),
                         activityRef.get(), readerCallback);
+                return;
             case INTERNET:
                 Terminal.getInstance().connectInternetReader(
                         reader,
                         new ConnectionConfiguration.InternetConnectionConfiguration(),
                         readerCallback
                 );
+                return;
+            case USB:
+                Terminal.getInstance().connectUsbReader(reader, new ConnectionConfiguration.UsbConnectionConfiguration(connectLocationId),
+                        activityRef.get(), readerCallback);
+                return;
             default:
                 Log.w(getClass().getSimpleName(), "Trying to connect unsupported reader");
-
         }
     }
 }

@@ -31,16 +31,17 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
 
         // A string to store the selected discovery method
         private const val DISCOVERY_METHOD = "discovery_method"
+        private val discoveryMethods =
+            listOf(DiscoveryMethod.BLUETOOTH_SCAN, DiscoveryMethod.INTERNET, DiscoveryMethod.USB)
 
         fun getCurrentDiscoveryMethod(activity: Activity?): DiscoveryMethod {
             val pos = activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)
                 ?.getInt(DISCOVERY_METHOD, 0) ?: 0
 
-            return DiscoveryMethod.values()[pos]
+            return discoveryMethods[pos]
         }
     }
 
-    private val discoveryMethods = listOf(DiscoveryMethod.BLUETOOTH_SCAN, DiscoveryMethod.INTERNET)
     private lateinit var viewModel: TerminalViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +49,7 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
         arguments?.let {
             viewModel = TerminalViewModel(
                 it.getSerializable(DISCOVERY_METHOD) as DiscoveryMethod,
+                discoveryMethods,
                 it.getBoolean(SIMULATED_SWITCH)
             )
         } ?: run {
@@ -61,7 +63,7 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
                     Context.MODE_PRIVATE
                 )?.getInt(DISCOVERY_METHOD, 0) ?: 0
                 viewModel =
-                    TerminalViewModel(DiscoveryMethod.values()[discoveryMethod], isSimulated)
+                    TerminalViewModel(discoveryMethods[discoveryMethod], discoveryMethods, isSimulated)
             }
         }
     }

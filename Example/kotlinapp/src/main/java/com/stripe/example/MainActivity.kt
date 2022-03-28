@@ -31,6 +31,7 @@ import com.stripe.example.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Cancelable
+import com.stripe.stripeterminal.external.callable.UsbReaderListener
 import com.stripe.stripeterminal.external.models.ConnectionStatus
 import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Location
@@ -44,6 +45,7 @@ class MainActivity :
     AppCompatActivity(),
     NavigationListener,
     BluetoothReaderListener,
+    UsbReaderListener,
     LocationSelectionController {
 
     // Register the permissions callback to handles the response to the system permissions dialog.
@@ -200,8 +202,14 @@ class MainActivity :
     /**
      * Callback function called to start a payment by the [PaymentFragment]
      */
-    override fun onRequestPayment(amount: Long, currency: String) {
-        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency))
+    override fun onRequestPayment(
+        amount: Long,
+        currency: String,
+        skipTipping: Boolean,
+        extendedAuth: Boolean,
+        incrementalAuth: Boolean
+    ) {
+        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth))
     }
 
     /**
