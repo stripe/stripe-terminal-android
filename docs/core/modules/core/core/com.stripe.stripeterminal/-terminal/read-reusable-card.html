@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>readReusableCard</title>
+</head><body><link href="../../../../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../../../";</script><script type="text/javascript" src="../../../../../../scripts/sourceset_dependencies.js" async></script><link href="../../../../../../styles/style.css" rel="Stylesheet"><link href="../../../../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../../../../scripts/main.js" async></script>
+  
+    <div id="container">
+      <div id="leftColumn"><a href="../../../../../../index.html">
+            <div id="logo"></div>
+          </a>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <script type="text/javascript" src="../../../../../../scripts/main.js"></script><div id="leftToggler"><span class="icon-toggler"></span></div>
+
+        <div class="main-content" id="content" pageids="core::com.stripe.stripeterminal/Terminal/readReusableCard/#com.stripe.stripeterminal.external.models.ReadReusableCardParameters#com.stripe.stripeterminal.external.callable.PaymentMethodCallback/PointingToDeclaration//-1397871212">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../../index.html">core</a>/<a href="../index.html">com.stripe.stripeterminal</a>/<a href="index.html">Terminal</a>/<a href="read-reusable-card.html">readReusableCard</a></div>
+            <div class="pull-right d-flex">
+              <div id="searchBar"></div>
+            </div>
+          </div>
+          <div class="cover ">
+            <h1 class="cover"><span>read</span><wbr><span>Reusable</span><wbr><span>Card</span></h1>
+          </div>
+<div class="divergent-group" data-filterable-current=":terminalsdk:core:modules:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:modules:core:dokkaHtmlPartial/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:core:modules:core:dokkaHtmlPartial/release"><div class="symbol monospace">fun <a href="read-reusable-card.html">readReusableCard</a>(params: <a href="../../../../../../external/external/com.stripe.stripeterminal.external.models/-read-reusable-card-parameters/index.html">ReadReusableCardParameters</a>, callback: <a href="../../../../../../external/external/com.stripe.stripeterminal.external.callable/-payment-method-callback/index.html">PaymentMethodCallback</a>): <a href="../../../../../../external/external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<p class="paragraph">Reads a card with the given parameters and returns a PaymentMethod.</p><p class="paragraph">NOTE: Most integrations should not use <code>readReusableCard</code>.</p><p class="paragraph">You should create a <a href="../../../../../../external/external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a> and use the associated <a href="collect-payment-method.html">collectPaymentMethod</a> and <a href="process-payment.html">processPayment</a> methods if you are simply collecting a payment from a customer.</p><p class="paragraph">You can use <code>readReusableCard</code> to read payment details and defer payment for later. The PaymentMethod created by this method will have type <code>card</code>, suitable for use with online payments.</p><p class="paragraph">Note that if you use this method to defer a payment, the transaction will not receive the beneficial rates and liability shift associated with card present transactions.</p><p class="paragraph">If reading a card fails, the callback will be called with an error containing details about the failure. If reading a card succeeds, the completion block will be called with a PaymentMethod. You should send the ID of the payment method to your backend for further processing. For example, you can use the fingerprint to look up charges created using the same card.</p><p class="paragraph">See <a href="https://stripe.com/docs/terminal/payments/saving-cards">https://stripe.com/docs/terminal/payments/saving-cards</a>.</p><h2 class="">Parameters</h2><div data-togglable="Parameters"><div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:core:modules:core:dokkaHtmlPartial/release"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":terminalsdk:core:modules:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:modules:core:dokkaHtmlPartial/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">params</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">The parameters for reading the card.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:core:modules:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:modules:core:dokkaHtmlPartial/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">callback</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">The callback which will be called with a PaymentMethod when finished</p></div></div></div></div></div></div></div></div></div></div></div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  
+</body></html>
+
+

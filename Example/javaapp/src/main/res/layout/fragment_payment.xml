@@ -41,12 +41,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/backdrop"
         style="@style/Widget.Example.Backdrop"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,93 +53,161 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
-            android:text="@string/amount"
-            android:paddingTop="40dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.Example.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/amount_edit_text"
-                style="@style/Widget.Example.TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="@string/default_amount_int"
-                android:textColor="?android:attr/textColorPrimary"
+                android:layout_gravity="start"
                 android:paddingStart="16dp"
                 android:paddingEnd="0dp"
-                android:maxLines="1"/>
+                android:text="@string/amount"
+                android:paddingTop="40dp"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
-            android:text="@string/currency"
-            android:paddingTop="40dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.Example.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/currency_edit_text"
-                style="@style/Widget.Example.TextInputEditText"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Example.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapCharacters"
-                android:text="@string/usd"
-                android:textColor="?android:attr/textColorPrimary"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/amount_edit_text"
+                    style="@style/Widget.Example.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="@string/default_amount_int"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"
+                    android:maxLines="1"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:paddingStart="16dp"
                 android:paddingEnd="0dp"
-                android:maxLines="1"/>
+                android:text="@string/currency"
+                android:paddingTop="40dp"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Example.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false">
 
-        <TextView
-            android:id="@+id/charge_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
-            android:paddingTop="40dp"
-            android:text="@string/default_amount_string"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/currency_edit_text"
+                    style="@style/Widget.Example.TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    android:text="@string/usd"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="0dp"
+                    android:maxLines="1"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/collect_payment_button"
-            style="@style/Widget.Example.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cornerRadius="0dp"
-            android:textAlignment="textStart"
-            android:text="@string/collect_payment"
-            android:textColor="@color/colorAccent"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/collect_payment_description"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="2dp"
+                android:text="@string/tipping"
+                android:paddingTop="40dp"/>
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/skip_tipping_switch"
+                style="@style/Widget.Example.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/skip_tipping" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/skip_tipping_description" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="2dp"
+                android:text="@string/payment_method"
+                android:paddingTop="40dp"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/extended_auth_switch"
+                style="@style/Widget.Example.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/request_extended_auth" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/incremental_auth_switch"
+                style="@style/Widget.Example.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_marginTop="1dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/request_incremental_auth" />
+
+            <TextView
+                android:id="@+id/charge_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                android:paddingTop="40dp"
+                android:text="@string/default_amount_string"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/collect_payment_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/collect_payment"
+                android:textColor="@color/colorAccent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/collect_payment_description"/>
+
+            <Space
+                android:layout_height="8dp"
+                android:layout_width="match_parent"/>
+        </LinearLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,6 +37,7 @@ import com.stripe.example.javaapp.network.TokenProvider;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Cancelable;
+import com.stripe.stripeterminal.external.callable.UsbReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
@@ -57,6 +58,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements
         NavigationListener,
         BluetoothReaderListener,
+        UsbReaderListener,
         LocationSelectionController {
 
     // Register the permissions callback to handles the response to the system permissions dialog.
@@ -222,8 +224,8 @@ public class MainActivity extends AppCompatActivity implements
      * Callback function called to start a payment by the [PaymentFragment]
      */
     @Override
-    public void onRequestPayment(long amount, @NotNull String currency) {
-        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency));
+    public void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth) {
+        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth));
     }
 
     /**

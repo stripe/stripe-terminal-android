@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -24,16 +25,20 @@ import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
+import com.stripe.stripeterminal.external.OnReaderTips;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.PaymentMethodCallback;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
+import com.stripe.stripeterminal.external.models.CardPresentParameters;
+import com.stripe.stripeterminal.external.models.CollectConfiguration;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
 import com.stripe.stripeterminal.external.models.PaymentMethod;
+import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters;
 import com.stripe.stripeterminal.external.models.ReadReusableCardParameters;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
@@ -71,6 +76,15 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
     @NotNull
     private static final String READ_REUSABLE_CARD =
             "com.stripe.example.fragment.event.EventFragment.read_reusable_card";
+    @NotNull
+    private static final String SKIP_TIPPING =
+            "com.stripe.example.fragment.event.EventFragment.skip_tipping";
+    @NotNull
+    private static final String EXTENDED_AUTH =
+            "com.stripe.example.fragment.event.EventFragment.incremental_auth";
+    @NotNull
+    private static final String INCREMENTAL_AUTH =
+            "com.stripe.example.fragment.event.EventFragment.extended_auth";
 
     public static EventFragment readReusableCard() {
         final EventFragment fragment = new EventFragment();
@@ -81,13 +95,22 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
         return fragment;
     }
 
-    public static EventFragment requestPayment(long amount, @NotNull String currency) {
+    public static EventFragment requestPayment(
+            long amount,
+            @NotNull String currency,
+            boolean skipTipping,
+            boolean extendedAuth,
+            boolean incrementalAuth
+    ) {
         final EventFragment fragment = new EventFragment();
         final Bundle bundle = new Bundle();
         bundle.putLong(AMOUNT, amount);
         bundle.putString(CURRENCY, currency);
         bundle.putBoolean(REQUEST_PAYMENT, true);
         bundle.putBoolean(READ_REUSABLE_CARD, false);
+        bundle.putBoolean(SKIP_TIPPING, skipTipping);
+        bundle.putBoolean(EXTENDED_AUTH, extendedAuth);
+        bundle.putBoolean(INCREMENTAL_AUTH, incrementalAuth);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -150,12 +173,17 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
     };
 
     @NotNull private final PaymentIntentCallback createPaymentIntentCallback = new PaymentIntentCallback() {
+        @OptIn(markerClass = OnReaderTips.class)
         @Override
         public void onSuccess(@NotNull PaymentIntent intent) {
             paymentIntent = intent;
             addEvent("Created PaymentIntent", "terminal.createPaymentIntent");
+
+            final Bundle arguments = getArguments();
+            final boolean skipTipping = (arguments != null) && arguments.getBoolean(SKIP_TIPPING);
+            final CollectConfiguration collectConfig = new CollectConfiguration(skipTipping);
             viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                    paymentIntent, collectPaymentMethodCallback);
+                    paymentIntent, collectPaymentMethodCallback, collectConfig);
         }
 
         @Override
@@ -188,8 +216,10 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
             if (arguments != null) {
                 if (arguments.getBoolean(REQUEST_PAYMENT)) {
                     final String currency = arguments.getString(CURRENCY) != null ? arguments.getString(CURRENCY).toLowerCase(Locale.ENGLISH) : "usd";
+                    final boolean extendedAuth = arguments.getBoolean(EXTENDED_AUTH);
+                    final boolean incrementalAuth = arguments.getBoolean(INCREMENTAL_AUTH);
                     if (TerminalFragment.getCurrentDiscoveryMethod(getActivity()) == DiscoveryMethod.INTERNET) {
-                        ApiClient.createPaymentIntent(arguments.getLong(AMOUNT), currency, new retrofit2.Callback<PaymentIntentCreationResponse>() {
+                        ApiClient.createPaymentIntent(arguments.getLong(AMOUNT), currency, extendedAuth, incrementalAuth, new retrofit2.Callback<PaymentIntentCreationResponse>() {
                             @Override
                             public void onResponse(Call<PaymentIntentCreationResponse> call, Response<PaymentIntentCreationResponse> response) {
                                 if (response.isSuccessful() && response.body() != null) {
@@ -208,10 +238,22 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
                             }
                         });
                     } else {
+                        CardPresentParameters.Builder cardPresentParametersBuilder = new CardPresentParameters.Builder();
+                        if (extendedAuth) {
+                            cardPresentParametersBuilder.setRequestExtendedAuthorization(true);
+                        }
+                        if (incrementalAuth) {
+                            cardPresentParametersBuilder.setRequestIncrementalAuthorizationSupport(true);
+                        }
+
+                        PaymentMethodOptionsParameters paymentMethodOptionsParameters = new PaymentMethodOptionsParameters.Builder()
+                                .setCardPresentParameters(cardPresentParametersBuilder.build())
+                                .build();
 
                         final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
                                 .setAmount(arguments.getLong(AMOUNT))
                                 .setCurrency(currency)
+                                .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
                                 .build();
                         Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
                     }

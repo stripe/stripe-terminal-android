@@ -72,8 +72,22 @@ object ApiClient {
     internal fun createPaymentIntent(
         amount: Long,
         currency: String,
+        extendedAuth: Boolean,
+        incrementalAuth: Boolean,
         callback: Callback<PaymentIntentCreationResponse>
     ) {
-        service.createPaymentIntent(amount, currency).enqueue(callback)
+        val createPaymentIntentParams = buildMap<String, String> {
+            put("amount", amount.toString())
+            put("currency", currency)
+
+            if (extendedAuth) {
+                put("payment_method_options[card_present[request_extended_authorization]]", "true")
+            }
+            if (incrementalAuth) {
+                put("payment_method_options[card_present[request_incremental_authorization_support]]", "true")
+            }
+        }
+
+        service.createPaymentIntent(createPaymentIntentParams).enqueue(callback)
     }
 }
