@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.8.1 - 2022-04-15
+
+- Fix: Reset cached tip amount before collecting payment to fix an issue with on-reader tipping beta for WP3 readers. Note that WPE readers are not affected by this bug.
+  This issue manifests if a payment is collected with tipping enabled and subsequently a payment is collected without tipping enabled
+  while the POS app is still alive. The payment without tipping enabled would use the cached tip amount.
+  See [issue 224](https://github.com/stripe/stripe-terminal-android/issues/224)
+
 ## 2.8.0 - 2022-03-28
 
 - Beta: Incremental or extended authorization can be requested with `CardPresentParameters` and
