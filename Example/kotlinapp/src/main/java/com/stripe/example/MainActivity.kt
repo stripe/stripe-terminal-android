@@ -209,7 +209,9 @@ class MainActivity :
         extendedAuth: Boolean,
         incrementalAuth: Boolean
     ) {
-        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth))
+        navigateTo(
+            EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth)
+        )
     }
 
     /**

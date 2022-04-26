@@ -39,7 +39,9 @@ class LocationSelectionFragment : Fragment() {
         val adapter = LocationListAdapter(layoutInflater, activity as LocationSelectionController)
 
         binding.locationSelectionList.layoutManager = layoutManager
-        binding.locationSelectionList.addOnScrollListener(InfiniteScrollListener(layoutManager, viewModel::loadMoreLocations))
+        binding.locationSelectionList.addOnScrollListener(
+            InfiniteScrollListener(layoutManager, viewModel::loadMoreLocations)
+        )
         binding.locationSelectionList.adapter = adapter
         binding.locationSelectionToolbar.inflateMenu(R.menu.location_selection)
         binding.locationSelectionToolbar.setOnMenuItemClickListener { item ->

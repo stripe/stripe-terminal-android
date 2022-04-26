@@ -28,9 +28,9 @@ android {
 ext {
     androidx_lifecycle_version = '2.4.0'
     kotlin_coroutines_version = '1.5.2'
-    okhttp_version = '4.7.2'
+    okhttp_version = '4.9.3'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = '2.8.1'
+    stripeTerminalVersion = '2.9.0'
 }
 
 dependencies {

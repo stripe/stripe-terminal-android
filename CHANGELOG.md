@@ -1,17 +1,24 @@
 # CHANGELOG
 
+## 2.9.0 - 2022-04-25
+
+- New: `onBatteryLevelUpdate` callback in `ReaderListener` is now triggered when connected to a simulated Bluetooth or USB reader.
+- Fix: Resolved app crashes caused by `com.google.crypto.tink`. See [issue 222](https://github.com/stripe/stripe-terminal-android/issues/222) for details.
+
 ## 2.8.1 - 2022-04-15
 
 - Fix: Reset cached tip amount before collecting payment to fix an issue with on-reader tipping beta for WP3 readers. Note that WPE readers are not affected by this bug.
   This issue manifests if a payment is collected with tipping enabled and subsequently a payment is collected without tipping enabled
   while the POS app is still alive. The payment without tipping enabled would use the cached tip amount.
   See [issue 224](https://github.com/stripe/stripe-terminal-android/issues/224)
-
+  
 ## 2.8.0 - 2022-03-28
 
 - Beta: Incremental or extended authorization can be requested with `CardPresentParameters` and
   `PaymentMethodOptionsParameters` objects. See [extended auhorizations](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity) and [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations)
-
+- Beta: USB connectivity is now available via `Terminal.connectUsbReader` for M2 reader. Note that this API isn't
+  finalized and may be changed. As a result, it requires use of a new `@OptIn` annotation; `@UsbConnectivity`.
+  
 ## 2.7.1 - 2022-03-21
 
 - Fix: Resolved an issue causing the SDK to become unresponsive during payment collection.
@@ -23,16 +30,16 @@
   annotation; `@OnReaderTips`. See
   [Collect on-reader tips](https://stripe.com/docs/terminal/features/collecting-tips/on-reader)
   for details. Note that on-reader tips is in beta.
-- New: Added `onBatteryLevelUpdate` callback in `ReaderListener` both for bluetooth and usb readers when connected.
+- New: Added `onBatteryLevelUpdate` callback in `ReaderListener` both for Bluetooth and USB readers when connected.
   It reports battery info for every 10 minutes. See [issue 199](https://github.com/stripe/stripe-terminal-android/issues/199)
 - New: The Example apps can now connect to internet readers. See [issue 174](https://github.com/stripe/stripe-terminal-android/issues/174) for details.
 - Fix: Removed Android 12 Bluetooth permissions from the Android manifest. This
   fixes a Bluetooth-related permissions exception that was happening on Android
   12 devices when the application did not explicitly request the permisions.
 - Fix: `ReaderListener.onReportLowBatteryWarning` can now be invoked during connect. See [issue 175](https://github.com/stripe/stripe-terminal-android/issues/175) for details.
-- Beta: Usb connectivity available via `Terminal.connectUsbReader` for Chipper and WP3 readers. Note that this API isn't
-finalized and may be changed. As a result, it requires use of a new `@OptIn` annotation;
-`@UsbConnectivity`.
+- Beta: USB connectivity is now available via `Terminal.connectUsbReader` for Chipper and WP3 readers. Note that this API isn't
+  finalized and may be changed. As a result, it requires use of a new `@OptIn` annotation;
+  `@UsbConnectivity`.
 
 ## 2.6.0 - 2022-01-24
 
@@ -47,9 +54,9 @@ finalized and may be changed. As a result, it requires use of a new `@OptIn` ann
 
 ## 2.5.2 - 2021-11-22
 
-- Fix: Calling `discoverReaders` with `DiscoveryMethod.BLUETOOTH_SCAN` returns local bluetooth readers regardless of whether or not the SDK has internet connectivity.
+- Fix: Calling `discoverReaders` with `DiscoveryMethod.BLUETOOTH_SCAN` returns local Bluetooth readers regardless of whether or not the SDK has internet connectivity.
 - Fix: Manual transaction cancellation during online processing now works as expected. See [issue 181](https://github.com/stripe/stripe-terminal-android/issues/181) for details.
-- Fix: Pre-dipping immediately after connecting to a bluetooth reader now works as expected. See [issue 182](https://github.com/stripe/stripe-terminal-android/issues/182) for details.
+- Fix: Pre-dipping immediately after connecting to a Bluetooth reader now works as expected. See [issue 182](https://github.com/stripe/stripe-terminal-android/issues/182) for details.
 
 ## 2.5.1 - 2021-11-16
 
@@ -62,7 +69,7 @@ finalized and may be changed. As a result, it requires use of a new `@OptIn` ann
 
 ## 2.4.1 - 2021-10-25
 
-- Fix: Removed Android 12 bluetooth permissions. See [issue 171](https://github.com/stripe/stripe-terminal-android/issues/171) for details.
+- Fix: Removed Android 12 Bluetooth permissions. See [issue 171](https://github.com/stripe/stripe-terminal-android/issues/171) for details.
 
 ## 2.4.0 - 2021-10-21
 
@@ -165,7 +172,7 @@ If you’re upgrading from a 1.x release, here’s what you need to know:
 
 - Connecting to a reader has changed.
 - We now support using
-  [locations](https://stripe.com/docs/api/terminal/locations) with bluetooth
+  [locations](https://stripe.com/docs/api/terminal/locations) with Bluetooth
   readers like the Chipper 2X or WisePad 3.
 - Use of locations is now required.
 - In some cases, Stripe might need to push an update to readers for security or
