@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-
 android {
-    compileSdk maxSdkVersion
+    compileSdkVersion maxSdkVersion
 
     defaultConfig {
-        minSdk 21
-        targetSdk maxSdkVersion
+        minSdkVersion 21
+        targetSdkVersion maxSdkVersion
+        buildConfigField "String", "EXAMPLE_BACKEND_URL", "\"${project.getProperty("EXAMPLE_BACKEND_URL")}\""
     }
 
     buildFeatures {
@@ -26,11 +26,11 @@ android {
 }
 
 ext {
-    androidx_lifecycle_version = '2.4.0'
-    kotlin_coroutines_version = '1.5.2'
+    androidx_lifecycle_version = '2.4.1'
+    kotlin_coroutines_version = '1.6.1'
     okhttp_version = '4.9.3'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = '2.9.0'
+    stripeTerminalVersion = "2.10.0"
 }
 
 dependencies {
@@ -64,5 +64,5 @@ dependencies {
     implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
 
     // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.8.1"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.9.1"
 }

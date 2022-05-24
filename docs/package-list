@@ -8,7 +8,4 @@ com.stripe.stripeterminal.external.callable
 com.stripe.stripeterminal.external.models
 module:core
 com.stripe.stripeterminal
-com.stripe.stripeterminal.adapter
-com.stripe.stripeterminal.connectivity
-com.stripe.stripeterminal.dagger
 com.stripe.stripeterminal.log

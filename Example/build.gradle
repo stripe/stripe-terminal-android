@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.5.20'
 
     repositories {
         google()
@@ -20,6 +20,10 @@ buildscript {
 
 ext {
     maxSdkVersion = 31
+}
+
+if (!project.hasProperty("EXAMPLE_BACKEND_URL")) {
+    throw new IllegalArgumentException("You must specify EXAMPLE_BACKEND_URL in gradle.properies")
 }
 
 allprojects {
