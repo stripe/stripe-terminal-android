@@ -26,7 +26,6 @@ import com.stripe.example.fragment.event.EventFragment
 import com.stripe.example.fragment.location.LocationCreateFragment
 import com.stripe.example.fragment.location.LocationSelectionController
 import com.stripe.example.fragment.location.LocationSelectionFragment
-import com.stripe.example.network.ApiClient
 import com.stripe.example.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
@@ -61,14 +60,6 @@ class MainActivity :
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-
-        // Check that the example app has been configured correctly
-        if (ApiClient.BACKEND_URL.isEmpty()) {
-            throw RuntimeException(
-                "You need to set the BACKEND_URL constant in ApiClient.kt " +
-                    "before you'll be able to use the example app."
-            )
-        }
 
         requestPermissionsIfNecessary()
 

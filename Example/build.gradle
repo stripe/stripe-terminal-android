@@ -22,6 +22,10 @@ ext {
     maxSdkVersion = 31
 }
 
+if (!project.hasProperty("EXAMPLE_BACKEND_URL")) {
+    throw new IllegalArgumentException("You must specify EXAMPLE_BACKEND_URL in gradle.properies")
+}
+
 allprojects {
     repositories {
         google()

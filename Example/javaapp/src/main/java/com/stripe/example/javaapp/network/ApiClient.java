@@ -1,5 +1,6 @@
 package com.stripe.example.javaapp.network;
 
+import com.stripe.example.javaapp.BuildConfig;
 import com.stripe.example.javaapp.model.ConnectionToken;
 import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 import com.stripe.stripeterminal.external.models.ConnectionTokenException;
@@ -20,21 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * The `ApiClient` is a singleton object used to make calls to our backend and return their results
  */
 public class ApiClient {
-
-    /**
-     * To get started with this demo, you'll need to first deploy an instance of
-     * our provided example backend:
-     * <p>
-     * https://github.com/stripe/example-terminal-backend
-     * <p>
-     * After deploying your backend, replace "" on the line below with the URL of your Heroku app.
-     * <p>
-     * const val BACKEND_URL = "https://your-app.herokuapp.com"
-     */
-    public static final String BACKEND_URL = "";
-
     private static final Retrofit mRetrofit = new Retrofit.Builder()
-            .baseUrl(BACKEND_URL)
+            .baseUrl(BuildConfig.EXAMPLE_BACKEND_URL)
             .client(new OkHttpClient.Builder().build())
             .addConverterFactory(GsonConverterFactory.create())
             .build();

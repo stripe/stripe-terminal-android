@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2.10.0 - 2022-05-23
+
+- New: Added currency characters to WisePad 3 display. See [issue 147](https://github.com/stripe/stripe-terminal-android/issues/147) for details.
+- New: Refunds can now be collected when using a simulated reader. See [issue 226](https://github.com/stripe/stripe-terminal-android/issues/226) for details.
+- Update: When connecting to Internet Readers, the SDK uses an embedded DNS to resolve reader IP
+  addresses. This resolves [an error](https://support.stripe.com/questions/the-stripe-terminal-sdk-is-encountering-dns-errors-when-connecting-to-an-internet-reader) experienced by users of some DNS providers.
+- Fix: Resolved `USB_PERMISSION_DENIED` error after granting permission. See [issue 231](https://github.com/stripe/stripe-terminal-android/issues/231) for details.
+
 ## 2.9.0 - 2022-04-25
 
 - New: `onBatteryLevelUpdate` callback in `ReaderListener` is now triggered when connected to a simulated Bluetooth or USB reader.
