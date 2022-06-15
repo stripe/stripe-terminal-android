@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.10.2 - 2022-06-15
+
+- Fix: Fixed a crash for devices running Android 7.1 and lower. See [issue 234](https://github.com/stripe/stripe-terminal-android/issues/234) for details.
+
 ## 2.10.0 - 2022-05-23
 
 - New: Added currency characters to WisePad 3 display. See [issue 147](https://github.com/stripe/stripe-terminal-android/issues/147) for details.
