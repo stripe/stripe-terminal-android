@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## 2.11.0 - 2022-06-XX
+## 2.11.0 - 2022-06-27
 
 - Beta: Add ability to specify capture method when creating a PaymentIntent via the SDK.
 
