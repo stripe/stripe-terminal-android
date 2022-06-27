@@ -5,8 +5,11 @@ import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
@@ -35,5 +38,7 @@ public interface BackendService {
      */
     @FormUrlEncoded
     @POST("create_payment_intent")
-    Call<PaymentIntentCreationResponse> createPaymentIntent(@Field("amount") Long amount, @Field("currency") String currency);
+    Call<PaymentIntentCreationResponse> createPaymentIntent(
+            @FieldMap Map<String, String> createPaymentIntentParams
+    );
 }

@@ -22,7 +22,6 @@ public class StripeTerminalApplication extends Application {
                         .detectLeakedSqlLiteObjects()
                         .detectLeakedClosableObjects()
                         .penaltyLog()
-                        .penaltyDeath()
                         .build());
 
         super.onCreate();

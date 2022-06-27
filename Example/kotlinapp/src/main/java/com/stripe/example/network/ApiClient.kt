@@ -1,5 +1,6 @@
 package com.stripe.example.network
 
+import com.stripe.example.BuildConfig
 import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import okhttp3.OkHttpClient
@@ -13,22 +14,10 @@ import java.io.IOException
  */
 object ApiClient {
 
-    /**
-     * To get started with this demo, you'll need to first deploy an instance of
-     * our provided example backend:
-     *
-     * https://github.com/stripe/example-terminal-backend
-     *
-     * After deploying your backend, replace "" on the line below with the URL of your Heroku app.
-     *
-     * const val BACKEND_URL = "https://your-app.herokuapp.com"
-     */
-    const val BACKEND_URL = ""
-
     private val client = OkHttpClient.Builder()
         .build()
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BACKEND_URL)
+        .baseUrl(BuildConfig.EXAMPLE_BACKEND_URL)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -72,8 +61,22 @@ object ApiClient {
     internal fun createPaymentIntent(
         amount: Long,
         currency: String,
+        extendedAuth: Boolean,
+        incrementalAuth: Boolean,
         callback: Callback<PaymentIntentCreationResponse>
     ) {
-        service.createPaymentIntent(amount, currency).enqueue(callback)
+        val createPaymentIntentParams = buildMap<String, String> {
+            put("amount", amount.toString())
+            put("currency", currency)
+
+            if (extendedAuth) {
+                put("payment_method_options[card_present[request_extended_authorization]]", "true")
+            }
+            if (incrementalAuth) {
+                put("payment_method_options[card_present[request_incremental_authorization_support]]", "true")
+            }
+        }
+
+        service.createPaymentIntent(createPaymentIntentParams).enqueue(callback)
     }
 }

@@ -5,12 +5,16 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import com.stripe.stripeterminal.external.models.DiscoveryMethod
 
-class TerminalViewModel(var discoveryMethod: DiscoveryMethod, private var _simulated: Boolean = false) : BaseObservable() {
+class TerminalViewModel(
+    var discoveryMethod: DiscoveryMethod,
+    var discoveryMethods: List<DiscoveryMethod>,
+    private var _simulated: Boolean = false
+) : BaseObservable() {
 
     var discoveryMethodPosition: Int
-        @Bindable get() = discoveryMethod.ordinal
+        @Bindable get() = discoveryMethods.indexOf(discoveryMethod)
         @Bindable set(value) {
-            val newType = DiscoveryMethod.values()[value]
+            val newType = discoveryMethods[value]
             if (discoveryMethod != newType) {
                 discoveryMethod = newType
                 notifyPropertyChanged(BR.discoveryMethodPosition)

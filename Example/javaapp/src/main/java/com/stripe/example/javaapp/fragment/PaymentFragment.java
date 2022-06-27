@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
 
@@ -55,13 +56,16 @@ public class PaymentFragment extends Fragment {
         });
 
         view.findViewById(R.id.collect_payment_button).setOnClickListener(v -> {
+            final boolean skipTipping = ((SwitchMaterial) view.findViewById(R.id.skip_tipping_switch)).isChecked();
+            final boolean extendedAuth = ((SwitchMaterial) view.findViewById(R.id.extended_auth_switch)).isChecked();
+            final boolean incrementalAuth = ((SwitchMaterial) view.findViewById(R.id.incremental_auth_switch)).isChecked();
             final FragmentActivity activity = getActivity();
             if (activity instanceof NavigationListener) {
                 final String amount = ((TextView) view.findViewById(R.id.amount_edit_text))
                         .getText().toString();
                 final String currency = ((TextView) view.findViewById(R.id.currency_edit_text))
                         .getText().toString();
-                ((NavigationListener) activity).onRequestPayment(Long.parseLong(amount), currency);
+                ((NavigationListener) activity).onRequestPayment(Long.parseLong(amount), currency, skipTipping, extendedAuth, incrementalAuth);
             }
         });
 

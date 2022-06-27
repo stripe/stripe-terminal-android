@@ -32,11 +32,11 @@ import com.stripe.example.javaapp.fragment.event.EventFragment;
 import com.stripe.example.javaapp.fragment.location.LocationCreateFragment;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionController;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionFragment;
-import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.network.TokenProvider;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Cancelable;
+import com.stripe.stripeterminal.external.callable.UsbReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.DiscoveryMethod;
@@ -57,6 +57,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements
         NavigationListener,
         BluetoothReaderListener,
+        UsbReaderListener,
         LocationSelectionController {
 
     // Register the permissions callback to handles the response to the system permissions dialog.
@@ -70,13 +71,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        // Check that the example app has been configured correctly
-        if (ApiClient.BACKEND_URL.isEmpty()) {
-            throw new RuntimeException(
-                    "You need to set the BACKEND_URL constant in ApiClient.java " +
-                            "before you'll be able to use the example app.");
-        }
 
         requestPermissionsIfNecessary();
 
@@ -222,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements
      * Callback function called to start a payment by the [PaymentFragment]
      */
     @Override
-    public void onRequestPayment(long amount, @NotNull String currency) {
-        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency));
+    public void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth) {
+        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth));
     }
 
     /**

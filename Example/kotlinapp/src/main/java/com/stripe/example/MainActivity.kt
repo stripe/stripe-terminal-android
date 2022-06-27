@@ -26,11 +26,11 @@ import com.stripe.example.fragment.event.EventFragment
 import com.stripe.example.fragment.location.LocationCreateFragment
 import com.stripe.example.fragment.location.LocationSelectionController
 import com.stripe.example.fragment.location.LocationSelectionFragment
-import com.stripe.example.network.ApiClient
 import com.stripe.example.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Cancelable
+import com.stripe.stripeterminal.external.callable.UsbReaderListener
 import com.stripe.stripeterminal.external.models.ConnectionStatus
 import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Location
@@ -44,6 +44,7 @@ class MainActivity :
     AppCompatActivity(),
     NavigationListener,
     BluetoothReaderListener,
+    UsbReaderListener,
     LocationSelectionController {
 
     // Register the permissions callback to handles the response to the system permissions dialog.
@@ -59,14 +60,6 @@ class MainActivity :
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-
-        // Check that the example app has been configured correctly
-        if (ApiClient.BACKEND_URL.isEmpty()) {
-            throw RuntimeException(
-                "You need to set the BACKEND_URL constant in ApiClient.kt " +
-                    "before you'll be able to use the example app."
-            )
-        }
 
         requestPermissionsIfNecessary()
 
@@ -200,8 +193,16 @@ class MainActivity :
     /**
      * Callback function called to start a payment by the [PaymentFragment]
      */
-    override fun onRequestPayment(amount: Long, currency: String) {
-        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency))
+    override fun onRequestPayment(
+        amount: Long,
+        currency: String,
+        skipTipping: Boolean,
+        extendedAuth: Boolean,
+        incrementalAuth: Boolean
+    ) {
+        navigateTo(
+            EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth)
+        )
     }
 
     /**

@@ -1,0 +1,11 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:external
+com.stripe.stripeterminal.external
+com.stripe.stripeterminal.external.api
+com.stripe.stripeterminal.external.callable
+com.stripe.stripeterminal.external.models
+module:core
+com.stripe.stripeterminal
+com.stripe.stripeterminal.log

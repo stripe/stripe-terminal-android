@@ -35,7 +35,13 @@ interface NavigationListener {
     /**
      * Notify the `Activity` that the user wants to initiate a payment
      */
-    fun onRequestPayment(amount: Long, currency: String)
+    fun onRequestPayment(
+        amount: Long,
+        currency: String,
+        skipTipping: Boolean,
+        extendedAuth: Boolean,
+        incrementalAuth: Boolean
+    )
 
     /**
      * Notify the `Activity` that a [Reader] has been connected

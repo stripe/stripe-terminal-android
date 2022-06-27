@@ -1,6 +1,7 @@
 package com.stripe.example.javaapp;
 
 import android.util.Log;
+
 import com.stripe.stripeterminal.external.callable.TerminalListener;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.PaymentStatus;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * TODO: Finish implementing
  */
 public class TerminalEventListener implements TerminalListener {
+    private static final String TAG = TerminalEventListener.class.toString();
 
     @Override
     public void onUnexpectedReaderDisconnect(@NotNull Reader reader) {
