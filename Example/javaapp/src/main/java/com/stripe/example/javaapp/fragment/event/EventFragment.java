@@ -86,6 +86,8 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
     private static final String INCREMENTAL_AUTH =
             "com.stripe.example.fragment.event.EventFragment.extended_auth";
 
+    private static final boolean DO_NOT_ENABLE_MOTO = false;
+
     public static EventFragment readReusableCard() {
         final EventFragment fragment = new EventFragment();
         final Bundle bundle = new Bundle();
@@ -181,7 +183,7 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
 
             final Bundle arguments = getArguments();
             final boolean skipTipping = (arguments != null) && arguments.getBoolean(SKIP_TIPPING);
-            final CollectConfiguration collectConfig = new CollectConfiguration(skipTipping);
+            final CollectConfiguration collectConfig = new CollectConfiguration(skipTipping, DO_NOT_ENABLE_MOTO);
             viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
                     paymentIntent, collectPaymentMethodCallback, collectConfig);
         }

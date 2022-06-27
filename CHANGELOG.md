@@ -1,5 +1,10 @@
 # CHANGELOG
 
+
+## 2.11.0 - 2022-06-XX
+
+- Beta: Add ability to specify capture method when creating a PaymentIntent via the SDK.
+
 ## 2.10.2 - 2022-06-15
 
 - Fix: Fixed a crash for devices running Android 7.1 and lower. See [issue 234](https://github.com/stripe/stripe-terminal-android/issues/234) for details.
@@ -23,14 +28,14 @@
   This issue manifests if a payment is collected with tipping enabled and subsequently a payment is collected without tipping enabled
   while the POS app is still alive. The payment without tipping enabled would use the cached tip amount.
   See [issue 224](https://github.com/stripe/stripe-terminal-android/issues/224)
-  
+
 ## 2.8.0 - 2022-03-28
 
 - Beta: Incremental or extended authorization can be requested with `CardPresentParameters` and
   `PaymentMethodOptionsParameters` objects. See [extended auhorizations](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity) and [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations)
 - Beta: USB connectivity is now available via `Terminal.connectUsbReader` for M2 reader. Note that this API isn't
   finalized and may be changed. As a result, it requires use of a new `@OptIn` annotation; `@UsbConnectivity`.
-  
+
 ## 2.7.1 - 2022-03-21
 
 - Fix: Resolved an issue causing the SDK to become unresponsive during payment collection.
@@ -87,13 +92,13 @@
 
 - New: Strong Customer Authentication (SCA) support was added for internet readers.
 - Update: EMV online processing timeout increased from 15s to 30s. Note that this timeout isn't
-used by Chipper devices.
+  used by Chipper devices.
 - Remove: Remove Machine Driven Registration. It's been moved to the DeviceManagementSDK.
 - Fix: Amex cards no longer decline when used via Apple Pay. See [issue 166](https://github.com/stripe/stripe-terminal-android/issues/166) for details.
 
 ## 2.3.1 - 2021-09-22
 
- - Fix: Resolved an issue with class loading in the SDK
+- Fix: Resolved an issue with class loading in the SDK
 
 ## 2.3.0 - 2021-09-21
 
@@ -108,19 +113,19 @@ used by Chipper devices.
 
 - Update: fields in the `Reader` class have been added/removed. All newly added fields correspond to the same values
   returned by the [Stripe API](https://stripe.com/docs/api/terminal/readers/object)
-  - Added `id`, `networkStatus`, `label`, `baseUrl`, `ipAddress`, `livemode`
-  - Removed `ipReader`, `cotsDescriptor`
+    - Added `id`, `networkStatus`, `label`, `baseUrl`, `ipAddress`, `livemode`
+    - Removed `ipReader`, `cotsDescriptor`
 
 ## 2.2.0 - 2021-08-23
 
 - Fix: Resolved intermittent unexpected token invalidation errors when using simlated
-readers, and when a connected reader is left idle for a long period of time prior to completing a transaction.
+  readers, and when a connected reader is left idle for a long period of time prior to completing a transaction.
 
 - Fix: Duplicate class conflict with Firebase and other libraries that use `protobuf-javalite` resolved.
-See [issue 135](https://github.com/stripe/stripe-terminal-android/issues/135) for details.
+  See [issue 135](https://github.com/stripe/stripe-terminal-android/issues/135) for details.
 
 - New: [Setup Future Usage](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage)
-field added to `PaymentIntentParameters`.
+  field added to `PaymentIntentParameters`.
 
 - Fix: When using a simulated BBPOS reader, starting, cancelling, and restarting an update now works as expected.
 
@@ -132,39 +137,39 @@ field added to `PaymentIntentParameters`.
 - Update: we will use more precise and consistent `TerminalErrorCode` and error messages for failures of all confirmation operations,
   including processRefund, processPayment, confirmSetupIntent. Specifically,
   For `TerminalErrorCode`:
-  - Use `UNSUPPORTED_SDK` if stripe server declined with `terminal_unsupported_sdk_version`.
-  - Use `UNSUPPORTED_READER_VERSION` if stripe server declined with `terminal_unsupported_reader_version`.
-  - Use `API_SESSION_EXPIRED` if stripe server declined with `api_key_expired`.
-  - Use new enum code `STRIPE_API_CONNECTION_ERROR` for general internet connection failures or timeouts.
-  - Use `DECLINED_BY_STRIPE_API` for other failures with decode-able responses.
-  Comparing to in the past we:
-  - Used `STRIPE_API_ERROR` for internet connection failures and all failures with decode-able responses for processRefund.
-  - Used `DECLINED_BY_STRIPE_API` for internet connection failures and all failures with decode-able responses for processPayment.
-  - Used `DECLINED_BY_STRIPE_API` for internet connection failures and all failures with decode-able responses for confirmSetupIntent.
-  What's unchanged:
-  - Use `STRIPE_API_RESPONSE_DECODING_ERROR` if SDK fails to decode response from Stripe service.
-  For error messages:
-  - Use "Could not connect  to Stripe. Please retry." for general connection errors, timeouts.
-  - Use the message sent from server.
-  Comparing to in the past we:
-  - Always used "Stripe API error".
+    - Use `UNSUPPORTED_SDK` if stripe server declined with `terminal_unsupported_sdk_version`.
+    - Use `UNSUPPORTED_READER_VERSION` if stripe server declined with `terminal_unsupported_reader_version`.
+    - Use `API_SESSION_EXPIRED` if stripe server declined with `api_key_expired`.
+    - Use new enum code `STRIPE_API_CONNECTION_ERROR` for general internet connection failures or timeouts.
+    - Use `DECLINED_BY_STRIPE_API` for other failures with decode-able responses.
+      Comparing to in the past we:
+    - Used `STRIPE_API_ERROR` for internet connection failures and all failures with decode-able responses for processRefund.
+    - Used `DECLINED_BY_STRIPE_API` for internet connection failures and all failures with decode-able responses for processPayment.
+    - Used `DECLINED_BY_STRIPE_API` for internet connection failures and all failures with decode-able responses for confirmSetupIntent.
+      What's unchanged:
+    - Use `STRIPE_API_RESPONSE_DECODING_ERROR` if SDK fails to decode response from Stripe service.
+      For error messages:
+    - Use "Could not connect  to Stripe. Please retry." for general connection errors, timeouts.
+    - Use the message sent from server.
+      Comparing to in the past we:
+    - Always used "Stripe API error".
 
 - Update: When discovering readers in our handoff integration mode, `discoverReaders` will only return a
-reader if it has been registered. If the current reader has not been registered, `discoverReaders`
-will return an empty list of readers.
+  reader if it has been registered. If the current reader has not been registered, `discoverReaders`
+  will return an empty list of readers.
 
 - Fix: Each of the Terminal SDK AARs now contain keep rules. This allows you to enable Proguard/R8
-minification without configuring your own keep rules. See [issue 142](https://github.com/stripe/stripe-terminal-android/issues/142) for details.
+  minification without configuring your own keep rules. See [issue 142](https://github.com/stripe/stripe-terminal-android/issues/142) for details.
 
 - New: Added `generateRegistrationCode` for generating a smart reader registration code without human
-intervention. Note that this functionality is only available when the SDK is running directly on a
-smart reader device.
+  intervention. Note that this functionality is only available when the SDK is running directly on a
+  smart reader device.
 
 - New: Support displaying transaction information on-screen for internet readers using
-`Terminal.setReaderDisplay` and `Terminal.clearReaderDisplay`.
+  `Terminal.setReaderDisplay` and `Terminal.clearReaderDisplay`.
 
 - New: `Cart` and `CartLineItem` classes have been added to hold transaction
-information used for setting the reader display
+  information used for setting the reader display
 
 ## 2.1.0 - 2021-08-02
 
@@ -275,36 +280,36 @@ manually.
   `availableUpdate`.
 - Incremental updates are now treated the same as required updates, resulting in the following
   changes:
-  - Removed `UPDATING` from `ConnectionStatus`. All updates are now exclusively communicated via the
-    `BluetoothReaderListener`. Required updates that are installed while connecting to a reader will
-    be performed while the `ConnectionStatus` is `CONNECTING`.
-  - All required reader software updates now report
-    `BluetoothReaderListener.onStartInstallingUpdate` and the `Cancelable` provided is now
-    nullable. When an incremental-only change is announced, the `Cancelable` will be null since
-    these incremental changes are required and cannot be canceled.
-  - `ReaderSoftwareUpdate` now has a `components` property that can be used to determine the changes
-    that will be applied with this update. `version` can still be used to identify the specific
-    firmware, config, and keys that will be installed with the update.
-  - On `SimulateReaderUpdate`, replaced `REQUIRED_INCREMENTAL` `REQUIRED_FULL` with `REQUIRED` since
-    these update types now behave the same.
+    - Removed `UPDATING` from `ConnectionStatus`. All updates are now exclusively communicated via the
+      `BluetoothReaderListener`. Required updates that are installed while connecting to a reader will
+      be performed while the `ConnectionStatus` is `CONNECTING`.
+    - All required reader software updates now report
+      `BluetoothReaderListener.onStartInstallingUpdate` and the `Cancelable` provided is now
+      nullable. When an incremental-only change is announced, the `Cancelable` will be null since
+      these incremental changes are required and cannot be canceled.
+    - `ReaderSoftwareUpdate` now has a `components` property that can be used to determine the changes
+      that will be applied with this update. `version` can still be used to identify the specific
+      firmware, config, and keys that will be installed with the update.
+    - On `SimulateReaderUpdate`, replaced `REQUIRED_INCREMENTAL` `REQUIRED_FULL` with `REQUIRED` since
+      these update types now behave the same.
 - We have changed our packaging for models and callables:
-  - Models have been moved from `com.stripe.stripeterminal.model` to
-    `com.stripe.stripeterminal.external.models`.
-  - Callables have been moved from `com.stripe.stripeterminal.callable` to
-    `com.stripe.stripeterminal.external.callable`.
+    - Models have been moved from `com.stripe.stripeterminal.model` to
+      `com.stripe.stripeterminal.external.models`.
+    - Callables have been moved from `com.stripe.stripeterminal.callable` to
+      `com.stripe.stripeterminal.external.callable`.
 - Replaced `TerminalLifecycleObserver` with `TerminalApplicationDelegate`. Users now must invoke
   `TerminalApplicationDelegate.onCreate` and `TerminalApplicationDelegate.onTrimMemory` from their
   applications.
 - Fixed `BluetoothReaderListener.onReportReaderEvent` to properly report card insertion & removal
   events.
 - Updated amount types from `Int` to `Long` for the following fields:
-  - `PaymentIntent.amount`, `PaymentIntent.amountCapturable`, `PaymentIntent.amountReceived`, &
-    `PaymentIntent.applicationFeeAmount`
-  - `PaymentIntentParameters.amount` & `PaymentIntentParameters.applicationFeeAmount`
-  - `Charge.amount`, `Charge.amountRefunded`, & `Charge.applicationFeeAmount`
-  - `RefundParameters.amount`
-  - `Refund.amount`
-  - `SingleUseMandate.amount`
+    - `PaymentIntent.amount`, `PaymentIntent.amountCapturable`, `PaymentIntent.amountReceived`, &
+      `PaymentIntent.applicationFeeAmount`
+    - `PaymentIntentParameters.amount` & `PaymentIntentParameters.applicationFeeAmount`
+    - `Charge.amount`, `Charge.amountRefunded`, & `Charge.applicationFeeAmount`
+    - `RefundParameters.amount`
+    - `Refund.amount`
+    - `SingleUseMandate.amount`
 - Renamed error code `PAYMENT_DECLINED_BY_STRIPE_API` to `DECLINED_BY_STRIPE_API`
 - Renamed error code `PAYMENT_DECLINED_BY_READER` to `DECLINED_BY_READER`
 - When a reader unexpectedly disconnects during an operation, we swapped the callback order for
