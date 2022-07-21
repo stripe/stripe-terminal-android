@@ -63,6 +63,14 @@ class ReaderClickListener(
             }
         }
         when (viewModel.discoveryMethod) {
+            DiscoveryMethod.LOCAL_MOBILE -> {
+                Terminal.getInstance().connectLocalMobileReader(
+                    reader,
+                    ConnectionConfiguration.LocalMobileConnectionConfiguration(connectLocationId),
+                    readerCallback,
+
+                    )
+            }
             DiscoveryMethod.BLUETOOTH_SCAN -> {
                 Terminal.getInstance().connectBluetoothReader(
                     reader,
