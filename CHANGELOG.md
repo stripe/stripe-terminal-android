@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## 2.12.0 - 2022-07-25
+
+- Update: @OnReaderTips annotation is no longer required for using the on-reader tipping feature
+- New: Added `autoReconnectOnUnexpectedDisconnect` & `bluetoothReaderReconnectionListener` to the
+  [`BluetoothConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-bluetooth-connection-configuration/index.html).
+  When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to a reader. See [Stripe Doc](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#automatic-reconnection) for details.
+
 ## 2.11.0 - 2022-06-27
 
 - Beta: Add ability to specify capture method when creating a PaymentIntent via the SDK.
