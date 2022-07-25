@@ -20,7 +20,6 @@ import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.OnReaderTips
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
@@ -145,12 +144,11 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         }
     }
 
-    @OptIn(OnReaderTips::class)
     private val createPaymentIntentCallback by lazy {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
                 val skipTipping = arguments?.getBoolean(SKIP_TIPPING) ?: false
-                val collectConfig = CollectConfiguration(skipTipping = skipTipping)
+                val collectConfig = CollectConfiguration.Builder(skipTipping = skipTipping).build()
                 this@EventFragment.paymentIntent = paymentIntent
                 addEvent("Created PaymentIntent", "terminal.createPaymentIntent")
                 viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(

@@ -25,7 +25,6 @@ import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.OnReaderTips;
 import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
@@ -175,7 +174,6 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
     };
 
     @NotNull private final PaymentIntentCallback createPaymentIntentCallback = new PaymentIntentCallback() {
-        @OptIn(markerClass = OnReaderTips.class)
         @Override
         public void onSuccess(@NotNull PaymentIntent intent) {
             paymentIntent = intent;
@@ -183,7 +181,8 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
 
             final Bundle arguments = getArguments();
             final boolean skipTipping = (arguments != null) && arguments.getBoolean(SKIP_TIPPING);
-            final CollectConfiguration collectConfig = new CollectConfiguration(skipTipping, DO_NOT_ENABLE_MOTO);
+            final CollectConfiguration collectConfig =
+                    new CollectConfiguration.Builder(skipTipping, DO_NOT_ENABLE_MOTO).build();
             viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
                     paymentIntent, collectPaymentMethodCallback, collectConfig);
         }
