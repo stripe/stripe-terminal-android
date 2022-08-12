@@ -6,7 +6,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion maxSdkVersion
-        buildConfigField "String", "EXAMPLE_BACKEND_URL", "\"${project.getProperty("EXAMPLE_BACKEND_URL")}\""
+        buildConfigField "String", "EXAMPLE_BACKEND_URL", "${project.getProperty("EXAMPLE_BACKEND_URL")}"
     }
 
     buildFeatures {
