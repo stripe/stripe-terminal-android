@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.13.1 - 2022-09-21
+- Fix: Corrected an issue causing incorrect currency displays on readers and causing Interac tap payments to be redirected to insert card. Fixes [issue 259](https://github.com/stripe/stripe-terminal-android/issues/259)
+
 ## 2.13.0 - 2022-08-29
 - Fix: Collecting a payment method now returns before card is removed for all reader types.
 - New: Added a `PaymentIntentStatus` to represent when a `PaymentIntent` has been created and is being processed. Fixes [issue 236](https://github.com/stripe/stripe-terminal-android/issues/236)
