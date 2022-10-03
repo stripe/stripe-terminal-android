@@ -148,7 +148,9 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
                 val skipTipping = arguments?.getBoolean(SKIP_TIPPING) ?: false
-                val collectConfig = CollectConfiguration.Builder(skipTipping = skipTipping).build()
+                val collectConfig = CollectConfiguration.Builder()
+                    .skipTipping(skipTipping)
+                    .build()
                 this@EventFragment.paymentIntent = paymentIntent
                 addEvent("Created PaymentIntent", "terminal.createPaymentIntent")
                 viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
