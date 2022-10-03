@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.14.0 - 2022-10-03
+- Fix: `collectPaymentMethod` can now be called more than once, with or without an explicit cancel call. Fixes [issue 241](https://github.com/stripe/stripe-terminal-android/issues/241)
+
 ## 2.13.1 - 2022-09-21
 - Fix: Corrected an issue causing incorrect currency displays on readers and causing Interac tap payments to be redirected to insert card. Fixes [issue 259](https://github.com/stripe/stripe-terminal-android/issues/259)
 

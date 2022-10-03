@@ -44,6 +44,7 @@ import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.TerminalException;
+import com.stripe.stripeterminal.external.models.TippingConfiguration;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -181,8 +182,12 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
 
             final Bundle arguments = getArguments();
             final boolean skipTipping = (arguments != null) && arguments.getBoolean(SKIP_TIPPING);
-            final CollectConfiguration collectConfig =
-                    new CollectConfiguration.Builder(skipTipping, DO_NOT_ENABLE_MOTO).build();
+            final CollectConfiguration collectConfig = new CollectConfiguration.Builder()
+                    .skipTipping(skipTipping)
+                    .setMoto(DO_NOT_ENABLE_MOTO)
+                    .setTippingConfiguration(
+                            new TippingConfiguration.Builder().build()
+                    ).build();
             viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
                     paymentIntent, collectPaymentMethodCallback, collectConfig);
         }
