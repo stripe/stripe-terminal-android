@@ -53,6 +53,13 @@ object ApiClient {
         service.capturePaymentIntent(id).execute()
     }
 
+    internal fun cancelPaymentIntent(
+        id: String,
+        callback: Callback<Void>
+    ) {
+        service.cancelPaymentIntent(id).enqueue(callback)
+    }
+
     /**
      * This method is calling the example backend (https://github.com/stripe/example-terminal-backend)
      * to create paymentIntent for Internet based readers, for example WisePOS E. For your own application, you

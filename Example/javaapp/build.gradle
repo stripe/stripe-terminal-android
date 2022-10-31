@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion maxSdkVersion
+    namespace = "com.stripe.example.javaapp"
+    compileSdk maxSdkVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion maxSdkVersion
+        minSdk 21
+        targetSdk maxSdkVersion
         buildConfigField "String", "EXAMPLE_BACKEND_URL", "\"${project.getProperty("EXAMPLE_BACKEND_URL").replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
     }
 
@@ -24,18 +25,18 @@ android {
 }
 
 ext {
-    androidx_lifecycle_version = '2.4.1'
-    kotlin_coroutines_version = '1.6.1'
-    okhttp_version = '4.9.3'
+    androidx_lifecycle_version = '2.5.1'
+    kotlin_coroutines_version = '1.6.4'
+    okhttp_version = '4.10.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "2.14.0"
+    stripeTerminalVersion = "2.15.0"
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation "com.google.android.material:material:1.1.0"
-    implementation "androidx.appcompat:appcompat:1.4.2"
+    implementation "com.google.android.material:material:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.5.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
     // ViewModel and LiveData

@@ -279,7 +279,35 @@ class EventFragment : Fragment(), BluetoothReaderListener {
                 override fun onSuccess() {
                     viewModel.collectTask = null
                     paymentIntent?.let {
-                        Terminal.getInstance().cancelPaymentIntent(it, cancelPaymentIntentCallback)
+                        if (TerminalFragment.getCurrentDiscoveryMethod(activityRef.get()) == DiscoveryMethod.INTERNET) {
+                            ApiClient.cancelPaymentIntent(
+                                paymentIntent!!.id,
+                                object : retrofit2.Callback<Void> {
+                                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                        if (response.isSuccessful) {
+                                            addEvent("Canceled PaymentIntent", "backend.cancelPaymentIntent")
+                                            activityRef.get()?.let { activity ->
+                                                if (activity is NavigationListener) {
+                                                    activity.runOnUiThread {
+                                                        activity.onCancelCollectPaymentMethod()
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            addEvent("Cancel PaymentIntent failed", "backend.cancelPaymentIntent")
+                                            completeFlow()
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                                        Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
+                                        completeFlow()
+                                    }
+                                }
+                            )
+                        } else {
+                            Terminal.getInstance().cancelPaymentIntent(it, cancelPaymentIntentCallback)
+                        }
                     }
                 }
 

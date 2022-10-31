@@ -297,7 +297,33 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
                     public void onSuccess() {
                         viewModel.collectTask = null;
                         if (paymentIntent != null) {
-                            Terminal.getInstance().cancelPaymentIntent(paymentIntent, cancelPaymentIntentCallback);
+                            if (TerminalFragment.getCurrentDiscoveryMethod(getActivity()) == DiscoveryMethod.INTERNET) {
+                                ApiClient.cancelPaymentIntent(paymentIntent.getId(), new retrofit2.Callback<Void>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                        if (response.isSuccessful()) {
+                                            addEvent("Canceled PaymentIntent", "backend.cancelPaymentIntent");
+                                            final FragmentActivity activity = activityRef.get();
+                                            if (activity instanceof NavigationListener) {
+                                                activity.runOnUiThread(
+                                                        ((NavigationListener) activity)::onCancelCollectPaymentMethod
+                                                );
+                                            }
+                                        } else {
+                                            addEvent("Cancel PaymentIntent failed", "backend.cancelPaymentIntent");
+                                            completeFlow();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                                        completeFlow();
+                                    }
+                                });
+                            } else {
+                                Terminal.getInstance().cancelPaymentIntent(paymentIntent, cancelPaymentIntentCallback);
+                            }
                         }
                     }
 
