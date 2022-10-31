@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.15.0 - 2022-10-31
+- Fix: Corrected an incorrect property signature for `CaptureMethod.Manual` in java applications.
+- Fix: Example apps now properly cancel payment intents created for smart readers. Requires a [backend change](https://github.com/stripe/example-terminal-backend/pull/42).
+- Update: You can see the tip amount through the [`PaymentIntent`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent/index.html) object in the [processPayment](https://stripe.dev/stripe-terminal-android/core/modules/core/com.stripe.stripeterminal/-terminal/process-payment.html) callback. Fixes [issue 228](https://github.com/stripe/stripe-terminal-android/issues/228)
+- New: Added a `TippingConfiguration` object to be used to specify a custom amount for percentage based tip calculations. See [Tip-eligible amounts](https://stripe.com/docs/terminal/features/collecting-tips/on-reader#tip-eligible) for details.
+
 ## 2.14.0 - 2022-10-03
 - Fix: `collectPaymentMethod` can now be called more than once, with or without an explicit cancel call. Fixes [issue 241](https://github.com/stripe/stripe-terminal-android/issues/241)
 

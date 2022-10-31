@@ -32,6 +32,13 @@ public interface BackendService {
     Call<Void> capturePaymentIntent(@Field("payment_intent_id") @NotNull String id);
 
     /**
+     * Capture a specific payment intent on our backend
+     */
+    @FormUrlEncoded
+    @POST("cancel_payment_intent")
+    Call<Void> cancelPaymentIntent(@Field("payment_intent_id") @NotNull String id);
+
+    /**
      * Create a PaymentIntent in example backend and return PaymentIntentCreationResponse
      * For internet readers, you need to create paymentIntent in backend
      * https://stripe.com/docs/terminal/payments/collect-payment?terminal-sdk-platform=android#create-payment
