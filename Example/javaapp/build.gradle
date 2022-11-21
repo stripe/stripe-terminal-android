@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     namespace = "com.stripe.example.javaapp"
-    compileSdk maxSdkVersion
+    compileSdk latestSdkVersion
 
     defaultConfig {
         minSdk 21
-        targetSdk maxSdkVersion
+        targetSdk latestSdkVersion
         buildConfigField "String", "EXAMPLE_BACKEND_URL", "\"${project.getProperty("EXAMPLE_BACKEND_URL").replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
     }
 
@@ -29,7 +29,7 @@ ext {
     kotlin_coroutines_version = '1.6.4'
     okhttp_version = '4.10.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "2.15.0"
+    stripeTerminalVersion = "2.16.0"
 }
 
 dependencies {

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.16.0 - 2022-11-21
+- New: Added support for creating Payment Intents with `CardPresentCaptureMethod.ManualPreferred` capture method set on the `CardPresentParameters`.
+- Fix: Fixed an issue where cancelling discovery for USB readers may have left discovery broken until app restart.
+- Update: Internal refactor of our transaction state machine to increase observability for Chipper 2X and Stripe M2 readers.
+
 ## 2.15.0 - 2022-10-31
 - Fix: Corrected an incorrect property signature for `CaptureMethod.Manual` in java applications.
 - Fix: Example apps now properly cancel payment intents created for smart readers. Requires a [backend change](https://github.com/stripe/example-terminal-backend/pull/42).
@@ -26,6 +31,7 @@
 - New: Added `autoReconnectOnUnexpectedDisconnect` & `bluetoothReaderReconnectionListener` to the
   [`BluetoothConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-bluetooth-connection-configuration/index.html).
   When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to a reader. See [Stripe Doc](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#automatic-reconnection) for details.
+- Fix: Fixed a `java.security.ProviderException` with message "Keystore operation failed" when calling `Terminal.initTerminal` for some Android devices.
 
 ## 2.11.0 - 2022-06-27
 
@@ -354,6 +360,10 @@ manually.
 
 ## 1.0.22 - 2021-06-15
 - Bump vendor SDK
+
+## 1.0.18 - 2021-03-23
+- Fix [issue 128](https://github.com/stripe/stripe-terminal-android/issues/128) by upgrading and
+  unshading OkHTTP to version 4.7.2 in the SDK.
 
 ## 1.0.17 - 2020-05-29
 - Fix [issue 109](https://github.com/stripe/stripe-terminal-android/issues/109)
