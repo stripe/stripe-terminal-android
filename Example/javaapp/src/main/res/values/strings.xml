@@ -6,7 +6,7 @@
     <string name="checking_for_update">Checking for update</string>
     <string name="collect_card_payment">Collect card payment</string>
     <string name="collect_payment">Collect payment</string>
-    <string name="collect_payment_description">Collect a card payment using a physical Stripe test card and the Chipper 2X</string>
+    <string name="collect_payment_description">Collect a card payment using a physical Stripe test card and a card reader</string>
     <string name="common_workflows">COMMON WORKFLOWS</string>
     <string name="connecting">Connecting...</string>
     <string name="currency">CURRENCY</string>

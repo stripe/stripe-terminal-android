@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 2.17.0 - 2023-01-30
+- New: `CardPresentDetails.incrementalAuthorizationStatus` indicates whether incremental authorizations are supported or not after the `PaymentIntent` has been confirmed.
+- New: Statement descriptor suffix field added to `PaymentIntentParameters`, `PaymentIntent`, and `Charge`.
+- New: Calculated statement descriptor field added to `Charge`.
+- Update: The `stripeterminal-localmobile` artifact will no longer automatically opt in to allow cleartext network connections to `localhost`.
+- Update: Removed `Terminal.connectEmbeddedReader` method. It's meant only to be used internally by Stripe.
+- Update: Internal refactor of our transaction state machine to increase observability for all readers.
+- Fix: Don't log error when failing to retrieve serial number on API 29 and up. Fixes [issue 266](https://github.com/stripe/stripe-terminal-android/issues/266)
+- Fix: Connecting to a reader via USB no longer starts a second application process.
+- Fix: Fixed an issue where we weren't always resuming polling for mPOS battery status and location changes when the app is brought into the foreground.
+- Fix: Don't crash when cancelling an intent after losing connection with a smart reader. Fixes [issue 275](https://github.com/stripe/stripe-terminal-android/issues/275)
+- Fix: Fixed a bug with handling `captureMethod` and `setupFutureUsage` when creating a `PaymentIntent` in handoff integration mode.
+
 ## 2.16.0 - 2022-11-21
 - New: Added support for creating Payment Intents with `CardPresentCaptureMethod.ManualPreferred` capture method set on the `CardPresentParameters`.
 - Fix: Fixed an issue where cancelling discovery for USB readers may have left discovery broken until app restart.
