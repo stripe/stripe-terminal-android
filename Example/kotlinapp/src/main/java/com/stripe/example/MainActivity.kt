@@ -370,14 +370,20 @@ class MainActivity :
 
         try {
             gpsEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
-        } catch (exception: Exception) {}
+        } catch (_: Exception) {
+        }
 
         if (!gpsEnabled) {
             // notify user
-            AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
+            AlertDialog.Builder(
+                ContextThemeWrapper(
+                    this,
+                    com.google.android.material.R.style.Theme_MaterialComponents_DayNight_DarkActionBar
+                )
+            )
                 .setMessage("Please enable location services")
                 .setCancelable(false)
-                .setPositiveButton("Open location settings") { param, paramInt ->
+                .setPositiveButton("Open location settings") { _, _ ->
                     this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 }
                 .create()

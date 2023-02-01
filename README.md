@@ -14,8 +14,8 @@ The Stripe Terminal Android SDK includes two open-source example apps (one in Ja
 
 1. Clone this repo.
 2. Import the `Example` project into Android Studio.
-3. Navigate to our [example backend](https://github.com/stripe/example-terminal-backend) and click the button to deploy it on Heroku.
-4. In `ApiClient.kt` (or `ApiClient.java` if you're using the Java example), set the URL of the Heroku app you just deployed.
+3. Navigate to our [example backend](https://github.com/stripe/example-terminal-backend) and deploy it following the instructions in the README.
+4. In `gradle.properties`, set the URL of the backend you just deployed.
 5. Build and run the app. The app includes a reader simulator, so you have no need for a physical reader to start your integration. Note that while the example app will work in an Android emulator, you will only be able to connect to a simulated reader due to lack of Bluetooth capabilities.
 
 ## Installation
@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 
     dependencies {
-        implementation "com.stripe:stripeterminal:2.16.0"
+        implementation "com.stripe:stripeterminal:2.17.0"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):

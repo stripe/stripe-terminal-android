@@ -439,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (!gpsEnabled) {
             // notify user
-            new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
+            new AlertDialog.Builder(new ContextThemeWrapper(this, com.google.android.material.R.style.Theme_MaterialComponents_DayNight_DarkActionBar))
                     .setMessage("Please enable location services")
                     .setCancelable(false)
                     .setPositiveButton("Open location settings", (dialog, which) -> {
