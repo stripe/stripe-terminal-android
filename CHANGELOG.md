@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.17.1 - 2023-02-06
+- Update: Move internal implementation classes to be private, so they are not visible to users. No functional changes.
+
 ## 2.17.0 - 2023-01-30
 - New: `CardPresentDetails.incrementalAuthorizationStatus` indicates whether incremental authorizations are supported or not after the `PaymentIntent` has been confirmed.
 - New: Statement descriptor suffix field added to `PaymentIntentParameters`, `PaymentIntent`, and `Charge`.
