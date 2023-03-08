@@ -28,10 +28,4 @@ public class StripeTerminalApplication extends Application {
 
         TerminalApplicationDelegate.onCreate(this);
     }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        TerminalApplicationDelegate.onTrimMemory(this, level);
-    }
 }

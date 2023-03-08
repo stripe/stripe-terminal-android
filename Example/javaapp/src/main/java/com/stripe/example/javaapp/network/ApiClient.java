@@ -64,29 +64,4 @@ public class ApiClient {
     ) {
         mService.cancelPaymentIntent(id).enqueue(callback);
     }
-
-    /**
-     * This method is calling the example backend (https://github.com/stripe/example-terminal-backend)
-     * to create paymentIntent for Internet based readers, for example WisePOS E. For your own application, you
-     * should create paymentIntent in your own merchant backend.
-     */
-    public static void createPaymentIntent(
-            Long amount,
-            String currency,
-            boolean extendedAuth,
-            boolean incrementalAuth,
-            Callback<PaymentIntentCreationResponse> callback
-    ) {
-        final Map<String, String> createPaymentIntentParams = new HashMap<>();
-        createPaymentIntentParams.put("amount", amount.toString());
-        createPaymentIntentParams.put("currency", currency);
-        if (extendedAuth) {
-            createPaymentIntentParams.put("payment_method_options[card_present[request_extended_authorization]]", "true");
-        }
-        if (incrementalAuth) {
-            createPaymentIntentParams.put("payment_method_options[card_present[request_incremental_authorization_support]]", "true");
-        }
-
-        mService.createPaymentIntent(createPaymentIntentParams).enqueue(callback);
-    }
 }

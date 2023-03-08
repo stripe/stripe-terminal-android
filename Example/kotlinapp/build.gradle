@@ -33,7 +33,7 @@ ext {
     kotlin_coroutines_version = '1.6.4'
     okhttp_version = '4.10.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "2.17.1"
+    stripeTerminalVersion = "2.18.0"
 }
 
 dependencies {

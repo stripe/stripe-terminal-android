@@ -1,7 +1,6 @@
 package com.stripe.example.network
 
 import com.stripe.example.BuildConfig
-import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import okhttp3.OkHttpClient
 import retrofit2.Callback
@@ -58,32 +57,5 @@ object ApiClient {
         callback: Callback<Void>
     ) {
         service.cancelPaymentIntent(id).enqueue(callback)
-    }
-
-    /**
-     * This method is calling the example backend (https://github.com/stripe/example-terminal-backend)
-     * to create paymentIntent for Internet based readers, for example WisePOS E. For your own application, you
-     * should create paymentIntent in your own merchant backend.
-     */
-    internal fun createPaymentIntent(
-        amount: Long,
-        currency: String,
-        extendedAuth: Boolean,
-        incrementalAuth: Boolean,
-        callback: Callback<PaymentIntentCreationResponse>
-    ) {
-        val createPaymentIntentParams = buildMap<String, String> {
-            put("amount", amount.toString())
-            put("currency", currency)
-
-            if (extendedAuth) {
-                put("payment_method_options[card_present[request_extended_authorization]]", "true")
-            }
-            if (incrementalAuth) {
-                put("payment_method_options[card_present[request_incremental_authorization_support]]", "true")
-            }
-        }
-
-        service.createPaymentIntent(createPaymentIntentParams).enqueue(callback)
     }
 }

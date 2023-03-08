@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.18.0 - 2023-03-06
+- New: Create `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`createPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-payment-intent.html) or [`createSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-setup-intent.html) instead of using your backend.
+    - _Note: This feature requires version `2.11.0.0` or later to be installed on your internet reader._
+
 ## 2.17.1 - 2023-02-06
 - Update: Move internal implementation classes to be private, so they are not visible to users. No functional changes.
 

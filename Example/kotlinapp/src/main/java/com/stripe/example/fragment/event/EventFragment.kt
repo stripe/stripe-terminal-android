@@ -16,7 +16,6 @@ import com.stripe.example.R
 import com.stripe.example.databinding.FragmentEventBinding
 import com.stripe.example.fragment.TerminalFragment
 import com.stripe.example.model.Event
-import com.stripe.example.model.PaymentIntentCreationResponse
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
@@ -188,65 +187,25 @@ class EventFragment : Fragment(), BluetoothReaderListener {
                 if (it.getBoolean(REQUEST_PAYMENT)) {
                     val extendedAuth = it.getBoolean(EXTENDED_AUTH)
                     val incrementalAuth = it.getBoolean(INCREMENTAL_AUTH)
-                    // For internet-connected readers, PaymentIntents must be created via your backend
-                    if (TerminalFragment.getCurrentDiscoveryMethod(activityRef.get()) == DiscoveryMethod.INTERNET) {
-                        ApiClient.createPaymentIntent(
-                            it.getLong(AMOUNT),
-                            it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd",
-                            extendedAuth,
-                            incrementalAuth,
-                            object : retrofit2.Callback<PaymentIntentCreationResponse> {
-                                override fun onResponse(
-                                    call: Call<PaymentIntentCreationResponse>,
-                                    response: Response<PaymentIntentCreationResponse>
-                                ) {
-                                    if (response.isSuccessful && response.body() != null)
-                                        Terminal.getInstance().retrievePaymentIntent(
-                                            response.body()?.secret!!,
-                                            createPaymentIntentCallback
-                                        )
-                                    else {
-                                        Toast.makeText(
-                                            activity,
-                                            "PaymentIntent creation failed",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
-                                }
-
-                                override fun onFailure(
-                                    call: Call<PaymentIntentCreationResponse>,
-                                    t: Throwable
-                                ) {
-                                    Toast.makeText(
-                                        activity,
-                                        "PaymentIntent creation failed",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
-                        )
-                    } else {
-                        val cardPresentParametersBuilder = CardPresentParameters.Builder()
-                        if (extendedAuth) {
-                            cardPresentParametersBuilder.setRequestExtendedAuthorization(true)
-                        }
-                        if (incrementalAuth) {
-                            cardPresentParametersBuilder.setRequestIncrementalAuthorizationSupport(true)
-                        }
-
-                        val paymentMethodOptionsParameters = PaymentMethodOptionsParameters.Builder()
-                            .setCardPresentParameters(cardPresentParametersBuilder.build())
-                            .build()
-
-                        val params = PaymentIntentParameters.Builder()
-                            .setAmount(it.getLong(AMOUNT))
-                            .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
-                            .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
-                            .build()
-                        Terminal.getInstance()
-                            .createPaymentIntent(params, createPaymentIntentCallback)
+                    val cardPresentParametersBuilder = CardPresentParameters.Builder()
+                    if (extendedAuth) {
+                        cardPresentParametersBuilder.setRequestExtendedAuthorization(true)
                     }
+                    if (incrementalAuth) {
+                        cardPresentParametersBuilder.setRequestIncrementalAuthorizationSupport(true)
+                    }
+
+                    val paymentMethodOptionsParameters = PaymentMethodOptionsParameters.Builder()
+                        .setCardPresentParameters(cardPresentParametersBuilder.build())
+                        .build()
+
+                    val params = PaymentIntentParameters.Builder()
+                        .setAmount(it.getLong(AMOUNT))
+                        .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
+                        .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
+                        .build()
+                    Terminal.getInstance()
+                        .createPaymentIntent(params, createPaymentIntentCallback)
                 } else if (it.getBoolean(READ_REUSABLE_CARD)) {
                     viewModel.collectTask = Terminal.getInstance().readReusableCard(
                         ReadReusableCardParameters.NULL, reusablePaymentMethodCallback
