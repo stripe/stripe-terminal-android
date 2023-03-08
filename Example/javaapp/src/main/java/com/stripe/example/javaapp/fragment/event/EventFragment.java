@@ -224,45 +224,24 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
                     final String currency = arguments.getString(CURRENCY) != null ? arguments.getString(CURRENCY).toLowerCase(Locale.ENGLISH) : "usd";
                     final boolean extendedAuth = arguments.getBoolean(EXTENDED_AUTH);
                     final boolean incrementalAuth = arguments.getBoolean(INCREMENTAL_AUTH);
-                    if (TerminalFragment.getCurrentDiscoveryMethod(getActivity()) == DiscoveryMethod.INTERNET) {
-                        ApiClient.createPaymentIntent(arguments.getLong(AMOUNT), currency, extendedAuth, incrementalAuth, new retrofit2.Callback<PaymentIntentCreationResponse>() {
-                            @Override
-                            public void onResponse(Call<PaymentIntentCreationResponse> call, Response<PaymentIntentCreationResponse> response) {
-                                if (response.isSuccessful() && response.body() != null) {
-                                    Terminal.getInstance().retrievePaymentIntent(
-                                            response.body().getSecret(),
-                                            createPaymentIntentCallback
-                                    );
-                                } else {
-                                    Toast.makeText(getActivity(), "PaymentIntent creation failed", Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<PaymentIntentCreationResponse> call, Throwable t) {
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        CardPresentParameters.Builder cardPresentParametersBuilder = new CardPresentParameters.Builder();
-                        if (extendedAuth) {
-                            cardPresentParametersBuilder.setRequestExtendedAuthorization(true);
-                        }
-                        if (incrementalAuth) {
-                            cardPresentParametersBuilder.setRequestIncrementalAuthorizationSupport(true);
-                        }
-
-                        PaymentMethodOptionsParameters paymentMethodOptionsParameters = new PaymentMethodOptionsParameters.Builder()
-                                .setCardPresentParameters(cardPresentParametersBuilder.build())
-                                .build();
-
-                        final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
-                                .setAmount(arguments.getLong(AMOUNT))
-                                .setCurrency(currency)
-                                .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
-                                .build();
-                        Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
+                    CardPresentParameters.Builder cardPresentParametersBuilder = new CardPresentParameters.Builder();
+                    if (extendedAuth) {
+                        cardPresentParametersBuilder.setRequestExtendedAuthorization(true);
                     }
+                    if (incrementalAuth) {
+                        cardPresentParametersBuilder.setRequestIncrementalAuthorizationSupport(true);
+                    }
+
+                    PaymentMethodOptionsParameters paymentMethodOptionsParameters = new PaymentMethodOptionsParameters.Builder()
+                            .setCardPresentParameters(cardPresentParametersBuilder.build())
+                            .build();
+
+                    final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
+                            .setAmount(arguments.getLong(AMOUNT))
+                            .setCurrency(currency)
+                            .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
+                            .build();
+                    Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
                 } else if (arguments.getBoolean(READ_REUSABLE_CARD)) {
                     viewModel.collectTask = Terminal
                             .getInstance()

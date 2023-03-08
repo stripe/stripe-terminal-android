@@ -28,9 +28,4 @@ class StripeTerminalApplication : Application() {
 
         TerminalApplicationDelegate.onCreate(this)
     }
-
-    override fun onTrimMemory(level: Int) {
-        super.onTrimMemory(level)
-        TerminalApplicationDelegate.onTrimMemory(this, level)
-    }
 }
