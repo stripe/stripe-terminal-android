@@ -5,9 +5,9 @@
 - New: Cancel `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`cancelPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-payment-intent.html) or [`cancelSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-setup-intent.html) instead of using your backend.
     - _Note: This feature requires version `2.11.0.24` or later to be installed on your internet reader._
 - New: When discovering simulated internet readers, a simulated WisePOS E reader is returned in the results.
+- New: Added Simulated Co-branded Eftpos card types: `EFTPOS_AU_VISA_DEBIT` and `EFTPOS_AU_DEBIT_MASTERCARD`
 - Update: Deprecated [`BluetoothReaderReconnectionListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-bluetooth-reader-reconnection-listener/index.html) and replaced with [`ReaderReconnectionListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html).
 - Update: SDKs have been updated to depend on [Kotlin 1.8.10](https://kotlinlang.org/docs/whatsnew18.html).
-- New: Added Simulated Co-branded Eftpos card types: `EFTPOS_AU_VISA_DEBIT` and `EFTPOS_AU_DEBIT_MASTERCARD`
 - Fix: On-reader tips with BBPOS WisePad 3 now returns 0 [Amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount_details-tip) when no tip is selected.
 - Fix: Fixed a regression with creating a `PaymentIntent` in handoff mode when running on a device with an older version of the reader app.
 
