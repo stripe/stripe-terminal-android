@@ -1,4 +1,16 @@
 # CHANGELOG
+## 2.19.0 - 2023-04-03
+- New: Added `autoReconnectOnUnexpectedDisconnect` & `usbReaderReconnectionListener` to the [`UsbConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-usb-connection-configuration/index.html). When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to a USB reader. See [Stripe Docs](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=usb#automatic-reconnection) for details.
+- New: Added support for simulating an on-reader tip for simulated readers that support on-reader tipping.
+- New: Cancel `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`cancelPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-payment-intent.html) or [`cancelSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-setup-intent.html) instead of using your backend.
+    - _Note: This feature requires version `2.11.0.24` or later to be installed on your internet reader._
+- New: When discovering simulated internet readers, a simulated WisePOS E reader is returned in the results.
+- New: Added Simulated Co-branded Eftpos card types: `EFTPOS_AU_VISA_DEBIT` and `EFTPOS_AU_DEBIT_MASTERCARD`
+- Update: Deprecated [`BluetoothReaderReconnectionListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-bluetooth-reader-reconnection-listener/index.html) and replaced with [`ReaderReconnectionListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html).
+- Update: SDKs have been updated to depend on [Kotlin 1.8.10](https://kotlinlang.org/docs/whatsnew18.html).
+- Fix: On-reader tips with BBPOS WisePad 3 now returns 0 [Amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount_details-tip) when no tip is selected.
+- Fix: Fixed a regression with creating a `PaymentIntent` in handoff mode when running on a device with an older version of the reader app.
+
 ## 2.18.1 - 2023-03-15
 - Fix: `requestedPriority` is no longer dropped when performing a contactless tipping transaction with the WisePad 3.
 

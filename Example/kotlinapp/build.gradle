@@ -33,7 +33,7 @@ ext {
     kotlin_coroutines_version = '1.6.4'
     okhttp_version = '4.10.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "2.18.1"
+    stripeTerminalVersion = "2.19.0"
 }
 
 dependencies {
@@ -50,7 +50,6 @@ dependencies {
     // We are using Kotlin, and not Java 8, so do not use the recommended Java 8 library
     //noinspection LifecycleAnnotationProcessorWithJava8
     kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
