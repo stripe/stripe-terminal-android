@@ -27,13 +27,64 @@ if(savedDarkMode === true){
           <div class="breadcrumbs"><a href="../../../index.html">external</a>/<a href="../../index.html">com.stripe.stripeterminal.external.models</a>/<a href="../index.html">ConnectionConfiguration</a>/<a href="index.html">UsbConnectionConfiguration</a></div>
           <div class="cover ">
             <h1 class="cover"><span>Usb</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">UsbConnectionConfiguration</a><span class="token punctuation">(</span>locationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span> : <a href="../index.html">ConnectionConfiguration</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">UsbConnectionConfiguration</a><span class="token punctuation">(</span>locationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>autoReconnectOnUnexpectedDisconnect<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span>usbReaderReconnectionListener<span class="token operator">: </span><a href="../../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html">ReaderReconnectionListener</a><span class="token operator">?</span><span class="token punctuation">)</span> : <a href="../index.html">ConnectionConfiguration</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The <code class="lang-kotlin">UsbConnectionConfiguration</code> object is used to connect to a USB reader (currently <a href="../../-device-type/-c-h-i-p-p-e-r_2-x/index.html">DeviceType.CHIPPER_2X</a>, <a href="../../-device-type/-s-t-r-i-p-e_-m2/index.html">DeviceType.STRIPE_M2</a> and <a href="../../-device-type/-w-i-s-e-p-a-d_3/index.html">DeviceType.WISEPAD_3</a>)</p></div></div>
           </div>
           <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Properties">Properties</button></div>
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button></div>
             <div class="tabs-section-body">
+              <h2 class="">Parameters</h2>
+              <div data-togglable="Parameters">
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>auto</span><wbr><span>Reconnect</span><wbr><span>On</span><wbr><span>Unexpected</span><wbr><span><span>Disconnect</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">If set to true, Terminal will try to reconnect to your reader.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>usb</span><wbr><span>Reader</span><wbr><span>Reconnection</span><wbr><span><span>Listener</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">You will need to set <a href="usb-reader-reconnection-listener.html">usbReaderReconnectionListener</a> and being notified by <a href="../../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html">ReaderReconnectionListener.onReaderReconnectStarted</a> when reconnection starts. You will need to listen to <a href="../../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-succeeded.html">ReaderReconnectionListener.onReaderReconnectSucceeded</a> for succeeded reconnection, <a href="../../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-failed.html">ReaderReconnectionListener.onReaderReconnectFailed</a> for failed reconnection</p></div></div></div></div></div></div></div></div></div>
+              </div>
+              <h2 class="tabbedcontent">Constructors</h2>
+              <div class="table" data-togglable="Constructors"><a data-name="-150556147%2FConstructors%2F-405186196" anchor-label="UsbConnectionConfiguration" id="-150556147%2FConstructors%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+                <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-usb-connection-configuration.html"><span>Usb</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-150556147%2FConstructors%2F-405186196"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-usb-connection-configuration.html"><span class="token function">UsbConnectionConfiguration</span></a><span class="token punctuation">(</span>connectLocationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1878205433%2FConstructors%2F-405186196" anchor-label="UsbConnectionConfiguration" id="-1878205433%2FConstructors%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+                <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-usb-connection-configuration.html"><span>Usb</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1878205433%2FConstructors%2F-405186196"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-usb-connection-configuration.html"><span class="token function">UsbConnectionConfiguration</span></a><span class="token punctuation">(</span>locationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>autoReconnectOnUnexpectedDisconnect<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span>usbReaderReconnectionListener<span class="token operator">: </span><a href="../../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html">ReaderReconnectionListener</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="-750823680%2FProperties%2F-405186196" anchor-label="failIfInUse" id="-750823680%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+              <div class="table" data-togglable="Properties"><a data-name="-556224933%2FProperties%2F-405186196" anchor-label="autoReconnectOnUnexpectedDisconnect" id="-556224933%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+                <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="auto-reconnect-on-unexpected-disconnect.html">autoReconnectOnUnexpectedDisconnect</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-556224933%2FProperties%2F-405186196"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><a data-name="-556224933%2FProperties%2F-405186196" anchor-label="autoReconnectOnUnexpectedDisconnect" id="-556224933%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="auto-reconnect-on-unexpected-disconnect.html">autoReconnectOnUnexpectedDisconnect</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-750823680%2FProperties%2F-405186196" anchor-label="failIfInUse" id="-750823680%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
                 <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
                   <div class="main-subrow keyValue ">
                     <div class=""><span class="inline-flex">
@@ -74,6 +125,21 @@ if(savedDarkMode === true){
                     <div>
                       <div class="title">
                         <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><a data-name="1700583968%2FProperties%2F-405186196" anchor-label="registerToLocation" id="1700583968%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a><div class="symbol monospace strikethrough"><strike><span class="token keyword"></span></strike><strike><span class="token keyword">val </span></strike><a href="../register-to-location.html"><strike>registerToLocation</strike></a><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1828661379%2FProperties%2F-405186196" anchor-label="usbReaderReconnectionListener" id="1828661379%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+                <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="usb-reader-reconnection-listener.html">usbReaderReconnectionListener</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1828661379%2FProperties%2F-405186196"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><a data-name="1828661379%2FProperties%2F-405186196" anchor-label="usbReaderReconnectionListener" id="1828661379%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="usb-reader-reconnection-listener.html">usbReaderReconnectionListener</a><span class="token operator">: </span><a href="../../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html">ReaderReconnectionListener</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>
