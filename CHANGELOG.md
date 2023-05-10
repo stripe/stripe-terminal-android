@@ -1,5 +1,22 @@
 # CHANGELOG
+## 2.20.0 - 2023-05-10
+
+### Core
+- Fix: Errors from canceling and creating `PaymentIntents` and `SetupIntents` no longer return a generic "Unexpected null" message on internet readers.
+- Fix: `CardDetails` now contains additional fields in [`GeneratedFrom`](https://stripe.com/docs/api/errors#errors-payment_method-card-generated_from) that describe the original `PaymentMethod`.
+- Fix: Contactless payments on a BBPOS WisePad 3 taken with `CollectConfiguration.updatePaymentIntent` set to true will no longer take a few minutes to be processed.
+- Fix: Reader updates will no longer fail when being performed on devices running Android 7 and earlier. 
+- New: Added `ReaderDisplayMessage.CARD_REMOVED_TOO_EARLY` sent when a card is removed too early during a contact payment.
+- Update: A callback to `TerminalListener::onConnectionStatusChange` will be triggered when connecting to Internet readers, with `ConnectionState.CONNECTING`.
+
+### Tap to Pay (localmobile)
+- New: Add support for canceling the transaction via the Cancelable returned from `Terminal.collectPaymentMethod`.
+- Fix: Fix LOCAL_MOBILE_DEVICE_TAMPERED connection failure after an application with backup enabled is uninstalled and reinstalled.
+- Update: Enforce device compatibility checks on simulated localmobile reader.
+
 ## 2.19.0 - 2023-04-03
+
+### Core
 - New: Added `autoReconnectOnUnexpectedDisconnect` & `usbReaderReconnectionListener` to the [`UsbConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-usb-connection-configuration/index.html). When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to a USB reader. See [Stripe Docs](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=usb#automatic-reconnection) for details.
 - New: Added support for simulating an on-reader tip for simulated readers that support on-reader tipping.
 - New: Cancel `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`cancelPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-payment-intent.html) or [`cancelSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-setup-intent.html) instead of using your backend.
@@ -11,21 +28,51 @@
 - Fix: On-reader tips with BBPOS WisePad 3 now returns 0 [Amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount_details-tip) when no tip is selected.
 - Fix: Fixed a regression with creating a `PaymentIntent` in handoff mode when running on a device with an older version of the reader app.
 
+### Tap to Pay (localmobile)
+- Fix: Fix an issue for some American Express cards to improve client-side acceptance rates.
+- New: Add beta support for accepting transactions in France, Ireland, and Germany.
+- Update: Add new [TLS certificates](https://stripe.com/docs/tls-certificates) used by SDK with Stripe
+  backend for certificate pinning.
+
 ## 2.18.1 - 2023-03-15
+
+### Core
 - Fix: `requestedPriority` is no longer dropped when performing a contactless tipping transaction with the WisePad 3.
 
+### Tap to Pay (localmobile)
+- Fix: Fix a crash that occurs when accepting MasterCard payments in minified applications:
+  > java.lang.NoSuchMethodError: No virtual method getCurrency()Lcom/neovisionaries/i18n/CurrencyCode
+- New: Add `Terminal.supportsReadersOfType` support to allow runtime checking of device hardware compatibility.
+- New: Add simulator support. Use by setting `DiscoveryConfiguration.isSimulated` to true during reader discovery.
+- Update: Increase minimum required Android OS version from 9 to 10 to comply with requirements to only
+  allow collecting payments on currently supported versions of Android OS.
+- Update: Reduce time taken to discover the Tap to Pay on Android reader by ~75%.
+
 ## 2.18.0 - 2023-03-06
+
+### Core
 - New: Create `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`createPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-payment-intent.html) or [`createSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-setup-intent.html) instead of using your backend.
     - _Note: This feature requires version `2.11.0.0` or later to be installed on your internet reader._
 
 ## 2.17.1 - 2023-02-06
+
+### Core
 - Update: Move internal implementation classes to be private, so they are not visible to users. No functional changes.
 
+### Tap to Pay (localmobile)
+- Update: Improve `TerminalException.errorMessage` returned by the localmobile reader.
+- Update: Significantly improve UX loading time.
+- Fix: Fix gray screen that would display for up to a few seconds before UX appeared.
+- Update: Refresh UX and add device-specific UX support for many devices.
+- Update: Add new [TLS certificates](https://stripe.com/docs/tls-certificates) used by SDK with Stripe
+  backend for certificate pinning.
+
 ## 2.17.0 - 2023-01-30
+
+### Core
 - New: `CardPresentDetails.incrementalAuthorizationStatus` indicates whether incremental authorizations are supported or not after the `PaymentIntent` has been confirmed.
 - New: Statement descriptor suffix field added to `PaymentIntentParameters`, `PaymentIntent`, and `Charge`.
 - New: Calculated statement descriptor field added to `Charge`.
-- Update: The `stripeterminal-localmobile` artifact will no longer automatically opt in to allow cleartext network connections to `localhost`.
 - Update: Removed `Terminal.connectEmbeddedReader` method. It's meant only to be used internally by Stripe.
 - Update: Internal refactor of our transaction state machine to increase observability for all readers.
 - Fix: Don't log error when failing to retrieve serial number on API 29 and up. Fixes [issue 266](https://github.com/stripe/stripe-terminal-android/issues/266)
@@ -33,6 +80,9 @@
 - Fix: Fixed an issue where we weren't always resuming polling for mPOS battery status and location changes when the app is brought into the foreground.
 - Fix: Don't crash when cancelling an intent after losing connection with a smart reader. Fixes [issue 275](https://github.com/stripe/stripe-terminal-android/issues/275)
 - Fix: Fixed a bug with handling `captureMethod` and `setupFutureUsage` when creating a `PaymentIntent` in handoff integration mode.
+
+### Tap to Pay (localmobile)
+- Update: The `stripeterminal-localmobile` artifact will no longer automatically opt in to allow cleartext network connections to `localhost`.
 
 ## 2.16.0 - 2022-11-21
 - New: Added support for creating Payment Intents with `CardPresentCaptureMethod.ManualPreferred` capture method set on the `CardPresentParameters`.
