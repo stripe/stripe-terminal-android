@@ -1,5 +1,5 @@
 # CHANGELOG
-## 2.20.0 - 2023-05-08
+## 2.20.0 - 2023-05-10
 
 ### Core
 - Fix: Errors from canceling and creating `PaymentIntents` and `SetupIntents` no longer return a generic "Unexpected null" message on internet readers.
