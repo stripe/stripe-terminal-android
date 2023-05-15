@@ -1,5 +1,10 @@
 # CHANGELOG
-## 2.20.0 - 2023-05-10
+## 2.20.1 - 2023-05-12
+
+### Tap to Pay (localmobile)
+- Fix: Fix an issue causing local declines with Visa/EFTPOS co-branded debit cards.
+
+## 2.20.0 - 2023-05-01
 
 ### Core
 - Fix: Errors from canceling and creating `PaymentIntents` and `SetupIntents` no longer return a generic "Unexpected null" message on internet readers.
