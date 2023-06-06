@@ -1,4 +1,21 @@
 # CHANGELOG
+## 2.21.0 - 2023-06-05
+
+### Core
+- Update: SDKs have been updated to depend on [Kotlin 1.8.21](https://kotlinlang.org/docs/whatsnew1821.html).
+- Update: `Terminal.retrievePaymentIntent` and `Terminal.retrieveSetupIntent` will no longer be blocking if an existing reader operation is in progress.
+- New: Added Simulated Visa US Common Debit test card type: `VISA_US_COMMON_DEBIT`
+
+### Tap to Pay (localmobile)
+- Update: Using the production version of the localmobile reader with debuggable applications now fails during discovery
+  with a `TerminalErrorCode::LOCAL_MOBILE_DEBUG_NOT_SUPPORTED` error for security and compliance reasons. Developers should
+  test and integrate the Tap to Pay on Android SDK with a simulated version of the reader by setting
+  `DiscoveryConfiguration.isSimulated` to true.
+- Update: Move country validation to the backend to allow for more flexible country support.
+- Update: Improve successful tap rate with Google Pay mobile wallets.
+- Update: Add device-specific UX support for devices released in the last 6 months and popular Xiaomi devices.
+- New: Add localized text to UX and error messages returned from the backend based on device locale.
+
 ## 2.20.1 - 2023-05-15
 
 ### Tap to Pay (localmobile)
@@ -10,13 +27,13 @@
 - Fix: Errors from canceling and creating `PaymentIntents` and `SetupIntents` no longer return a generic "Unexpected null" message on internet readers.
 - Fix: `CardDetails` now contains additional fields in [`GeneratedFrom`](https://stripe.com/docs/api/errors#errors-payment_method-card-generated_from) that describe the original `PaymentMethod`.
 - Fix: Contactless payments on a BBPOS WisePad 3 taken with `CollectConfiguration.updatePaymentIntent` set to true will no longer take a few minutes to be processed.
-- Fix: Reader updates will no longer fail when being performed on devices running Android 7 and earlier. 
+- Fix: Reader updates will no longer fail when being performed on devices running Android 7 and earlier.
 - New: Added `ReaderDisplayMessage.CARD_REMOVED_TOO_EARLY` sent when a card is removed too early during a contact payment.
 - Update: A callback to `TerminalListener::onConnectionStatusChange` will be triggered when connecting to Internet readers, with `ConnectionState.CONNECTING`.
 
 ### Tap to Pay (localmobile)
 - New: Add support for canceling the transaction via the Cancelable returned from `Terminal.collectPaymentMethod`.
-- Fix: Fix LOCAL_MOBILE_DEVICE_TAMPERED connection failure after an application with backup enabled is uninstalled and reinstalled.
+- Fix: Fix `LOCAL_MOBILE_DEVICE_TAMPERED` connection failure after an application with backup enabled is uninstalled and reinstalled.
 - Update: Enforce device compatibility checks on simulated localmobile reader.
 
 ## 2.19.0 - 2023-04-03
