@@ -1,4 +1,10 @@
 # CHANGELOG
+
+## 2.21.1 - 2023-06-12
+
+### Tap to Pay (localmobile)
+- Fix: Don't call `TerminalStatusManager::unexpectedDisconnect` when the reader is disconnected intentionally
+
 ## 2.21.0 - 2023-06-05
 
 ### Core
