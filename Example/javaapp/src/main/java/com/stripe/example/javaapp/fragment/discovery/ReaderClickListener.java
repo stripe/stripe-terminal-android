@@ -37,7 +37,6 @@ public class ReaderClickListener {
         activityRef = newRef;
     }
 
-    @OptIn(markerClass = com.stripe.stripeterminal.external.UsbConnectivity.class)
     public void onClick(@NotNull Reader reader) {
         MainActivity activity = activityRef.get();
         if (activity == null) return;

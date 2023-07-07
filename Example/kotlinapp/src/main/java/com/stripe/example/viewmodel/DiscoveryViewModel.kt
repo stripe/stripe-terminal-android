@@ -2,6 +2,7 @@ package com.stripe.example.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.stripe.example.NavigationListener
 import com.stripe.example.fragment.discovery.ReaderClickListener
 import com.stripe.stripeterminal.Terminal
@@ -13,6 +14,7 @@ import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
+import kotlinx.coroutines.launch
 
 class DiscoveryViewModel(
     val discoveryMethod: DiscoveryMethod,
@@ -77,7 +79,7 @@ class DiscoveryViewModel(
         discoveryTask?.cancel(object : Callback {
             override fun onSuccess() {
                 discoveryTask = null
-                onSuccess()
+                viewModelScope.launch { onSuccess() }
             }
 
             override fun onFailure(e: TerminalException) {
