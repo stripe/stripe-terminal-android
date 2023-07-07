@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 2.22.0 - 2023-07-05
+## 2.22.0 - 2023-07-07
+
+### Core
 
 - New: [USB connectivity](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=usb)
   is now generally available via [`Terminal.connectUsbReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/connect-usb-reader.html)
