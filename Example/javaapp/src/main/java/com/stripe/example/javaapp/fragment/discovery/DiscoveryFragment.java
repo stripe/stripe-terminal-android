@@ -133,7 +133,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
                                 viewModel.discoveryTask = null;
                                 final MainActivity activity = activityRef.get();
                                 if (activity != null) {
-                                    activity.onCancelDiscovery();
+                                    activity.runOnUiThread(activity::onCancelDiscovery);
                                 }
                             }
 

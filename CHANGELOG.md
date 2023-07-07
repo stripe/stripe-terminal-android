@@ -1,6 +1,15 @@
 # CHANGELOG
 
-## 2.21.1 - 2023-06-14
+## 2.22.0 - 2023-07-07
+
+### Core
+
+- New: [USB connectivity](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=usb)
+  is now generally available via [`Terminal.connectUsbReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/connect-usb-reader.html)
+  for the Stripe Reader M2, BBPOS WisePad 3, and BBPOS Chipper 2X readers.
+- Update: `@UsbConnectivity` annotation is no longer required for using USB reader connection features.
+
+## 2.21.1 - 2023-06-12
 
 ### Tap to Pay (localmobile)
 - Fix: Don't call `TerminalStatusManager::unexpectedDisconnect` when the reader is disconnected intentionally

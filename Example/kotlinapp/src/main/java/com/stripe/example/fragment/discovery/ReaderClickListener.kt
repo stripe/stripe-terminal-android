@@ -7,7 +7,6 @@ import com.stripe.example.MainActivity
 import com.stripe.example.R
 import com.stripe.example.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.UsbConnectivity
 import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration.BluetoothConnectionConfiguration
@@ -20,7 +19,6 @@ class ReaderClickListener(
     private val activity: MainActivity,
     private val viewModel: DiscoveryViewModel
 ) {
-    @OptIn(UsbConnectivity::class)
     fun onClick(reader: Reader) {
         val connectLocationId = viewModel.selectedLocation.value?.id ?: reader.location?.id
 
