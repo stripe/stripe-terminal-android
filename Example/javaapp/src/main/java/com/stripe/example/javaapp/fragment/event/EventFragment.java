@@ -330,7 +330,10 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
             view.findViewById(R.id.done_button).setVisibility(isComplete ? View.VISIBLE : View.GONE);
         });
 
-        viewModel.events.observe(getViewLifecycleOwner(), events -> adapter.updateEvents(events));
+        viewModel.events.observe(getViewLifecycleOwner(), events -> {
+            adapter.updateEvents(events);
+            eventRecyclerView.scrollToPosition(events.size() - 1);
+        });
     }
 
     @Override

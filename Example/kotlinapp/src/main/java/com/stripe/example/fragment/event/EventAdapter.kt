@@ -12,6 +12,7 @@ object EventsBindingAdapter {
     fun RecyclerView.bindItems(events: List<Event>) {
         val adapter = adapter as EventAdapter
         adapter.updateEvents(events)
+        scrollToPosition(events.size - 1)
     }
 }
 

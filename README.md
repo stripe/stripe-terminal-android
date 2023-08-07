@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 
     dependencies {
-        implementation "com.stripe:stripeterminal:2.22.0"
+        implementation "com.stripe:stripeterminal:2.23.0"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):
@@ -129,8 +129,8 @@ To use the Tap to Pay SDK, replace your existing `stripeterminal` dependencies i
 your `build.gradle` file with the following:
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal-localmobile:2.22.0"
-  implementation "com.stripe:stripeterminal-core:2.22.0"
+  implementation "com.stripe:stripeterminal-localmobile:2.23.0"
+  implementation "com.stripe:stripeterminal-core:2.23.0"
 }
 ```
 
@@ -149,3 +149,4 @@ Please note that:
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
  - [2.x API Reference](https://stripe.dev/stripe-terminal-android)
  - [1.x API Reference](https://stripe.dev/stripe-terminal-android/v1)
+ - [Support Lifecycle & Release Status](SUPPORT.md)

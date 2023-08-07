@@ -35,7 +35,7 @@ ext {
     kotlin_coroutines_version = '1.7.1'
     okhttp_version = '4.11.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "2.22.0"
+    stripeTerminalVersion = "2.23.0"
 }
 
 dependencies {
@@ -67,5 +67,5 @@ dependencies {
     implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
 
     // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.11"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.12"
 }
