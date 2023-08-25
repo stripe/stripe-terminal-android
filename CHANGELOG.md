@@ -3,6 +3,11 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 2.23.1 - 2023-08-25
+
+### Core
+- Fix: Internal SDK fixes for error reporting and version reporting.
+
 ## 2.23.0 - 2023-08-07
 
 ### Core
