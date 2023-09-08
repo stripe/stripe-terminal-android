@@ -147,6 +147,7 @@ Please note that:
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
- - [2.x API Reference](https://stripe.dev/stripe-terminal-android)
+ - [3.x API Reference](https://stripe.dev/stripe-terminal-android)
+ - [2.x API Reference](https://stripe.dev/stripe-terminal-android/v2)
  - [1.x API Reference](https://stripe.dev/stripe-terminal-android/v1)
  - [Support Lifecycle & Release Status](SUPPORT.md)
