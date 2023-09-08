@@ -4,7 +4,7 @@ For information on migrating from earlier versions of the Android SDK, see the [
 
 # Requirements
 
-The Stripe Terminal Android SDK is compatible with apps supporting Android API level 21* and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
+The Stripe Terminal Android SDK is compatible with apps supporting Android API level 26* and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
 
 \* Note that attempting to override `minSdkVersion` to decrease the minimum supported API level will not work due to internal runtime API level validation.
 
@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 
     dependencies {
-        implementation "com.stripe:stripeterminal:2.23.1"
+        implementation "com.stripe:stripeterminal:3.0.0"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):
@@ -129,8 +129,8 @@ To use the Tap to Pay SDK, replace your existing `stripeterminal` dependencies i
 your `build.gradle` file with the following:
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal-localmobile:2.23.1"
-  implementation "com.stripe:stripeterminal-core:2.23.1"
+  implementation "com.stripe:stripeterminal-localmobile:3.0.0"
+  implementation "com.stripe:stripeterminal-core:3.0.0"
 }
 ```
 

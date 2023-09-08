@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.OptIn;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -20,29 +19,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
+import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 import com.stripe.example.javaapp.model.Event;
-import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
-import com.stripe.stripeterminal.external.callable.PaymentMethodCallback;
+import com.stripe.stripeterminal.external.callable.ReaderListener;
+import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
 import com.stripe.stripeterminal.external.models.CollectConfiguration;
-import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
-import com.stripe.stripeterminal.external.models.PaymentMethod;
 import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters;
-import com.stripe.stripeterminal.external.models.ReadReusableCardParameters;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.SetupIntent;
+import com.stripe.stripeterminal.external.models.SetupIntentCancellationParameters;
+import com.stripe.stripeterminal.external.models.SetupIntentParameters;
 import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.external.models.TippingConfiguration;
 
@@ -59,7 +58,7 @@ import retrofit2.Response;
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-public class EventFragment extends Fragment implements BluetoothReaderListener {
+public class EventFragment extends Fragment implements ReaderListener {
 
     @NotNull
     public static final String TAG = "com.stripe.example.fragment.event.EventFragment";
@@ -74,8 +73,8 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
     private static final String REQUEST_PAYMENT =
             "com.stripe.example.fragment.event.EventFragment.request_payment";
     @NotNull
-    private static final String READ_REUSABLE_CARD =
-            "com.stripe.example.fragment.event.EventFragment.read_reusable_card";
+    private static final String SAVE_CARD =
+            "com.stripe.example.fragment.event.EventFragment.save_card";
     @NotNull
     private static final String SKIP_TIPPING =
             "com.stripe.example.fragment.event.EventFragment.skip_tipping";
@@ -88,10 +87,10 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
 
     private static final boolean DO_NOT_ENABLE_MOTO = false;
 
-    public static EventFragment readReusableCard() {
+    public static EventFragment collectSetupIntentPaymentMethod() {
         final EventFragment fragment = new EventFragment();
         final Bundle bundle = new Bundle();
-        bundle.putBoolean(READ_REUSABLE_CARD, true);
+        bundle.putBoolean(SAVE_CARD, true);
         bundle.putBoolean(REQUEST_PAYMENT, false);
         fragment.setArguments(bundle);
         return fragment;
@@ -109,7 +108,7 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
         bundle.putLong(AMOUNT, amount);
         bundle.putString(CURRENCY, currency);
         bundle.putBoolean(REQUEST_PAYMENT, true);
-        bundle.putBoolean(READ_REUSABLE_CARD, false);
+        bundle.putBoolean(SAVE_CARD, false);
         bundle.putBoolean(SKIP_TIPPING, skipTipping);
         bundle.putBoolean(EXTENDED_AUTH, extendedAuth);
         bundle.putBoolean(INCREMENTAL_AUTH, incrementalAuth);
@@ -123,19 +122,22 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
     private EventViewModel viewModel;
 
     private PaymentIntent paymentIntent;
+    private SetupIntent setupIntent;
 
-    @NotNull private final PaymentIntentCallback processPaymentCallback = new PaymentIntentCallback() {
+    @NotNull private final PaymentIntentCallback confirmPaymentIntentCallback = new PaymentIntentCallback() {
         @Override
         public void onSuccess(@NotNull PaymentIntent paymentIntent) {
-            addEvent("Processed payment", "terminal.processPayment");
-            try {
-                ApiClient.capturePaymentIntent(paymentIntent.getId());
-                addEvent("Captured PaymentIntent", "backend.capturePaymentIntent");
-                completeFlow();
-            } catch (IOException e) {
-                Log.e("StripeExample", e.getMessage(), e);
-                completeFlow();
+            addEvent("Confirmed payment", "terminal.confirmPaymentIntent");
+            String paymentIntentId = paymentIntent.getId();
+            if (paymentIntentId != null) {
+                try {
+                    ApiClient.capturePaymentIntent(paymentIntentId);
+                    addEvent("Captured PaymentIntent", "backend.capturePaymentIntent");
+                } catch (IOException e) {
+                    Log.e("StripeExample", e.getMessage(), e);
+                }
             }
+            completeFlow();
         }
 
         @Override
@@ -164,7 +166,7 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
         @Override
         public void onSuccess(@NotNull PaymentIntent paymentIntent) {
             addEvent("Collected PaymentMethod", "terminal.collectPaymentMethod");
-            Terminal.getInstance().processPayment(paymentIntent, processPaymentCallback);
+            Terminal.getInstance().confirmPaymentIntent(paymentIntent, confirmPaymentIntentCallback);
             viewModel.collectTask = null;
         }
 
@@ -198,11 +200,43 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
         }
     };
 
-    @NotNull private final PaymentMethodCallback reusablePaymentMethodCallback = new PaymentMethodCallback() {
+    @NotNull private final SetupIntentCallback createSetupIntentCallback = new SetupIntentCallback() {
         @Override
-        public void onSuccess(@NotNull PaymentMethod paymentMethod) {
-            addEvent("Created PaymentMethod: ${paymentMethod.id}", "terminal.readReusableCard");
+        public void onSuccess(@NotNull SetupIntent intent) {
+            setupIntent = intent;
+            addEvent("Created SetupIntent", "terminal.createSetupIntent");
+            viewModel.collectTask = Terminal.getInstance().collectSetupIntentPaymentMethod(
+                    setupIntent, true, collectSetupIntentPaymentMethodCallback);
+        }
+
+        @Override
+        public void onFailure(@NotNull TerminalException e) {
+            EventFragment.this.onFailure(e);
+        }
+    };
+
+    @NotNull private final SetupIntentCallback collectSetupIntentPaymentMethodCallback = new SetupIntentCallback() {
+        @Override
+        public void onSuccess(@NotNull SetupIntent setupIntent) {
+            addEvent("Collected PaymentMethod", "terminal.collectSetupIntentPaymentMethod");
+            viewModel.collectTask = null;
             completeFlow();
+        }
+
+        @Override
+        public void onFailure(@NotNull TerminalException e) {
+            EventFragment.this.onFailure(e);
+        }
+    };
+
+    @NotNull private final SetupIntentCallback cancelSetupIntentCallback = new SetupIntentCallback() {
+        @Override
+        public void onSuccess(@NotNull SetupIntent setupIntent) {
+            addEvent("Canceled SetupIntent", "terminal.cancelSetupIntent");
+            final FragmentActivity activity = activityRef.get();
+            if (activity instanceof NavigationListener) {
+                activity.runOnUiThread(((NavigationListener) activity)::onCancelCollectSetupIntent);
+            }
         }
 
         @Override
@@ -242,12 +276,9 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
                             .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
                             .build();
                     Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
-                } else if (arguments.getBoolean(READ_REUSABLE_CARD)) {
-                    viewModel.collectTask = Terminal
-                            .getInstance()
-                            .readReusableCard(
-                                    ReadReusableCardParameters.Companion.getNULL(),
-                                    reusablePaymentMethodCallback);
+                } else if (arguments.getBoolean(SAVE_CARD)) {
+                    SetupIntentParameters params = new SetupIntentParameters.Builder().build();
+                    Terminal.getInstance().createSetupIntent(params, createSetupIntentCallback);
                 }
             }
         }
@@ -303,6 +334,10 @@ public class EventFragment extends Fragment implements BluetoothReaderListener {
                             } else {
                                 Terminal.getInstance().cancelPaymentIntent(paymentIntent, cancelPaymentIntentCallback);
                             }
+                        }
+                        if (setupIntent != null) {
+                            SetupIntentCancellationParameters params = new SetupIntentCancellationParameters.Builder().build();
+                            Terminal.getInstance().cancelSetupIntent(setupIntent, params, cancelSetupIntentCallback);
                         }
                     }
 

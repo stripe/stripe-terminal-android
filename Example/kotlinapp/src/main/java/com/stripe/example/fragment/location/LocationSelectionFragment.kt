@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentLocationSelectionBinding
+import com.stripe.example.fragment.launchAndRepeatWithViewLifecycle
 import com.stripe.example.recyclerview.InfiniteScrollListener
 import com.stripe.example.viewmodel.LocationSelectionViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -53,13 +52,13 @@ class LocationSelectionFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchAndRepeatWithViewLifecycle {
             viewModel.listState.collectLatest {
                 adapter.locationListState = it
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchAndRepeatWithViewLifecycle {
             viewModel.error.collect {
                 Toast.makeText(activity, it.errorMessage, Toast.LENGTH_LONG).show()
             }

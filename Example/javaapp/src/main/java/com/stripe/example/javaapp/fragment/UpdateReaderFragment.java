@@ -16,7 +16,7 @@ import com.stripe.example.javaapp.MainActivity;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.viewmodel.UpdateReaderViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
+import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
@@ -36,7 +36,7 @@ import java.util.Objects;
  * The `UpdateReaderFragment` allows the user to check the current version of the [Reader] software,
  * as well as update it when necessary.
  */
-public class UpdateReaderFragment extends Fragment implements BluetoothReaderListener {
+public class UpdateReaderFragment extends Fragment implements ReaderListener {
 
     @NotNull public static final String TAG = "com.stripe.example.fragment.UpdateReaderFragment";
 

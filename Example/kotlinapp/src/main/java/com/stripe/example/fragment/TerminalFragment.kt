@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentTerminalBinding
+import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.example.viewmodel.TerminalViewModel
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

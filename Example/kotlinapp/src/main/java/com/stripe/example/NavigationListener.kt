@@ -1,6 +1,6 @@
 package com.stripe.example
 
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
+import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Reader
 
 /**
@@ -11,6 +11,11 @@ interface NavigationListener {
      * Notify the `Activity` that collecting payment method has been canceled
      */
     fun onCancelCollectPaymentMethod()
+
+    /**
+     * Notify the `Activity` that collecting setup intent has been canceled
+     */
+    fun onCancelCollectSetupIntent()
 
     /**
      * Notify the `Activity` that discovery should begin
@@ -54,9 +59,9 @@ interface NavigationListener {
     fun onSelectPaymentWorkflow()
 
     /**
-     * Notify the `Activity` that the user wants to start the workflow to read a reusable card
+     * Notify the `Activity` that the user wants to start the workflow to save a card
      */
-    fun onSelectReadReusableCardWorkflow()
+    fun onRequestSaveCard()
 
     /**
      * Notify the `Activity` that the user wants to start the update reader workflow

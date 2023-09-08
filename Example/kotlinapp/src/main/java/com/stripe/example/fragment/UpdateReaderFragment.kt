@@ -12,9 +12,9 @@ import com.stripe.example.R
 import com.stripe.example.databinding.FragmentUpdateReaderBinding
 import com.stripe.example.viewmodel.UpdateReaderViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
+import com.stripe.stripeterminal.external.callable.ReaderListener
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
 import com.stripe.stripeterminal.external.models.TerminalException
@@ -24,7 +24,7 @@ import java.lang.ref.WeakReference
  * The `UpdateReaderFragment` allows the user to check the current version of the [Reader] software,
  * as well as update it when necessary.
  */
-class UpdateReaderFragment : Fragment(), BluetoothReaderListener {
+class UpdateReaderFragment : Fragment(), ReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.UpdateReaderFragment"

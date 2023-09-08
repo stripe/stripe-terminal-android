@@ -1,11 +1,17 @@
 package com.stripe.example.javaapp.fragment.discovery;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
@@ -20,13 +26,12 @@ import com.stripe.example.javaapp.databinding.FragmentDiscoveryBinding;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionController;
 import com.stripe.example.javaapp.viewmodel.DiscoveryViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.callable.BluetoothReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.DiscoveryListener;
+import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
-import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
@@ -39,13 +44,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The `DiscoveryFragment` shows the list of recognized readers and allows the user to
  * select one to connect to.
  */
-public class DiscoveryFragment extends Fragment implements DiscoveryListener, BluetoothReaderListener, LocationSelectionController {
+public class DiscoveryFragment extends Fragment implements DiscoveryListener, ReaderListener, LocationSelectionController {
 
     public static final String TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment";
     private static final String SIMULATED_KEY = "simulated";
@@ -64,6 +71,12 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
     private ReaderAdapter adapter;
     private WeakReference<MainActivity> activityRef;
 
+    // Register the permissions callback to handles the response to the system permissions dialog.
+    private final ActivityResultLauncher<String[]> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            this::onPermissionResult
+    );
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,31 +90,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
             viewModel.readerClickListener.setActivityRef(activityRef);
         }
 
-        final Callback discoveryCallback = new Callback() {
-            @Override
-            public void onSuccess() {
-                viewModel.discoveryTask = null;
-            }
-
-            @Override
-            public void onFailure(@NotNull TerminalException e) {
-                viewModel.discoveryTask = null;
-                final MainActivity activity = activityRef.get();
-                if (activity != null) {
-                    activity.onCancelDiscovery();
-                }
-            }
-        };
-
-        if (getArguments() != null) {
-            final DiscoveryConfiguration config = new DiscoveryConfiguration(
-                    0, (DiscoveryMethod) getArguments().getSerializable(DISCOVERY_METHOD), getArguments().getBoolean(SIMULATED_KEY));
-            if (viewModel.discoveryTask == null && Terminal.getInstance().getConnectedReader() == null) {
-                viewModel.discoveryTask = Terminal
-                        .getInstance()
-                        .discoverReaders(config, this, discoveryCallback);
-            }
-        }
+        startDiscovery();
     }
 
     @Nullable
@@ -200,6 +189,95 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Bl
     public void onLocationCleared() {
         viewModel.selectedLocation.postValue(null);
         adapter.updateLocationSelection(null);
+    }
+
+    private void onPermissionResult(Map<String, Boolean> permissions) {
+        // If none of the requested permissions were declined, start the discovery process.
+        boolean allPermissionsGranted = permissions.entrySet().stream().allMatch(Map.Entry::getValue);
+
+        if (allPermissionsGranted) {
+            startDiscovery();
+        } else {
+            ((MainActivity) requireActivity()).onCancelDiscovery();
+        }
+    }
+
+    private void startDiscovery() {
+        if (getArguments() != null) {
+            final Callback discoveryCallback = new Callback() {
+                @Override
+                public void onSuccess() {
+                    viewModel.discoveryTask = null;
+                }
+
+                @Override
+                public void onFailure(@NotNull TerminalException e) {
+                    viewModel.discoveryTask = null;
+                    final MainActivity activity = activityRef.get();
+                    if (activity != null) {
+                        activity.onCancelDiscovery();
+                    }
+                }
+            };
+
+            DiscoveryMethod discoveryMethod = (DiscoveryMethod) getArguments().getSerializable(DISCOVERY_METHOD);
+            if (checkPermission(discoveryMethod)) {
+                boolean isSimulated = getArguments().getBoolean(SIMULATED_KEY);
+                final DiscoveryConfiguration config;
+                if (discoveryMethod == DiscoveryMethod.BLUETOOTH_SCAN) {
+                    config = new DiscoveryConfiguration.BluetoothDiscoveryConfiguration(0, isSimulated);
+                } else if (discoveryMethod == DiscoveryMethod.USB) {
+                    config = new DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated);
+                } else if (discoveryMethod == DiscoveryMethod.INTERNET) {
+                    config = new DiscoveryConfiguration.InternetDiscoveryConfiguration(null, isSimulated);
+                } else {
+                    throw new IllegalArgumentException("Unknown discovery method: " + discoveryMethod);
+                }
+                if (viewModel.discoveryTask == null && Terminal.getInstance().getConnectedReader() == null) {
+                    viewModel.discoveryTask = Terminal
+                            .getInstance()
+                            .discoverReaders(config, this, discoveryCallback);
+                }
+            }
+        }
+    }
+
+    private boolean checkPermission(DiscoveryMethod discoveryMethod) {
+        boolean hasGpsModule = requireContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
+        String locationPermission;
+        if (hasGpsModule) {
+            locationPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+        } else {
+            locationPermission = Manifest.permission.ACCESS_COARSE_LOCATION;
+        }
+
+        List<String> ungrantedPermissions = new ArrayList<>();
+        if (!isGranted(locationPermission)) {
+            ungrantedPermissions.add(locationPermission);
+        }
+
+        if (discoveryMethod == DiscoveryMethod.BLUETOOTH_SCAN && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!isGranted(Manifest.permission.BLUETOOTH_SCAN)) {
+                ungrantedPermissions.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+            if (!isGranted(Manifest.permission.BLUETOOTH_CONNECT)) {
+                ungrantedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+            }
+        }
+
+        if (!ungrantedPermissions.isEmpty()) {
+            // If we don't have all the required permissions yet, request them before doing anything else.
+            String[] ungrantedPermissionsArray = new String[ungrantedPermissions.size()];
+            ungrantedPermissionsArray = ungrantedPermissions.toArray(ungrantedPermissionsArray);
+            requestPermissionLauncher.launch(ungrantedPermissionsArray);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean isGranted(String permission) {
+        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     static class DiscoveryViewModelFactory implements ViewModelProvider.Factory {

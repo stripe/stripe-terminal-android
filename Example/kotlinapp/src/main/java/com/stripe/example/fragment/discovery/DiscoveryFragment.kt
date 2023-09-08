@@ -1,23 +1,27 @@
 package com.stripe.example.fragment.discovery
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stripe.example.MainActivity
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentDiscoveryBinding
+import com.stripe.example.fragment.launchAndRepeatWithViewLifecycle
 import com.stripe.example.fragment.location.LocationSelectionController
 import com.stripe.example.viewmodel.DiscoveryViewModel
-import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Cancelable
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
+import com.stripe.stripeterminal.external.callable.ReaderListener
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
 import com.stripe.stripeterminal.external.models.TerminalException
@@ -29,8 +33,14 @@ import java.lang.ref.WeakReference
  */
 class DiscoveryFragment :
     Fragment(R.layout.fragment_discovery),
-    BluetoothReaderListener,
+    ReaderListener,
     LocationSelectionController {
+
+    // Register the permissions callback to handles the response to the system permissions dialog.
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions(),
+        ::onPermissionResult,
+    )
 
     companion object {
         private const val DISCOVERY_METHOD = "discovery_method"
@@ -81,17 +91,15 @@ class DiscoveryFragment :
             viewModel.stopDiscovery { activityRef.get()?.onCancelDiscovery() }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            val activityRef = WeakReference(activity as MainActivity)
-            viewModel.startDiscovery { activityRef.get()?.onCancelDiscovery() }
+        launchAndRepeatWithViewLifecycle {
+            startDiscovery()
         }
 
         viewModel.selectedLocation.observe(viewLifecycleOwner) { location ->
             adapter.updateLocationSelection(location)
 
             if (location != null) {
-                val activityRef = WeakReference(activity as MainActivity)
-                viewModel.startDiscovery { activityRef.get()?.onCancelDiscovery() }
+                startDiscovery()
             }
         }
     }
@@ -126,6 +134,52 @@ class DiscoveryFragment :
 
     override fun onFinishInstallingUpdate(update: ReaderSoftwareUpdate?, e: TerminalException?) {
         Log.d("DiscoveryFragment", "onFinishInstallingUpdate")
+    }
+
+    private fun onPermissionResult(permissions: Map<String, Boolean>) {
+        // If none of the requested permissions were declined, start the discovery process.
+        if (permissions.none { !it.value }) {
+            startDiscovery()
+        } else {
+            (requireActivity() as MainActivity).onCancelDiscovery()
+        }
+    }
+
+    private fun startDiscovery() {
+        if (checkPermission(viewModel.discoveryMethod)) {
+            val activityRef = WeakReference(activity as MainActivity)
+            viewModel.startDiscovery { activityRef.get()?.onCancelDiscovery() }
+        }
+    }
+
+    private fun checkPermission(discoveryMethod: DiscoveryMethod): Boolean {
+        val hasGpsModule = requireContext().packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)
+        val locationPermission = if (hasGpsModule) {
+            Manifest.permission.ACCESS_FINE_LOCATION
+        } else {
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        }
+
+        val ungrantedPermissions = buildList {
+            if (!isGranted(locationPermission)) add(locationPermission)
+
+            if (discoveryMethod == DiscoveryMethod.BLUETOOTH_SCAN && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (!isGranted(Manifest.permission.BLUETOOTH_SCAN)) add(Manifest.permission.BLUETOOTH_SCAN)
+                if (!isGranted(Manifest.permission.BLUETOOTH_CONNECT)) add(Manifest.permission.BLUETOOTH_CONNECT)
+            }
+        }.toTypedArray()
+
+        return if (ungrantedPermissions.isNotEmpty()) {
+            // If we don't have all the required permissions yet, request them before doing anything else.
+            requestPermissionLauncher.launch(ungrantedPermissions)
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun isGranted(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
     }
 
     class DiscoveryViewModelFactory(private val args: Bundle) : ViewModelProvider.Factory {

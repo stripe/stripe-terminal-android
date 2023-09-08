@@ -3,7 +3,7 @@ package com.stripe.example.viewmodel
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
+import com.stripe.example.fragment.discovery.DiscoveryMethod
 
 class TerminalViewModel(
     var discoveryMethod: DiscoveryMethod,

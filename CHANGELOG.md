@@ -3,6 +3,36 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.0.0 - 2023-09-07
+
+### Core
+- Update: The [`PaymentIntent::id`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent/id.html) is now nullable to support creating Payment Intents while offline. This feature is in an invite-only beta. See [Collect payments while offline](https://stripe.com/docs/terminal/features/operate-offline/collect-payments) for details.
+- Update: The `minSdkVersion` has been updated to 26. This means that the SDK will no longer support devices running Android 7.1.2 (Nougat) or earlier. Older devices can continue to use the 2.x versions of the SDK while on the maintenance schedule.
+- Update: The Android-specific `Parcelable` interface has been replaced with the more Java-generic `Serializable` for all external models.
+- Update: [`DiscoveryConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-discovery-configuration/index.html) has been converted to a sealed type, instead of relying on the `DiscoveryMethod` enum to disambiguate different discovery methods.
+- Update: Runtime permission checks have been moved from [`Terminal.initTerminal()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/-companion/init-terminal.html) to [`Terminal.discoverReaders()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/discover-readers.html).
+  - Bluetooth permissions are now only required when discovering readers via [`BluetoothDiscoveryConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-discovery-configuration/-bluetooth-discovery-configuration/index.html).
+  - Location permissions will continue to be required for all [`DiscoveryConfigurations`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-discovery-configuration/index.html). Location services will also need to be enabled on the device at the time of discovery.
+- Update: `Terminal.readReusableCard` has been removed. This functionality is replaced by [Setup Intents](https://stripe.com/docs/terminal/features/saving-cards/save-cards-directly?terminal-sdk-platform=android).
+- Update: `Terminal.processPayment` has been renamed to [`Terminal.confirmPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
+- Update: `Terminal.processRefund` has been renamed to [`Terminal.confirmRefund`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-refund.html).
+- Update: [`Terminal.collectPaymentMethod`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-payment-method.html) now takes an optional non-null [`CollectConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/index.html) parameter.
+- Update: [`Terminal.collectSetupIntentPaymentMethod`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-setup-intent-payment-method.html) now takes an optional non-null [`SetupIntentConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-intent-configuration/index.html) parameter.
+- Update: For readers that require updates to be installed upon connecting, [`TerminalListener.onConnectionStatusChange()`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-terminal-listener/on-connection-status-change.html) will now be called with [`CONNECTED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-status/-c-o-n-n-e-c-t-e-d/index.html) _after_ the updates complete successfully, not before.
+- Update: [`TerminalListener.onUnexpectedReaderDisconnect()`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-terminal-listener/on-unexpected-reader-disconnect.html) will be invoked if a command cannot be sent to an internet reader. Previously, this callback was only invoked when a periodic status check failed.
+- Update: Deprecated classes and members have been replaced or removed:
+  - `CaptureMethod.getManual()` has been removed. Use [`CaptureMethod.MANUAL`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-capture-method/-companion/-manual.html) instead.
+  - The `CollectConfiguration` constructor has been removed. Use [`CollectConfiguration.Builder`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/-builder/index.html) instead.
+  - [`CollectConfiguration.moto`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/moto.html) is no longer mutable.
+  - `ConnectConfiguration.registerToLocation` has been removed and replaced with [`ConnectConfiguration.locationId`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/location-id.html).
+  - The `locationId` parameter from the [`HandoffConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-handoff-connection-configuration/-handoff-connection-configuration.html) constructor has been removed.
+  - `BluetoothReaderListener` and `UsbReaderListener` have been removed and replaced with [`ReaderListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/index.html).
+  - `EmvBlob` has been marked as an internal class.
+  - `Reader.device` has been removed and replaced with [`Reader.bluetoothDevice`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-reader/bluetooth-device.html) and [`Reader.usbDevice`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-reader/usb-device.html).
+  - `Reader.registeredLocation` has been removed and replaced with [`Reader.location`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-reader/location.html).
+  - `TerminalApplicationDelegate.onTrimMemory()` has been removed. It is automatically managed by the SDK.
+  - `CardDetails.fingerprint` and `CardPresentDetails.fingerprint` have been removed from mobile SDKs. You will still be able to access the fingerprint server-side.
+
 ## 2.23.1 - 2023-08-25
 
 ### Core

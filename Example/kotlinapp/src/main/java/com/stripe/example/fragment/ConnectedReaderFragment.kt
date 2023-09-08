@@ -66,9 +66,9 @@ class ConnectedReaderFragment : Fragment() {
             (activity as? NavigationListener)?.onSelectPaymentWorkflow()
         }
 
-        // Set up the read reusable card button
-        view.findViewById<View>(R.id.read_reusable_card_button).setOnClickListener {
-            (activity as? NavigationListener)?.onSelectReadReusableCardWorkflow()
+        // Set up the save card button
+        view.findViewById<View>(R.id.save_card_button).setOnClickListener {
+            (activity as? NavigationListener)?.onRequestSaveCard()
         }
 
         // Set up the update reader button

@@ -3,7 +3,7 @@ package com.stripe.example.javaapp.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.stripe.stripeterminal.external.models.DiscoveryMethod;
+import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 
 import java.util.List;
 
