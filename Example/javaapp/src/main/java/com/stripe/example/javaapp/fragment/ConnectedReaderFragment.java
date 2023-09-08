@@ -77,11 +77,11 @@ public class ConnectedReaderFragment extends Fragment {
             }
         });
 
-        // Set up the read reusable card button
-        view.findViewById(R.id.read_reusable_card_button).setOnClickListener(v -> {
+        // Set up the setup intent button
+        view.findViewById(R.id.save_card_button).setOnClickListener(v -> {
             final FragmentActivity activity = getActivity();
             if (activity instanceof NavigationListener) {
-                ((NavigationListener) activity).onSelectReadReusableCardWorkflow();
+                ((NavigationListener) activity).onRequestSaveCard();
             }
         });
 

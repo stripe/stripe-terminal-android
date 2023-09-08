@@ -17,8 +17,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.databinding.FragmentTerminalBinding;
+import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 import com.stripe.example.javaapp.viewmodel.TerminalViewModel;
-import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

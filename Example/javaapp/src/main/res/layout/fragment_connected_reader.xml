@@ -104,14 +104,14 @@
                 app:iconTint="@color/colorPrimaryDark" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/read_reusable_card_button"
+                android:id="@+id/save_card_button"
                 style="@style/Widget.Example.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl"
                 app:cornerRadius="0dp"
                 android:textAlignment="textStart"
-                android:text="@string/read_card_for_recurring_payment"
+                android:text="@string/save_card"
                 app:icon="@drawable/ic_right_arrow"
                 app:iconTint="@color/colorPrimaryDark" />
 

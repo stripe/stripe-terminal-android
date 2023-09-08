@@ -1,16 +1,21 @@
 package com.stripe.example.viewmodel
 
+import android.Manifest
+import androidx.annotation.RequiresPermission
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stripe.example.NavigationListener
+import com.stripe.example.fragment.discovery.DiscoveryMethod
+import com.stripe.example.fragment.discovery.DiscoveryMethod.BLUETOOTH_SCAN
+import com.stripe.example.fragment.discovery.DiscoveryMethod.INTERNET
+import com.stripe.example.fragment.discovery.DiscoveryMethod.USB
 import com.stripe.example.fragment.discovery.ReaderClickListener
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.DiscoveryListener
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
@@ -39,17 +44,25 @@ class DiscoveryViewModel(
         }
     }
 
+    @RequiresPermission(
+        anyOf = [
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+        ],
+    )
     fun startDiscovery(onFailure: () -> Unit) {
         if (discoveryTask == null && Terminal.getInstance().connectedReader == null) {
             discoveryTask = Terminal
                 .getInstance()
                 .discoverReaders(
-                    config = DiscoveryConfiguration(
-                        0,
-                        discoveryMethod,
-                        isSimulated,
-                        selectedLocation.value?.id
-                    ),
+                    config = when (discoveryMethod) {
+                        BLUETOOTH_SCAN -> DiscoveryConfiguration.BluetoothDiscoveryConfiguration(0, isSimulated)
+                        INTERNET -> DiscoveryConfiguration.InternetDiscoveryConfiguration(
+                            location = selectedLocation.value?.id,
+                            isSimulated = isSimulated,
+                        )
+                        USB -> DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated)
+                    },
                     discoveryListener = object : DiscoveryListener {
                         override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
                             this@DiscoveryViewModel.readers.postValue(

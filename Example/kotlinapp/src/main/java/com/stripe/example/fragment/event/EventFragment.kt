@@ -15,24 +15,25 @@ import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentEventBinding
 import com.stripe.example.fragment.TerminalFragment
+import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.example.model.Event
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.callable.BluetoothReaderListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
-import com.stripe.stripeterminal.external.callable.PaymentMethodCallback
+import com.stripe.stripeterminal.external.callable.ReaderListener
+import com.stripe.stripeterminal.external.callable.SetupIntentCallback
 import com.stripe.stripeterminal.external.models.CardPresentParameters
 import com.stripe.stripeterminal.external.models.CollectConfiguration
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters
-import com.stripe.stripeterminal.external.models.PaymentMethod
 import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters
-import com.stripe.stripeterminal.external.models.ReadReusableCardParameters
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
 import com.stripe.stripeterminal.external.models.ReaderInputOptions
+import com.stripe.stripeterminal.external.models.SetupIntent
+import com.stripe.stripeterminal.external.models.SetupIntentCancellationParameters
+import com.stripe.stripeterminal.external.models.SetupIntentParameters
 import com.stripe.stripeterminal.external.models.TerminalException
 import retrofit2.Call
 import retrofit2.Response
@@ -42,7 +43,7 @@ import java.util.Locale
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-class EventFragment : Fragment(), BluetoothReaderListener {
+class EventFragment : Fragment(), ReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.event.EventFragment"
@@ -50,15 +51,15 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         private const val AMOUNT = "com.stripe.example.fragment.event.EventFragment.amount"
         private const val CURRENCY = "com.stripe.example.fragment.event.EventFragment.currency"
         private const val REQUEST_PAYMENT = "com.stripe.example.fragment.event.EventFragment.request_payment"
-        private const val READ_REUSABLE_CARD = "com.stripe.example.fragment.event.EventFragment.read_reusable_card"
+        private const val SAVE_CARD = "com.stripe.example.fragment.event.EventFragment.save_card"
         private const val SKIP_TIPPING = "com.stripe.example.fragment.event.EventFragment.skip_tipping"
         private const val EXTENDED_AUTH = "com.stripe.example.fragment.event.EventFragment.extended_auth"
         private const val INCREMENTAL_AUTH = "com.stripe.example.fragment.event.EventFragment.incremental_auth"
 
-        fun readReusableCard(): EventFragment {
+        fun collectSetupIntentPaymentMethod(): EventFragment {
             val fragment = EventFragment()
             val bundle = Bundle()
-            bundle.putBoolean(READ_REUSABLE_CARD, true)
+            bundle.putBoolean(SAVE_CARD, true)
             bundle.putBoolean(REQUEST_PAYMENT, false)
             fragment.arguments = bundle
             return fragment
@@ -76,7 +77,7 @@ class EventFragment : Fragment(), BluetoothReaderListener {
             bundle.putLong(AMOUNT, amount)
             bundle.putString(CURRENCY, currency)
             bundle.putBoolean(REQUEST_PAYMENT, true)
-            bundle.putBoolean(READ_REUSABLE_CARD, false)
+            bundle.putBoolean(SAVE_CARD, false)
             bundle.putBoolean(SKIP_TIPPING, skipTipping)
             bundle.putBoolean(EXTENDED_AUTH, extendedAuth)
             bundle.putBoolean(INCREMENTAL_AUTH, incrementalAuth)
@@ -94,13 +95,16 @@ class EventFragment : Fragment(), BluetoothReaderListener {
     private lateinit var viewModel: EventViewModel
 
     private var paymentIntent: PaymentIntent? = null
+    private var setupIntent: SetupIntent? = null
 
-    private val processPaymentCallback by lazy {
+    private val confirmPaymentIntentCallback by lazy {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
-                addEvent("Processed payment", "terminal.processPayment")
-                ApiClient.capturePaymentIntent(paymentIntent.id)
-                addEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
+                addEvent("Confirmed payment", "terminal.confirmPaymentIntent")
+                paymentIntent.id?.let {
+                    ApiClient.capturePaymentIntent(it)
+                    addEvent("Captured PaymentIntent", "backend.capturePaymentIntent")
+                }
                 completeFlow()
             }
 
@@ -133,7 +137,7 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
                 addEvent("Collected PaymentMethod", "terminal.collectPaymentMethod")
-                Terminal.getInstance().processPayment(paymentIntent, processPaymentCallback)
+                Terminal.getInstance().confirmPaymentIntent(paymentIntent, confirmPaymentIntentCallback)
                 viewModel.collectTask = null
             }
 
@@ -163,11 +167,45 @@ class EventFragment : Fragment(), BluetoothReaderListener {
         }
     }
 
-    private val reusablePaymentMethodCallback by lazy {
-        object : PaymentMethodCallback {
-            override fun onSuccess(paymentMethod: PaymentMethod) {
-                addEvent("Created PaymentMethod: ${paymentMethod.id}", "terminal.readReusableCard")
-                completeFlow()
+    private val createSetupIntentCallback: SetupIntentCallback = object : SetupIntentCallback {
+        override fun onSuccess(setupIntent: SetupIntent) {
+            this@EventFragment.setupIntent = setupIntent
+            addEvent("Created SetupIntent", "terminal.createSetupIntent")
+            viewModel.collectTask = Terminal.getInstance().collectSetupIntentPaymentMethod(
+                setupIntent,
+                customerConsentCollected = true,
+                callback = collectSetupIntentPaymentMethodCallback,
+            )
+        }
+
+        override fun onFailure(e: TerminalException) {
+            this@EventFragment.onFailure(e)
+        }
+    }
+
+    private val collectSetupIntentPaymentMethodCallback: SetupIntentCallback = object : SetupIntentCallback {
+        override fun onSuccess(setupIntent: SetupIntent) {
+            addEvent("Collected PaymentMethod", "terminal.collectSetupIntentPaymentMethod")
+            viewModel.collectTask = null
+            completeFlow()
+        }
+
+        override fun onFailure(e: TerminalException) {
+            this@EventFragment.onFailure(e)
+        }
+    }
+
+    private val cancelSetupIntentCallback by lazy {
+        object : SetupIntentCallback {
+            override fun onSuccess(setupIntent: SetupIntent) {
+                addEvent("Canceled SetupIntent", "terminal.cancelSetupIntent")
+                activityRef.get()?.let {
+                    if (it is NavigationListener) {
+                        it.runOnUiThread {
+                            it.onCancelCollectSetupIntent()
+                        }
+                    }
+                }
             }
 
             override fun onFailure(e: TerminalException) {
@@ -206,10 +244,9 @@ class EventFragment : Fragment(), BluetoothReaderListener {
                         .build()
                     Terminal.getInstance()
                         .createPaymentIntent(params, createPaymentIntentCallback)
-                } else if (it.getBoolean(READ_REUSABLE_CARD)) {
-                    viewModel.collectTask = Terminal.getInstance().readReusableCard(
-                        ReadReusableCardParameters.NULL, reusablePaymentMethodCallback
-                    )
+                } else if (it.getBoolean(SAVE_CARD)) {
+                    val params: SetupIntentParameters = SetupIntentParameters.Builder().build()
+                    Terminal.getInstance().createSetupIntent(params, createSetupIntentCallback)
                 }
             }
         }
@@ -239,34 +276,43 @@ class EventFragment : Fragment(), BluetoothReaderListener {
                     viewModel.collectTask = null
                     paymentIntent?.let {
                         if (TerminalFragment.getCurrentDiscoveryMethod(activityRef.get()) == DiscoveryMethod.INTERNET) {
-                            ApiClient.cancelPaymentIntent(
-                                paymentIntent!!.id,
-                                object : retrofit2.Callback<Void> {
-                                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                                        if (response.isSuccessful) {
-                                            addEvent("Canceled PaymentIntent", "backend.cancelPaymentIntent")
-                                            activityRef.get()?.let { activity ->
-                                                if (activity is NavigationListener) {
-                                                    activity.runOnUiThread {
-                                                        activity.onCancelCollectPaymentMethod()
+                            it.id?.let { intentId ->
+                                ApiClient.cancelPaymentIntent(
+                                    intentId,
+                                    object : retrofit2.Callback<Void> {
+                                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                            if (response.isSuccessful) {
+                                                addEvent("Canceled PaymentIntent", "backend.cancelPaymentIntent")
+                                                activityRef.get()?.let { activity ->
+                                                    if (activity is NavigationListener) {
+                                                        activity.runOnUiThread {
+                                                            activity.onCancelCollectPaymentMethod()
+                                                        }
                                                     }
                                                 }
+                                            } else {
+                                                addEvent("Cancel PaymentIntent failed", "backend.cancelPaymentIntent")
+                                                completeFlow()
                                             }
-                                        } else {
-                                            addEvent("Cancel PaymentIntent failed", "backend.cancelPaymentIntent")
+                                        }
+
+                                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                                            Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
                                             completeFlow()
                                         }
                                     }
-
-                                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                                        Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
-                                        completeFlow()
-                                    }
-                                }
-                            )
+                                )
+                            } ?: run {
+                                addEvent("Cancel PaymentIntent Skipped", "backend.cancelPaymentIntent")
+                                completeFlow()
+                            }
                         } else {
                             Terminal.getInstance().cancelPaymentIntent(it, cancelPaymentIntentCallback)
                         }
+                    }
+                    setupIntent?.let {
+                        val params = SetupIntentCancellationParameters.NULL
+                        Terminal.getInstance().cancelSetupIntent(it, params, cancelSetupIntentCallback)
                     }
                 }
 

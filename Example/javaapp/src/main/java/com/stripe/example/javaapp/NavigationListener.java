@@ -1,6 +1,6 @@
 package com.stripe.example.javaapp;
 
-import com.stripe.stripeterminal.external.models.DiscoveryMethod;
+import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +12,11 @@ public interface NavigationListener {
      * Notify the `Activity` that collecting payment method has been canceled
      */
     void onCancelCollectPaymentMethod();
+
+    /**
+     * Notify the `Activity` that collecting setup intent has been canceled
+     */
+    void onCancelCollectSetupIntent();
 
     /**
      * Notify the `Activity` that discovery should begin
@@ -49,9 +54,9 @@ public interface NavigationListener {
     void onSelectPaymentWorkflow();
 
     /**
-     * Notify the `Activity` that the user wants to start the workflow to read a reusable card
+     * Notify the `Activity` that the user wants to start the workflow to save a card
      */
-    void onSelectReadReusableCardWorkflow();
+    void onRequestSaveCard();
 
     /**
      * Notify the `Activity` that the user wants to start the update reader workflow

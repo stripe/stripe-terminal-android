@@ -7,4 +7,6 @@ com.stripe.stripeterminal.log
 module:external
 com.stripe.stripeterminal.external.api
 com.stripe.stripeterminal.external.callable
+com.stripe.stripeterminal.external.internal
+com.stripe.stripeterminal.external.json
 com.stripe.stripeterminal.external.models

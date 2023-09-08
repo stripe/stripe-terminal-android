@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.stripe.example.javaapp.NavigationListener;
+import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 import com.stripe.example.javaapp.fragment.discovery.ReaderClickListener;
 import com.stripe.stripeterminal.external.callable.Cancelable;
-import com.stripe.stripeterminal.external.models.DiscoveryMethod;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
 
