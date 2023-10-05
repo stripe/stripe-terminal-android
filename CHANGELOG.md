@@ -38,7 +38,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ## 2.23.2 - 2023-10-05
 
 ### Handoff
-- Fix: `CollectConfiguration::updatePaymentIntent` now works as expected for handoff mode
+- Fix: [CollectConfiguration.updatePaymentIntent](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/update-payment-intent.html) now works as expected for handoff mode
 
 ## 2.23.1 - 2023-08-25
 
