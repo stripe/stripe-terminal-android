@@ -35,6 +35,11 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   - `TerminalApplicationDelegate.onTrimMemory()` has been removed. It is automatically managed by the SDK.
   - `CardDetails.fingerprint` and `CardPresentDetails.fingerprint` have been removed from mobile SDKs. You will still be able to access the fingerprint server-side.
 
+## 2.23.2 - 2023-09-20
+
+### Handoff
+- Fix: `CollectConfiguration::updatePaymentIntent` now works as expected for handoff mode
+
 ## 2.23.1 - 2023-08-25
 
 ### Core
