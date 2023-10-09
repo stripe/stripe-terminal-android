@@ -42,6 +42,11 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   - `TerminalApplicationDelegate.onTrimMemory()` has been removed. It is automatically managed by the SDK.
   - `CardDetails.fingerprint` and `CardPresentDetails.fingerprint` have been removed from mobile SDKs. You will still be able to access the fingerprint server-side.
 
+## 2.23.2 - 2023-10-05
+
+### Handoff
+- Fix: [CollectConfiguration.updatePaymentIntent](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/update-payment-intent.html) now works as expected for handoff mode
+
 ## 2.23.1 - 2023-08-25
 
 ### Core
