@@ -31,10 +31,10 @@ android {
 }
 
 ext {
-    androidx_lifecycle_version = '2.6.1'
+    androidx_lifecycle_version = '2.6.2'
     okhttp_version = '4.11.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "3.0.0"
+    stripeTerminalVersion = "3.1.0"
 }
 
 dependencies {
