@@ -3,6 +3,13 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.1.0 - 2023-10-10
+### Core
+- New: Support for operating offline is now available in beta. See the [integration guide](https://stripe.com/docs/terminal/features/operate-offline/overview) to get started.
+- Beta: Allow customer-initiated cancellation for PaymentIntent, SetupIntent, and Refund payment method collection with internet readers. See `setEnableCustomerCancellation()` on `CollectConfiguration`, `SetupIntentConfiguration`, and `RefundConfiguration`.
+  - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com
+  - _Note: This feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.17` or later to be installed on your internet reader._
+
 ## 3.0.0 - 2023-09-08
 
 3.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-migration-guide?terminal-sdk-platform=android) for more details.
