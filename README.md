@@ -6,7 +6,7 @@ For information on migrating from earlier versions of the Android SDK, see the [
 
 The Stripe Terminal Android SDK is compatible with apps supporting Android API level 26* and above. Apps can be written using Kotlin or [Java 8](https://developer.android.com/studio/write/java8-support).
 
-\* Note that attempting to override `minSdkVersion` to decrease the minimum supported API level will not work due to internal runtime API level validation. Furthermore, Stripe is updating the Terminal Android SDK to support Google’s recently released Android 14 (SDK 34). Please continue to target SDK 33 in the meantime as there are known issues with mPOS devices and TTP when targeting SDK 34. Please track the following [ticket](https://github.com/stripe/stripe-terminal-android/issues/387) for updates on progress.
+\* Note that attempting to override `minSdkVersion` to decrease the minimum supported API level will not work due to internal runtime API level validation. Furthermore, Stripe is updating the Terminal Android SDK to support Google’s recently released Android 14 (SDK 34). Please **continue to target SDK 33** in the meantime as there are known issues with mPOS devices and TTP when targeting SDK 34. Please track the following [ticket](https://github.com/stripe/stripe-terminal-android/issues/387) for updates on progress.
 
 # Try the example app
 
