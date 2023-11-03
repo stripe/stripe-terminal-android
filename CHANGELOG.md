@@ -3,7 +3,13 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.1.1 - 2023-11-03
+
+### Core
+- Fix: Allows Bluetooth readers to be discovered on Android 14 devices and `targetSdkVersion 34`. Fixes part of [issue 387](https://github.com/stripe/stripe-terminal-android/issues/387).
+
 ## 3.1.0 - 2023-10-10
+
 ### Core
 - New: Support for operating offline is now available in beta. See the [integration guide](https://stripe.com/docs/terminal/features/operate-offline/overview) to get started.
 - Beta: Allow customer-initiated cancellation for PaymentIntent, SetupIntent, and Refund payment method collection with internet readers. See `setEnableCustomerCancellation()` on `CollectConfiguration`, `SetupIntentConfiguration`, and `RefundConfiguration`.
