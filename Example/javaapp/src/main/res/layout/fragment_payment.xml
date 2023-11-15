@@ -152,6 +152,24 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="2dp"
+                android:text="@string/offline"
+                android:paddingTop="40dp"/>
+
+            <Spinner
+                android:id="@+id/offline_behavior_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                style="@style/Widget.Example.Dropdown" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="2dp"
                 android:text="@string/payment_method"
                 android:paddingTop="40dp"/>
 

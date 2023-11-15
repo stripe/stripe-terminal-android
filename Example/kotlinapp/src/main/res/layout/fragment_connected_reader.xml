@@ -27,7 +27,14 @@
             android:paddingEnd="8dp"
             android:paddingRight="8dp"
             app:contentInsetStart="0dp"
-            app:title="@string/terminal" />
+            app:title="@string/terminal">
+
+            <com.stripe.example.customviews.TerminalOnlineIndicator
+                android:id="@+id/online_indicator"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end" />
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -61,6 +68,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/reader_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
 
             <TextView
@@ -127,6 +140,17 @@
                 app:icon="@drawable/ic_right_arrow"
                 app:iconTint="@color/colorPrimaryDark" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_offline_logs_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/view_offline_logs"
+                app:icon="@drawable/ic_right_arrow"
+                app:iconTint="@color/colorPrimaryDark" />
         </LinearLayout>
     </ScrollView>
 

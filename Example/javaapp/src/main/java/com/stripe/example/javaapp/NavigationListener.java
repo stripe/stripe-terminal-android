@@ -1,6 +1,7 @@
 package com.stripe.example.javaapp;
 
 import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
+import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +42,7 @@ public interface NavigationListener {
     /**
      * Notify the `Activity` that the user wants to initiate a payment
      */
-    void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth);
+    void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth, OfflineBehaviorSelection offlineBehaviorSelection);
 
     /**
      * Notify the `Activity` that a [Reader] has been connected
@@ -62,6 +63,11 @@ public interface NavigationListener {
      * Notify the `Activity` that the user wants to start the update reader workflow
      */
     void onSelectUpdateWorkflow();
+
+    /**
+     * Notify the `Activity` that the user wants to view the offline logs
+     */
+    void onSelectViewOfflineLogs();
 
     /**
      * Notify the `Activity` that the user has requested to change the location.

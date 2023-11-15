@@ -5,15 +5,18 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.stripe.example.javaapp.fragment.ConnectedReaderFragment;
+import com.stripe.example.javaapp.fragment.offline.OfflinePaymentsLogFragment;
 import com.stripe.example.javaapp.fragment.PaymentFragment;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
 import com.stripe.example.javaapp.fragment.UpdateReaderFragment;
@@ -23,8 +26,10 @@ import com.stripe.example.javaapp.fragment.event.EventFragment;
 import com.stripe.example.javaapp.fragment.location.LocationCreateFragment;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionController;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionFragment;
+import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 import com.stripe.example.javaapp.network.TokenProvider;
 import com.stripe.stripeterminal.Terminal;
+import com.stripe.stripeterminal.external.OfflineMode;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
@@ -41,10 +46,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@OptIn(markerClass = OfflineMode.class)
 public class MainActivity extends AppCompatActivity implements
         NavigationListener,
         ReaderListener,
-        LocationSelectionController {
+        LocationSelectionController
+{
+
+    public final OfflineModeHandler offlineModeHandler = new OfflineModeHandler(message -> {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    });
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements
      * Callback function called to start a payment by the [PaymentFragment]
      */
     @Override
-    public void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth) {
-        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth));
+    public void onRequestPayment(long amount, @NotNull String currency, boolean skipTipping, boolean extendedAuth, boolean incrementalAuth, OfflineBehaviorSelection offlineBehaviorSelection) {
+        navigateTo(EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth, offlineBehaviorSelection));
     }
 
     /**
@@ -156,6 +167,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onSelectUpdateWorkflow() {
         navigateTo(UpdateReaderFragment.TAG, new UpdateReaderFragment());
+    }
+
+    /**
+     * Callback function called once the view offline logs has been selected by the
+     * [ConnectedReaderFragment]
+     */
+    @Override
+    public void onSelectViewOfflineLogs() {
+        navigateTo(OfflinePaymentsLogFragment.TAG, new OfflinePaymentsLogFragment());
     }
 
     // Terminal event callbacks
@@ -308,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements
         try {
             if (!Terminal.isInitialized()) {
                 Terminal.initTerminal(getApplicationContext(), LogLevel.VERBOSE, new TokenProvider(),
-                        new TerminalEventListener());
+                        TerminalEventListener.instance, TerminalOfflineListener.instance);
             }
         } catch (TerminalException e) {
             throw new RuntimeException(e);

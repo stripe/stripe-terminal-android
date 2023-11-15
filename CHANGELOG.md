@@ -3,6 +3,22 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.2.0 - 2023-11-15
+
+### Tap to Pay (localmobile)
+
+- New: SetupIntents are now supported when using Tap-to-Pay.
+- Fix: Fixes an issue where `Terminal.connectLocalMobileReader` returned a `TerminalErrorCode.NOT_CONNECTED_TO_READER` exception with the message "No active reader" after connecting to a reader object that was previously disconnected. This flow now successfully connects to the reader.
+
+### Core
+
+- Update: Adds `Charge::authorizationCode` to the sdk's [`Charge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-charge/index.html) model when it is available. 
+  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.18` or later to be installed on your internet reader._
+- Update: Added `network` and `wallet` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html).
+  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._
+- Update: The amount of time a reader can be used offline before needing to be activated online has been reduced to 30 days.
+- Fix: Allows USB readers to be discovered on Android 14 devices and `targetSdkVersion 34`. Fixes part of [issue 387](https://github.com/stripe/stripe-terminal-android/issues/387).
+
 ## 3.1.1 - 2023-11-03
 
 ### Core
@@ -92,7 +108,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Update: Move country validation to the backend to allow for more flexible country support.
 - Update: Improve successful tap rate with Google Pay mobile wallets.
 - Update: Add device-specific UX support for devices released in the last 6 months and popular Xiaomi devices.
-- New: Add localized text to UX and error messages returned from the backend based on device locale.
+- New: Localize error messages returned from the backend based on device locale.
 
 ## 2.20.1 - 2023-05-15
 

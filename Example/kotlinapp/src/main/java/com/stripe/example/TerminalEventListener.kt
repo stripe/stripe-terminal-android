@@ -9,10 +9,8 @@ import com.stripe.stripeterminal.external.models.Reader
 /**
  * The `TerminalEventListener` implements the [TerminalListener] interface and will
  * forward along any events to other parts of the app that register for updates.
- *
- * TODO: Finish implementing
  */
-class TerminalEventListener : TerminalListener {
+object TerminalEventListener : TerminalListener {
 
     override fun onUnexpectedReaderDisconnect(reader: Reader) {
         Log.i("UnexpectedDisconnect", reader.serialNumber ?: "reader's serialNumber is null!")
