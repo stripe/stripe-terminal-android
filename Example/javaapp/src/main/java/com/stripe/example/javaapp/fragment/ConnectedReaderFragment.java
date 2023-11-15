@@ -6,13 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
+import com.stripe.example.javaapp.TerminalOfflineListener;
+import com.stripe.example.javaapp.customviews.TerminalOnlineIndicator;
 import com.stripe.stripeterminal.Terminal;
+import com.stripe.stripeterminal.external.OfflineMode;
 import com.stripe.stripeterminal.external.callable.Callback;
+import com.stripe.stripeterminal.external.callable.OfflineListener;
+import com.stripe.stripeterminal.external.models.OfflineStatus;
+import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.TerminalException;
 
@@ -25,7 +33,8 @@ import java.lang.ref.WeakReference;
  * The `ConnectedReaderFragment` displays the reader that's currently connected and provides
  * options for workflows that can be executed.
  */
-public class ConnectedReaderFragment extends Fragment {
+@OptIn(markerClass = OfflineMode.class)
+public class ConnectedReaderFragment extends Fragment implements OfflineListener {
 
     @NotNull public static final String TAG = "com.stripe.example.fragment.ConnectedReaderFragment";
 
@@ -93,6 +102,41 @@ public class ConnectedReaderFragment extends Fragment {
             }
         });
 
+        // Set up the view offline logs button
+        view.findViewById(R.id.view_offline_logs_button).setOnClickListener(v -> {
+            final FragmentActivity activity = getActivity();
+            if (activity instanceof NavigationListener) {
+                ((NavigationListener) activity).onSelectViewOfflineLogs();
+            }
+        });
+
+        onOfflineStatusChange(Terminal.getInstance().getOfflineStatus());
+        TerminalOfflineListener.instance.addListener(this);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        TerminalOfflineListener.instance.removeListener(this);
+    }
+
+    @Override
+    public void onOfflineStatusChange(@NonNull OfflineStatus offlineStatus) {
+        View view = getView();
+        if (view != null) {
+            TerminalOnlineIndicator indicator = view.findViewById(R.id.online_indicator);
+            indicator.setNetworkStatus(offlineStatus.getSdk().getNetworkStatus());
+        }
+    }
+
+    @Override
+    public void onPaymentIntentForwarded(@NonNull PaymentIntent paymentIntent, @androidx.annotation.Nullable TerminalException e) {
+        // no-op
+    }
+
+    @Override
+    public void onForwardingFailure(@NonNull TerminalException e) {
+        // no-op
     }
 }

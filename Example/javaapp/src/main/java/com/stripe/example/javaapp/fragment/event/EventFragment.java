@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -21,9 +22,11 @@ import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
 import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 import com.stripe.example.javaapp.model.Event;
+import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
+import com.stripe.stripeterminal.external.OfflineMode;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
@@ -32,6 +35,7 @@ import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
 import com.stripe.stripeterminal.external.models.CollectConfiguration;
+import com.stripe.stripeterminal.external.models.CreateConfiguration;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
 import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters;
@@ -80,10 +84,14 @@ public class EventFragment extends Fragment implements ReaderListener {
             "com.stripe.example.fragment.event.EventFragment.skip_tipping";
     @NotNull
     private static final String EXTENDED_AUTH =
-            "com.stripe.example.fragment.event.EventFragment.incremental_auth";
+            "com.stripe.example.fragment.event.EventFragment.extended_auth";
     @NotNull
     private static final String INCREMENTAL_AUTH =
-            "com.stripe.example.fragment.event.EventFragment.extended_auth";
+            "com.stripe.example.fragment.event.EventFragment.incremental_auth";
+
+    @NotNull
+    private static final String OFFLINE_BEHAVIOR =
+            "com.stripe.example.fragment.event.EventFragment.offline_behavior";
 
     private static final boolean DO_NOT_ENABLE_MOTO = false;
 
@@ -101,7 +109,8 @@ public class EventFragment extends Fragment implements ReaderListener {
             @NotNull String currency,
             boolean skipTipping,
             boolean extendedAuth,
-            boolean incrementalAuth
+            boolean incrementalAuth,
+            OfflineBehaviorSelection offlineBehavior
     ) {
         final EventFragment fragment = new EventFragment();
         final Bundle bundle = new Bundle();
@@ -112,6 +121,7 @@ public class EventFragment extends Fragment implements ReaderListener {
         bundle.putBoolean(SKIP_TIPPING, skipTipping);
         bundle.putBoolean(EXTENDED_AUTH, extendedAuth);
         bundle.putBoolean(INCREMENTAL_AUTH, incrementalAuth);
+        bundle.putSerializable(OFFLINE_BEHAVIOR, offlineBehavior);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -245,6 +255,7 @@ public class EventFragment extends Fragment implements ReaderListener {
         }
     };
 
+    @OptIn(markerClass = OfflineMode.class)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -275,7 +286,13 @@ public class EventFragment extends Fragment implements ReaderListener {
                             .setCurrency(currency)
                             .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
                             .build();
-                    Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback);
+
+                    OfflineBehaviorSelection offlineBehaviorSelection = (OfflineBehaviorSelection) arguments.getSerializable(OFFLINE_BEHAVIOR);
+                    if (offlineBehaviorSelection == null) {
+                        offlineBehaviorSelection = OfflineBehaviorSelection.DEFAULT;
+                    }
+                    final CreateConfiguration config = new CreateConfiguration(offlineBehaviorSelection.offlineBehavior);
+                    Terminal.getInstance().createPaymentIntent(params, createPaymentIntentCallback, config);
                 } else if (arguments.getBoolean(SAVE_CARD)) {
                     SetupIntentParameters params = new SetupIntentParameters.Builder().build();
                     Terminal.getInstance().createSetupIntent(params, createSetupIntentCallback);

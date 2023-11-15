@@ -42,6 +42,7 @@ public class ApiClient {
         }
     }
 
+    /** @noinspection unused*/
     public static void createLocation(
             String displayName,
             String city,

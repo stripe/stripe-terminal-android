@@ -1,6 +1,7 @@
 package com.stripe.example
 
 import com.stripe.example.fragment.discovery.DiscoveryMethod
+import com.stripe.example.model.OfflineBehaviorSelection
 import com.stripe.stripeterminal.external.models.Reader
 
 /**
@@ -45,7 +46,8 @@ interface NavigationListener {
         currency: String,
         skipTipping: Boolean,
         extendedAuth: Boolean,
-        incrementalAuth: Boolean
+        incrementalAuth: Boolean,
+        offlineBehaviorSelection: OfflineBehaviorSelection,
     )
 
     /**
@@ -67,6 +69,11 @@ interface NavigationListener {
      * Notify the `Activity` that the user wants to start the update reader workflow
      */
     fun onSelectUpdateWorkflow()
+
+    /**
+     * Notify the `Activity` that the user wants to view the offline logs
+     */
+    fun onSelectViewOfflineLogs()
 
     /**
      * Notify the `Activity` that the user has requested to change the location.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TerminalOnlineIndicator">
+        <attr name="offlineColor" format="color"/>
+        <attr name="onlineColor" format="color"/>
+        <attr name="unknownColor" format="color"/>
+        <attr name="pulseWidth" format="dimension"/>
+    </declare-styleable>
+</resources>

@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 
     dependencies {
-        implementation "com.stripe:stripeterminal:3.1.1"
+        implementation "com.stripe:stripeterminal:3.2.0"
     }
     
 Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):
@@ -57,12 +57,12 @@ And in your module-specific `build.gradle`
 
 ### Configure your app
 
-Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_COARSE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
+Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_FINE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
 
 ```java
 if (ContextCompat.checkSelfPermission(getActivity(), 
-  Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-    String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
+  Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
         
     // REQUEST_CODE should be defined on your app level
     ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_CODE_LOCATION);
@@ -129,8 +129,8 @@ To use the Tap to Pay SDK, replace your existing `stripeterminal` dependencies i
 your `build.gradle` file with the following:
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal-localmobile:3.1.1"
-  implementation "com.stripe:stripeterminal-core:3.1.1"
+  implementation "com.stripe:stripeterminal-localmobile:3.2.0"
+  implementation "com.stripe:stripeterminal-core:3.2.0"
 }
 ```
 

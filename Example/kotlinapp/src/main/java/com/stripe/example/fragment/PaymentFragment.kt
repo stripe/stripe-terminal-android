@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
+import com.stripe.example.model.OfflineBehaviorSelection
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -22,6 +26,8 @@ class PaymentFragment : Fragment() {
     companion object {
         const val TAG = "com.stripe.example.fragment.PaymentFragment"
     }
+
+    private var selectedBehavior = OfflineBehaviorSelection.DEFAULT
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +59,8 @@ class PaymentFragment : Fragment() {
                 currentEditText.text.toString(),
                 skipTipping,
                 extendedAuth,
-                incrementalAuth
+                incrementalAuth,
+                selectedBehavior,
             )
         }
 
@@ -61,6 +68,26 @@ class PaymentFragment : Fragment() {
             (activity as? NavigationListener)?.onRequestExitWorkflow()
         }
 
+        val spinner = view.findViewById<Spinner>(R.id.offline_behavior_spinner)
+        val offlineBehaviorOptions = OfflineBehaviorSelection.values().map {
+            resources.getString(it.labelResource)
+        }
+        val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                offlineBehaviorOptions
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                selectedBehavior = OfflineBehaviorSelection.values()[i]
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
         return view
     }
 

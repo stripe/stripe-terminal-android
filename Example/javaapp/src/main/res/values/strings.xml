@@ -78,4 +78,17 @@
     <string name="payment_method">PAYMENT METHOD OPTIONS</string>
     <string name="request_extended_auth">Request extended auth</string>
     <string name="request_incremental_auth">Request incremental auth</string>
+
+    <string name="offline">OFFLINE</string>
+    <string name="offline_behavior">Offline Configuration</string>
+    <string name="offline_behavior_default">default</string>
+    <string name="offline_behavior_prefer_online">Prefer Online</string>
+    <string name="offline_behavior_require_online">Require Online</string>
+    <string name="offline_behavior_force_offline">Force Offline</string>
+    <string name="a11y_terminal_offline">Terminal is offline</string>
+    <string name="a11y_terminal_online">Terminal is online</string>
+    <string name="a11y_terminal_unknown">Terminal connection status is unknown</string>
+
+    <string name="view_offline_logs">View stored offline payment logs</string>
+    <string name="offline_logs">Offline Logs</string>
 </resources>

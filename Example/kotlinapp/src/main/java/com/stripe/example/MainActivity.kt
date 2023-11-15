@@ -18,8 +18,11 @@ import com.stripe.example.fragment.event.EventFragment
 import com.stripe.example.fragment.location.LocationCreateFragment
 import com.stripe.example.fragment.location.LocationSelectionController
 import com.stripe.example.fragment.location.LocationSelectionFragment
+import com.stripe.example.fragment.offline.OfflinePaymentsLogFragment
+import com.stripe.example.model.OfflineBehaviorSelection
 import com.stripe.example.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.ReaderListener
 import com.stripe.stripeterminal.external.models.ConnectionStatus
@@ -120,10 +123,12 @@ class MainActivity :
         currency: String,
         skipTipping: Boolean,
         extendedAuth: Boolean,
-        incrementalAuth: Boolean
+        incrementalAuth: Boolean,
+        offlineBehaviorSelection: OfflineBehaviorSelection,
     ) {
         navigateTo(
-            EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping, extendedAuth, incrementalAuth)
+                EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping,
+                extendedAuth, incrementalAuth, offlineBehaviorSelection)
         )
     }
 
@@ -149,6 +154,14 @@ class MainActivity :
      */
     override fun onSelectUpdateWorkflow() {
         navigateTo(UpdateReaderFragment.TAG, UpdateReaderFragment())
+    }
+
+    /**
+     * Callback function called once the view offline logs has been selected by the
+     * [ConnectedReaderFragment]
+     */
+    override fun onSelectViewOfflineLogs() {
+        navigateTo(OfflinePaymentsLogFragment.TAG, OfflinePaymentsLogFragment())
     }
 
     // Terminal event callbacks
@@ -246,11 +259,18 @@ class MainActivity :
     /**
      * Initialize the [Terminal] and go to the [TerminalFragment]
      */
+    @OptIn(OfflineMode::class)
     private fun initialize() {
         // Initialize the Terminal as soon as possible
         try {
             if (!Terminal.isInitialized()) {
-                Terminal.initTerminal(applicationContext, LogLevel.VERBOSE, TokenProvider(), TerminalEventListener())
+                Terminal.initTerminal(
+                        applicationContext,
+                        LogLevel.VERBOSE,
+                        TokenProvider(),
+                        TerminalEventListener,
+                        TerminalOfflineListener
+                )
             }
         } catch (e: TerminalException) {
             throw RuntimeException(e)

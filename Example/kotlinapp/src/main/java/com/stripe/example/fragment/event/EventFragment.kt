@@ -17,15 +17,18 @@ import com.stripe.example.databinding.FragmentEventBinding
 import com.stripe.example.fragment.TerminalFragment
 import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.example.model.Event
+import com.stripe.example.model.OfflineBehaviorSelection
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
 import com.stripe.stripeterminal.external.callable.ReaderListener
 import com.stripe.stripeterminal.external.callable.SetupIntentCallback
 import com.stripe.stripeterminal.external.models.CardPresentParameters
 import com.stripe.stripeterminal.external.models.CollectConfiguration
+import com.stripe.stripeterminal.external.models.CreateConfiguration
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters
 import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters
@@ -43,6 +46,7 @@ import java.util.Locale
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
+@OptIn(OfflineMode::class)
 class EventFragment : Fragment(), ReaderListener {
 
     companion object {
@@ -55,6 +59,7 @@ class EventFragment : Fragment(), ReaderListener {
         private const val SKIP_TIPPING = "com.stripe.example.fragment.event.EventFragment.skip_tipping"
         private const val EXTENDED_AUTH = "com.stripe.example.fragment.event.EventFragment.extended_auth"
         private const val INCREMENTAL_AUTH = "com.stripe.example.fragment.event.EventFragment.incremental_auth"
+        private const val OFFLINE_BEHAVIOR = "com.stripe.example.fragment.event.EventFragment.offline_behavior"
 
         fun collectSetupIntentPaymentMethod(): EventFragment {
             val fragment = EventFragment()
@@ -70,7 +75,8 @@ class EventFragment : Fragment(), ReaderListener {
             currency: String,
             skipTipping: Boolean,
             extendedAuth: Boolean,
-            incrementalAuth: Boolean
+            incrementalAuth: Boolean,
+            offlineBehaviorSelection: OfflineBehaviorSelection
         ): EventFragment {
             val fragment = EventFragment()
             val bundle = Bundle()
@@ -81,7 +87,7 @@ class EventFragment : Fragment(), ReaderListener {
             bundle.putBoolean(SKIP_TIPPING, skipTipping)
             bundle.putBoolean(EXTENDED_AUTH, extendedAuth)
             bundle.putBoolean(INCREMENTAL_AUTH, incrementalAuth)
-
+            bundle.putSerializable(OFFLINE_BEHAVIOR, offlineBehaviorSelection)
             fragment.arguments = bundle
             return fragment
         }
@@ -232,18 +238,21 @@ class EventFragment : Fragment(), ReaderListener {
                     if (incrementalAuth) {
                         cardPresentParametersBuilder.setRequestIncrementalAuthorizationSupport(true)
                     }
+                    val offlineBehavior =
+                            (it.getSerializable(OFFLINE_BEHAVIOR) as? OfflineBehaviorSelection)?.offlineBehavior
 
                     val paymentMethodOptionsParameters = PaymentMethodOptionsParameters.Builder()
-                        .setCardPresentParameters(cardPresentParametersBuilder.build())
-                        .build()
+                            .setCardPresentParameters(cardPresentParametersBuilder.build())
+                            .build()
 
                     val params = PaymentIntentParameters.Builder()
-                        .setAmount(it.getLong(AMOUNT))
-                        .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
-                        .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
-                        .build()
+                            .setAmount(it.getLong(AMOUNT))
+                            .setCurrency(it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd")
+                            .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
+                            .build()
+                    val createConfiguration = offlineBehavior?.let(::CreateConfiguration)
                     Terminal.getInstance()
-                        .createPaymentIntent(params, createPaymentIntentCallback)
+                        .createPaymentIntent(params, createPaymentIntentCallback, createConfiguration)
                 } else if (it.getBoolean(SAVE_CARD)) {
                     val params: SetupIntentParameters = SetupIntentParameters.Builder().build()
                     Terminal.getInstance().createSetupIntent(params, createSetupIntentCallback)

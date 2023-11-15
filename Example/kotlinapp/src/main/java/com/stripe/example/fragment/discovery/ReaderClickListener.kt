@@ -1,6 +1,5 @@
 package com.stripe.example.fragment.discovery
 
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.stripe.example.MainActivity
@@ -83,7 +82,6 @@ class ReaderClickListener(
                     readerCallback,
                 )
             }
-            else -> Log.w(javaClass.simpleName, "Trying to connect to unsupported reader")
         }
     }
 }

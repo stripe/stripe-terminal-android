@@ -6,20 +6,28 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
+import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * The `PaymentFragment` allows the user to create a custom payment and ask the reader to handle it.
@@ -27,6 +35,8 @@ import java.util.Locale;
 public class PaymentFragment extends Fragment {
 
     @NotNull public static final String TAG = "com.stripe.example.fragment.PaymentFragment";
+
+    private OfflineBehaviorSelection selectedBehavior = OfflineBehaviorSelection.DEFAULT;
 
     @Nullable
     @Override
@@ -65,7 +75,7 @@ public class PaymentFragment extends Fragment {
                         .getText().toString();
                 final String currency = ((TextView) view.findViewById(R.id.currency_edit_text))
                         .getText().toString();
-                ((NavigationListener) activity).onRequestPayment(Long.parseLong(amount), currency, skipTipping, extendedAuth, incrementalAuth);
+                ((NavigationListener) activity).onRequestPayment(Long.parseLong(amount), currency, skipTipping, extendedAuth, incrementalAuth, selectedBehavior);
             }
         });
 
@@ -76,6 +86,30 @@ public class PaymentFragment extends Fragment {
             }
         });
 
+        Spinner spinner = view.findViewById(R.id.offline_behavior_spinner);
+        List<String> offlineBehaviorOptions = Arrays.stream(OfflineBehaviorSelection.values()).map(
+                offlineBehaviorSelection -> getResources().getString(offlineBehaviorSelection.labelResource)
+        ).collect(Collectors.toList());
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                offlineBehaviorOptions
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedBehavior = OfflineBehaviorSelection.values()[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         return view;
     }
 

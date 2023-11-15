@@ -23,45 +23,50 @@ android {
     }
 
     lint {
-        enable "Interoperability"
-        disable "UnusedResources"
-        disable "UnknownNullness"
-        disable "MergeRootFrame"
+        enable += "Interoperability"
+        disable += "UnusedResources"
+        disable += "UnknownNullness"
+        disable += "MergeRootFrame"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
 ext {
-    androidx_lifecycle_version = '2.6.2'
-    okhttp_version = '4.11.0'
-    retrofit_version = '2.9.0'
-    stripeTerminalVersion = "3.1.1"
+    androidx_lifecycle_version = "2.6.2"
+    okhttp_version = "4.11.0"
+    retrofit_version = "2.9.0"
+    stripeTerminalVersion = "3.2.0"
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation(fileTree(dir: "libs", include: ["*.jar"]))
 
-    implementation "com.google.android.material:material:1.9.0"
-    implementation "androidx.activity:activity:1.7.2"
-    implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.activity:activity:1.7.2")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Annotations
-    implementation "org.jetbrains:annotations:24.0.1"
+    implementation("org.jetbrains:annotations:24.0.1")
 
     // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:$androidx_lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:$androidx_lifecycle_version")
 
     // OK HTTP
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
     // Stripe Terminal library
-    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
+    implementation("com.stripe:stripeterminal:$stripeTerminalVersion")
 
     // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.12"
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
 }
