@@ -3,7 +3,7 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
-## 3.2.0 - 2023-11-13
+## 3.2.0 - 2023-11-15
 
 ### Tap to Pay (localmobile)
 
