@@ -3,6 +3,17 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.2.1 - 2023-12-18
+
+### Core
+- Fix: Improved response time for detecting reader disconnection during a payment.
+- Fix: Updates Proguard rules shipped with the SDK. Fixes [issue 386](https://github.com/stripe/stripe-terminal-android/issues/386).
+- Fix: Make `Wallet` serializable. Fixes [issue 408](https://github.com/stripe/stripe-terminal-android/issues/408).
+
+### Tap to Pay (localmobile)
+- Fix: Allows localmobile readers to process payments on Android 14 devices and `targetSdkVersion 34`. Fixes [issue 387](https://github.com/stripe/stripe-terminal-android/issues/387).
+- Fix: Updated Visa kernel to address Invalid CVV auth declines for first transaction of the day.
+
 ## 3.2.0 - 2023-11-15
 
 ### Tap to Pay (localmobile)
