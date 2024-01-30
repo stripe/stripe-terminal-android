@@ -32,8 +32,10 @@ class TerminalOnlineIndicator @JvmOverloads constructor(
 
     @ColorInt
     var onlineColor: Int
+
     @ColorInt
     var offlineColor: Int
+
     @ColorInt
     var unknownColor: Int
     private val pulseStrokeWidth: Float

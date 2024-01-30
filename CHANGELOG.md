@@ -3,6 +3,36 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.3.0 - 2024-01-30
+
+### Core
+
+- New: Added a [`Terminal.rebootReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/reboot-reader.html) method to restart the connected reader. This method is currently only available for Bluetooth and USB readers.
+- New: Added a [`ReaderListener.onDisconnect`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-disconnect.html) callback to notify when a Bluetooth or USB reader has been disconnected, and include the reason (if known) for the disconnection.
+- New: Support refunding payments with the `PaymentIntent::id`
+  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._
+- Beta: Added a [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method to display forms and collect information from customers. It requires the use of a new `@OptIn` annotation; `@CollectInputs`. Note that this feature is in beta.
+  - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com
+- Beta: Added support for retrieving and updating reader settings on WisePOS E and Stripe S700 by calling [`Terminal.getReaderSettings`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/get-reader-settings.html) and [`Terminal.setReaderSettings`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/set-reader-settings.html). Accessibility settings are provided at this time, allowing text-to-speech via speakers to be turned on and off as needed.
+  - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com
+  - _Note: this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.20` or later to be installed on your reader._
+- Update: Added `languagePreferences` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html)
+  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._
+- Update: Location services are no longer required to be enabled during [`Terminal.initTerminal`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/-companion/init-terminal.html). Location services will still need to be enabled on the device at the time of reader discovery and when collecting a PaymentIntent, SetupIntent, or Refund, otherwise a [`LOCATION_SERVICES_DISABLED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-l-o-c-a-t-i-o-n_-s-e-r-v-i-c-e-s_-d-i-s-a-b-l-e-d/index.html) exception will be thrown. Fixes [issue 401](https://github.com/stripe/stripe-terminal-android/issues/401).
+- Update: Added a [`DisconnectReason`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/index.html) to the [`ReaderReconnectionListener.onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html) callback.
+- Update: SDKs have been updated to depend on [Kotlin 1.9.10](https://github.com/JetBrains/kotlin/releases/tag/v1.9.10).
+- Update: Attempting to connect or use a reader with a critically low battery will result in an automatic disconnection, and a [`READER_BATTERY_CRITICALLY_LOW`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r-_-b-a-t-t-e-r-y-_-c-r-i-t-i-c-a-l-l-y-_-l-o-w/index.html) exception will be thrown. Fixes [issue 343](https://github.com/stripe/stripe-terminal-android/issues/343).
+- Fix: Allow acceptance of Discover cards stored in Apple Pay. Fixes [issue 316](https://github.com/stripe/stripe-terminal-android/issues/316).
+
+### Handoff
+
+- Fix: Invoking [`Terminal.disconnectReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/disconnect-reader.html) will no longer trigger a [`TerminalListener.onUnexpectedReaderDisconnect`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-terminal-listener/on-unexpected-reader-disconnect.html) callback.
+
+### Tap to Pay (localmobile)
+
+- New: Localize UX based on device locale.
+- New: Increased the minimum API version requirement to 30 (Android 11).
+
 ## 3.2.1 - 2023-12-18
 
 ### Core
@@ -23,7 +53,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ### Core
 
-- Update: Adds `Charge::authorizationCode` to the sdk's [`Charge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-charge/index.html) model when it is available. 
+- Update: Adds `Charge::authorizationCode` to the sdk's [`Charge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-charge/index.html) model when it is available.
   - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.18` or later to be installed on your internet reader._
 - Update: Added `network` and `wallet` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html).
   - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._

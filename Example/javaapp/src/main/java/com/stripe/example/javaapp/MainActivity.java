@@ -34,6 +34,7 @@ import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
+import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
@@ -298,7 +299,26 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
+    public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof ReaderListener) {
+                ((ReaderListener) currentFragment).onBatteryLevelUpdate(batteryLevel, batteryStatus, isCharging);
+            }
+        });
+    }
+
+    @Override
+    public void onDisconnect(@NonNull DisconnectReason reason) {
+        runOnUiThread(() -> {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof ReaderListener) {
+                ((ReaderListener) currentFragment).onDisconnect(reason);
+            }
+        });
+    }
 
     @Override
     public void onLocationSelected(Location location) {

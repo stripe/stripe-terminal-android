@@ -31,6 +31,7 @@ import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.DiscoveryListener;
 import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
+import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
@@ -178,6 +179,9 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Re
 
     @Override
     public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
+
+    @Override
+    public void onDisconnect(@NonNull DisconnectReason reason) { }
 
     @Override
     public void onLocationSelected(Location location) {

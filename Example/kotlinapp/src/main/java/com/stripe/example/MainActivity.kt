@@ -127,8 +127,15 @@ class MainActivity :
         offlineBehaviorSelection: OfflineBehaviorSelection,
     ) {
         navigateTo(
-                EventFragment.TAG, EventFragment.requestPayment(amount, currency, skipTipping,
-                extendedAuth, incrementalAuth, offlineBehaviorSelection)
+                EventFragment.TAG,
+            EventFragment.requestPayment(
+                amount,
+                currency,
+                skipTipping,
+                extendedAuth,
+                incrementalAuth,
+                offlineBehaviorSelection
+            )
         )
     }
 

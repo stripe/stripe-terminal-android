@@ -36,6 +36,7 @@ import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
 import com.stripe.stripeterminal.external.models.CollectConfiguration;
 import com.stripe.stripeterminal.external.models.CreateConfiguration;
+import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters;
 import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters;
@@ -396,6 +397,11 @@ public class EventFragment extends Fragment implements ReaderListener {
     @Override
     public void onRequestReaderInput(@NotNull ReaderInputOptions options) {
         addEvent(options.toString(), "listener.onRequestReaderInput");
+    }
+
+    @Override
+    public void onDisconnect(@NonNull DisconnectReason reason) {
+        addEvent(reason.name(), "listener.onDisconnect");
     }
 
     private void completeFlow() {

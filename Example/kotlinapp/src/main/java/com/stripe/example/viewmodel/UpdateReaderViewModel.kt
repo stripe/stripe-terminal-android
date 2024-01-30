@@ -152,8 +152,11 @@ constructor(application: Application) : AndroidViewModel(application) {
                 readerSoftwareUpdate.value!!.timeEstimate.description
             )
         } else if (hasStartedInstallingUpdate.value!!) {
-            if (hasFinishedInstallingUpdate.value!!) context.getString(R.string.update_complete)
-            else context.getString(R.string.update_progress, (progress.value ?: 0F) * 100)
+            if (hasFinishedInstallingUpdate.value!!) {
+                context.getString(R.string.update_complete)
+            } else {
+                context.getString(R.string.update_progress, (progress.value ?: 0F) * 100)
+            }
         } else {
             context.getString(R.string.update_explanation)
         }

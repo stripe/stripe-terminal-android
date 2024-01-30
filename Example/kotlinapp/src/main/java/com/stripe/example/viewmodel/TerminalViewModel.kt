@@ -13,6 +13,7 @@ class TerminalViewModel(
 
     var discoveryMethodPosition: Int
         @Bindable get() = discoveryMethods.indexOf(discoveryMethod)
+
         @Bindable set(value) {
             val newType = discoveryMethods[value]
             if (discoveryMethod != newType) {

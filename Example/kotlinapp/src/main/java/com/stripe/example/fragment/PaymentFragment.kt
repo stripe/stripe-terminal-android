@@ -69,7 +69,7 @@ class PaymentFragment : Fragment() {
         }
 
         val spinner = view.findViewById<Spinner>(R.id.offline_behavior_spinner)
-        val offlineBehaviorOptions = OfflineBehaviorSelection.values().map {
+        val offlineBehaviorOptions = OfflineBehaviorSelection.entries.map {
             resources.getString(it.labelResource)
         }
         val adapter = ArrayAdapter(
@@ -83,7 +83,7 @@ class PaymentFragment : Fragment() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-                selectedBehavior = OfflineBehaviorSelection.values()[i]
+                selectedBehavior = OfflineBehaviorSelection.entries[i]
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
