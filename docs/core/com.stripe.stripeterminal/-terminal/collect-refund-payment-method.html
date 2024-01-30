@@ -1,9 +1,11 @@
 <!doctype html>
-<html>
+<html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>collectRefundPaymentMethod</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
     if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
@@ -16,12 +18,13 @@
         }
     }
     </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
-<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
@@ -29,26 +32,32 @@
 <script type="text/javascript" src="../../../scripts/prism.js" async></script>
 <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
-<div class="navigation-wrapper" id="navigation-wrapper">
-    <div id="leftToggler"><span class="icon-toggler"></span></div>
-    <div class="library-name">
-<a href="../../../index.html">
-<span>terminalsdk</span>            </a>    </div>
-    <div>
-    </div>
-    <div class="pull-right d-flex">
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            terminalsdk
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
         <div class="filter-section" id="filter-section">
                 <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":terminalsdk:core:dokkaHtmlPartial/release">androidJvm</button>
         </div>
-        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
     </div>
-</div>
-<div id="container">
-    <div id="leftColumn">
-        <div id="sideMenu"></div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
     </div>
-    <div id="main">
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
 <div class="main-content" data-page-type="member" id="content" pageids="core::com.stripe.stripeterminal/Terminal/collectRefundPaymentMethod/#com.stripe.stripeterminal.external.models.RefundParameters#com.stripe.stripeterminal.external.models.RefundConfiguration#com.stripe.stripeterminal.external.callable.Callback/PointingToDeclaration//-1814817128">
   <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal</a><span class="delimiter">/</span><a href="index.html">Terminal</a><span class="delimiter">/</span><span class="current">collectRefundPaymentMethod</span></div>
   <div class="cover ">
@@ -57,10 +66,11 @@
   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="collect-refund-payment-method.html"><span class="token function">collectRefundPaymentMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">refundParams<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-refund-configuration/index.html">RefundConfiguration</a><span class="token operator"> = </span>RefundConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><p class="paragraph">Initiates an in-person refund with a given set of <a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a> by collecting the payment method that is to be refunded.</p><p class="paragraph">Some payment methods, like Interac Debit payments, require that in-person payments also be refunded while the cardholder is present. The cardholder must present the Interac card to the card reader; these payments cannot be refunded via the dashboard or the API.</p><p class="paragraph">For payment methods that don't require the cardholder be present, see <a href="https://stripe.com/docs/terminal/payments/refunds">https://stripe.com/docs/terminal/payments/refunds</a>.</p><p class="paragraph">This method, along with <code class="lang-kotlin">confirmRefund</code>, allows you to design an in-person refund flow into your app.</p><p class="paragraph">If collecting a payment method fails, the <code class="lang-kotlin">onError</code> method of the callback will be called. After resolving the error, you may call <code class="lang-kotlin">collectRefundPaymentMethod</code> again to either try the same card again, or try a different card.</p><p class="paragraph">If collecting a payment method succeeds, the <code class="lang-kotlin">onSuccess</code> method of the callback will be called. At that point, you can call <code class="lang-kotlin">confirmRefund</code> to finish refunding the payment method.</p><p class="paragraph">Calling any other SDK methods between <code class="lang-kotlin">collectRefundPaymentMethod</code> and <code class="lang-kotlin">confirmRefund</code> will result in undefined behavior.</p><p class="paragraph">Note that if <code class="lang-kotlin">collectRefundPaymentMethod</code> is canceled, the completion block will be called with a <code class="lang-kotlin">Canceled</code> error.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>refund</span><wbr><span><span>Params</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The <a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a> object that describes how the refund will be created.</p></div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>config</span></span></u></div></span></div><div><div class="title"><p class="paragraph">An optional <a href="../../../external/com.stripe.stripeterminal.external.models/-refund-configuration/index.html">RefundConfiguration</a> to configure per-refund overrides. `</p></div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>callback</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The callback to be called when the command completes.</p></div></div></div></div></div></div></div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>
 

@@ -29,6 +29,7 @@ import com.stripe.stripeterminal.external.callable.SetupIntentCallback
 import com.stripe.stripeterminal.external.models.CardPresentParameters
 import com.stripe.stripeterminal.external.models.CollectConfiguration
 import com.stripe.stripeterminal.external.models.CreateConfiguration
+import com.stripe.stripeterminal.external.models.DisconnectReason
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters
 import com.stripe.stripeterminal.external.models.PaymentMethodOptionsParameters
@@ -349,6 +350,10 @@ class EventFragment : Fragment(), ReaderListener {
 
     override fun onRequestReaderInput(options: ReaderInputOptions) {
         addEvent(options.toString(), "listener.onRequestReaderInput")
+    }
+
+    override fun onDisconnect(reason: DisconnectReason) {
+        addEvent(reason.name, "listener.onDisconnect")
     }
 
     fun completeFlow() {

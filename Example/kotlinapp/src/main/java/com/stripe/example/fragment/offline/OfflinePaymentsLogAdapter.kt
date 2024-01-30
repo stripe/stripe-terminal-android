@@ -27,6 +27,7 @@ class OfflinePaymentsLogAdapter : RecyclerView.Adapter<OfflinePaymentsLogHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfflinePaymentsLogHolder {
         return OfflinePaymentsLogHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.list_item_offline_log, parent, false))
+                LayoutInflater.from(parent.context).inflate(R.layout.list_item_offline_log, parent, false)
+        )
     }
 }

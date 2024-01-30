@@ -17,7 +17,7 @@ buildscript {
 }
 
 ext {
-    latestSdkVersion = 33
+    latestSdkVersion = 34
 }
 
 if (!project.hasProperty("EXAMPLE_BACKEND_URL")) {

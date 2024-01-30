@@ -41,12 +41,19 @@ android {
     }
 }
 
+// Force Kapt task to use Java 8. See https://youtrack.jetbrains.com/issue/KT-55947.
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs).configureEach {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
 ext {
     androidx_lifecycle_version = "2.6.2"
     kotlin_coroutines_version = "1.7.3"
     okhttp_version = "4.11.0"
     retrofit_version = "2.9.0"
-    stripeTerminalVersion = "3.2.1"
+    stripeTerminalVersion = "3.3.0"
 }
 
 dependencies {
@@ -55,15 +62,12 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version")
-    // We are using Kotlin, and not Java 8, so do not use the recommended Java 8 library
-    //noinspection LifecycleAnnotationProcessorWithJava8
-    kapt("androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
