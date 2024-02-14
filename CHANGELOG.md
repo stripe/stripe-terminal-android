@@ -3,6 +3,12 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.3.1 - 2024-02-13
+
+### Core
+
+- Fix: Fixes an issue where calls to `Terminal::initTerminal` fail on certain Android devices with `Offline mode is not available on this device`.
+
 ## 3.3.0 - 2024-01-30
 
 ### Core
