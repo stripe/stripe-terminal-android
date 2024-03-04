@@ -1,6 +1,6 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-
+$dokka.location:com.stripe.stripeterminal.external.internal////PointingToDeclaration/external/com.stripe.stripeterminal.external.internal.html
 module:core
 com.stripe.stripeterminal
 com.stripe.stripeterminal.log

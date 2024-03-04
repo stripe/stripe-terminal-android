@@ -15,16 +15,22 @@ sealed interface OfflineEvent {
     val details: List<Pair<String, String>>
     val timestamp: Date
 
-    abstract class ChangeEvent<T : Any?>(event: String, previous: T, new: T) :
-            OfflineEvent {
+    abstract class ChangeEvent<T : Any?>(
+        event: String,
+        previous: T,
+        new: T,
+    ) : OfflineEvent {
         final override val timestamp: Date = Date(System.currentTimeMillis())
         override val summary: String = "$timestamp : $event Change from $previous to $new"
         override val details: List<Pair<String, String>> = emptyList()
         val changed = previous != new
     }
 
-    data class ConnectivityChange(val previous: NetworkStatus, val new: NetworkStatus, val connectionType: ConnectionType) :
-        ChangeEvent<NetworkStatus>("Connectivity (${connectionType.type})", previous, new)
+    data class ConnectivityChange(
+        val previous: NetworkStatus,
+        val new: NetworkStatus,
+        val connectionType: ConnectionType,
+    ) : ChangeEvent<NetworkStatus>("Connectivity (${connectionType.type})", previous, new)
 
     class ForwardingEvent(
         summary: String,
@@ -59,11 +65,15 @@ sealed interface OfflineEvent {
     class CaptureEvent(summary: String, details: List<Pair<String, String>>) : OfflineEvent {
         override val timestamp = Date(System.currentTimeMillis())
         override val summary = "$timestamp : $summary"
-        override val details = details.apply { if (isNotEmpty()) { plus(TIME to timestamp.toString()) } }
+        override val details = details.apply {
+            if (isNotEmpty()) {
+                plus(TIME to timestamp.toString())
+            }
+        }
 
         constructor(paymentIntent: PaymentIntent, error: TerminalException?) : this(
             summary = when (error) {
-                null -> "Captured ${paymentIntent.run { "${identifiers()}, $amount $currency"}}"
+                null -> "Captured ${paymentIntent.run { "${identifiers()}, $amount $currency" }}"
                 else -> "Failed to capture ${paymentIntent.identifiers()}"
             },
             details = when (error) {
@@ -90,10 +100,10 @@ sealed interface OfflineEvent {
         }
 
         private val PRETTY_PRINT_GSON = GsonBuilder()
-                .setPrettyPrinting()
-                .serializeNulls()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create()
+            .setPrettyPrinting()
+            .serializeNulls()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
 
         @OptIn(InternalApi::class)
         fun PaymentIntent.identifiers(): String {
