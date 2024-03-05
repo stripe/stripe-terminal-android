@@ -164,7 +164,9 @@ class EventFragment : Fragment(), ReaderListener {
                 this@EventFragment.paymentIntent = paymentIntent
                 addEvent("Created PaymentIntent", "terminal.createPaymentIntent")
                 viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                    paymentIntent, collectPaymentMethodCallback, collectConfig
+                    paymentIntent,
+                    collectPaymentMethodCallback,
+                    collectConfig
                 )
             }
 

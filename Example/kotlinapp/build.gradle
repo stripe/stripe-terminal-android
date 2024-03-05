@@ -51,16 +51,15 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs).configureEac
 ext {
     androidx_lifecycle_version = "2.6.2"
     kotlin_coroutines_version = "1.7.3"
-    okhttp_version = "4.11.0"
     retrofit_version = "2.9.0"
-    stripeTerminalVersion = "3.3.1"
+    stripeTerminalVersion = "3.4.0"
 }
 
 dependencies {
     implementation(fileTree(dir: "libs", include: ["*.jar"]))
 
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -74,7 +73,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version")
 
     // OK HTTP
-    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
@@ -84,5 +83,5 @@ dependencies {
     implementation("com.stripe:stripeterminal:$stripeTerminalVersion")
 
     // Leak canary
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.13")
 }

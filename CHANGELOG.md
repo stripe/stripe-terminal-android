@@ -3,6 +3,25 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.4.0 - 2024-03-04
+
+- New: for Tap to Pay on Android, Added `autoReconnectOnUnexpectedDisconnect` & `localMobileReaderReconnectionListener` to the [`LocalMobileConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-local-mobile-connection-configuration/index.html). When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to the local mobile reader. See [Stripe Docs](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=tap-to-pay#handling-disconnects) for details.
+- Fix: Removed requirement for devices to support NFC at installation time. Fixes [issue 420](https://github.com/stripe/stripe-terminal-android/issues/420).
+- Update: More descriptive `TerminalException` error messages for operations that fail due to network-related errors.
+- Update: Charges created with simulated readers now have additional fields defined in [ReceiptDetails](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-receipt-details/index.html):
+  - `ReceiptDetails.applicationPreferredName` varies based on the brand of the selected simulated card, e.g. "VISA Debit/Credit (Classic)"
+  - `ReceiptDetails.dedicatedFileName` varies based on card brand, e.g. "A0000000031010"
+  - `ReceiptDetails.terminalVerificationResults` is always "0000008000"
+- Fix: Formatting on certain fields exposed in `OfflineCardPresentDetails` is now consistent with `CardPresentDetails`
+  - `brand` is now always lowercase
+  - `expYear` is a four-digit number
+- Fix: Offline `PaymentIntent`'s `created` field is now in seconds
+- Update: The [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method can now display optional toggles in each form.
+- Fix: Fixes a bug where `PaymentIntent::id` was not `null` for `PaymentIntents` created while operating offline with a smart reader.
+- Update: Allow `CollectConfiguration::updatePaymentIntent` to be `true` for offline enabled readers when the `PaymentIntent` was created with `CreateConfiguration::offlineBehavior` set to `REQUIRE_ONLINE`.
+- Fix: Fixes a rare bug where Bluetooth/USB readers could get in to a state where they would no longer accept payments. Also forces a disconnect and throws [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) when this error is encountered on attempt to collect payment method data. Reconnecting to the reader should re-install the keys.
+- Fix: Resolves issue where SDK appears to be stuck when updating M2/Chipper readers from older configs. Fixes [issue 430](https://github.com/stripe/stripe-terminal-android/issues/430).
+
 ## 3.3.1 - 2024-02-14
 
 ### Core
@@ -27,7 +46,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Update: Location services are no longer required to be enabled during [`Terminal.initTerminal`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/-companion/init-terminal.html). Location services will still need to be enabled on the device at the time of reader discovery and when collecting a PaymentIntent, SetupIntent, or Refund, otherwise a [`LOCATION_SERVICES_DISABLED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-l-o-c-a-t-i-o-n_-s-e-r-v-i-c-e-s_-d-i-s-a-b-l-e-d/index.html) exception will be thrown. Fixes [issue 401](https://github.com/stripe/stripe-terminal-android/issues/401).
 - Update: Added a [`DisconnectReason`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/index.html) to the [`ReaderReconnectionListener.onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html) callback.
 - Update: SDKs have been updated to depend on [Kotlin 1.9.10](https://github.com/JetBrains/kotlin/releases/tag/v1.9.10).
-- Update: Attempting to connect or use a reader with a critically low battery will result in an automatic disconnection, and a [`READER_BATTERY_CRITICALLY_LOW`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r-_-b-a-t-t-e-r-y-_-c-r-i-t-i-c-a-l-l-y-_-l-o-w/index.html) exception will be thrown. Fixes [issue 343](https://github.com/stripe/stripe-terminal-android/issues/343).
+- Update: Attempting to connect or use a reader with a critically low battery will result in an automatic disconnection, and a [`READER_BATTERY_CRITICALLY_LOW`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-b-a-t-t-e-r-y_-c-r-i-t-i-c-a-l-l-y_-l-o-w/index.html) exception will be thrown. Fixes [issue 343](https://github.com/stripe/stripe-terminal-android/issues/343).
 - Fix: Allow acceptance of Discover cards stored in Apple Pay. Fixes [issue 316](https://github.com/stripe/stripe-terminal-android/issues/316).
 
 ### Handoff

@@ -43,7 +43,8 @@ class ConnectedReaderFragment : Fragment() {
         Terminal.getInstance().connectedReader?.let {
             view.findViewById<TextView>(R.id.reader_description).text = getString(
                 R.string.reader_description,
-                it.deviceType, it.serialNumber
+                it.deviceType,
+                it.serialNumber,
             )
             // TODO: Set status as well
         }

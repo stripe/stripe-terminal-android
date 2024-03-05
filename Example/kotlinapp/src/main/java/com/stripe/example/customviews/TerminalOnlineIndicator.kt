@@ -76,7 +76,8 @@ class TerminalOnlineIndicator @JvmOverloads constructor(
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.TerminalOnlineIndicator, defStyleAttr, defStyleRes).apply {
-            try { // Get User defined styling
+            try {
+                // Get User defined styling
                 onlineColor = getColor(R.styleable.TerminalOnlineIndicator_onlineColor, Color.GREEN)
                 offlineColor = getColor(R.styleable.TerminalOnlineIndicator_offlineColor, Color.RED)
                 unknownColor = getColor(R.styleable.TerminalOnlineIndicator_unknownColor, Color.GRAY)
