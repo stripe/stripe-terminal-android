@@ -5,9 +5,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ## 3.4.0 - 2024-03-04
 
-### Core
-
-- Update: Clearer error messages for operations that fail due to network-related errors.
+- New: for Tap to Pay on Android, Added `autoReconnectOnUnexpectedDisconnect` & `localMobileReaderReconnectionListener` to the [`LocalMobileConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-local-mobile-connection-configuration/index.html). When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to the local mobile reader. See [Stripe Docs](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=tap-to-pay#handling-disconnects) for details.
+- Fix: Removed requirement for devices to support NFC at installation time. Fixes [issue 420](https://github.com/stripe/stripe-terminal-android/issues/420).
+- Update: More descriptive `TerminalException` error messages for operations that fail due to network-related errors.
 - Update: Charges created with simulated readers now have additional fields defined in [ReceiptDetails](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-receipt-details/index.html):
   - `ReceiptDetails.applicationPreferredName` varies based on the brand of the selected simulated card, e.g. "VISA Debit/Credit (Classic)"
   - `ReceiptDetails.dedicatedFileName` varies based on card brand, e.g. "A0000000031010"
@@ -18,14 +18,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Fix: Offline `PaymentIntent`'s `created` field is now in seconds
 - Update: The [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method can now display optional toggles in each form.
 - Fix: Fixes a bug where `PaymentIntent::id` was not `null` for `PaymentIntents` created while operating offline with a smart reader.
-- Update: Allow `CollectConfiguration::updatePaymentIntent` to be enabled for offline enabled readers when the `PaymentIntent` was created with `CreateConfiguration::offlineBehavior` set to `REQUIRE_ONLINE`.
-- Fix: Fixes a rare bug where Bluetooth/USB readers could get in to a state where they would no longer accept payments and needed to be replaced. Also forces a disconnect and throws [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) when this error is encountered on attempt to collect payment method data. Reconnecting to the reader should re-install the keys.
+- Update: Allow `CollectConfiguration::updatePaymentIntent` to be `true` for offline enabled readers when the `PaymentIntent` was created with `CreateConfiguration::offlineBehavior` set to `REQUIRE_ONLINE`.
+- Fix: Fixes a rare bug where Bluetooth/USB readers could get in to a state where they would no longer accept payments. Also forces a disconnect and throws [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) when this error is encountered on attempt to collect payment method data. Reconnecting to the reader should re-install the keys.
 - Fix: Resolves issue where SDK appears to be stuck when updating M2/Chipper readers from older configs. Fixes [issue 430](https://github.com/stripe/stripe-terminal-android/issues/430).
-
-### Tap to Pay (localmobile)
-
-- New: Added `autoReconnectOnUnexpectedDisconnect` & `localMobileReaderReconnectionListener` to the [`LocalMobileConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-local-mobile-connection-configuration/index.html). When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to the local mobile reader. See [Stripe Docs](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=tap-to-pay#handling-disconnects) for details.
-- Fix: Removed requirement for devices to support NFC at installation time. Fixes [issue 420](https://github.com/stripe/stripe-terminal-android/issues/420).
 
 ## 3.3.1 - 2024-02-14
 
