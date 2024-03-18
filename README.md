@@ -55,6 +55,17 @@ And in your module-specific `build.gradle`
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"
     }
 
+Enable the following permissions in your `AndroidManifest.xml` for the Stripe Terminal SDK to function properly:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
+  <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+  <!-- ... -->
+</manifest>
+```
+
 ### Configure your app
 
 Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_FINE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
@@ -140,6 +151,16 @@ Please note that:
   stripeterminal libraries.
 - There are no public APIs provided by this SDK. Please reference Stripe Terminal's public API references
   for more information on how to use the SDK.
+
+You will also need to request the `android.permission.NFC` permission in your `AndroidManifest.xml`:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-permission android:name="android.permission.NFC"/>
+  <!-- ... -->
+</manifest>
+```
+  
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
