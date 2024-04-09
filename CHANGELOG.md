@@ -3,6 +3,24 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.5.0 - 2024-04-08
+
+### Core
+
+- Update: The [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method can now display optional toggles in each input type.
+- Update: Added [`SetupIntentParameters.allowedPaymentMethodTypes`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/-builder/set-allowed-payment-method-types.html).
+  - _Note for smart reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.22` or later to be installed on your smart reader._
+- Update: If a payment method is not presented after an hour to the reader, payment collection will fail with a [`CARD_READ_TIMED_OUT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-c-a-r-d_-r-e-a-d_-t-i-m-e-d_-o-u-t/index.html) error. Fixes [issue 374](https://github.com/stripe/stripe-terminal-android/issues/374).
+- Update: Enforces that only the PaymentIntent returned by [`Terminal.collectPaymentMethod()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-payment-method.html) is allowed to be confirmed in [`Terminal.confirmPaymentIntent()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
+- Fix: Changed target version for classes from Java 11 back down to Java 8.
+- Update: The SDK now allows connecting to a mobile reader when installing required updates fail as long as the reader is on a recent software version. The SDK would continue to report failed update installation attempts via [`ReaderListener::onFinishInstallingSoftwareUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-finish-installing-update.html). The update will be available to be retried using [`Terminal::installAvailableUpdate`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/install-available-update.html). If the update isn't installed with `installAvailableUpdate` the installation will be retried the next time connecting to the reader.
+
+### Tap to Pay (localmobile)
+
+- New: Play audible tones when a card is successfully read or when a card cannot be read during a contactless payment.
+- Fix: Fixes an issue where canceling an auto-reconnection attempt consistently fails, keeping the reader connected.
+- Fix: Simulated readers will now return the card configured in the [`SimulatorConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-simulator-configuration/index.html). Fixes [issue 432](https://github.com/stripe/stripe-terminal-android/issues/432).
+
 ## 3.4.0 - 2024-03-04
 
 ### Core
@@ -40,14 +58,14 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - New: Added a [`Terminal.rebootReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/reboot-reader.html) method to restart the connected reader. This method is currently only available for Bluetooth and USB readers.
 - New: Added a [`ReaderListener.onDisconnect`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-disconnect.html) callback to notify when a Bluetooth or USB reader has been disconnected, and include the reason (if known) for the disconnection.
 - New: Support refunding payments with the `PaymentIntent::id`
-  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._
+  - _Note for smart reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your smart reader._
 - Beta: Added a [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method to display forms and collect information from customers. It requires the use of a new `@OptIn` annotation; `@CollectInputs`. Note that this feature is in beta.
   - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com
 - Beta: Added support for retrieving and updating reader settings on WisePOS E and Stripe S700 by calling [`Terminal.getReaderSettings`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/get-reader-settings.html) and [`Terminal.setReaderSettings`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/set-reader-settings.html). Accessibility settings are provided at this time, allowing text-to-speech via speakers to be turned on and off as needed.
   - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com
   - _Note: this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.20` or later to be installed on your reader._
 - Update: Added `languagePreferences` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html)
-  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._
+  - _Note for smart reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your smart reader._
 - Update: Location services are no longer required to be enabled during [`Terminal.initTerminal`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/-companion/init-terminal.html). Location services will still need to be enabled on the device at the time of reader discovery and when collecting a PaymentIntent, SetupIntent, or Refund, otherwise a [`LOCATION_SERVICES_DISABLED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-l-o-c-a-t-i-o-n_-s-e-r-v-i-c-e-s_-d-i-s-a-b-l-e-d/index.html) exception will be thrown. Fixes [issue 401](https://github.com/stripe/stripe-terminal-android/issues/401).
 - Update: Added a [`DisconnectReason`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/index.html) to the [`ReaderReconnectionListener.onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html) callback.
 - Update: SDKs have been updated to depend on [Kotlin 1.9.10](https://github.com/JetBrains/kotlin/releases/tag/v1.9.10).
@@ -84,9 +102,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 - Update: Adds `Charge::authorizationCode` to the sdk's [`Charge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-charge/index.html) model when it is available.
-  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.18` or later to be installed on your internet reader._
+  - _Note for smart reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.18` or later to be installed on your smart reader._
 - Update: Added `network` and `wallet` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html).
-  - _Note for internet reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your internet reader._
+  - _Note for smart reader integrations, this feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.19` or later to be installed on your smart reader._
 - Update: The amount of time a reader can be used offline before needing to be activated online has been reduced to 30 days.
 - Fix: Allows USB readers to be discovered on Android 14 devices and `targetSdkVersion 34`. Fixes part of [issue 387](https://github.com/stripe/stripe-terminal-android/issues/387).
 
@@ -99,9 +117,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ### Core
 - New: Support for operating offline is now available in beta. See the [integration guide](https://stripe.com/docs/terminal/features/operate-offline/overview) to get started.
-- Beta: Allow customer-initiated cancellation for PaymentIntent, SetupIntent, and Refund payment method collection with internet readers. See `setEnableCustomerCancellation()` on `CollectConfiguration`, `SetupIntentConfiguration`, and `RefundConfiguration`.
+- Beta: Allow customer-initiated cancellation for PaymentIntent, SetupIntent, and Refund payment method collection with smart readers. See `setEnableCustomerCancellation()` on `CollectConfiguration`, `SetupIntentConfiguration`, and `RefundConfiguration`.
   - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com
-  - _Note: This feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.17` or later to be installed on your internet reader._
+  - _Note: This feature requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.17` or later to be installed on your smart reader._
 
 ## 3.0.0 - 2023-09-08
 
@@ -121,7 +139,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Update: [`Terminal.collectPaymentMethod`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-payment-method.html) now takes an optional non-null [`CollectConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/index.html) parameter.
 - Update: [`Terminal.collectSetupIntentPaymentMethod`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-setup-intent-payment-method.html) now takes an optional non-null [`SetupIntentConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-intent-configuration/index.html) parameter.
 - Update: For readers that require updates to be installed upon connecting, [`TerminalListener.onConnectionStatusChange()`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-terminal-listener/on-connection-status-change.html) will now be called with [`CONNECTED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-status/-c-o-n-n-e-c-t-e-d/index.html) _after_ the updates complete successfully, not before.
-- Update: [`TerminalListener.onUnexpectedReaderDisconnect()`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-terminal-listener/on-unexpected-reader-disconnect.html) will be invoked if a command cannot be sent to an internet reader. Previously, this callback was only invoked when a periodic status check failed.
+- Update: [`TerminalListener.onUnexpectedReaderDisconnect()`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-terminal-listener/on-unexpected-reader-disconnect.html) will be invoked if a command cannot be sent to a smart reader. Previously, this callback was only invoked when a periodic status check failed.
 - Update: Deprecated classes and members have been replaced or removed:
   - `CaptureMethod.getManual()` has been removed. Use [`CaptureMethod.MANUAL`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-capture-method/-companion/-manual.html) instead.
   - The `CollectConfiguration` constructor has been removed. Use [`CollectConfiguration.Builder`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/-builder/index.html) instead.
@@ -194,12 +212,12 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ## 2.20.0 - 2023-05-10
 
 ### Core
-- Fix: Errors from canceling and creating `PaymentIntents` and `SetupIntents` no longer return a generic "Unexpected null" message on internet readers.
+- Fix: Errors from canceling and creating `PaymentIntents` and `SetupIntents` no longer return a generic "Unexpected null" message on smart readers.
 - Fix: `CardDetails` now contains additional fields in [`GeneratedFrom`](https://stripe.com/docs/api/errors#errors-payment_method-card-generated_from) that describe the original `PaymentMethod`.
 - Fix: Contactless payments on a BBPOS WisePad 3 taken with `CollectConfiguration.updatePaymentIntent` set to true will no longer take a few minutes to be processed.
 - Fix: Reader updates will no longer fail when being performed on devices running Android 7 and earlier.
 - New: Added `ReaderDisplayMessage.CARD_REMOVED_TOO_EARLY` sent when a card is removed too early during a contact payment.
-- Update: A callback to `TerminalListener::onConnectionStatusChange` will be triggered when connecting to Internet readers, with `ConnectionState.CONNECTING`.
+- Update: A callback to `TerminalListener::onConnectionStatusChange` will be triggered when connecting to smart readers, with `ConnectionState.CONNECTING`.
 
 ### Tap to Pay (localmobile)
 - New: Add support for canceling the transaction via the Cancelable returned from `Terminal.collectPaymentMethod`.
@@ -211,9 +229,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 - New: Added `autoReconnectOnUnexpectedDisconnect` & `usbReaderReconnectionListener` to the [`UsbConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-usb-connection-configuration/index.html). When enabled, the SDK will attempt to restore connection upon any unexpected disconnect to a USB reader. See [Stripe Docs](https://stripe.com/docs/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=usb#automatic-reconnection) for details.
 - New: Added support for simulating an on-reader tip for simulated readers that support on-reader tipping.
-- New: Cancel `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`cancelPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-payment-intent.html) or [`cancelSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-setup-intent.html) instead of using your backend.
-    - _Note: This feature requires version `2.11.0.24` or later to be installed on your internet reader._
-- New: When discovering simulated internet readers, a simulated WisePOS E reader is returned in the results.
+- New: Cancel `PaymentIntent` and `SetupIntent` via the SDK when connected to a smart reader by calling [`cancelPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-payment-intent.html) or [`cancelSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/cancel-setup-intent.html) instead of using your backend.
+    - _Note: This feature requires version `2.11.0.24` or later to be installed on your smart reader._
+- New: When discovering simulated smart readers, a simulated WisePOS E reader is returned in the results.
 - New: Added Simulated Co-branded Eftpos card types: `EFTPOS_AU_VISA_DEBIT` and `EFTPOS_AU_DEBIT_MASTERCARD`
 - Update: Deprecated [`BluetoothReaderReconnectionListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-bluetooth-reader-reconnection-listener/index.html) and replaced with [`ReaderReconnectionListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html).
 - Update: SDKs have been updated to depend on [Kotlin 1.8.10](https://kotlinlang.org/docs/whatsnew18.html).
@@ -243,8 +261,8 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ## 2.18.0 - 2023-03-06
 
 ### Core
-- New: Create `PaymentIntent` and `SetupIntent` via the SDK when connected to an internet reader by calling [`createPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-payment-intent.html) or [`createSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-setup-intent.html) instead of using your backend.
-    - _Note: This feature requires version `2.11.0.0` or later to be installed on your internet reader._
+- New: Create `PaymentIntent` and `SetupIntent` via the SDK when connected to a smart reader by calling [`createPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-payment-intent.html) or [`createSetupIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/create-setup-intent.html) instead of using your backend.
+    - _Note: This feature requires version `2.11.0.0` or later to be installed on your smart reader._
 
 ## 2.17.1 - 2023-02-06
 
@@ -321,7 +339,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 - New: Added currency characters to WisePad 3 display. See [issue 147](https://github.com/stripe/stripe-terminal-android/issues/147) for details.
 - New: Refunds can now be collected when using a simulated reader. See [issue 226](https://github.com/stripe/stripe-terminal-android/issues/226) for details.
-- Update: When connecting to Internet Readers, the SDK uses an embedded DNS to resolve reader IP
+- Update: When connecting to smart readers, the SDK uses an embedded DNS to resolve reader IP
   addresses. This resolves [an error](https://support.stripe.com/questions/the-stripe-terminal-sdk-is-encountering-dns-errors-when-connecting-to-an-internet-reader) experienced by users of some DNS providers.
 - Fix: Resolved `USB_PERMISSION_DENIED` error after granting permission. See [issue 231](https://github.com/stripe/stripe-terminal-android/issues/231) for details.
 
@@ -357,7 +375,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   for details. Note that on-reader tips is in beta.
 - New: Added `onBatteryLevelUpdate` callback in `ReaderListener` both for Bluetooth and USB readers when connected.
   It reports battery info for every 10 minutes. See [issue 199](https://github.com/stripe/stripe-terminal-android/issues/199)
-- New: The Example apps can now connect to internet readers. See [issue 174](https://github.com/stripe/stripe-terminal-android/issues/174) for details.
+- New: The Example apps can now connect to smart readers. See [issue 174](https://github.com/stripe/stripe-terminal-android/issues/174) for details.
 - Fix: Removed Android 12 Bluetooth permissions from the Android manifest. This
   fixes a Bluetooth-related permissions exception that was happening on Android
   12 devices when the application did not explicitly request the permisions.
@@ -398,7 +416,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ## 2.4.0 - 2021-10-21
 
-- New: Strong Customer Authentication (SCA) support was added for internet readers.
+- New: Strong Customer Authentication (SCA) support was added for smart readers.
 - Update: EMV online processing timeout increased from 15s to 30s. Note that this timeout isn't
   used by Chipper devices.
 - Remove: Remove Machine Driven Registration. It's been moved to the DeviceManagementSDK.
@@ -473,7 +491,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   intervention. Note that this functionality is only available when the SDK is running directly on a
   smart reader device.
 
-- New: Support displaying transaction information on-screen for internet readers using
+- New: Support displaying transaction information on-screen for smart readers using
   `Terminal.setReaderDisplay` and `Terminal.clearReaderDisplay`.
 
 - New: `Cart` and `CartLineItem` classes have been added to hold transaction
@@ -556,7 +574,7 @@ updates](https://site-admin.stripe.com/docs/terminal/testing#simulated-reader-up
 
 ## Bluetooth reader locations
 
-Like Internet readers, Bluetooth readers must now be registered to
+Like smart readers, Bluetooth readers must now be registered to
 [Locations](https://stripe.com/docs/api/terminal/locations). Registering your
 Bluetooth readers to a location ensures that the readers install the proper
 regional configurations and are properly grouped on your account.
