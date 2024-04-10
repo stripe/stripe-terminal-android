@@ -22,38 +22,11 @@ The Stripe Terminal Android SDK includes two open-source example apps (one in Ja
 
 To use the Android SDK, add the SDK to the `dependencies` block of your `build.gradle` file:
 
-
-    dependencies {
-        implementation "com.stripe:stripeterminal:3.4.0"
-    }
-    
-Next, since the SDK relies on Java 8, you’ll need to specify that as your target Java version (also in `build.gradle`):
-
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-Then, ensure that your kotlin version is >= 1.5.0 (in your application-level `build.gradle`):
-
-
-    buildscript {
-        repositories {
-            ...
-        }
-        dependencies {
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0"
-            ...
-        }
-    }
-
-And in your module-specific `build.gradle`
-
-
-    dependencies {
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"
-    }
+```groovy
+dependencies {
+  implementation "com.stripe:stripeterminal:3.5.0"
+}
+```
 
 ### Configure your app
 
@@ -127,10 +100,11 @@ Lastly, don't forget to set your Application class in your `AndroidManifest.xml`
 
 To use the Tap to Pay SDK, replace your existing `stripeterminal` dependencies in the `dependencies` block of
 your `build.gradle` file with the following:
+
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal-localmobile:3.4.0"
-  implementation "com.stripe:stripeterminal-core:3.4.0"
+  implementation "com.stripe:stripeterminal-localmobile:3.5.0"
+  implementation "com.stripe:stripeterminal-core:3.5.0"
 }
 ```
 

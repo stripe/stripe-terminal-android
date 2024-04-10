@@ -38,7 +38,7 @@ android {
 ext {
     androidx_lifecycle_version = "2.6.2"
     retrofit_version = "2.9.0"
-    stripeTerminalVersion = "3.4.0"
+    stripeTerminalVersion = "3.5.0"
 }
 
 dependencies {

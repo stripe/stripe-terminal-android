@@ -139,7 +139,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="amount-tip.html">amountTip</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Indicates how much the user intends to tip in addition to the amount by at confirmation time.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="amount-tip.html">amountTip</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Indicates how much the user intends to tip in addition to the amount by at confirmation time. This is only non-null in the <code class="lang-kotlin">PaymentIntent</code> instance returned during collect when using <code class="lang-kotlin">updatePaymentIntent</code> set to true in the <code class="lang-kotlin">CollectConfiguration</code>. After <code class="lang-kotlin">confirmPaymentIntent</code> the <code class="lang-kotlin">amount</code> will have this tip amount added to it and the <code class="lang-kotlin">amountDetails</code> will contain the breakdown of how much of the amount was a tip.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -384,6 +384,21 @@
               </div>
             </div>
           </div>
+<a data-name="847272180%2FProperties%2F-405186196" anchor-label="nextAction" id="847272180%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-action.html"><span>next</span><wbr><span><span>Action</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="847272180%2FProperties%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="next-action.html">nextAction</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-next-action/index.html">NextAction</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Next Action required</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
 <a data-name="85537246%2FProperties%2F-405186196" anchor-label="offlineDetails" id="85537246%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
           <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
             <div class="main-subrow keyValue ">
@@ -394,7 +409,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-transient/index.html"><span class="token annotation builtin">Transient</span></a></div></div><span class="token keyword"></span><span class="token keyword">var </span><a href="offline-details.html">offlineDetails</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-offline-details/index.html">OfflineDetails</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The <a href="offline-details.html">offlineDetails</a> for this intent, if created or processed while offline. When created offline the <a href="id.html">id</a> will be nil. The <a href="../../../external/com.stripe.stripeterminal.external.models/-offline-details/id.html">OfflineDetails.id</a> will contain a unique identifier that can be used to identify this intent. The <a href="../../../external/com.stripe.stripeterminal.external.models/-offline-details/requires-upload.html">OfflineDetails.requiresUpload</a> can be used to identify that the intent was processed offline and requires the device to be brought back online before the intent can be captured. <strong>See Also:</strong> <a href="https://stripe.com/docs/terminal/features/operate-offline/overview">How to operate offline</a></p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-transient/index.html"><span class="token annotation builtin">Transient</span></a></div></div><span class="token keyword"></span><span class="token keyword">var </span><a href="offline-details.html">offlineDetails</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-offline-details/index.html">OfflineDetails</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The <a href="offline-details.html">offlineDetails</a> for this intent, if created or processed while offline. When created offline the <a href="id.html">id</a> will be nil. The <a href="../../../external/com.stripe.stripeterminal.external.models/-offline-details/requires-upload.html">OfflineDetails.requiresUpload</a> can be used to identify that the intent was processed offline and requires the device to be brought back online before the intent can be captured. <strong>See Also:</strong> <a href="https://stripe.com/docs/terminal/features/operate-offline/overview">How to operate offline</a></p></div></div></div>
                 </div>
               </div>
             </div>
@@ -455,6 +470,21 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="payment-method-options.html">paymentMethodOptions</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-method-options/index.html">PaymentMethodOptions</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">PaymentMethod options configured on the payment intent</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="695273963%2FProperties%2F-405186196" anchor-label="paymentMethodTypes" id="695273963%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="payment-method-types.html"><span>payment</span><wbr><span>Method</span><wbr><span><span>Types</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="695273963%2FProperties%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="payment-method-types.html">paymentMethodTypes</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-method-type/index.html">PaymentMethodType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Available Payment Method Types</p></div></div></div>
                 </div>
               </div>
             </div>
