@@ -3,17 +3,18 @@ plugins {
 }
 
 android {
+    val minSdkVersion: Int by project
+    val latestSdkVersion: Int by project
+
     namespace = "com.stripe.example.javaapp"
     compileSdk = latestSdkVersion
 
     defaultConfig {
-        minSdk = 26
+        minSdk = minSdkVersion
         targetSdk = latestSdkVersion
-        buildConfigField(
-                "String",
-                "EXAMPLE_BACKEND_URL",
-                "\"${project.getProperty("EXAMPLE_BACKEND_URL").replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
-        )
+
+        val backendUrl = project.property("EXAMPLE_BACKEND_URL").toString().trim('"')
+        buildConfigField("String", "EXAMPLE_BACKEND_URL", "\"$backendUrl\"")
     }
 
     buildFeatures {
@@ -35,17 +36,13 @@ android {
     }
 }
 
-ext {
-    androidx_lifecycle_version = "2.6.2"
-    retrofit_version = "2.9.0"
-    stripeTerminalVersion = "3.5.0"
-}
+val androidxLifecycleVersion = "2.6.2"
+val retrofitVersion = "2.11.0"
+val stripeTerminalVersion = "3.6.0"
 
 dependencies {
-    implementation(fileTree(dir: "libs", include: ["*.jar"]))
-
     implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.activity:activity:1.8.2")
+    implementation("androidx.activity:activity:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
@@ -53,19 +50,19 @@ dependencies {
     implementation("org.jetbrains:annotations:24.1.0")
 
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel:$androidx_lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata:$androidxLifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:$androidxLifecycleVersion")
 
     // OK HTTP
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     // Stripe Terminal library
     implementation("com.stripe:stripeterminal:$stripeTerminalVersion")
 
     // Leak canary
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.13")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
 }

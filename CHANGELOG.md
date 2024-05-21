@@ -3,6 +3,21 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.6.0 - 2024-05-21
+
+### Core
+
+- Update: A callback to `TerminalListener::onPaymentStatusChanged` will be triggered when [collecting inputs](https://docs.stripe.com/terminal/features/collect-inputs), with `PaymentStatus.WAITING_FOR_INPUT`.
+- Update: A callback to `TerminalListener::onPaymentStatusChanged` will be triggered when confirming a `SetupIntent`, with `PaymentStatus.PROCESSING`.
+- Update: `TerminalException` now includes an [`ApiError.setupIntent`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.api/-api-error/setup-intent.html) field, defined when the exception is an error returned from the Stripe API and related to a `SetupIntent`.
+- Update: `Terminal.connectedReader`'s battery level will be updated whenever the mobile reader's battery info is reported. Fixes [issue 423](https://github.com/stripe/stripe-terminal-android/issues/423).
+- Update: If a reader receives the [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) error when collecting a payment the SDK now also reboots the reader in addition to the existing behavior of disconnecting from the reader. Reconnecting to the reader should re-install the keys and allow the reader to collect payments again.
+
+### Tap to Pay (localmobile)
+
+- Fix: The simulated reader now displays the transaction amount when collecting payments.
+- Fix: Prevent the reader from disconnecting when a payment is initiated with NFC disabled in the device settings. Fixes [issue 380](https://github.com/stripe/stripe-terminal-android/issues/380).
+
 ## 3.5.0 - 2024-04-09
 
 ### Core
