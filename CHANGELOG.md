@@ -3,6 +3,28 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.7.0 - 2024-06-24
+
+### Core
+
+- Beta: Surcharging is now available in private beta.
+  - Added a surchargeNotice parameter to [`CollectConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-collect-configuration/index.html) to display a surcharge notice on the payment collection screen.
+  - Added a `ConfirmConfiguration` class to allow per-transaction overrides for [`confirmPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
+  - Added an amountSurcharge parameter to `ConfirmConfiguration` to surcharge when confirming a payment.
+  - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com.
+- Beta: Added a `Terminal.collectData` method to collect eligible magstripe data, such as gift cards, using a mobile reader.
+  - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com.
+- Update: Added `SimulateReaderUpdateLowBatterySucceedConnect` to simulate an error scenario where a required update fails on a mobile reader due to low battery, but the SDK still successfully connects to the reader.
+  - See [Simulated reader updates](https://docs.stripe.com/terminal/references/testing?terminal-sdk-platform=android#simulated-reader-updates) for details.
+- Update: If a mobile reader receives the [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) error during payment collection, the SDK will disconnect from the reader. Note that [auto reconnection](https://docs.stripe.com/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#handle-disconnects) will not work in this scenario. The error will automatically recover once the reader is reconnected.
+- Update: A callback to [`ReaderListenable::onReportReaderEvent`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listenable/on-report-reader-event.html) will be triggered for card inserts/removals outside of a payment collection; this was previously only done during a payment. Resolves [issue 446](https://github.com/stripe/stripe-terminal-android/issues/446).
+- Fix: Removed delay in connecting to mobile reader due to queued discovery jobs when in offline mode.
+- Fix: Handle OutOfMemoryErrors from corrupted Log files to prevent application crashes. Fixes [issue 464](https://github.com/stripe/stripe-terminal-android/issues/464)
+
+### Tap to Pay (localmobile)
+
+- Update: The background application process used for collecting Tap to Pay transactions has been renamed to use your application's id, suffixed with `:stripelocalmobile`.
+
 ## 3.6.0 - 2024-05-21
 
 ### Core
@@ -28,7 +50,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Update: If a payment method is not presented after an hour to the reader, payment collection will fail with a [`CARD_READ_TIMED_OUT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-c-a-r-d_-r-e-a-d_-t-i-m-e-d_-o-u-t/index.html) error. Fixes [issue 374](https://github.com/stripe/stripe-terminal-android/issues/374).
 - Update: Enforces that only the PaymentIntent returned by [`Terminal.collectPaymentMethod()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-payment-method.html) is allowed to be confirmed in [`Terminal.confirmPaymentIntent()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
 - Fix: Changed target version for classes from Java 11 back down to Java 8.
-- Update: The SDK now allows connecting to a mobile reader when installing required updates fail as long as the reader is on a recent software version. The SDK would continue to report failed update installation attempts via [`ReaderListener::onFinishInstallingSoftwareUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-finish-installing-update.html). The update will be available to be retried using [`Terminal::installAvailableUpdate`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/install-available-update.html). If the update isn't installed with `installAvailableUpdate` the installation will be retried the next time connecting to the reader.
+- Update: The SDK now allows connecting to a mobile reader when installing required updates fail as long as the reader is on a recent software version. The SDK would continue to report failed update installation attempts via [`ReaderListener::onFinishInstallingeUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-finish-installing-update.html). The update will be available to be retried using [`Terminal::installAvailableUpdate`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/install-available-update.html). If the update isn't installed with `installAvailableUpdate` the installation will be retried the next time connecting to the reader.
 
 ### Tap to Pay (localmobile)
 
