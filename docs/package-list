@@ -10,3 +10,5 @@ com.stripe.stripeterminal.external.callable
 com.stripe.stripeterminal.external.internal
 com.stripe.stripeterminal.external.json
 com.stripe.stripeterminal.external.models
+module:handoffclient
+com.stripe.stripeterminal.handoffclient
