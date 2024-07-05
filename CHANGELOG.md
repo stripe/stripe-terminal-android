@@ -3,6 +3,12 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.7.1 - 2024-07-05
+
+### Core
+
+- Fix: Prevent a crash when attempting to connect to a Bluetooth reader that has not already paired with this device yet. Fixes [issue 473](https://github.com/stripe/stripe-terminal-android/issues/473).
+
 ## 3.7.0 - 2024-06-24
 
 ### Core
