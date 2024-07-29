@@ -61,7 +61,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     // Stripe Terminal library
-    implementation("com.stripe:stripeterminal:$stripeTerminalVersion")
+    implementation("com.stripe:stripeterminal-localmobile:$stripeTerminalVersion")
+    implementation("com.stripe:stripeterminal-core:$stripeTerminalVersion")
 
     // Leak canary
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")

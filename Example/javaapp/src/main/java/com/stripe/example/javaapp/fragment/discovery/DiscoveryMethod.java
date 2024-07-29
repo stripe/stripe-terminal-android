@@ -6,5 +6,6 @@ package com.stripe.example.javaapp.fragment.discovery;
 public enum DiscoveryMethod {
     BLUETOOTH_SCAN,
     INTERNET,
+    LOCAL,
     USB,
 }
