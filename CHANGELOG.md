@@ -3,6 +3,20 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.8.0 - 2024-07-30
+
+### Core
+
+- Update: `compileSdk` is now set to 35 (Android 15 Beta).
+  - Note: This change enables you to run compatibility testing with the beta version of Android 15. We do not recommend using Android 15 in production until it's officially released by Google.
+- Update: Deprecated `PaymentIntentParameters::allowedPaymentMethodTypes` & `SetupIntentParameters::allowedPaymentMethodTypes` replace with `PaymentIntentParameters::paymentMethodTypes` and `SetupIntentParameters::paymentMethodTypes` respectively.
+- Fix: Prevent a crash when attempting to connect to a mobile reader on Android devices that do not support Android Keystore cryptographic operations. Fixes [issue 466](https://github.com/stripe/stripe-terminal-android/issues/466).
+
+### Tap to Pay (localmobile)
+
+- New: Added customization options for the Tap to Pay prompt screen. Use [`Terminal.setLocalMobileUxConfiguration`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/set-local-mobile-ux-configuration.html) and [`LocalMobileUxConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-local-mobile-ux-configuration/index.html) to set the configuration.
+- Update: Changed target version for classes from Java 7 to Java 8.
+
 ## 3.7.1 - 2024-07-05
 
 ### Core
@@ -56,7 +70,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Update: If a payment method is not presented after an hour to the reader, payment collection will fail with a [`CARD_READ_TIMED_OUT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-c-a-r-d_-r-e-a-d_-t-i-m-e-d_-o-u-t/index.html) error. Fixes [issue 374](https://github.com/stripe/stripe-terminal-android/issues/374).
 - Update: Enforces that only the PaymentIntent returned by [`Terminal.collectPaymentMethod()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-payment-method.html) is allowed to be confirmed in [`Terminal.confirmPaymentIntent()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
 - Fix: Changed target version for classes from Java 11 back down to Java 8.
-- Update: The SDK now allows connecting to a mobile reader when installing required updates fail as long as the reader is on a recent software version. The SDK would continue to report failed update installation attempts via [`ReaderListener::onFinishInstallingSoftwareUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-finish-installing-update.html). The update will be available to be retried using [`Terminal::installAvailableUpdate`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/install-available-update.html). If the update isn't installed with `installAvailableUpdate` the installation will be retried the next time connecting to the reader.
+- Update: The SDK now allows connecting to a mobile reader when installing required updates fail as long as the reader is on a recent software version. The SDK would continue to report failed update installation attempts via [`ReaderListener::onFinishInstallingUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/on-finish-installing-update.html). The update will be available to be retried using [`Terminal::installAvailableUpdate`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/install-available-update.html). If the update isn't installed with `installAvailableUpdate` the installation will be retried the next time connecting to the reader.
 
 ### Tap to Pay (localmobile)
 

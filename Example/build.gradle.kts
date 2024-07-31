@@ -6,7 +6,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2")
+        classpath("com.android.tools.build:gradle:8.5.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24")
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -20,7 +20,7 @@ if (!project.hasProperty("EXAMPLE_BACKEND_URL")) {
 
 ext {
     set("minSdkVersion", 26)
-    set("latestSdkVersion", 34)
+    set("latestSdkVersion", 35)
 }
 
 allprojects {
