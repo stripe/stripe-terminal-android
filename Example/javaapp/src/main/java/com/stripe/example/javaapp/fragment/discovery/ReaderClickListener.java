@@ -97,6 +97,12 @@ public class ReaderClickListener {
                         readerCallback
                 );
                 return;
+            case LOCAL:
+                Terminal.getInstance().connectLocalMobileReader(reader,
+                        new ConnectionConfiguration.LocalMobileConnectionConfiguration(connectLocationId, true),
+                        readerCallback
+                );
+                return;
             case USB:
                 Terminal.getInstance().connectUsbReader(reader, new ConnectionConfiguration.UsbConnectionConfiguration(connectLocationId),
                         activityRef.get(), readerCallback);

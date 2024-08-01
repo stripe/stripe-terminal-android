@@ -32,7 +32,12 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
         // A string to store the selected discovery method
         private const val DISCOVERY_METHOD = "discovery_method"
         private val discoveryMethods =
-            listOf(DiscoveryMethod.BLUETOOTH_SCAN, DiscoveryMethod.INTERNET, DiscoveryMethod.USB)
+            listOf(
+                DiscoveryMethod.BLUETOOTH_SCAN,
+                DiscoveryMethod.INTERNET,
+                DiscoveryMethod.LOCAL,
+                DiscoveryMethod.USB
+            )
 
         fun getCurrentDiscoveryMethod(activity: Activity?): DiscoveryMethod {
             val pos = activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)

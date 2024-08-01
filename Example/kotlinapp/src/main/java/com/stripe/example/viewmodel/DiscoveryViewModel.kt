@@ -10,6 +10,7 @@ import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.example.fragment.discovery.DiscoveryMethod.BLUETOOTH_SCAN
 import com.stripe.example.fragment.discovery.DiscoveryMethod.INTERNET
 import com.stripe.example.fragment.discovery.DiscoveryMethod.USB
+import com.stripe.example.fragment.discovery.DiscoveryMethod.LOCAL
 import com.stripe.example.fragment.discovery.ReaderClickListener
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Callback
@@ -61,6 +62,7 @@ class DiscoveryViewModel(
                             location = selectedLocation.value?.id,
                             isSimulated = isSimulated,
                         )
+                        LOCAL -> DiscoveryConfiguration.LocalMobileDiscoveryConfiguration(isSimulated)
                         USB -> DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated)
                     },
                     discoveryListener = object : DiscoveryListener {
