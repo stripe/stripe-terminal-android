@@ -8,7 +8,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 - Update: `compileSdk` is now set to 35 (Android 15 Beta).
-  - Note: This change enables you to run compatibility testing with the beta version of Android 15. We do not recommend using Android 15 in production until it's officially released by Google.
+  - Note: SDK validation for `targetSdk` 35 is in progress. Continue using `targetSdk` 34 or lower until validation is complete in a future release.
 - Update: Deprecated `PaymentIntentParameters::allowedPaymentMethodTypes` & `SetupIntentParameters::allowedPaymentMethodTypes` replace with `PaymentIntentParameters::paymentMethodTypes` and `SetupIntentParameters::paymentMethodTypes` respectively.
 - Fix: Prevent a crash when attempting to connect to a mobile reader on Android devices that do not support Android Keystore cryptographic operations. Fixes [issue 466](https://github.com/stripe/stripe-terminal-android/issues/466).
 
