@@ -6,6 +6,5 @@ package com.stripe.example.fragment.discovery
 enum class DiscoveryMethod {
     BLUETOOTH_SCAN,
     INTERNET,
-    LOCAL,
     USB,
 }

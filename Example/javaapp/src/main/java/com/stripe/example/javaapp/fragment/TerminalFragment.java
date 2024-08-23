@@ -51,7 +51,6 @@ public class TerminalFragment extends Fragment {
 
         discoveryMethods.add(DiscoveryMethod.BLUETOOTH_SCAN);
         discoveryMethods.add(DiscoveryMethod.INTERNET);
-        discoveryMethods.add(DiscoveryMethod.LOCAL);
         discoveryMethods.add(DiscoveryMethod.USB);
 
         if (getArguments() != null) {

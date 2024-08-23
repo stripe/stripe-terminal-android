@@ -234,8 +234,6 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Re
                     config = new DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated);
                 } else if (discoveryMethod == DiscoveryMethod.INTERNET) {
                     config = new DiscoveryConfiguration.InternetDiscoveryConfiguration(null, isSimulated);
-                } else if (discoveryMethod == DiscoveryMethod.LOCAL) {
-                    config = new DiscoveryConfiguration.LocalMobileDiscoveryConfiguration(isSimulated);
                 } else {
                     throw new IllegalArgumentException("Unknown discovery method: " + discoveryMethod);
                 }

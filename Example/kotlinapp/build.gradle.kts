@@ -56,7 +56,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs>().configureE
 val androidxLifecycleVersion = "2.6.2"
 val kotlinCoroutinesVersion = "1.7.3"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "3.8.0"
+val stripeTerminalVersion = "3.8.1"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")
@@ -81,8 +81,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     // Stripe Terminal library
-    implementation("com.stripe:stripeterminal-localmobile:$stripeTerminalVersion")
-    implementation("com.stripe:stripeterminal-core:$stripeTerminalVersion")
+    implementation("com.stripe:stripeterminal:$stripeTerminalVersion")
 
     // Leak canary
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")

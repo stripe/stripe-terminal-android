@@ -74,13 +74,6 @@ class ReaderClickListener(
                     readerCallback,
                 )
             }
-            DiscoveryMethod.LOCAL -> {
-                Terminal.getInstance().connectLocalMobileReader(
-                    reader,
-                    ConnectionConfiguration.LocalMobileConnectionConfiguration(connectLocationId, true),
-                    readerCallback,
-                )
-            }
             DiscoveryMethod.USB -> {
                 Terminal.getInstance().connectUsbReader(
                     reader,
