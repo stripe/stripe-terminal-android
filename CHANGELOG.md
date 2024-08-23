@@ -3,6 +3,11 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.8.1 - 2024-08-23
+
+### Tap to Pay (localmobile)
+- Fix: Prevent a crash caused by VerifyErrors when connecting to the local reader.
+
 ## 3.8.0 - 2024-07-30
 
 ### Core
