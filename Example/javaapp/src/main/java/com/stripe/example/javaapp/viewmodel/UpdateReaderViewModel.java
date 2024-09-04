@@ -1,42 +1,61 @@
 package com.stripe.example.javaapp.viewmodel;
 
-import android.app.Application;
-import android.content.Context;
+import android.content.res.Resources;
 
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+
 import com.stripe.example.javaapp.R;
+import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
-import com.stripe.stripeterminal.external.callable.Cancelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class UpdateReaderViewModel extends AndroidViewModel {
-    @NotNull public MutableLiveData<Float> progress;
-    @NotNull public MutableLiveData<Boolean> hasStartedFetchingUpdate;
-    @NotNull public MutableLiveData<Boolean> hasFinishedFetchingUpdate;
-    @NotNull public MutableLiveData<Boolean> hasStartedInstallingUpdate;
-    @NotNull public MutableLiveData<Boolean> hasFinishedInstallingUpdate;
-    @NotNull public MutableLiveData<@Nullable ReaderSoftwareUpdate> readerSoftwareUpdate;
+public class UpdateReaderViewModel extends ViewModel {
+    @NotNull
+    public MutableLiveData<Float> progress;
+    @NotNull
+    public MutableLiveData<Boolean> hasStartedFetchingUpdate;
+    @NotNull
+    public MutableLiveData<Boolean> hasFinishedFetchingUpdate;
+    @NotNull
+    public MutableLiveData<Boolean> hasStartedInstallingUpdate;
+    @NotNull
+    public MutableLiveData<Boolean> hasFinishedInstallingUpdate;
+    @NotNull
+    public MutableLiveData<@Nullable ReaderSoftwareUpdate> readerSoftwareUpdate;
 
-    @NotNull public MediatorLiveData<Boolean> checkForUpdateDescriptionVisibility = new MediatorLiveData<>();
-    @NotNull public MediatorLiveData<Boolean> checkForUpdateButtonVisibility = new MediatorLiveData<>();
-    @NotNull public MediatorLiveData<Integer> checkForUpdateButtonColor = new MediatorLiveData<>();
-    @NotNull public MediatorLiveData<Integer> checkForUpdateButtonText = new MediatorLiveData<>();
-    @NotNull public MediatorLiveData<String> checkForUpdateDescriptionText = new MediatorLiveData<>();
-    @NotNull public MediatorLiveData<Boolean> doneButtonVisibility = new MediatorLiveData<>();
-    @NotNull public MediatorLiveData<Boolean> installDisclaimerVisibility = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<Boolean> checkForUpdateDescriptionVisibility = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<Boolean> checkForUpdateButtonVisibility = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<Integer> checkForUpdateButtonColor = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<Integer> checkForUpdateButtonText = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<String> checkForUpdateDescriptionText = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<Boolean> doneButtonVisibility = new MediatorLiveData<>();
+    @NotNull
+    public MediatorLiveData<Boolean> installDisclaimerVisibility = new MediatorLiveData<>();
 
-    @Nullable public Cancelable installOperation = null;
-    @Nullable public Reader reader = null;
+    @Nullable
+    public Cancelable installOperation = null;
+    @Nullable
+    public Reader reader = null;
 
-    public UpdateReaderViewModel(@NotNull Application app) {
-        super(app);
+    @NotNull
+    private final Resources resources;
 
+    public UpdateReaderViewModel(@NotNull Resources resources) {
+        super();
+
+        this.resources = resources;
         progress = new MutableLiveData<>(0F);
         hasStartedFetchingUpdate = new MutableLiveData<>(false);
         hasFinishedFetchingUpdate = new MutableLiveData<>(false);
@@ -130,19 +149,18 @@ public class UpdateReaderViewModel extends AndroidViewModel {
 
     @NotNull
     private String getCheckForUpdateDescriptionText() {
-        final Context context = getApplication().getApplicationContext();
         if (hasStartedFetchingUpdate.getValue() && !hasFinishedFetchingUpdate.getValue()) {
-            return context.getString(R.string.checking_for_update);
+            return resources.getString(R.string.checking_for_update);
         } else if (hasStartedFetchingUpdate.getValue() && hasFinishedFetchingUpdate.getValue() &&
                 !hasStartedInstallingUpdate.getValue() && readerSoftwareUpdate.getValue() != null) {
-            return context.getString(R.string.install_explanation,
+            return resources.getString(R.string.install_explanation,
                     readerSoftwareUpdate.getValue().getVersion(),
                     readerSoftwareUpdate.getValue().getTimeEstimate().getDescription());
         } else if (hasStartedInstallingUpdate.getValue()) {
-            return hasFinishedInstallingUpdate.getValue() ? context.getString(R.string.update_complete) :
-                context.getString(R.string.update_progress, (progress.getValue() != null ? progress.getValue() : 0F) * 100);
+            return hasFinishedInstallingUpdate.getValue() ? resources.getString(R.string.update_complete) :
+                    resources.getString(R.string.update_progress, (progress.getValue() != null ? progress.getValue() : 0F) * 100);
         } else {
-            return context.getString(R.string.update_explanation);
+            return resources.getString(R.string.update_explanation);
         }
     }
 

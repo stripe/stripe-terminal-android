@@ -3,6 +3,21 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.9.0 - 2024-09-04
+
+### Core
+
+- Beta: WeChat Pay support for smart readers is now available in private beta.
+  - If you are interested in joining this beta, please email stripe-terminal-betas@stripe.com.
+- Update: For mobile readers with [`auto reconnection`](https://docs.stripe.com/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#handle-disconnects) enabled, the SDK now installs required updates upon reconnection after a [reboot](https://docs.corp.stripe.com/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#reboot-the-connected-reader). Your application will continue to receive notifications about updates via the [`ReaderListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/index.html) and should handle updating its UI to inform the user of the update accordingly.
+- Update: During bluetooth/usb reader discovery, the sdk now would only report updates through [`DiscoveryListener::onUpdateDiscoveredReaders`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-discovery-listener/index.html#1825746276%2FFunctions%2F-405186196) when the list of discovered readers changes.
+- Update: Improved handling of [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) error for mobile readers with auto-reconnection enabled. Previously, the SDK would disconnect from the reader without auto-reconnecting when this error occurred. Now, if auto-reconnection is enabled, the SDK will automatically reconnect and recover from this error.
+
+### Tap to Pay (localmobile)
+
+- Update: Improved performance of reader connection
+- Update: Redesigned success screen for Tap to Pay transactions. The full-screen flood fill animation is replaced with a more subtle success indicator.
+
 ## 3.8.0 - 2024-07-30
 
 ### Core
