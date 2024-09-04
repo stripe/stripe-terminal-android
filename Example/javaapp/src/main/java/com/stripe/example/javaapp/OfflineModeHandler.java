@@ -63,7 +63,7 @@ public class OfflineModeHandler implements OfflineListener {
         if (e != null) {
             failedForwardCount++;
             String id = paymentIntent.getOfflineDetails() != null ? paymentIntent.getOfflineDetails().getId() : paymentIntent.getDescription();
-            callback.makeToast(String.format("⚠️ Error forwarding payment: %s\n%s", id, e.getErrorMessage()));
+            callback.makeToast(String.format(Locale.ROOT, "⚠️ Error forwarding payment: %s\n%s", id, e.getErrorMessage()));
 
             createLog(String.format("Error forwarding offline payment intent: %s\n%s", id, e.getErrorMessage()), paymentIntent);
         } else {
@@ -76,7 +76,13 @@ public class OfflineModeHandler implements OfflineListener {
             if (paymentIntent.getStatus() == PaymentIntentStatus.REQUIRES_CAPTURE && paymentIntent.getId() != null) {
                 try {
                     ApiClient.capturePaymentIntent(paymentIntent.getId());
-                    String message = String.format("Successfully captured offline payment intent for %s: %d%s", paymentIntent.getId(), paymentIntent.getAmount(), paymentIntent.getCurrency());
+                    String message = String.format(
+                            Locale.ROOT,
+                            "Successfully captured offline payment intent for %s: %d%s",
+                            paymentIntent.getId(),
+                            paymentIntent.getAmount(),
+                            paymentIntent.getCurrency()
+                    );
                     createLog(message, paymentIntent);
                 } catch (IOException ioException) {
                     String message = String.format("Error capturing offline payment intent for %s:%s", paymentIntent.getId(), ioException.getMessage());

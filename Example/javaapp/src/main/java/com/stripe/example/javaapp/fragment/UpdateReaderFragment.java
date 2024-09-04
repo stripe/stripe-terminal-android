@@ -15,10 +15,11 @@ import com.google.android.material.button.MaterialButton;
 import com.stripe.example.javaapp.MainActivity;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.viewmodel.UpdateReaderViewModel;
+import com.stripe.example.javaapp.viewmodel.UpdateReaderViewModelFactory;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
+import com.stripe.stripeterminal.external.callable.ReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
@@ -47,7 +48,10 @@ public class UpdateReaderFragment extends Fragment implements ReaderListener {
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        viewModel = new ViewModelProvider(this).get(UpdateReaderViewModel.class);
+        viewModel = new ViewModelProvider(
+                this,
+                new UpdateReaderViewModelFactory(getResources())
+        ).get(UpdateReaderViewModel.class);
         if (viewModel.reader == null) {
             viewModel.reader = Terminal.getInstance().getConnectedReader();
         }
@@ -98,7 +102,7 @@ public class UpdateReaderFragment extends Fragment implements ReaderListener {
                                 Terminal.getInstance().getConnectedReader().getAvailableUpdate() :
                                 null
                 );
-                activity.runOnUiThread(() -> { onUpdateAvailable(update); });
+                activity.runOnUiThread(() -> onUpdateAvailable(update));
             // If we have an update ready, and we haven't installed it, do so
             } else if (viewModel.hasFinishedFetchingUpdate.getValue()) {
                 final ReaderSoftwareUpdate update = viewModel.readerSoftwareUpdate.getValue();
