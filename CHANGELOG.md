@@ -7,7 +7,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ### Handoff
 
-- Fix: handoff transactions do not complete when `updatePaymentIntent` is enabled
+- Fix: handoff transactions do not complete
 
 ## 3.9.0 - 2024-09-04
 
