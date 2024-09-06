@@ -3,6 +3,12 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.9.1 - 2024-09-06
+
+### Handoff
+
+- Fix: handoff transactions do not complete when `updatePaymentIntent` is enabled
+
 ## 3.9.0 - 2024-09-04
 
 ### Core
