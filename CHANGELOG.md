@@ -3,12 +3,17 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
-## 3.9.2 - 2024-09-13
+## 3.9.3 - 2024-09-13
+
+### Core
+
+- Fix: Prevent a crash that occurs when discovering bluetooth/usb readers and a timeout is set. Fixes [issue 496](https://github.com/stripe/stripe-terminal-android/issues/496).
+
+## 3.9.2 - 2024-09-12
 
 ### Core
 
 - Fix: Prevent a crash during reader connection on devices with marketing names containing non-ASCII characters. Fixes [issue 495](https://github.com/stripe/stripe-terminal-android/issues/495).
-- Fix: Prevent a crash that occurs when discovering bluetooth/usb readers and a timeout is set. Fixes [issue 496](https://github.com/stripe/stripe-terminal-android/issues/496).
 
 ## 3.9.1 - 2024-09-06
 
