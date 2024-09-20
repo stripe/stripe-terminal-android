@@ -5,7 +5,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ## 3.9.4 - 2024-09-20
 
-### Handoff
+### Apps on Devices: Handoff mode
 
 - Fix: Prevent reader UI from being started prematurely.
 
