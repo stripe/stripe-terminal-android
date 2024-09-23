@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal:3.9.4"
+  implementation "com.stripe:stripeterminal:3.9.5"
 }
 ```
 
@@ -103,8 +103,8 @@ your `build.gradle` file with the following:
 
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal-localmobile:3.9.4"
-  implementation "com.stripe:stripeterminal-core:3.9.4"
+  implementation "com.stripe:stripeterminal-localmobile:3.9.5"
+  implementation "com.stripe:stripeterminal-core:3.9.5"
 }
 ```
 
