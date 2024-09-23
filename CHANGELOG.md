@@ -3,6 +3,12 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.9.4 - 2024-09-20
+
+### Apps on Devices: Handoff mode
+
+- Fix: Prevent reader UI from being started prematurely.
+
 ## 3.9.3 - 2024-09-13
 
 ### Core
