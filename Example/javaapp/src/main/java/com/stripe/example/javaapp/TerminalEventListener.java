@@ -5,7 +5,6 @@ import android.util.Log;
 import com.stripe.stripeterminal.external.callable.TerminalListener;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.PaymentStatus;
-import com.stripe.stripeterminal.external.models.Reader;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,13 +19,6 @@ public class TerminalEventListener extends ListenerAnnouncer<TerminalListener> i
 
     private TerminalEventListener() {
 
-    }
-
-    @Override
-    public void onUnexpectedReaderDisconnect(@NotNull Reader reader) {
-        Log.i("UnexpectedDisconnect", reader.getSerialNumber() != null ?
-                reader.getSerialNumber() : "reader's serialNumber is null!");
-        this.announce(listener -> listener.onUnexpectedReaderDisconnect(reader));
     }
 
     @Override

@@ -155,7 +155,7 @@ public class UpdateReaderViewModel extends ViewModel {
                 !hasStartedInstallingUpdate.getValue() && readerSoftwareUpdate.getValue() != null) {
             return resources.getString(R.string.install_explanation,
                     readerSoftwareUpdate.getValue().getVersion(),
-                    readerSoftwareUpdate.getValue().getTimeEstimate().getDescription());
+                    readerSoftwareUpdate.getValue().getDurationEstimate().getDescription());
         } else if (hasStartedInstallingUpdate.getValue()) {
             return hasFinishedInstallingUpdate.getValue() ? resources.getString(R.string.update_complete) :
                     resources.getString(R.string.update_progress, (progress.getValue() != null ? progress.getValue() : 0F) * 100);

@@ -9,7 +9,7 @@ import com.stripe.example.NavigationListener
 import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.example.fragment.discovery.DiscoveryMethod.BLUETOOTH_SCAN
 import com.stripe.example.fragment.discovery.DiscoveryMethod.INTERNET
-import com.stripe.example.fragment.discovery.DiscoveryMethod.LOCAL
+import com.stripe.example.fragment.discovery.DiscoveryMethod.TAP_TO_PAY
 import com.stripe.example.fragment.discovery.DiscoveryMethod.USB
 import com.stripe.example.fragment.discovery.ReaderClickListener
 import com.stripe.stripeterminal.Terminal
@@ -62,7 +62,7 @@ class DiscoveryViewModel(
                             location = selectedLocation.value?.id,
                             isSimulated = isSimulated,
                         )
-                        LOCAL -> DiscoveryConfiguration.LocalMobileDiscoveryConfiguration(isSimulated)
+                        TAP_TO_PAY -> DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated)
                         USB -> DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated)
                     },
                     discoveryListener = object : DiscoveryListener {
