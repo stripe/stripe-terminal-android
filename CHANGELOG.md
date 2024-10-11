@@ -3,6 +3,13 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 3.10.0 - 2024-10-11
+
+### Core
+
+- Update: Add support for apps built with `targetSdkVersion = 35` targeting Android 15 devices.
+  - Note: This update includes support for Tap to Pay on Android. Users who were previously advised not to upgrade can now safely target version 35.
+
 ## 3.9.5 - 2024-09-23
 
 ### Apps on Devices: Handoff mode
@@ -52,8 +59,8 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ### Core
 
-- Update: `compileSdk` is now set to 35 (Android 15 Beta).
-  - Note: SDK validation for `targetSdk` 35 is in progress. Continue using `targetSdk` 34 or lower until validation is complete in a future release.
+- Update: `compileSdkVersion` is now set to 35 (Android 15 Beta).
+  - Note: SDK validation for `targetSdkVersion` 35 is in progress. Continue using `targetSdkVersion` 34 or lower until validation is complete in a future release.
 - Update: Deprecated `PaymentIntentParameters::allowedPaymentMethodTypes` & `SetupIntentParameters::allowedPaymentMethodTypes` replace with `PaymentIntentParameters::paymentMethodTypes` and `SetupIntentParameters::paymentMethodTypes` respectively.
 - Fix: Prevent a crash when attempting to connect to a mobile reader on Android devices that do not support Android Keystore cryptographic operations. Fixes [issue 466](https://github.com/stripe/stripe-terminal-android/issues/466).
 
