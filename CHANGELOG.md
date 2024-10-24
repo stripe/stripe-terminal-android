@@ -262,6 +262,15 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   - `TerminalApplicationDelegate.onTrimMemory()` has been removed. It is automatically managed by the SDK.
   - `CardDetails.fingerprint` and `CardPresentDetails.fingerprint` have been removed from mobile SDKs. You will still be able to access the fingerprint server-side.
 
+## 2.23.4 - 2024-10-24
+
+Please note that Terminal Android SDK v2 has reached its end of support date and will no longer receive necessary support fixes to keep Terminal functional. We strongly encourage you to upgrade your SDK to v3 or higher to avoid any interruption in functionality.
+
+### Core
+- Fix: Fixed USB connection issue causing transaction timeouts. Fixes [issue 402](https://github.com/stripe/stripe-terminal-android/issues/402).
+- Fix: Addressed an issue where the application could not reconnect to the card reader after being powered on for an extended period. Fixes [issue 443](https://github.com/stripe/stripe-terminal-android/issues/443).
+- Fix: Handle OutOfMemoryErrors from corrupted Log files to prevent application crashes. Fixes [issue 464](https://github.com/stripe/stripe-terminal-android/issues/464).
+
 ## 2.23.3 - 2023-12-22
 
 ### Core
