@@ -3,7 +3,7 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
-## 4.0.0 - 2024-10-30
+## 4.0.0 - 2024-10-31
 4.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-migration-guide?terminal-sdk-platform=android) for more details.
 
 ### Core
