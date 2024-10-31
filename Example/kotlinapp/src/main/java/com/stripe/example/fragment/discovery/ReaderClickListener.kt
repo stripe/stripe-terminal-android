@@ -8,7 +8,6 @@ import com.stripe.example.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
-import com.stripe.stripeterminal.external.models.ConnectionConfiguration.BluetoothConnectionConfiguration
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
 import java.lang.ref.WeakReference
@@ -58,37 +57,33 @@ class ReaderClickListener(
                 }
             }
         }
-        when (viewModel.discoveryMethod) {
-            DiscoveryMethod.BLUETOOTH_SCAN -> {
-                Terminal.getInstance().connectBluetoothReader(
-                    reader,
-                    BluetoothConnectionConfiguration(connectLocationId),
-                    activityRef.get(),
-                    readerCallback,
+
+        val config = when (viewModel.discoveryMethod) {
+            DiscoveryMethod.BLUETOOTH_SCAN ->
+                ConnectionConfiguration.BluetoothConnectionConfiguration(
+                    locationId = connectLocationId,
+                    bluetoothReaderListener = activityRef.get()!!,
                 )
-            }
-            DiscoveryMethod.INTERNET -> {
-                Terminal.getInstance().connectInternetReader(
-                    reader,
-                    ConnectionConfiguration.InternetConnectionConfiguration(),
-                    readerCallback,
+            DiscoveryMethod.INTERNET ->
+                ConnectionConfiguration.InternetConnectionConfiguration(internetReaderListener = activityRef.get())
+            DiscoveryMethod.TAP_TO_PAY ->
+                ConnectionConfiguration.TapToPayConnectionConfiguration(
+                    locationId = connectLocationId,
+                    autoReconnectOnUnexpectedDisconnect = true,
+                    tapToPayReaderListener = activityRef.get()
                 )
-            }
-            DiscoveryMethod.LOCAL -> {
-                Terminal.getInstance().connectLocalMobileReader(
-                    reader,
-                    ConnectionConfiguration.LocalMobileConnectionConfiguration(connectLocationId, true),
-                    readerCallback,
+            DiscoveryMethod.USB ->
+
+                ConnectionConfiguration.UsbConnectionConfiguration(
+                    locationId = connectLocationId,
+                    usbReaderListener = activityRef.get()!!,
                 )
-            }
-            DiscoveryMethod.USB -> {
-                Terminal.getInstance().connectUsbReader(
-                    reader,
-                    ConnectionConfiguration.UsbConnectionConfiguration(connectLocationId),
-                    activityRef.get(),
-                    readerCallback,
-                )
-            }
         }
+
+        Terminal.getInstance().connectReader(
+            reader,
+            config,
+            readerCallback
+        )
     }
 }

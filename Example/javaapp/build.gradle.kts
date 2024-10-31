@@ -25,8 +25,6 @@ android {
 
     lint {
         enable += "Interoperability"
-        disable += "UnusedResources"
-        disable += "UnknownNullness"
         disable += "MergeRootFrame"
     }
 
@@ -38,7 +36,7 @@ android {
 
 val androidxLifecycleVersion = "2.6.2"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "3.10.0"
+val stripeTerminalVersion = "4.0.0"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")
@@ -61,7 +59,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     // Stripe Terminal library
-    implementation("com.stripe:stripeterminal-localmobile:$stripeTerminalVersion")
+    implementation("com.stripe:stripeterminal-taptopay:$stripeTerminalVersion")
     implementation("com.stripe:stripeterminal-core:$stripeTerminalVersion")
 
     // Leak canary

@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.stripe.example.javaapp.fragment.ConnectedReaderFragment;
-import com.stripe.example.javaapp.fragment.offline.OfflinePaymentsLogFragment;
 import com.stripe.example.javaapp.fragment.PaymentFragment;
 import com.stripe.example.javaapp.fragment.TerminalFragment;
 import com.stripe.example.javaapp.fragment.UpdateReaderFragment;
@@ -26,16 +25,20 @@ import com.stripe.example.javaapp.fragment.event.EventFragment;
 import com.stripe.example.javaapp.fragment.location.LocationCreateFragment;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionController;
 import com.stripe.example.javaapp.fragment.location.LocationSelectionFragment;
+import com.stripe.example.javaapp.fragment.offline.OfflinePaymentsLogFragment;
 import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 import com.stripe.example.javaapp.network.TokenProvider;
 import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.OfflineMode;
 import com.stripe.stripeterminal.external.callable.Cancelable;
-import com.stripe.stripeterminal.external.callable.ReaderListener;
+import com.stripe.stripeterminal.external.callable.InternetReaderListener;
+import com.stripe.stripeterminal.external.callable.MobileReaderListener;
+import com.stripe.stripeterminal.external.callable.TapToPayReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.Location;
+import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
@@ -50,7 +53,9 @@ import java.util.List;
 @OptIn(markerClass = OfflineMode.class)
 public class MainActivity extends AppCompatActivity implements
         NavigationListener,
-        ReaderListener,
+        MobileReaderListener,
+        TapToPayReaderListener,
+        InternetReaderListener,
         LocationSelectionController
 {
 
@@ -215,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onStartInstallingUpdate(update, cancelable);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onStartInstallingUpdate(update, cancelable);
             }
         });
     }
@@ -226,8 +231,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onReportReaderSoftwareUpdateProgress(progress);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onReportReaderSoftwareUpdateProgress(progress);
             }
         });
     }
@@ -237,8 +242,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onFinishInstallingUpdate(update, e);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onFinishInstallingUpdate(update, e);
             }
         });
     }
@@ -248,8 +253,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onRequestReaderInput(options);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onRequestReaderInput(options);
             }
         });
     }
@@ -259,8 +264,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onRequestReaderDisplayMessage(message);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onRequestReaderDisplayMessage(message);
             }
         });
     }
@@ -270,8 +275,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onReportAvailableUpdate(update);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onReportAvailableUpdate(update);
             }
         });
     }
@@ -281,8 +286,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onReportReaderEvent(event);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onReportReaderEvent(event);
             }
         });
     }
@@ -292,8 +297,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onReportLowBatteryWarning();
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onReportLowBatteryWarning();
             }
         });
     }
@@ -303,8 +308,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onBatteryLevelUpdate(batteryLevel, batteryStatus, isCharging);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onBatteryLevelUpdate(batteryLevel, batteryStatus, isCharging);
             }
         });
     }
@@ -314,8 +319,8 @@ public class MainActivity extends AppCompatActivity implements
         runOnUiThread(() -> {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             Fragment currentFragment = fragments.get(fragments.size() - 1);
-            if (currentFragment instanceof ReaderListener) {
-                ((ReaderListener) currentFragment).onDisconnect(reason);
+            if (currentFragment instanceof MobileReaderListener) {
+                ((MobileReaderListener) currentFragment).onDisconnect(reason);
             }
         });
     }
@@ -338,6 +343,19 @@ public class MainActivity extends AppCompatActivity implements
         if (lastFragment instanceof LocationSelectionController) {
             ((LocationSelectionController) lastFragment).onLocationCleared();
         }
+    }
+
+    /**
+     * ReaderReconnectionListener implementation.
+     */
+    @Override
+    public void onReaderReconnectSucceeded(@NonNull Reader reader) {
+        Log.d("MainActivity", "Reader " + reader.getId() + " reconnected successfully!");
+    }
+
+    @Override
+    public void onReaderReconnectFailed(@NonNull Reader reader) {
+        Log.d("MainActivity", "Reconnection to reader " + reader.getId() + " failed!");
     }
 
     /**

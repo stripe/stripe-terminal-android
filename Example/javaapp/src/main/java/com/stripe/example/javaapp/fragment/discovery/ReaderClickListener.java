@@ -19,7 +19,6 @@ import com.stripe.stripeterminal.external.models.TerminalException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import kotlin.OptIn;
 
 public class ReaderClickListener {
     @NotNull private WeakReference<MainActivity> activityRef;
@@ -87,25 +86,43 @@ public class ReaderClickListener {
 
         switch (viewModel.discoveryMethod) {
             case BLUETOOTH_SCAN:
-                Terminal.getInstance().connectBluetoothReader(reader, new BluetoothConnectionConfiguration(connectLocationId),
-                        activityRef.get(), readerCallback);
-                return;
-            case INTERNET:
-                Terminal.getInstance().connectInternetReader(
+                Terminal.getInstance().connectReader(
                         reader,
-                        new ConnectionConfiguration.InternetConnectionConfiguration(),
+                        new BluetoothConnectionConfiguration(
+                                connectLocationId,
+                                activityRef.get()
+                        ),
                         readerCallback
                 );
                 return;
-            case LOCAL:
-                Terminal.getInstance().connectLocalMobileReader(reader,
-                        new ConnectionConfiguration.LocalMobileConnectionConfiguration(connectLocationId, true),
+            case INTERNET:
+                Terminal.getInstance().connectReader(
+                        reader,
+                        new ConnectionConfiguration.InternetConnectionConfiguration(
+                                false,
+                                activityRef.get()
+                        ),
+                        readerCallback
+                );
+                return;
+            case TAP_TO_PAY:
+                Terminal.getInstance().connectReader(reader,
+                        new ConnectionConfiguration.TapToPayConnectionConfiguration(
+                                connectLocationId,
+                                true,
+                                activityRef.get()
+                        ),
                         readerCallback
                 );
                 return;
             case USB:
-                Terminal.getInstance().connectUsbReader(reader, new ConnectionConfiguration.UsbConnectionConfiguration(connectLocationId),
-                        activityRef.get(), readerCallback);
+                Terminal.getInstance().connectReader(reader,
+                        new ConnectionConfiguration.UsbConnectionConfiguration(
+                                connectLocationId,
+                                activityRef.get()
+                        ),
+                        readerCallback
+                );
                 return;
             default:
                 Log.w(getClass().getSimpleName(), "Trying to connect unsupported reader");
