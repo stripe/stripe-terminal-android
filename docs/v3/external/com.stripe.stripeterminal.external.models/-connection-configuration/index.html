@@ -1,0 +1,206 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ConnectionConfiguration</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            terminalsdk
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="external::com.stripe.stripeterminal.external.models/ConnectionConfiguration///PointingToDeclaration//-405186196">
+  <div class="breadcrumbs"><a href="../../index.html">external</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><span class="current">ConnectionConfiguration</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Connection</span><wbr><span><span>Configuration</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">ConnectionConfiguration</a></div><p class="paragraph">The <code class="lang-kotlin">ConnectionConfiguration</code> class contains configuration information for connecting to a reader.</p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-bluetooth-connection-configuration/index.html">BluetoothConnectionConfiguration</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-local-mobile-connection-configuration/index.html">LocalMobileConnectionConfiguration</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-internet-connection-configuration/index.html">InternetConnectionConfiguration</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-handoff-connection-configuration/index.html">HandoffConnectionConfiguration</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-usb-connection-configuration/index.html">UsbConnectionConfiguration</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-862664482%2FClasslikes%2F-405186196" anchor-label="BluetoothConnectionConfiguration" id="-862664482%2FClasslikes%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-bluetooth-connection-configuration/index.html"><span>Bluetooth</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-862664482%2FClasslikes%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-bluetooth-connection-configuration/index.html">BluetoothConnectionConfiguration</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">locationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>autoReconnectOnUnexpectedDisconnect<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>bluetoothReaderReconnectionListener<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html">ReaderReconnectionListener</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="index.html">ConnectionConfiguration</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">BluetoothConnectionConfiguration</code> object is used to connect to a bluetooth reader (currently <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-c-h-i-p-p-e-r_2-x/index.html">DeviceType.CHIPPER_2X</a>, <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-s-t-r-i-p-e_-m2/index.html">DeviceType.STRIPE_M2</a> and <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-w-i-s-e-p-a-d_3/index.html">DeviceType.WISEPAD_3</a>)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1260795630%2FClasslikes%2F-405186196" anchor-label="Companion" id="1260795630%2FClasslikes%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1260795630%2FClasslikes%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-193464688%2FClasslikes%2F-405186196" anchor-label="HandoffConnectionConfiguration" id="-193464688%2FClasslikes%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-handoff-connection-configuration/index.html"><span>Handoff</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-193464688%2FClasslikes%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-handoff-connection-configuration/index.html">HandoffConnectionConfiguration</a> : <a href="index.html">ConnectionConfiguration</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">HandoffConnectionConfiguration</code> object should be used to connect to a reader in handoff mode.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2054450531%2FClasslikes%2F-405186196" anchor-label="InternetConnectionConfiguration" id="2054450531%2FClasslikes%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-internet-connection-configuration/index.html"><span>Internet</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2054450531%2FClasslikes%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-internet-connection-configuration/index.html">InternetConnectionConfiguration</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>failIfInUse<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>DEFAULT_FAIL_IF_IN_USE</span></span><span class="token punctuation">)</span> : <a href="index.html">ConnectionConfiguration</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">InternetConnectionConfiguration</code> object should be used to connect to an internet reader (currently <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-v-e-r-i-f-o-n-e_-p400/index.html">DeviceType.VERIFONE_P400</a>)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1268007517%2FClasslikes%2F-405186196" anchor-label="LocalMobileConnectionConfiguration" id="1268007517%2FClasslikes%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-local-mobile-connection-configuration/index.html"><span>Local</span><wbr><span>Mobile</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1268007517%2FClasslikes%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-local-mobile-connection-configuration/index.html">LocalMobileConnectionConfiguration</a>&nbsp;<span><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a>&nbsp;</span><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">locationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>autoReconnectOnUnexpectedDisconnect<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>localMobileReaderReconnectionListener<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html">ReaderReconnectionListener</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="index.html">ConnectionConfiguration</a></div><div class="brief "><p class="paragraph">The <a href="-local-mobile-connection-configuration/index.html">LocalMobileConnectionConfiguration</a> object should be used to connect to the phone's or tablet's NFC reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="932693236%2FClasslikes%2F-405186196" anchor-label="UsbConnectionConfiguration" id="932693236%2FClasslikes%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-usb-connection-configuration/index.html"><span>Usb</span><wbr><span>Connection</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="932693236%2FClasslikes%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-usb-connection-configuration/index.html">UsbConnectionConfiguration</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">locationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>autoReconnectOnUnexpectedDisconnect<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>usbReaderReconnectionListener<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/index.html">ReaderReconnectionListener</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="index.html">ConnectionConfiguration</a></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">UsbConnectionConfiguration</code> object is used to connect to a USB reader (currently <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-c-h-i-p-p-e-r_2-x/index.html">DeviceType.CHIPPER_2X</a>, <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-s-t-r-i-p-e_-m2/index.html">DeviceType.STRIPE_M2</a> and <a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/-w-i-s-e-p-a-d_3/index.html">DeviceType.WISEPAD_3</a>)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-750823680%2FProperties%2F-405186196" anchor-label="failIfInUse" id="-750823680%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fail-if-in-use.html"><span>fail</span><wbr><span>If</span><wbr><span>In</span><wbr><span><span>Use</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-750823680%2FProperties%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="fail-if-in-use.html">failIfInUse</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">When <a href="fail-if-in-use.html">failIfInUse</a> is true, an error will be returned when attempting to connect to a reader that is already collecting a payment</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2028967267%2FProperties%2F-405186196" anchor-label="locationId" id="2028967267%2FProperties%2F-405186196" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="location-id.html"><span>location</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2028967267%2FProperties%2F-405186196"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="location-id.html">locationId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The ID of the Location that you want this reader to be registered to.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

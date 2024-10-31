@@ -23,9 +23,10 @@ import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.callable.Callback
+import com.stripe.stripeterminal.external.callable.MobileReaderListener
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
-import com.stripe.stripeterminal.external.callable.ReaderListener
 import com.stripe.stripeterminal.external.callable.SetupIntentCallback
+import com.stripe.stripeterminal.external.models.AllowRedisplay
 import com.stripe.stripeterminal.external.models.CardPresentParameters
 import com.stripe.stripeterminal.external.models.CollectConfiguration
 import com.stripe.stripeterminal.external.models.CreateConfiguration
@@ -48,7 +49,7 @@ import java.util.Locale
  * The `EventFragment` displays events as they happen during a payment flow
  */
 @OptIn(OfflineMode::class)
-class EventFragment : Fragment(), ReaderListener {
+class EventFragment : Fragment(), MobileReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.event.EventFragment"
@@ -182,7 +183,7 @@ class EventFragment : Fragment(), ReaderListener {
             addEvent("Created SetupIntent", "terminal.createSetupIntent")
             viewModel.collectTask = Terminal.getInstance().collectSetupIntentPaymentMethod(
                 setupIntent,
-                customerConsentCollected = true,
+                allowRedisplay = AllowRedisplay.ALWAYS,
                 callback = collectSetupIntentPaymentMethodCallback,
             )
         }

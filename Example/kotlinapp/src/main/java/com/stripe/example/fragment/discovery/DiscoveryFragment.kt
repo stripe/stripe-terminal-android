@@ -21,7 +21,7 @@ import com.stripe.example.fragment.launchAndRepeatWithViewLifecycle
 import com.stripe.example.fragment.location.LocationSelectionController
 import com.stripe.example.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.external.callable.Cancelable
-import com.stripe.stripeterminal.external.callable.ReaderListener
+import com.stripe.stripeterminal.external.callable.MobileReaderListener
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
 import com.stripe.stripeterminal.external.models.TerminalException
@@ -33,7 +33,7 @@ import java.lang.ref.WeakReference
  */
 class DiscoveryFragment :
     Fragment(R.layout.fragment_discovery),
-    ReaderListener,
+    MobileReaderListener,
     LocationSelectionController {
 
     // Register the permissions callback to handles the response to the system permissions dialog.

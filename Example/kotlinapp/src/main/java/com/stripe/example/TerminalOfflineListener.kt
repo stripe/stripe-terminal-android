@@ -10,6 +10,7 @@ import com.stripe.stripeterminal.external.models.NetworkStatus
 import com.stripe.stripeterminal.external.models.OfflineStatus
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentStatus
+import com.stripe.stripeterminal.external.models.TerminalErrorCode
 import com.stripe.stripeterminal.external.models.TerminalException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +51,7 @@ object TerminalOfflineListener : OfflineListener {
                         when (error) {
                             is TerminalException -> error
                             else -> TerminalException(
-                                    errorCode = TerminalException.TerminalErrorCode.UNEXPECTED_SDK_ERROR,
+                                    errorCode = TerminalErrorCode.UNEXPECTED_SDK_ERROR,
                                     cause = error,
                                     errorMessage = "Failed to capture payment intent."
                             )

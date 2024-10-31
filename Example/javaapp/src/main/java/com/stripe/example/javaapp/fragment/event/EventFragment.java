@@ -30,8 +30,9 @@ import com.stripe.stripeterminal.external.OfflineMode;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
-import com.stripe.stripeterminal.external.callable.ReaderListener;
+import com.stripe.stripeterminal.external.callable.MobileReaderListener;
 import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
+import com.stripe.stripeterminal.external.models.AllowRedisplay;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
 import com.stripe.stripeterminal.external.models.CollectConfiguration;
@@ -63,7 +64,7 @@ import retrofit2.Response;
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-public class EventFragment extends Fragment implements ReaderListener {
+public class EventFragment extends Fragment implements MobileReaderListener {
 
     @NotNull
     public static final String TAG = "com.stripe.example.fragment.event.EventFragment";
@@ -217,7 +218,7 @@ public class EventFragment extends Fragment implements ReaderListener {
             setupIntent = intent;
             addEvent("Created SetupIntent", "terminal.createSetupIntent");
             viewModel.collectTask = Terminal.getInstance().collectSetupIntentPaymentMethod(
-                    setupIntent, true, collectSetupIntentPaymentMethodCallback);
+                    setupIntent, AllowRedisplay.ALWAYS, collectSetupIntentPaymentMethodCallback);
         }
 
         @Override

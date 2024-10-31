@@ -149,7 +149,7 @@ constructor(application: Application) : AndroidViewModel(application) {
             context.getString(
                 R.string.install_explanation,
                 readerSoftwareUpdate.value!!.version,
-                readerSoftwareUpdate.value!!.timeEstimate.description
+                readerSoftwareUpdate.value!!.durationEstimate.description
             )
         } else if (hasStartedInstallingUpdate.value!!) {
             if (hasFinishedInstallingUpdate.value!!) {

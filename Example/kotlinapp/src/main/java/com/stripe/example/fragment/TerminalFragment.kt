@@ -35,7 +35,7 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
             listOf(
                 DiscoveryMethod.BLUETOOTH_SCAN,
                 DiscoveryMethod.INTERNET,
-                DiscoveryMethod.LOCAL,
+                DiscoveryMethod.TAP_TO_PAY,
                 DiscoveryMethod.USB
             )
 

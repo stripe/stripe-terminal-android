@@ -24,7 +24,7 @@ To use the Android SDK, add the SDK to the `dependencies` block of your `build.g
 
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal:3.10.0"
+  implementation "com.stripe:stripeterminal:4.0.0"
 }
 ```
 
@@ -103,21 +103,22 @@ your `build.gradle` file with the following:
 
 ```groovy
 dependencies {
-  implementation "com.stripe:stripeterminal-localmobile:3.10.0"
-  implementation "com.stripe:stripeterminal-core:3.10.0"
+  implementation "com.stripe:stripeterminal-taptopay:4.0.0"
+  implementation "com.stripe:stripeterminal-core:4.0.0"
 }
 ```
 
 Please note that:
 - You must use an SDK version greater than the minimum SDK version documented in our [user docs](https://stripe.com/docs/terminal/payments/setup-reader/tap-to-pay?platform=android)
-- The `stripeterminal-localmobile` SDK version _must_ match the version you're using for other
+- The `stripeterminal-taptopay` SDK version _must_ match the version you're using for other
   stripeterminal libraries.
 - There are no public APIs provided by this SDK. Please reference Stripe Terminal's public API references
   for more information on how to use the SDK.
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
- - [3.x API Reference](https://stripe.dev/stripe-terminal-android)
+ - [4.x API Reference](https://stripe.dev/stripe-terminal-android)
+ - [3.x API Reference](https://stripe.dev/stripe-terminal-android/v3)
  - [2.x API Reference](https://stripe.dev/stripe-terminal-android/v2)
  - [1.x API Reference](https://stripe.dev/stripe-terminal-android/v1)
  - [Support Lifecycle & Release Status](SUPPORT.md)

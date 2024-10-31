@@ -1,0 +1,277 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>MobileReaderListener</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            Stripe Terminal Android SDK (v4.0.0)
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="external::com.stripe.stripeterminal.external.callable/MobileReaderListener///PointingToDeclaration//-1219334616">
+  <div class="breadcrumbs"><a href="../../index.html">external</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.callable</a><span class="delimiter">/</span><span class="current">MobileReaderListener</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Mobile</span><wbr><span>Reader</span><wbr><span><span>Listener</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">MobileReaderListener</a> : <a href="../-reader-listenable/index.html">ReaderListenable</a>, <a href="../-reader-reconnection-listener/index.html">ReaderReconnectionListener</a>, <a href="../-reader-disconnect-listener/index.html">ReaderDisconnectListener</a></div><p class="paragraph">The <a href="index.html">MobileReaderListener</a> interface is a listener that should exist for the entire duration of your connection to a reader. It will receive events related to the status of the reader, as well as opportunities to update the reader's software.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="522861360%2FFunctions%2F-1219334616" anchor-label="onBatteryLevelUpdate" id="522861360%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-battery-level-update.html"><span>on</span><wbr><span>Battery</span><wbr><span>Level</span><wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="522861360%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-battery-level-update.html"><span class="token function">onBatteryLevelUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">batteryLevel<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">batteryStatus<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-battery-status/index.html">BatteryStatus</a><span class="token punctuation">, </span></span><span class="parameter ">isCharging<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The Terminal reports batteryLevel, <a href="../../com.stripe.stripeterminal.external.models/-battery-status/index.html">BatteryStatus</a> and charging status every 10 minutes</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1987052857%2FFunctions%2F-1219334616" anchor-label="onDisconnect" id="1987052857%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-reader-disconnect-listener/on-disconnect.html"><span>on</span><wbr><span><span>Disconnect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1987052857%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-reader-disconnect-listener/on-disconnect.html"><span class="token function">onDisconnect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">reason<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-disconnect-reason/index.html">DisconnectReason</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method is called when the reader has disconnected from the SDK, and includes the reason for the disconnect.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1345025597%2FFunctions%2F-1219334616" anchor-label="onFinishInstallingUpdate" id="-1345025597%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-finish-installing-update.html"><span>on</span><wbr><span>Finish</span><wbr><span>Installing</span><wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1345025597%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-finish-installing-update.html"><span class="token function">onFinishInstallingUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">update<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader-software-update/index.html">ReaderSoftwareUpdate</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">e<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-terminal-exception/index.html">TerminalException</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The terminal has finished installing a <a href="../../com.stripe.stripeterminal.external.models/-reader-software-update/index.html">ReaderSoftwareUpdate</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1023342536%2FFunctions%2F-1219334616" anchor-label="onReaderReconnectFailed" id="-1023342536%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-reader-reconnection-listener/on-reader-reconnect-failed.html"><span>on</span><wbr><span>Reader</span><wbr><span>Reconnect</span><wbr><span><span>Failed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1023342536%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-reader-reconnection-listener/on-reader-reconnect-failed.html"><span class="token function">onReaderReconnectFailed</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">reader<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader/index.html">Reader</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Invoked when a connection could not be re-established with the given <a href="../-reader-reconnection-listener/on-reader-reconnect-failed.html">reader</a> after a reasonable number of attempts.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1469364512%2FFunctions%2F-1219334616" anchor-label="onReaderReconnectStarted" id="-1469364512%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-reader-reconnection-listener/on-reader-reconnect-started.html"><span>on</span><wbr><span>Reader</span><wbr><span>Reconnect</span><wbr><span><span>Started</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1469364512%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-reader-reconnection-listener/on-reader-reconnect-started.html"><span class="token function">onReaderReconnectStarted</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">reader<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader/index.html">Reader</a><span class="token punctuation">, </span></span><span class="parameter ">cancelReconnect<span class="token operator">: </span><a href="../-cancelable/index.html">Cancelable</a><span class="token punctuation">, </span></span><span class="parameter ">reason<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-disconnect-reason/index.html">DisconnectReason</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Invoked when the given <a href="../-reader-reconnection-listener/on-reader-reconnect-started.html">reader</a> has unexpectedly disconnected and an auto reconnection process has been initiated.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="677433242%2FFunctions%2F-1219334616" anchor-label="onReaderReconnectSucceeded" id="677433242%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-reader-reconnection-listener/on-reader-reconnect-succeeded.html"><span>on</span><wbr><span>Reader</span><wbr><span>Reconnect</span><wbr><span><span>Succeeded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="677433242%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-reader-reconnection-listener/on-reader-reconnect-succeeded.html"><span class="token function">onReaderReconnectSucceeded</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">reader<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader/index.html">Reader</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Invoked when a connection has successfully been re-established with the given <a href="../-reader-reconnection-listener/on-reader-reconnect-succeeded.html">reader</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-877649206%2FFunctions%2F-1219334616" anchor-label="onReportAvailableUpdate" id="-877649206%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-report-available-update.html"><span>on</span><wbr><span>Report</span><wbr><span>Available</span><wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-877649206%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-report-available-update.html"><span class="token function">onReportAvailableUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">update<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader-software-update/index.html">ReaderSoftwareUpdate</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">NOTE: An implementation of this method is required for bluetooth and usb readers.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="287367582%2FFunctions%2F-1219334616" anchor-label="onReportLowBatteryWarning" id="287367582%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-report-low-battery-warning.html"><span>on</span><wbr><span>Report</span><wbr><span>Low</span><wbr><span>Battery</span><wbr><span><span>Warning</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="287367582%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-report-low-battery-warning.html"><span class="token function">onReportLowBatteryWarning</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The Terminal reported that the reader's battery level is low</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-377342818%2FFunctions%2F-1219334616" anchor-label="onReportReaderEvent" id="-377342818%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-reader-listenable/on-report-reader-event.html"><span>on</span><wbr><span>Report</span><wbr><span>Reader</span><wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-377342818%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-reader-listenable/on-report-reader-event.html"><span class="token function">onReportReaderEvent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader-event/index.html">ReaderEvent</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The Terminal reported an event from the reader (e.g. a card was inserted).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1611224246%2FFunctions%2F-1219334616" anchor-label="onReportReaderSoftwareUpdateProgress" id="-1611224246%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-report-reader-software-update-progress.html"><span>on</span><wbr><span>Report</span><wbr><span>Reader</span><wbr><span>Software</span><wbr><span>Update</span><wbr><span><span>Progress</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1611224246%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-report-reader-software-update-progress.html"><span class="token function">onReportReaderSoftwareUpdateProgress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">progress<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The terminal reported progress on a reader software update.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1935530716%2FFunctions%2F-1219334616" anchor-label="onRequestReaderDisplayMessage" id="1935530716%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-request-reader-display-message.html"><span>on</span><wbr><span>Request</span><wbr><span>Reader</span><wbr><span>Display</span><wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1935530716%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-request-reader-display-message.html"><span class="token function">onRequestReaderDisplayMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader-display-message/index.html">ReaderDisplayMessage</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method is called to request that a message be displayed in your app. For example, if the message is <code class="lang-kotlin">SWIPE_CARD</code>, your app should instruct the user to present the card again by swiping it.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-66684884%2FFunctions%2F-1219334616" anchor-label="onRequestReaderInput" id="-66684884%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-request-reader-input.html"><span>on</span><wbr><span>Request</span><wbr><span>Reader</span><wbr><span><span>Input</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-66684884%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-request-reader-input.html"><span class="token function">onRequestReaderInput</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">options<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader-input-options/index.html">ReaderInputOptions</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This method is called when the reader begins waiting for input. Your app should prompt the customer to present a source using one of the given input options. If the reader emits a message, the .onRequestReaderDisplayMessage method will be called.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-771400622%2FFunctions%2F-1219334616" anchor-label="onStartInstallingUpdate" id="-771400622%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-start-installing-update.html"><span>on</span><wbr><span>Start</span><wbr><span>Installing</span><wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-771400622%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-start-installing-update.html"><span class="token function">onStartInstallingUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">update<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-reader-software-update/index.html">ReaderSoftwareUpdate</a><span class="token punctuation">, </span></span><span class="parameter ">cancelable<span class="token operator">: </span><a href="../-cancelable/index.html">Cancelable</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The SDK is reporting that the reader has started installation of a required update that must be completed before the reader can be used.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,240 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CollectConfiguration</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            terminalsdk
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="terminal-external-models::com.stripe.stripeterminal.external.models/CollectConfiguration///PointingToDeclaration//628936224">
+  <div class="breadcrumbs"><a href="../../index.html">terminal-external-models</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><span class="current">CollectConfiguration</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Collect</span><wbr><span><span>Configuration</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">CollectConfiguration</a></div><p class="paragraph">The <code class="lang-kotlin">CollectConfiguration</code> contains configuration information relevant to collecting a payment method.</p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1361927739%2FClasslikes%2F628936224" anchor-label="Builder" id="-1361927739%2FClasslikes%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1361927739%2FClasslikes%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-builder/index.html">Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-74877977%2FProperties%2F628936224" anchor-label="allowRedisplay" id="-74877977%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="allow-redisplay.html"><span>allow</span><wbr><span><span>Redisplay</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-74877977%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="allow-redisplay.html">allowRedisplay</a><span class="token operator">: </span><a href="../-allow-redisplay/index.html">AllowRedisplay</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1344634217%2FProperties%2F628936224" anchor-label="enableCustomerCancellation" id="1344634217%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="enable-customer-cancellation.html"><span>enable</span><wbr><span>Customer</span><wbr><span><span>Cancellation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1344634217%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="enable-customer-cancellation.html">enableCustomerCancellation</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1489043984%2FProperties%2F628936224" anchor-label="moto" id="1489043984%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="moto.html"><span><span>moto</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1489043984%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="moto.html">moto</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="549004310%2FProperties%2F628936224" anchor-label="requestDynamicCurrencyConversion" id="549004310%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="request-dynamic-currency-conversion.html"><span>request</span><wbr><span>Dynamic</span><wbr><span>Currency</span><wbr><span><span>Conversion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="549004310%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="request-dynamic-currency-conversion.html">requestDynamicCurrencyConversion</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1582529505%2FProperties%2F628936224" anchor-label="skipTipping" id="-1582529505%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="skip-tipping.html"><span>skip</span><wbr><span><span>Tipping</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1582529505%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="skip-tipping.html">skipTipping</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-831295247%2FProperties%2F628936224" anchor-label="surchargeNotice" id="-831295247%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="surcharge-notice.html"><span>surcharge</span><wbr><span><span>Notice</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-831295247%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="surcharge-notice.html">surchargeNotice</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1763818044%2FProperties%2F628936224" anchor-label="tippingConfiguration" id="-1763818044%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="tipping-configuration.html"><span>tipping</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1763818044%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="tipping-configuration.html">tippingConfiguration</a><span class="token operator">: </span><a href="../-tipping-configuration/index.html">TippingConfiguration</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-615786860%2FProperties%2F628936224" anchor-label="updatePaymentIntent" id="-615786860%2FProperties%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="update-payment-intent.html"><span>update</span><wbr><span>Payment</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-615786860%2FProperties%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="update-payment-intent.html">updatePaymentIntent</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="261235149%2FFunctions%2F628936224" anchor-label="toBuilder" id="261235149%2FFunctions%2F628936224" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main" data-filterable-set=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-builder.html"><span>to</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="261235149%2FFunctions%2F628936224"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":jvmcore:modules:terminal-external-models:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="to-builder.html"><span class="token function">toBuilder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-builder/index.html">CollectConfiguration.Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -29,7 +29,7 @@ import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.DiscoveryListener;
-import com.stripe.stripeterminal.external.callable.ReaderListener;
+import com.stripe.stripeterminal.external.callable.MobileReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
@@ -53,7 +53,7 @@ import java.util.Map;
  * The `DiscoveryFragment` shows the list of recognized readers and allows the user to
  * select one to connect to.
  */
-public class DiscoveryFragment extends Fragment implements DiscoveryListener, ReaderListener, LocationSelectionController {
+public class DiscoveryFragment extends Fragment implements DiscoveryListener, MobileReaderListener, LocationSelectionController {
 
     public static final String TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment";
     private static final String SIMULATED_KEY = "simulated";
@@ -233,9 +233,9 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Re
                 } else if (discoveryMethod == DiscoveryMethod.USB) {
                     config = new DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated);
                 } else if (discoveryMethod == DiscoveryMethod.INTERNET) {
-                    config = new DiscoveryConfiguration.InternetDiscoveryConfiguration(null, isSimulated);
-                } else if (discoveryMethod == DiscoveryMethod.LOCAL) {
-                    config = new DiscoveryConfiguration.LocalMobileDiscoveryConfiguration(isSimulated);
+                    config = new DiscoveryConfiguration.InternetDiscoveryConfiguration(0, null, isSimulated);
+                } else if (discoveryMethod == DiscoveryMethod.TAP_TO_PAY) {
+                    config = new DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated);
                 } else {
                     throw new IllegalArgumentException("Unknown discovery method: " + discoveryMethod);
                 }

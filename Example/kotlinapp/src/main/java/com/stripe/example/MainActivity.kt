@@ -24,9 +24,13 @@ import com.stripe.example.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.callable.Cancelable
-import com.stripe.stripeterminal.external.callable.ReaderListener
+import com.stripe.stripeterminal.external.callable.InternetReaderListener
+import com.stripe.stripeterminal.external.callable.MobileReaderListener
+import com.stripe.stripeterminal.external.callable.TapToPayReaderListener
 import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.DisconnectReason
 import com.stripe.stripeterminal.external.models.Location
+import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
 import com.stripe.stripeterminal.external.models.ReaderInputOptions
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
@@ -36,7 +40,9 @@ import com.stripe.stripeterminal.log.LogLevel
 class MainActivity :
     AppCompatActivity(),
     NavigationListener,
-    ReaderListener,
+    MobileReaderListener,
+    TapToPayReaderListener,
+    InternetReaderListener,
     LocationSelectionController {
 
     /**
@@ -188,7 +194,7 @@ class MainActivity :
     }
 
     /**
-     * Callback function called on completion of [Terminal.connectBluetoothReader]
+     * Callback function called on completion of [Terminal.connectReader]
      */
     override fun onConnectReader() {
         navigateTo(ConnectedReaderFragment.TAG, ConnectedReaderFragment())
@@ -200,9 +206,9 @@ class MainActivity :
 
     override fun onStartInstallingUpdate(update: ReaderSoftwareUpdate, cancelable: Cancelable?) {
         runOnUiThread {
-            // Delegate out to the current fragment, if it acts as a ReaderListener
+            // Delegate out to the current fragment, if it acts as a MobileReaderListener
             supportFragmentManager.fragments.last()?.let {
-                if (it is ReaderListener) {
+                if (it is MobileReaderListener) {
                     it.onStartInstallingUpdate(update, cancelable)
                 }
             }
@@ -211,9 +217,9 @@ class MainActivity :
 
     override fun onReportReaderSoftwareUpdateProgress(progress: Float) {
         runOnUiThread {
-            // Delegate out to the current fragment, if it acts as a ReaderListener
+            // Delegate out to the current fragment, if it acts as a MobileReaderListener
             supportFragmentManager.fragments.last()?.let {
-                if (it is ReaderListener) {
+                if (it is MobileReaderListener) {
                     it.onReportReaderSoftwareUpdateProgress(progress)
                 }
             }
@@ -222,9 +228,9 @@ class MainActivity :
 
     override fun onFinishInstallingUpdate(update: ReaderSoftwareUpdate?, e: TerminalException?) {
         runOnUiThread {
-            // Delegate out to the current fragment, if it acts as a ReaderListener
+            // Delegate out to the current fragment, if it acts as a MobileReaderListener
             supportFragmentManager.fragments.last()?.let {
-                if (it is ReaderListener) {
+                if (it is MobileReaderListener) {
                     it.onFinishInstallingUpdate(update, e)
                 }
             }
@@ -233,9 +239,9 @@ class MainActivity :
 
     override fun onRequestReaderInput(options: ReaderInputOptions) {
         runOnUiThread {
-            // Delegate out to the current fragment, if it acts as a ReaderListener
+            // Delegate out to the current fragment, if it acts as a MobileReaderListener
             supportFragmentManager.fragments.last()?.let {
-                if (it is ReaderListener) {
+                if (it is MobileReaderListener) {
                     it.onRequestReaderInput(options)
                 }
             }
@@ -244,9 +250,9 @@ class MainActivity :
 
     override fun onRequestReaderDisplayMessage(message: ReaderDisplayMessage) {
         runOnUiThread {
-            // Delegate out to the current fragment, if it acts as a ReaderListener
+            // Delegate out to the current fragment, if it acts as a MobileReaderListener
             supportFragmentManager.fragments.last()?.let {
-                if (it is ReaderListener) {
+                if (it is MobileReaderListener) {
                     it.onRequestReaderDisplayMessage(message)
                 }
             }
@@ -261,6 +267,20 @@ class MainActivity :
     override fun onLocationCleared() {
         supportFragmentManager.popBackStackImmediate()
         (supportFragmentManager.fragments.last() as? LocationSelectionController)?.onLocationCleared()
+    }
+
+    override fun onReaderReconnectSucceeded(reader: Reader) {
+        Log.d("MainActivity", "Reader ${reader.id} reconnected successfully")
+    }
+
+    override fun onReaderReconnectFailed(reader: Reader) {
+        Log.d("MainActivity", "Reconnection to reader ${reader.id} failed!")
+    }
+
+    override fun onDisconnect(reason: DisconnectReason) {
+        if (reason == DisconnectReason.UNKNOWN) {
+            Log.i("UnexpectedDisconnect", "disconnect reason: $reason")
+        }
     }
 
     /**
