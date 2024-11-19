@@ -108,6 +108,12 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
   - `DeviceType::COTS_DEVICE` has been renamed to `DeviceType::TAP_TO_PAY_DEVICE`.
 - The background application process used for collecting Tap to Pay transactions has been renamed to use your application's id, suffixed with `:stripetaptopay`.
 
+## 3.10.1 - 2024-11-05
+
+### Tap to Pay
+
+- Fix: Prevent card reads after successful tap to prevent unintended secondary reads and improve transaction reliability.
+
 ## 3.10.0 - 2024-10-11
 
 ### Core
