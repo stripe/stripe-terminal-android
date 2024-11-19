@@ -3,6 +3,24 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.1.0 - 2024-11-18
+
+### Core
+- Preview: Affirm support for smart readers is now available in private preview.
+  - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
+- New: Added a `returnUrl` parameter to `ConfirmConfiguration` to specify a desired URL to redirect to upon completion of a redirect payment method (such as Affirm).
+- Update: Added support for operating offline with simulated Bluetooth and USB readers.
+- Preview: Added a new enum value `Manual` to [`CardPresentCaptureMethod`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-capture-method/-companion/index.html) which will override the top level [`captureMethod`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/index.html?query=class%20PaymentIntentParameters) set on the Paymentintent specifically for `card_present` transactions.
+  - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
+- Preview: [`Terminal::collectData`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-data.html) will be supported on Smart readers. 
+  - _Note: [This feature](https://docs.stripe.com/terminal/features/collect-data) requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.28` or later to be installed on your smart reader._
+  - If you are interested in joining this preview, please email [terminal-collect-data@stripe.com](mailto:terminal-collect-data@stripe.com).
+- Fix: Fixed an issue where, if the SDK was initialized offline and a user immediately attempts to pair a reader offline, the first attempt fails with "The selected reader requires a software update", despite the reader being up-to-date.
+
+### Tap to Pay
+
+- New: Added error code [`TAP_TO_PAY_INSECURE_ENVIRONMENT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-t-a-p_-t-o_-p-a-y_-i-n-s-e-c-u-r-e_-e-n-v-i-r-o-n-m-e-n-t/index.html) for cases when payment collection is attempted in an insecure environment.
+
 ## 4.0.0 - 2024-10-31
 4.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-migration-guide?terminal-sdk-platform=android) for more details.
 
@@ -142,6 +160,7 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
 - Update: For mobile readers with [`auto reconnection`](https://docs.stripe.com/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#handle-disconnects) enabled, the SDK now installs required updates upon reconnection after a [reboot](https://docs.corp.stripe.com/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=bluetooth#reboot-the-connected-reader). Your application will continue to receive notifications about updates via the [`ReaderListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-listener/index.html) and should handle updating its UI to inform the user of the update accordingly.
 - Update: During bluetooth/usb reader discovery, the sdk now would only report updates through [`DiscoveryListener::onUpdateDiscoveredReaders`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-discovery-listener/index.html#1825746276%2FFunctions%2F-405186196) when the list of discovered readers changes.
 - Update: Improved handling of [`READER_MISSING_ENCRYPTION_KEYS`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/-terminal-error-code/-r-e-a-d-e-r_-m-i-s-s-i-n-g_-e-n-c-r-y-p-t-i-o-n_-k-e-y-s/index.html) error for mobile readers with auto-reconnection enabled. Previously, the SDK would disconnect from the reader without auto-reconnecting when this error occurred. Now, if auto-reconnection is enabled, the SDK will automatically reconnect and recover from this error.
+- Fix: Fixed an issue where connecting to readers offline sometimes fails with "The selected reader requires a software update" despite the reader being up-to-date.
 
 ### Tap to Pay (localmobile)
 
