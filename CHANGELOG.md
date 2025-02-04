@@ -108,9 +108,15 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
   - `DeviceType::COTS_DEVICE` has been renamed to `DeviceType::TAP_TO_PAY_DEVICE`.
 - The background application process used for collecting Tap to Pay transactions has been renamed to use your application's id, suffixed with `:stripetaptopay`.
 
+## 3.10.2 - 2025-02-04
+
+### Tap to Pay (localmobile)
+
+- Fix: Localization issues for Tap to Pay on Android PIN preview.
+
 ## 3.10.1 - 2024-11-05
 
-### Tap to Pay
+### Tap to Pay (localmobile)
 
 - Fix: Prevent card reads after successful tap to prevent unintended secondary reads and improve transaction reliability.
 
