@@ -13,12 +13,12 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/location_selection_app_bar"
+            android:id="@+id/location_create_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="0dp">
             <TextView
-                android:id="@+id/location_selection_cancel_button"
+                android:id="@+id/location_create_cancel_button"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:textAlignment="textStart"
@@ -31,7 +31,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 style="@style/Widget.Example.Toolbar"
-                android:id="@+id/location_selection_toolbar"
+                android:id="@+id/location_create_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:paddingStart="8dp"
@@ -179,7 +179,7 @@
                     android:id="@+id/location_create_address_postal_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="textPostalAddress"
                     android:hint="@string/location_create_address_postal_hint" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

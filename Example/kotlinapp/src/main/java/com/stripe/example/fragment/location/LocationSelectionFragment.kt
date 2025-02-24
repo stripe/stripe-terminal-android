@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.stripe.example.MainActivity
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentLocationSelectionBinding
@@ -25,6 +26,11 @@ class LocationSelectionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[LocationSelectionViewModel::class.java]
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.reload()
     }
 
     override fun onCreateView(
@@ -52,6 +58,10 @@ class LocationSelectionFragment : Fragment() {
             }
         }
 
+        binding.locationSelectionCancelButton.setOnClickListener {
+            (requireActivity() as MainActivity).onCancelLocationSelection()
+        }
+
         launchAndRepeatWithViewLifecycle {
             viewModel.listState.collectLatest {
                 adapter.locationListState = it
@@ -65,13 +75,6 @@ class LocationSelectionFragment : Fragment() {
         }
 
         return view
-    }
-
-    /**
-     * Clear the locations listed and re-load them from the API.
-     */
-    fun reload() {
-        viewModel.reload()
     }
 
     companion object {

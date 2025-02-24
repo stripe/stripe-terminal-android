@@ -41,7 +41,7 @@ class DiscoveryViewModel(
     fun requestChangeLocation() {
         isRequestingChangeLocation = true
         stopDiscovery {
-            navigationListener?.onRequestChangeLocation()
+            navigationListener?.onRequestLocationSelection()
         }
     }
 

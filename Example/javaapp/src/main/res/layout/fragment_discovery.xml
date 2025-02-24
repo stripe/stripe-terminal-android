@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/select_reader_label"
-            android:onClick="@{() -> viewModel.navigationListener.onRequestChangeLocation()}"
+            android:onClick="@{() -> viewModel.navigationListener.onRequestLocationSelection()}"
             android:text="@{viewModel.selectedLocation == null ? @string/select_location_last : viewModel.selectedLocation.displayName}"
             app:cornerRadius="0dp"
             android:drawableEnd="@drawable/ic_right_arrow"

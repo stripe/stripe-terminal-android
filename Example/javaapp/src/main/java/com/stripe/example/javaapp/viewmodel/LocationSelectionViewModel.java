@@ -46,11 +46,6 @@ final public class LocationSelectionViewModel extends ViewModel {
         }
     };
 
-    public LocationSelectionViewModel() {
-        super();
-        load();
-    }
-
     public void loadMoreLocations() {
         if (listState.getValue().isLoading()) {
             return;

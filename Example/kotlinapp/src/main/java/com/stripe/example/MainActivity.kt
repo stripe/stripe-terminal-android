@@ -80,13 +80,20 @@ class MainActivity :
         navigateTo(TerminalFragment.TAG, TerminalFragment())
     }
 
-    override fun onRequestChangeLocation() {
+    override fun onRequestLocationSelection() {
         navigateTo(
             LocationSelectionFragment.TAG,
             LocationSelectionFragment.newInstance(),
             replace = false,
             addToBackStack = true,
         )
+    }
+
+    /**
+     * Callback function called to exit the change location flow
+     */
+    override fun onCancelLocationSelection() {
+        supportFragmentManager.popBackStackImmediate()
     }
 
     override fun onRequestCreateLocation() {
@@ -98,9 +105,15 @@ class MainActivity :
         )
     }
 
+    /**
+     * Callback function called to exit the create location flow
+     */
+    override fun onCancelCreateLocation() {
+        supportFragmentManager.popBackStackImmediate()
+    }
+
     override fun onLocationCreated() {
         supportFragmentManager.popBackStackImmediate()
-        (supportFragmentManager.fragments.last() as? LocationSelectionFragment)?.reload()
     }
 
     /**
@@ -267,6 +280,10 @@ class MainActivity :
     override fun onLocationCleared() {
         supportFragmentManager.popBackStackImmediate()
         (supportFragmentManager.fragments.last() as? LocationSelectionController)?.onLocationCleared()
+    }
+
+    override fun onReaderReconnectStarted(reader: Reader, cancelReconnect: Cancelable, reason: DisconnectReason) {
+        Log.d("MainActivity", "Reconnection to reader ${reader.id} started!")
     }
 
     override fun onReaderReconnectSucceeded(reader: Reader) {

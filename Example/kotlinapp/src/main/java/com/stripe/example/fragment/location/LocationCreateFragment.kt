@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.stripe.example.MainActivity
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentLocationCreateBinding
@@ -17,7 +18,7 @@ import com.stripe.example.network.ApiClient
  * Form input to create a new location on the API.
  */
 class LocationCreateFragment : Fragment() {
-    private var binding: FragmentLocationCreateBinding? = null
+    private lateinit var binding: FragmentLocationCreateBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,10 +26,13 @@ class LocationCreateFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val view = inflater.inflate(R.layout.fragment_location_create, container, false)
-        binding = FragmentLocationCreateBinding.bind(view)
-
-        binding?.locationCreateSubmit?.setOnClickListener {
-            onSubmit()
+        binding = FragmentLocationCreateBinding.bind(view).apply {
+            locationCreateSubmit.setOnClickListener {
+                onSubmit()
+            }
+            locationCreateCancelButton.setOnClickListener {
+                (requireActivity() as MainActivity).onCancelCreateLocation()
+            }
         }
 
         return view
@@ -37,13 +41,13 @@ class LocationCreateFragment : Fragment() {
     private fun onSubmit() {
         try {
             ApiClient.createLocation(
-                displayName = binding?.locationCreateDisplayNameInput?.requiredValue,
-                city = binding?.locationCreateAddressCityInput?.value,
-                country = binding?.locationCreateAddressCountryInput?.requiredValue,
-                line1 = binding?.locationCreateAddressLine1Input?.value,
-                line2 = binding?.locationCreateAddressLine2Input?.value,
-                postalCode = binding?.locationCreateAddressPostalInput?.value,
-                state = binding?.locationCreateAddressStateInput?.value,
+                displayName = binding.locationCreateDisplayNameInput.requiredValue,
+                line1 = binding.locationCreateAddressLine1Input.requiredValue,
+                line2 = binding.locationCreateAddressLine2Input.value,
+                city = binding.locationCreateAddressCityInput.value,
+                postalCode = binding.locationCreateAddressPostalInput.value,
+                state = binding.locationCreateAddressStateInput.value,
+                country = binding.locationCreateAddressCountryInput.requiredValue,
             )
             (activity as NavigationListener).onLocationCreated()
         } catch (e: IllegalStateException) {
@@ -51,11 +55,6 @@ class LocationCreateFragment : Fragment() {
         } catch (e: Throwable) {
             view?.run { Snackbar.make(this, e.message ?: "Unknown Error", Snackbar.LENGTH_LONG).show() }
         }
-    }
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
     }
 
     companion object {

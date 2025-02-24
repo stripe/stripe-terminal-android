@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRequestChangeLocation() {
+    public void onRequestLocationSelection() {
         navigateTo(
                 LocationSelectionFragment.TAG,
                 LocationSelectionFragment.newInstance(),
@@ -109,15 +109,23 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onCancelLocationSelection() {
+        getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    @Override
     public void onRequestCreateLocation() {
         navigateTo(LocationCreateFragment.TAG, LocationCreateFragment.newInstance(), false, true);
     }
 
     @Override
+    public void onCancelCreateLocation() {
+        getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    @Override
     public void onLocationCreated() {
         getSupportFragmentManager().popBackStackImmediate();
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        ((LocationSelectionFragment) fragments.get(fragments.size() - 1)).reload();
     }
 
     /**
@@ -348,6 +356,10 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * ReaderReconnectionListener implementation.
      */
+    @Override
+    public void onReaderReconnectStarted(@NonNull Reader reader, @NonNull Cancelable cancelReconnect, @NonNull DisconnectReason reason) {
+        Log.d("MainActivity", "Reconnection to reader " + reader.getId() + " started!");
+    }
     @Override
     public void onReaderReconnectSucceeded(@NonNull Reader reader) {
         Log.d("MainActivity", "Reader " + reader.getId() + " reconnected successfully!");

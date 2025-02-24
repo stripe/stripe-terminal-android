@@ -36,16 +36,32 @@ object ApiClient {
         }
     }
 
+    @Throws(Exception::class)
     internal fun createLocation(
-        displayName: String?,
-        city: String?,
-        country: String?,
-        line1: String?,
+        displayName: String,
+        line1: String,
         line2: String?,
+        city: String?,
         postalCode: String?,
         state: String?,
+        country: String,
     ) {
-        TODO("Call Backend application to create location")
+        try {
+            val result = service.createLocation(
+                displayName,
+                line1,
+                line2,
+                city,
+                postalCode,
+                state,
+                country
+            ).execute()
+            if (result.isSuccessful.not()) {
+                throw Exception("Creating location failed")
+            }
+        } catch (e: IOException) {
+            throw Exception("Creating location failed", e)
+        }
     }
 
     internal fun capturePaymentIntent(id: String) {

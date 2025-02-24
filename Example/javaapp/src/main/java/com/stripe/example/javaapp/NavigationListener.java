@@ -72,12 +72,22 @@ public interface NavigationListener {
     /**
      * Notify the `Activity` that the user has requested to change the location.
      */
-    void onRequestChangeLocation();
+    void onRequestLocationSelection();
+
+    /**
+     * Notify the `Activity` that the location selection flow has been canceled.
+     */
+    void onCancelLocationSelection();
 
     /**
      * Notify the `Activity` that the user has requested to add a location.
      */
     void onRequestCreateLocation();
+
+    /**
+     * Notify the `Activity` that the create location flow has been canceled.
+     */
+    void onCancelCreateLocation();
 
     /**
      * Notify the `Activity` that the user has finished creating a location.
