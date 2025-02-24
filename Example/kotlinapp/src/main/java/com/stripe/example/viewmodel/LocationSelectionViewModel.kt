@@ -37,10 +37,6 @@ class LocationSelectionViewModel : ViewModel() {
         }
     }
 
-    init {
-        load()
-    }
-
     fun loadMoreLocations() {
         if (listState.value.isLoading) return
         if (!listState.value.hasMore) return

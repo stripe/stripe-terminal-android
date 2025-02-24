@@ -36,7 +36,7 @@ android {
 
 val androidxLifecycleVersion = "2.6.2"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "4.1.0"
+val stripeTerminalVersion = "4.2.0"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")

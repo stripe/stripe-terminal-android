@@ -2,14 +2,11 @@ package com.stripe.example.javaapp.network;
 
 import com.stripe.example.javaapp.BuildConfig;
 import com.stripe.example.javaapp.model.ConnectionToken;
-import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 import com.stripe.stripeterminal.external.models.ConnectionTokenException;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Callback;
@@ -42,17 +39,31 @@ public class ApiClient {
         }
     }
 
-    /** @noinspection unused*/
     public static void createLocation(
-            String displayName,
-            String city,
-            String country,
-            String line1,
+            @NotNull String displayName,
+            @NotNull String line1,
             String line2,
+            String city,
             String postalCode,
-            String state
-    ) {
-        // TODO: Call backend to create location
+            String state,
+            @NotNull String country
+    ) throws Exception {
+        try {
+            final Response<Void> result = mService.createLocation(
+                    displayName,
+                    line1,
+                    line2,
+                    city,
+                    postalCode,
+                    state,
+                    country
+            ).execute();
+            if (!result.isSuccessful()) {
+                throw new Exception("Creating location failed");
+            }
+        } catch (IOException e) {
+            throw new Exception("Creating location failed", e);
+        }
     }
 
     public static void capturePaymentIntent(@NotNull String id) throws IOException {

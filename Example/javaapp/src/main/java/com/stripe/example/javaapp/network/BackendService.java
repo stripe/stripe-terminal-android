@@ -1,15 +1,11 @@
 package com.stripe.example.javaapp.network;
 
 import com.stripe.example.javaapp.model.ConnectionToken;
-import com.stripe.example.javaapp.model.PaymentIntentCreationResponse;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
@@ -25,6 +21,21 @@ public interface BackendService {
     Call<ConnectionToken> getConnectionToken();
 
     /**
+     * Create a new reader location
+     */
+    @FormUrlEncoded
+    @POST("create_location")
+    Call<Void> createLocation(
+            @Field("display_name") @NotNull String displayName,
+            @Field("address[line1]") @NotNull String line1,
+            @Field("address[line2]") String line2,
+            @Field("address[city]") String city,
+            @Field("address[postal_code]") String postalCode,
+            @Field("address[state]") String state,
+            @Field("address[country]") @NotNull String country
+    );
+
+    /**
      * Capture a specific payment intent on our backend
      */
     @FormUrlEncoded
@@ -32,7 +43,7 @@ public interface BackendService {
     Call<Void> capturePaymentIntent(@Field("payment_intent_id") @NotNull String id);
 
     /**
-     * Capture a specific payment intent on our backend
+     * Cancel a specific payment intent on our backend
      */
     @FormUrlEncoded
     @POST("cancel_payment_intent")

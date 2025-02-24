@@ -20,11 +20,11 @@ The Stripe Terminal Android SDK includes two open-source example apps (one in Ja
 
 ## Installation
 
-To use the Android SDK, add the SDK to the `dependencies` block of your `build.gradle` file:
+To use the Android SDK, add `stripeterminal` to the `dependencies` block of your `build.gradle.kts` file:
 
-```groovy
+```kotlin
 dependencies {
-  implementation "com.stripe:stripeterminal:4.1.0"
+  implementation("com.stripe:stripeterminal:4.2.0")
 }
 ```
 
@@ -32,29 +32,28 @@ dependencies {
 
 Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_FINE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
 
-```java
-if (ContextCompat.checkSelfPermission(getActivity(), 
-  Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-        
-    // REQUEST_CODE should be defined on your app level
-    ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_CODE_LOCATION);
+```kotlin
+if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+    // Define the REQUEST_CODE_LOCATION on your app level
+    ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION)
 }
 ```
 
- You should also verify that the user allowed the location permission, since the SDK won’t function without it. To do this, override the `onRequestPermissionsResult` method in your app and check the permission result.
+You should also verify that the user allowed the location permission, since the SDK won’t function without it. To do this, override the `onRequestPermissionsResult` method in your app and check the permission result:
 
-```java
-@Override
-public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    if (requestCode == REQUEST_CODE_LOCATION && grantResults.length > 0
-            && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-        throw new RuntimeException("Location services are required in order to " +
-                "connect to a reader.");
+```kotlin
+override fun onRequestPermissionsResult(
+  requestCode: Int,
+  permissions: Array<String>,
+  grantResults: IntArray
+) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    if (requestCode == REQUEST_CODE_LOCATION && grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) { 
+        throw RuntimeException("Location services are required in order to connect to a reader.") 
     }
 }
 ```
-
 
 **Note**: Stripe needs to know where payments occur to reduce risks associated with those charges and to minimize disputes. If the SDK can’t determine the Android device’s location, payments are disabled until location access is restored.
 
@@ -77,8 +76,9 @@ class StripeTerminalApplication : Application() {
 Lastly, don't forget to set your Application class in your `AndroidManifest.xml` accordingly. See the following taken from the example app:
 
 ```xml
+<!-- Replace the android:name value with your application class name -->
 <application
-    android:name=".StripeTerminalApplication" // Or whatever your application class name is
+    android:name=".StripeTerminalApplication"
     android:allowBackup="false"
     android:icon="@mipmap/launcher"
     android:label="@string/app_name"
@@ -99,21 +99,19 @@ Lastly, don't forget to set your Application class in your `AndroidManifest.xml`
 # Tap to Pay on Android (TTPA)
 
 To use the Tap to Pay SDK, replace your existing `stripeterminal` dependencies in the `dependencies` block of
-your `build.gradle` file with the following:
+your `build.gradle.kts` file with the following:
 
-```groovy
+```kotlin
 dependencies {
-  implementation "com.stripe:stripeterminal-taptopay:4.1.0"
-  implementation "com.stripe:stripeterminal-core:4.1.0"
+  implementation("com.stripe:stripeterminal-taptopay:4.2.0")
+  implementation("com.stripe:stripeterminal-core:4.2.0")
 }
 ```
 
 Please note that:
 - You must use an SDK version greater than the minimum SDK version documented in our [user docs](https://stripe.com/docs/terminal/payments/setup-reader/tap-to-pay?platform=android)
-- The `stripeterminal-taptopay` SDK version _must_ match the version you're using for other
-  stripeterminal libraries.
-- There are no public APIs provided by this SDK. Please reference Stripe Terminal's public API references
-  for more information on how to use the SDK.
+- The `stripeterminal-taptopay` SDK version _must_ match the version you're using for other `stripeterminal` libraries.
+- There are no public APIs provided by this SDK. Please reference Stripe Terminal's public API references for more information on how to use the SDK.
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)

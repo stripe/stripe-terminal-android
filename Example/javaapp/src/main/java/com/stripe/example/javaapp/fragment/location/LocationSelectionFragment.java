@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.stripe.example.javaapp.MainActivity;
+import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
 import com.stripe.example.javaapp.recyclerview.InfiniteScrollListener;
 import com.stripe.example.javaapp.viewmodel.LocationSelectionViewModel;
@@ -31,6 +33,12 @@ public class LocationSelectionFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(LocationSelectionViewModel.class);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.reload();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,15 +51,23 @@ public class LocationSelectionFragment extends Fragment {
         binding.locationSelectionList.addOnScrollListener(new InfiniteScrollListener(layoutManager, () -> viewModel.loadMoreLocations()));
         binding.locationSelectionList.setAdapter(adapter);
         binding.locationSelectionToolbar.inflateMenu(R.menu.location_selection);
+        binding.locationSelectionToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_location_selection_add) {
+                ((NavigationListener) requireActivity()).onRequestCreateLocation();
+                return true;
+            } else {
+                return false;
+            }
+        });
 
-        viewModel.listState.observe(getViewLifecycleOwner(), (state) -> adapter.setLocationListState(state));
+        binding.locationSelectionCancelButton.setOnClickListener(v ->
+                ((MainActivity) requireActivity()).onCancelLocationSelection()
+        );
+
+        viewModel.listState.observe(getViewLifecycleOwner(), adapter::setLocationListState);
         viewModel.error.observe(getViewLifecycleOwner(), (error) -> Toast.makeText(getActivity(), error.getErrorMessage(), Toast.LENGTH_LONG).show());
 
         return view;
-    }
-
-    public void reload() {
-        viewModel.reload();
     }
 
     public static LocationSelectionFragment newInstance() {

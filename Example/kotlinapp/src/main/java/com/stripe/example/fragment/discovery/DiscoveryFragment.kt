@@ -25,7 +25,6 @@ import com.stripe.stripeterminal.external.callable.MobileReaderListener
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate
 import com.stripe.stripeterminal.external.models.TerminalException
-import java.lang.ref.WeakReference
 
 /**
  * The `DiscoveryFragment` shows the list of recognized readers and allows the user to
@@ -87,8 +86,7 @@ class DiscoveryFragment :
         readerRecyclerView.adapter = adapter
 
         viewBinding.cancelButton.setOnClickListener {
-            val activityRef = WeakReference(activity as MainActivity)
-            viewModel.stopDiscovery { activityRef.get()?.onCancelDiscovery() }
+            viewModel.stopDiscovery { (requireActivity() as MainActivity).onCancelDiscovery() }
         }
 
         launchAndRepeatWithViewLifecycle {
@@ -147,8 +145,7 @@ class DiscoveryFragment :
 
     private fun startDiscovery() {
         if (checkPermission(viewModel.discoveryMethod)) {
-            val activityRef = WeakReference(activity as MainActivity)
-            viewModel.startDiscovery { activityRef.get()?.onCancelDiscovery() }
+            viewModel.startDiscovery { (requireActivity() as MainActivity).onCancelDiscovery() }
         }
     }
 
