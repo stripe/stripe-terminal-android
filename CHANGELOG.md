@@ -3,10 +3,27 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.3.0 - 2025-03-21
+
+### Core
+
+- New: Added simulated internet reader support for [collecting on-screen inputs](https://docs.stripe.com/terminal/features/collect-inputs). See the updated `SimulatorConfiguration` for usage.
+- Preview: Added field `requestPartialAuthorization` to [`CardPresentOptions`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-options/index.html).
+  - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
+- New: Added field `cardDetails` to [`PaymentMethodDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-method-details/index.html).
+  - Note this requires [reader software version](https://docs.corp.stripe.com/terminal/readers/stripe-reader-s700#reader-software-changelog) `2.31` or later to be installed on your internet reader.
+- Update: Added a new `id` parameter to collect input's `SelectionButton` to uniquely identify the button.
+
+### Tap to Pay
+
+- Breaking: When Tap to Pay Android PIN throws a `TerminalException` due to an insecure condition the exception will have a correct errorCode of `TAP_TO_PAY_INSECURE_ENVIRONMENT` instead of `TAP_TO_PAY_DEVICE_TAMPERED`.
+- Fix: Prevent a `StringIndexOutOfBoundsException` crash on certain device models prior to showing the Tap to Pay payment screen. Fixes [issue 533](https://github.com/stripe/stripe-terminal-android/issues/533).
+- Update: Improved error messaging when Tap to Pay on Android PIN fails due to an insecure condition.
+
 ## 4.2.0 - 2025-02-24
 
 ### Core
-- New: Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html)
+- New: Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html) for detecting if a mobile reader is tampered on connection.
 - Fix: Addressed an issue where readers lose optional software updates after auto-reconnecting.
 
 ### Tap to Pay
