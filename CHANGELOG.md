@@ -23,7 +23,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ## 4.2.0 - 2025-02-24
 
 ### Core
-- Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html) for detecting if a mobile reader is tampered on connection.
+- New: Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html) for detecting if a mobile reader is tampered on connection.
 - Fix: Addressed an issue where readers lose optional software updates after auto-reconnecting.
 
 ### Tap to Pay
