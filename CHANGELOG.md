@@ -3,6 +3,16 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.3.1 - 2025-04-08
+
+### Core
+
+- Fix: Prevent crashes in applications using newer versions of Sentry. Fixes [issue 566](https://github.com/stripe/stripe-terminal-android/issues/566).
+
+### Tap to Pay
+
+- Fix: Prevent Tap to Pay reader connections from becoming indefinitely stuck on devices without an accelerometer. Fixes [issue 562](https://github.com/stripe/stripe-terminal-android/issues/562).
+
 ## 4.3.0 - 2025-03-21
 
 ### Core
