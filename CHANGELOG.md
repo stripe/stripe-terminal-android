@@ -26,6 +26,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ### Tap to Pay
 
+- New: On-screen PIN entry is now generally available on Tap to Pay Android.
 - Breaking: When Tap to Pay Android PIN throws a `TerminalException` due to an insecure condition the exception will have a correct errorCode of `TAP_TO_PAY_INSECURE_ENVIRONMENT` instead of `TAP_TO_PAY_DEVICE_TAMPERED`.
 - Fix: Prevent a `StringIndexOutOfBoundsException` crash on certain device models prior to showing the Tap to Pay payment screen. Fixes [issue 533](https://github.com/stripe/stripe-terminal-android/issues/533).
 - Update: Improved error messaging when Tap to Pay on Android PIN fails due to an insecure condition.
