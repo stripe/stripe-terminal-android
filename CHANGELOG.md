@@ -19,7 +19,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### New
 
-- Added a [`TapToPay.isInTapToPayProcess()`](https://stripe.dev/stripe-terminal-android/cots/com.stripe.stripeterminal.taptopay/-tap-to-pay/is-in-tap-to-pay-process.html) method to help determine if the current process is the dedicated Tap to Pay process.
+- Added a [`TapToPay.isInTapToPayProcess()`](https://stripe.dev/stripe-terminal-android/cots/com.stripe.stripeterminal.taptopay/-tap-to-pay/-companion/is-in-tap-to-pay-process.html) method to help determine if the current process is the dedicated Tap to Pay process.
 
 #### Fixes
 
