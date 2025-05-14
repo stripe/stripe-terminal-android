@@ -4,6 +4,8 @@ $dokka.linkExtension:html
 module:core
 com.stripe.stripeterminal
 com.stripe.stripeterminal.log
+module:taptopay
+com.stripe.stripeterminal.taptopay
 module:external
 com.stripe.stripeterminal.external
 com.stripe.stripeterminal.external.api
