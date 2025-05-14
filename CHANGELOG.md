@@ -3,15 +3,35 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.4.0 - 2025-05-13
+
+### Core
+
+#### New
+
+- Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.USB_DISCONNECTED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-u-s-b_-d-i-s-c-o-n-n-e-c-t-e-d/index.html), and [`DisconnectReason.IDLE_POWER_DOWN`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-i-d-l-e_-p-o-w-e-r_-d-o-w-n/index.html).
+
+#### Fixes
+
+- Terminal operations that require a connected reader (e.g. `collectPaymentMethod`) will now fail with `TerminalErrorCode.NOT_CONNECTED_TO_READER` no when no reader is connected.
+
+### Tap to Pay
+
+#### New
+
+- Added a [`TapToPay.isInTapToPayProcess()`](https://stripe.dev/stripe-terminal-android/cots/com.stripe.stripeterminal.taptopay/-tap-to-pay/is-in-tap-to-pay-process.html) method to help determine if the current process is the dedicated Tap to Pay process.
+
+#### Fixes
+
+- Gracefully handle device-to-device restore for apps that use the `android:allowBackup="true"` manifest tag. Fixes [issue 513](https://github.com/stripe/stripe-terminal-android/issues/513).
+- [`Terminal.supportsReadersOfType()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/supports-readers-of-type.html) will now return `false` when checking Tap to Pay on Android compatibility for host devices that do not support certain hardware-backed KeyStore operations. Fixes [issue 553](https://github.com/stripe/stripe-terminal-android/issues/553).
+- Prevent Tap to Pay reader connections from failing on devices without an accelerometer. Fixes [issue 562](https://github.com/stripe/stripe-terminal-android/issues/562).
+
 ## 4.3.1 - 2025-04-08
 
 ### Core
 
 - Fix: Prevent crashes in applications using newer versions of Sentry. Fixes [issue 566](https://github.com/stripe/stripe-terminal-android/issues/566).
-
-### Tap to Pay
-
-- Fix: Prevent Tap to Pay reader connections from becoming indefinitely stuck on devices without an accelerometer. Fixes [issue 562](https://github.com/stripe/stripe-terminal-android/issues/562).
 
 ## 4.3.0 - 2025-03-21
 
@@ -82,7 +102,7 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
 - New: Added a new enum value `DISCOVERING` to [`ConnectionStatus`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-status/index.html) to represent when discovery is running.
 - Update: [`InternetDiscoveryConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-discovery-configuration/-internet-discovery-configuration/index.html) now supports an optional `timeout` value, specifying the timeout in seconds for discover readers request. If the online discovery attempt fails, the operation automatically fall back to offline discovery.
 - Update: If a new discover operation is initiated while one is already in progress, the SDK will now cancel the ongoing operation with a `CANCELED_DUE_TO_INTEGRATION_ERROR` error and start the new operation.
-- Update: Internet and Tap to Pay discovery will now call the [`discoverReaders`](https://stripe.dev/stripe-terminal-ios/docs/Classes/SCPTerminal.html#/c:objc(cs)SCPTerminal(im)discoverReaders:delegate:completion:) completion block when the operation completes since these are not long running discovery operations.
+- Update: Internet and Tap to Pay discovery will now call the `Callback.onSuccess` method as part of `discoverReaders` when the operation completes since these are not long running discovery operations.
 - Update: Fields on the [`Location`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-location/index.html) object are no longer mutable.
 
 #### Reader connection
