@@ -13,7 +13,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### Updates
 - The [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method to display forms and collect information from customers is now generally available, and it no longer requires an opt-in annotation.
-- Preview: The [`ConfirmConfiguration.amountSurcharge`] field has been renamed to [`ConfirmConfiguration.SurchargeConfiguration.amount`].
+- Preview: The `ConfirmConfiguration.amountSurcharge` field has been renamed to `ConfirmConfiguration.surcharge.amount`.
   - If you are interested in joining this preview, please contact [Stripe support](https://support.stripe.com/).
 
 ### Tap to Pay
