@@ -3,6 +3,25 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.5.0 - 2025-06-10
+
+### Core
+
+#### New
+- Preview: Added [`ConfirmConfiguration.surcharge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-confirm-configuration/surcharge.html) and [`SurchargeConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-surcharge-configuration/index.html) to configure surcharging on [`confirmPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
+  - If you are interested in joining this preview, please contact [Stripe support](https://support.stripe.com/).
+
+#### Updates
+- The [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method to display forms and collect information from customers is now generally available, and it no longer requires an opt-in annotation.
+- Preview: The [`ConfirmConfiguration.amountSurcharge`] field has been renamed to [`ConfirmConfiguration.SurchargeConfiguration.amount`].
+  - If you are interested in joining this preview, please contact [Stripe support](https://support.stripe.com/).
+
+### Tap to Pay
+
+#### Updates
+
+- Improved messaging for Play Integrity API failures during the reader connection process. Fixes [issue 580](https://github.com/stripe/stripe-terminal-android/issues/580).
+
 ## 4.4.0 - 2025-05-13
 
 ### Core
@@ -13,7 +32,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### Fixes
 
-- Terminal operations that require a connected reader (e.g. `collectPaymentMethod`) will now fail with `TerminalErrorCode.NOT_CONNECTED_TO_READER` no when no reader is connected.
+- Terminal operations that require a connected reader (e.g. `collectPaymentMethod`) will now fail with `TerminalErrorCode.NOT_CONNECTED_TO_READER` when no reader is connected.
 
 ### Tap to Pay
 
