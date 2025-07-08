@@ -24,7 +24,7 @@ To use the Android SDK, add `stripeterminal` to the `dependencies` block of your
 
 ```kotlin
 dependencies {
-  implementation("com.stripe:stripeterminal:4.5.0")
+  implementation("com.stripe:stripeterminal:4.4.0")
 }
 ```
 
