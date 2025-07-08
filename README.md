@@ -103,8 +103,8 @@ your `build.gradle.kts` file with the following:
 
 ```kotlin
 dependencies {
-  implementation("com.stripe:stripeterminal-taptopay:4.5.0")
-  implementation("com.stripe:stripeterminal-core:4.5.0")
+  implementation("com.stripe:stripeterminal-taptopay:4.4.0")
+  implementation("com.stripe:stripeterminal-core:4.4.0")
 }
 ```
 
