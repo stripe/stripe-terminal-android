@@ -50,7 +50,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs>().configureE
 val androidxLifecycleVersion = "2.6.2"
 val kotlinCoroutinesVersion = "1.7.3"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "4.5.0"
+val stripeTerminalVersion = "4.5.1"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")

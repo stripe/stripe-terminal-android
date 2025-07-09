@@ -3,6 +3,13 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.5.1 - 2025-07-09
+
+### Tap to Pay
+
+#### Fixes
+- Addresses an issue that resulted in significantly reduced authorization rates for payments made with Tap to Pay on Android. Stripe **highly discourages** using Tap to Pay on Android 4.5.0 in any production environments. Fixes [issue 596](https://github.com/stripe/stripe-terminal-android/issues/596).
+
 ## 4.5.0 - 2025-06-10
 
 ### Core
