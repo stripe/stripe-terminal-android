@@ -1,6 +1,8 @@
 # Stripe Terminal Android
 
-For information on migrating from earlier versions of the Android SDK, see the [migration guide](https://stripe.com/docs/terminal/sdk-migration-guide).
+For information on migrating from earlier versions of the Android SDK, see the [migration guide](https://stripe.com/docs/terminal/sdk-migration-guide). 
+
+The Stripe Terminal Android SDK is a proprietary, closed-source library maintained by Stripe, and the proprietary source code is Stripe's confidential information and is not made publicly available.
 
 # Requirements
 
