@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Allows cleartext traffic for debug builds, so it works with a locally hosted backend.
+            This is not recommended for production apps, where you should use HTTPS instead.
+            See https://developer.android.com/training/articles/security-config#CleartextTrafficPermitted
+            for more information.
+    -->
+    <application
+        android:usesCleartextTraffic="true"
+        tools:ignore="MissingApplicationIcon" />
+
+</manifest>
