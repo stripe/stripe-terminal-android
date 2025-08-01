@@ -3,11 +3,36 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.6.0 - 2025-08-01
+
+### Tap to Pay
+
+#### Updates
+
+- For tablets, the payment collection screen now respects the device's orientation, and is no longer restricted to landscape. For phones, the orientation will still be locked to portrait. Fixes [issue 565](https://github.com/stripe/stripe-terminal-android/issues/565).
+
+#### Fixes
+
+- Resolved a KeyStore issue that would result in an _"Error setting key entry during secure import"_ message when attempting to connect to the Tap to Pay reader on certain devices. Fixes [issue 561](https://github.com/stripe/stripe-terminal-android/issues/561).
+- Resolved a network connectivity callback registration leak that could result in `TooManyRequestsException` after a long period of use. Fixes [issue 576](https://github.com/stripe/stripe-terminal-android/issues/576).
+
+### Apps on Devices: Handoff mode
+
+#### Updates
+
+- Operations that require a connected reader will fail with `NOT_CONNECTED_TO_READER` when the application is no longer connected to the reader.
+- The SDK will automatically disconnect from the reader when a command results in a `READER_COMMUNICATION_ERROR`.
+
+#### Fixes
+
+- Fixed spurious error logs `Handoff client received Legacy callback`. Fixes [issue 481](https://github.com/stripe/stripe-terminal-android/issues/481).
+
 ## 4.5.1 - 2025-07-09
 
 ### Tap to Pay
 
 #### Fixes
+
 - Addresses an issue that resulted in significantly reduced authorization rates for payments made with Tap to Pay on Android. Stripe **highly discourages** using Tap to Pay on Android 4.5.0 in any production environments. Fixes [issue 596](https://github.com/stripe/stripe-terminal-android/issues/596).
 
 ## 4.5.0 - 2025-06-10
@@ -15,10 +40,12 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 #### New
+
 - Preview: Added [`ConfirmConfiguration.surcharge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-confirm-configuration/surcharge.html) and [`SurchargeConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-surcharge-configuration/index.html) to configure surcharging on [`confirmPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
   - If you are interested in joining this preview, please contact [Stripe support](https://support.stripe.com/).
 
 #### Updates
+
 - The [`Terminal.collectInputs`](https://stripe.com/docs/terminal/features/collect-inputs) method to display forms and collect information from customers is now generally available, and it no longer requires an opt-in annotation.
 - Preview: The `ConfirmConfiguration.amountSurcharge` field has been renamed to `ConfirmConfiguration.surcharge.amount`.
   - If you are interested in joining this preview, please contact [Stripe support](https://support.stripe.com/).
