@@ -21,7 +21,6 @@ import com.stripe.example.model.OfflineBehaviorSelection
 import com.stripe.example.network.ApiClient
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.MobileReaderListener
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
@@ -48,7 +47,6 @@ import java.util.Locale
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-@OptIn(OfflineMode::class)
 class EventFragment : Fragment(), MobileReaderListener {
 
     companion object {
@@ -108,6 +106,7 @@ class EventFragment : Fragment(), MobileReaderListener {
     private val confirmPaymentIntentCallback by lazy {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
+                viewModel.collectTask = null
                 addEvent("Confirmed payment", "terminal.confirmPaymentIntent")
                 paymentIntent.id?.let {
                     ApiClient.capturePaymentIntent(it)
@@ -145,8 +144,8 @@ class EventFragment : Fragment(), MobileReaderListener {
         object : PaymentIntentCallback {
             override fun onSuccess(paymentIntent: PaymentIntent) {
                 addEvent("Collected PaymentMethod", "terminal.collectPaymentMethod")
-                Terminal.getInstance().confirmPaymentIntent(paymentIntent, confirmPaymentIntentCallback)
-                viewModel.collectTask = null
+                viewModel.collectTask =
+                    Terminal.getInstance().confirmPaymentIntent(paymentIntent, confirmPaymentIntentCallback)
             }
 
             override fun onFailure(e: TerminalException) {
@@ -196,6 +195,20 @@ class EventFragment : Fragment(), MobileReaderListener {
     private val collectSetupIntentPaymentMethodCallback: SetupIntentCallback = object : SetupIntentCallback {
         override fun onSuccess(setupIntent: SetupIntent) {
             addEvent("Collected PaymentMethod", "terminal.collectSetupIntentPaymentMethod")
+            viewModel.collectTask = Terminal.getInstance().confirmSetupIntent(
+                setupIntent,
+                confirmSetupIntentCallback
+            )
+        }
+
+        override fun onFailure(e: TerminalException) {
+            this@EventFragment.onFailure(e)
+        }
+    }
+
+    private val confirmSetupIntentCallback: SetupIntentCallback = object : SetupIntentCallback {
+        override fun onSuccess(setupIntent: SetupIntent) {
+            addEvent("Confirmed SetupIntent", "terminal.confirmSetupIntent")
             viewModel.collectTask = null
             completeFlow()
         }
@@ -377,6 +390,7 @@ class EventFragment : Fragment(), MobileReaderListener {
 
     private fun onFailure(e: TerminalException) {
         addEvent(e.errorMessage, e.errorCode.toString())
+        viewModel.collectTask = null
         completeFlow()
     }
 }
