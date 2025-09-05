@@ -16,5 +16,6 @@ module:handoffclient
 com.stripe.stripeterminal.handoffclient
 com.stripe.stripeterminal.handoffclient.appsondevices
 com.stripe.stripeterminal.handoffclient.appsondevices.controller
+com.stripe.stripeterminal.handoffclient.appsondevices.extensions
 com.stripe.stripeterminal.handoffclient.appsondevices.models
 com.stripe.stripeterminal.handoffclient.appsondevices.models.callable

@@ -3,6 +3,17 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.7.0 - 2025-09-05
+
+### Core
+
+#### New
+- Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.BLUETOOTH_PEER_REMOVED_PAIRING_INFORMATION`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-b-l-u-e-t-o-o-t-h_-p-e-e-r_-r-e-m-o-v-e-d_-p-a-i-r-i-n-g_-i-n-f-o-r-m-a-t-i-o-n/index.html)
+
+#### Fixes
+
+- Fixed an issue where the SDK fails to forward [offline payments](https://docs.stripe.com/terminal/features/operate-offline/overview) due to expired connection tokens. The SDK will now automatically refresh the connection token when it expires, allowing offline payments to be forwarded without interruption.
+
 ## 4.6.0 - 2025-08-01
 
 ### Tap to Pay
@@ -107,6 +118,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ## 4.2.0 - 2025-02-24
 
 ### Core
+
 - New: Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html) for detecting if a mobile reader is tampered on connection.
 - Fix: Addressed an issue where readers lose optional software updates after auto-reconnecting.
 

@@ -26,11 +26,11 @@ import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 import com.stripe.example.javaapp.network.ApiClient;
 import com.stripe.example.javaapp.viewmodel.EventViewModel;
 import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.OfflineMode;
+import com.stripe.stripeterminal.external.InternalApi;
 import com.stripe.stripeterminal.external.callable.Callback;
 import com.stripe.stripeterminal.external.callable.Cancelable;
-import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.MobileReaderListener;
+import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
 import com.stripe.stripeterminal.external.models.AllowRedisplay;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
@@ -189,6 +189,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
     };
 
     @NotNull private final PaymentIntentCallback createPaymentIntentCallback = new PaymentIntentCallback() {
+        @OptIn(markerClass = InternalApi.class)
         @Override
         public void onSuccess(@NotNull PaymentIntent intent) {
             paymentIntent = intent;
@@ -231,6 +232,19 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         @Override
         public void onSuccess(@NotNull SetupIntent setupIntent) {
             addEvent("Collected PaymentMethod", "terminal.collectSetupIntentPaymentMethod");
+            viewModel.collectTask = Terminal.getInstance().confirmSetupIntent(setupIntent, confirmSetupIntentCallback);
+        }
+
+        @Override
+        public void onFailure(@NotNull TerminalException e) {
+            EventFragment.this.onFailure(e);
+        }
+    };
+
+    @NotNull private final SetupIntentCallback confirmSetupIntentCallback = new SetupIntentCallback() {
+        @Override
+        public void onSuccess(@NotNull SetupIntent setupIntent) {
+            addEvent("Confirmed SetupIntent", "terminal.confirmSetupIntent");
             viewModel.collectTask = null;
             completeFlow();
         }
@@ -257,7 +271,6 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         }
     };
 
-    @OptIn(markerClass = OfflineMode.class)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -420,6 +433,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
     }
 
     private void onFailure(@NotNull TerminalException e) {
+        viewModel.collectTask = null;
         addEvent(e.getErrorMessage(), e.getErrorCode().toString());
         completeFlow();
     }

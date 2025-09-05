@@ -39,7 +39,7 @@
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
 <a class="library-name--link" href="../../../../index.html">
-                            Stripe Terminal Android SDK (v4.6.0)
+                            Stripe Terminal Android SDK (v4.7.0)
                     </a>            </div>
             <div class="library-version">
             </div>
@@ -59,7 +59,7 @@
   <div class="breadcrumbs"><a href="../../../index.html">external</a><span class="delimiter">/</span><a href="../../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><a href="../index.html">TerminalErrorCode</a><span class="delimiter">/</span><span class="current">SESSION_EXPIRED</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>SESSION_EXPIRED</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><a href="index.html">SESSION_EXPIRED</a></div></div><p class="paragraph">The current session has expired and the reader must be disconnected and reconnected. The SDK will attempt to auto-disconnect for you and you should instruct your user to reconnect it. TerminalListener.onUnexpectedReaderDisconnect will be called if the SDK is able to successfully auto-disconnect. If it does not successfully auto-disconnect, TerminalListener.onUnexpectedReaderDisconnect will not be called and connectionStatus will still be <a href="../../-connection-status/-c-o-n-n-e-c-t-e-d/index.html">ConnectionStatus.CONNECTED</a> and you can attempt to disconnect via Terminal.disconnectReader or you can instruct your user to disconnect manually by turning the reader off.</p><p class="paragraph">NOTE: This error will only occur in one of the following calls: Terminal.createPaymentIntent, Terminal.retrievePaymentIntent, Terminal.confirmPaymentIntent, and Terminal.cancelPaymentIntent.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><a href="index.html">SESSION_EXPIRED</a></div></div><p class="paragraph">The current session has expired and the reader must be disconnected and reconnected. The SDK will attempt to auto-disconnect for you and you should instruct your user to reconnect it. ReaderDisconnectListener.onDisconnect will be called if the SDK is able to successfully auto-disconnect. If it does not successfully auto-disconnect, ReaderDisconnectListener.onDisconnect will not be called and connectionStatus will still be <a href="../../-connection-status/-c-o-n-n-e-c-t-e-d/index.html">ConnectionStatus.CONNECTED</a> and you can attempt to disconnect via Terminal.disconnectReader or you can instruct your user to disconnect manually by turning the reader off.</p><p class="paragraph">NOTE: This error will only occur in one of the following calls: Terminal.createPaymentIntent, Terminal.retrievePaymentIntent, Terminal.confirmPaymentIntent, and Terminal.cancelPaymentIntent.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
