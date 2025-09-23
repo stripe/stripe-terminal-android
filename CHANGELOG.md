@@ -3,6 +3,13 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.7.2 - 2025-09-23
+
+### Core
+
+#### Fixes
+- Fixes an issue that caused the "Application Not Responding" (ANR) error that occurred during Terminal SDK initialization on certain Android devices.
+
 ## 4.7.1 - 2025-09-10
 
 ### Tap to Pay
