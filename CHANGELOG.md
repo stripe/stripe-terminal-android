@@ -3,6 +3,20 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 4.7.3 - 2025-09-25
+
+### Tap to Pay
+
+#### Fixes
+- Addresses issues where a device may erroneously report as not being compatible with Tap to Pay on Android, or fail during the Tap to Pay on Android connection process with a `KEY_ERROR`. Fixes [issue 629](https://github.com/stripe/stripe-terminal-android/issues/629).
+
+## 4.7.2 - 2025-09-23
+
+### Core
+
+#### Fixes
+- Fixes an issue that caused the "Application Not Responding" (ANR) error that occurred during Terminal SDK initialization on certain Android devices.
+
 ## 4.7.1 - 2025-09-10
 
 ### Tap to Pay
