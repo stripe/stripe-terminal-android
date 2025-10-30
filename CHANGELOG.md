@@ -8,7 +8,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 #### Fixes
-- Resolves compatibility issues with kotlinx.datetime 0.7.0+.
+- Resolves compatibility issues with kotlinx.datetime 0.7.0+. Fixes [issue 611](https://github.com/stripe/stripe-terminal-android/issues/611).
 
 ## 4.7.3 - 2025-09-25
 
