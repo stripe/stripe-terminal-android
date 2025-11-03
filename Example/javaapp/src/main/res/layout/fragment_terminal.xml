@@ -79,6 +79,17 @@
                     android:paddingTop="40dp" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/easy_connect_button"
+                    style="@style/Widget.Example.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="0dp"
+                    android:textAlignment="textStart"
+                    android:text="@string/easy_connect"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/discover_button"
                     style="@style/Widget.Example.Button"
                     android:layout_width="match_parent"

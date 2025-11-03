@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.stripe.example.model.DetailedLedgerCard" />
+        <import type="com.stripe.example.model.LedgerAction" />
+        <variable
+            name="detailedCard"
+            type="com.stripe.example.model.DetailedLedgerCard" />
+        <variable
+            name="onActionClickListener"
+            type="com.stripe.example.fragment.admin.LedgerFragment.OnActionClickListener" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{detailedCard.title}"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="Payment Intent" />
+
+                <!-- Status Icons (same as list item) -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@android:drawable/ic_delete"
+                        android:visibility="@{detailedCard.entry.isCancelled ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="@string/cancelled"
+                        />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@android:drawable/ic_dialog_info"
+                        app:tint="@android:color/holo_orange_light"
+                        android:visibility="@{detailedCard.entry.collectedOffline ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="@string/collected_offline" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@android:drawable/stat_notify_sync"
+                        android:visibility="@{!detailedCard.entry.syncedToStripe ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="@string/requires_sync"
+                        app:tint="@android:color/holo_blue_light" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ID -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{detailedCard.subtitle}"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:paddingBottom="16dp"
+                tools:text="pi_1234567890abcdef" />
+
+            <!-- Amount (for Payment entries) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp"
+                android:visibility="@{detailedCard.amount != null ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.format(`$%s`, detailedCard.amount)}"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    tools:text="$12.34" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{detailedCard.currency}"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_gravity="center_vertical"
+                    tools:text="USD" />
+
+            </LinearLayout>
+
+            <!-- Card Details -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp"
+                android:visibility="@{detailedCard.cardBrand != null || detailedCard.cardLast4 != null ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{detailedCard.cardBrand ?? ``}"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Visa" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{detailedCard.cardLast4 != null ? `****` + detailedCard.cardLast4 : ``}"
+                    android:textSize="18sp"
+                    tools:text="****1234" />
+
+            </LinearLayout>
+
+            <!-- Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{detailedCard.status}"
+                    android:textSize="16sp"
+                    tools:text="SUCCEEDED" />
+
+            </LinearLayout>
+
+            <!-- Created Date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Created:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{detailedCard.createdDate}"
+                    android:textSize="16sp"
+                    tools:text="Dec 10, 2024 6:05 PM" />
+
+            </LinearLayout>
+
+            <!-- Metadata -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Metadata:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp"
+                android:visibility="@{detailedCard.metadata.empty ? View.GONE : View.VISIBLE}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{detailedCard.metadata.toString()}"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:paddingBottom="24dp"
+                android:visibility="@{detailedCard.metadata.empty ? View.GONE : View.VISIBLE}"
+                tools:text="customer_id: cus_123, order_id: ord_456" />
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Capture Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{LedgerAction.CAPTURE.displayName}"
+                    android:onClick="@{() -> onActionClickListener.onActionClick(LedgerAction.CAPTURE, detailedCard.entry)}"
+                    android:visibility="@{detailedCard.availableActions.contains(LedgerAction.CAPTURE) ? View.VISIBLE : View.GONE}"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@android:color/holo_green_light"
+                    android:textColor="@android:color/holo_green_light"
+                    tools:text="Capture"
+                    />
+
+                <!-- Refund Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{LedgerAction.REFUND.displayName}"
+                    android:onClick="@{() -> onActionClickListener.onActionClick(LedgerAction.REFUND, detailedCard.entry)}"
+                    android:visibility="@{detailedCard.availableActions.contains(LedgerAction.REFUND) ? View.VISIBLE : View.GONE}"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@android:color/holo_purple"
+                    android:textColor="@android:color/holo_purple"
+                    tools:text="Refund"
+                    />
+
+                <!-- Cancel Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{LedgerAction.CANCEL.displayName}"
+                    android:onClick="@{() -> onActionClickListener.onActionClick(LedgerAction.CANCEL, detailedCard.entry)}"
+                    android:visibility="@{detailedCard.availableActions.contains(LedgerAction.CANCEL) ? View.VISIBLE : View.GONE}"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@android:color/holo_red_dark"
+                    app:strokeColor="@android:color/holo_red_dark"
+                    tools:text="Cancel"
+                    />
+
+                <!-- Refresh Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{LedgerAction.REFRESH.displayName}"
+                    android:onClick="@{() -> onActionClickListener.onActionClick(LedgerAction.REFRESH, detailedCard.entry)}"
+                    android:visibility="@{detailedCard.availableActions.contains(LedgerAction.REFRESH) ? View.VISIBLE : View.GONE}"
+                    tools:text="Refresh"
+                    android:textColor="@color/colorAccent"
+                    app:strokeColor="@color/colorAccent"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

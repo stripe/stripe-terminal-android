@@ -103,6 +103,19 @@ public class TerminalFragment extends Fragment {
             }
         });
 
+        View easyConnectButton = view.findViewById(R.id.easy_connect_button);
+        easyConnectButton.setOnClickListener(v -> {
+            final FragmentActivity activity = getActivity();
+            if (activity instanceof NavigationListener) {
+                ((NavigationListener) activity).onRequestEasyConnect(viewModel.simulated.getValue(), viewModel.getDiscoveryMethod());
+            }
+        });
+
+        // Update Easy Connect button visibility when supported status changes
+        viewModel.easyConnectSupported.observe(getViewLifecycleOwner(), isSupported -> {
+            easyConnectButton.setVisibility(isSupported ? View.VISIBLE : View.GONE);
+        });
+
         ((Spinner) view.findViewById(R.id.discovery_method_spinner)).setAdapter(
                 new ArrayAdapter<DiscoveryMethod>(getContext(), android.R.layout.simple_spinner_item, discoveryMethods)
         );

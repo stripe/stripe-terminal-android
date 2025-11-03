@@ -1,0 +1,142 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>OfflineListener</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            Stripe Terminal Android SDK (v4.7.3)
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="external::com.stripe.stripeterminal.external.callable/OfflineListener///PointingToDeclaration//-1219334616">
+  <div class="breadcrumbs"><a href="../../index.html">external</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.callable</a><span class="delimiter">/</span><span class="current">OfflineListener</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Offline</span><wbr><span><span>Listener</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">OfflineListener</a></div><p class="paragraph">The <a href="index.html">OfflineListener</a> enables an application to be notified when asynchronous connection status changes related to the terminal sdk occur.</p><p class="paragraph">Applications can register an <a href="index.html">OfflineListener</a> to the Terminal SDK on init, to receive callbacks when the SDK transitions between offline and online states.</p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1871099627%2FFunctions%2F-1219334616" anchor-label="onForwardingFailure" id="-1871099627%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-forwarding-failure.html"><span>on</span><wbr><span>Forwarding</span><wbr><span><span>Failure</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1871099627%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="on-forwarding-failure.html"><span class="token function">onForwardingFailure</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">e<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-terminal-exception/index.html">TerminalException</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><a href="on-forwarding-failure.html">onForwardingFailure</a> invoked when the SDK encounters an error that is not specific to any particular <a href="../../com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a>. For example, if the SDK fails to fetch a connection token as part of the forwarding process, this method will be called with an appropriate error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1029191371%2FFunctions%2F-1219334616" anchor-label="onOfflineStatusChange" id="1029191371%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-offline-status-change.html"><span>on</span><wbr><span>Offline</span><wbr><span>Status</span><wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1029191371%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="on-offline-status-change.html"><span class="token function">onOfflineStatusChange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">offlineStatus<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-offline-status/index.html">OfflineStatus</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><a href="on-offline-status-change.html">onOfflineStatusChange</a> invoked when the SDK has updated its <a href="../../com.stripe.stripeterminal.external.models/-offline-status/index.html">OfflineStatus</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="370157166%2FFunctions%2F-1219334616" anchor-label="onPaymentIntentForwarded" id="370157166%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-payment-intent-forwarded.html"><span>on</span><wbr><span>Payment</span><wbr><span>Intent</span><wbr><span><span>Forwarded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="370157166%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="on-payment-intent-forwarded.html"><span class="token function">onPaymentIntentForwarded</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">paymentIntent<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a><span class="token punctuation">, </span></span><span class="parameter ">e<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-terminal-exception/index.html">TerminalException</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><a href="on-payment-intent-forwarded.html">onPaymentIntentForwarded</a> invoked when the SDK has finished forwarding - successfully or not - all requests associated with a particular <a href="../../com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1535135268%2FFunctions%2F-1219334616" anchor-label="onSetupIntentForwarded" id="-1535135268%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-setup-intent-forwarded.html"><span>on</span><wbr><span>Setup</span><wbr><span>Intent</span><wbr><span><span>Forwarded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1535135268%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-setup-intent-forwarded.html"><span class="token function">onSetupIntentForwarded</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">setupIntent<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a><span class="token punctuation">, </span></span><span class="parameter ">e<span class="token operator">: </span><a href="../../com.stripe.stripeterminal.external.models/-terminal-exception/index.html">TerminalException</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><a href="on-setup-intent-forwarded.html">onSetupIntentForwarded</a> invoked when the SDK has finished forwarding - successfully or not - all requests associated with a particular <a href="../../com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -12,6 +12,7 @@ import com.stripe.example.fragment.ConnectedReaderFragment
 import com.stripe.example.fragment.PaymentFragment
 import com.stripe.example.fragment.TerminalFragment
 import com.stripe.example.fragment.UpdateReaderFragment
+import com.stripe.example.fragment.admin.LedgerFragment
 import com.stripe.example.fragment.discovery.DiscoveryFragment
 import com.stripe.example.fragment.discovery.DiscoveryMethod
 import com.stripe.example.fragment.event.EventFragment
@@ -158,6 +159,14 @@ class MainActivity :
         )
     }
 
+    override fun onRequestCancel(transactionId: String) {
+        navigateTo(EventFragment.TAG, EventFragment.cancelTransaction(transactionId))
+    }
+
+    override fun onRequestRefundPayment(transactionId: String) {
+        navigateTo(EventFragment.TAG, EventFragment.refundPayment(transactionId))
+    }
+
     /**
      * Callback function called once the payment workflow has been selected by the
      * [ConnectedReaderFragment]
@@ -188,6 +197,10 @@ class MainActivity :
      */
     override fun onSelectViewOfflineLogs() {
         navigateTo(OfflinePaymentsLogFragment.TAG, OfflinePaymentsLogFragment())
+    }
+
+    override fun onSelectViewLedger() {
+        navigateTo(LedgerFragment.TAG, LedgerFragment())
     }
 
     // Terminal event callbacks
@@ -308,7 +321,7 @@ class MainActivity :
         // Initialize the Terminal as soon as possible
         try {
             if (!Terminal.isInitialized()) {
-                Terminal.initTerminal(
+                Terminal.init(
                         applicationContext,
                         LogLevel.VERBOSE,
                         TokenProvider(),

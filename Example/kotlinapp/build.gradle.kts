@@ -50,7 +50,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs>().configureE
 val androidxLifecycleVersion = "2.6.2"
 val kotlinCoroutinesVersion = "1.7.3"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "4.7.3"
+val stripeTerminalVersion = "5.0.0"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")
@@ -77,7 +77,7 @@ dependencies {
     // Stripe Terminal library
     implementation("com.stripe:stripeterminal-taptopay:$stripeTerminalVersion")
     implementation("com.stripe:stripeterminal-core:$stripeTerminalVersion")
-
+    implementation("com.stripe:stripeterminal-ktx:$stripeTerminalVersion")
     // Leak canary
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
 }

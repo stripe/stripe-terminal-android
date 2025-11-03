@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.stripe.example.model.LedgerEntry" />
+        <variable
+            name="entry"
+            type="com.stripe.example.model.LedgerEntry.Card" />
+        <variable
+            name="onLongClickListener"
+            type="android.view.View.OnLongClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onLongClick="@{onLongClickListener}"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/transaction_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/saved_card"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@android:drawable/ic_delete"
+                        android:visibility="@{entry.isCancelled ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="@string/cancelled"
+                        app:tint="@android:color/holo_red_dark" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@android:drawable/ic_dialog_info"
+                        android:visibility="@{entry.collectedOffline ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="@string/collected_offline"
+                        app:tint="@android:color/holo_orange_light" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@android:drawable/stat_notify_sync"
+                        android:visibility="@{!entry.syncedToStripe ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="@string/requires_sync"
+                        app:tint="@android:color/holo_blue_light" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{entry.intent.paymentMethod != null ? entry.intent.paymentMethod.cardPresentDetails.brand : @string/app_name}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Visa" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{entry.intent.paymentMethod != null ? `****` + entry.intent.paymentMethod.cardPresentDetails.last4 : ``}"
+                    android:textSize="16sp"
+                    tools:text="****1234" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{entry.intent.metadata.toString()}"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="customer_id: cus_123, order_id: ord_456" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:text="@{entry.createdDate}"
+                android:textColor="@android:color/darker_gray"
+                tools:text="Dec 10, 2024 6:05 PM" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
+import androidx.core.os.BundleCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.stripe.example.NavigationListener
@@ -53,7 +54,7 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             viewModel = TerminalViewModel(
-                it.getSerializable(DISCOVERY_METHOD) as DiscoveryMethod,
+                BundleCompat.getSerializable(it, DISCOVERY_METHOD, DiscoveryMethod::class.java)!!,
                 discoveryMethods,
                 it.getBoolean(SIMULATED_SWITCH)
             )

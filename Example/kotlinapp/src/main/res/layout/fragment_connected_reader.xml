@@ -151,6 +151,18 @@
                 android:text="@string/view_offline_logs"
                 app:icon="@drawable/ic_right_arrow"
                 app:iconTint="@color/colorPrimaryDark" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_ledger_button"
+                style="@style/Widget.Example.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                app:cornerRadius="0dp"
+                android:textAlignment="textStart"
+                android:text="@string/view_transaction_ledger"
+                app:icon="@drawable/ic_right_arrow"
+                app:iconTint="@color/colorPrimaryDark" />
         </LinearLayout>
     </ScrollView>
 

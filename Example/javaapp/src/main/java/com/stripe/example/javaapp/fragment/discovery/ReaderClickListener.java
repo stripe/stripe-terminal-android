@@ -99,8 +99,7 @@ public class ReaderClickListener {
                 Terminal.getInstance().connectReader(
                         reader,
                         new ConnectionConfiguration.InternetConnectionConfiguration(
-                                false,
-                                activityRef.get()
+                                activityRef.get(), false
                         ),
                         readerCallback
                 );

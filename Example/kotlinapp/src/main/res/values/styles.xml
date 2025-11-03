@@ -20,6 +20,7 @@
 
     <style name="Widget.Example.Backdrop" parent="">
         <item name="android:background">?attr/colorPrimaryDark</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="Widget.Example.Switch" parent="Widget.MaterialComponents.Button">

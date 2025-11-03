@@ -4,6 +4,7 @@ import com.stripe.example.model.ConnectionType
 import com.stripe.example.model.OfflineEvent
 import com.stripe.example.model.OfflineForwardingSummary
 import com.stripe.example.network.ApiClient
+import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.callable.OfflineListener
 import com.stripe.stripeterminal.external.models.NetworkStatus
@@ -12,6 +13,7 @@ import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentStatus
 import com.stripe.stripeterminal.external.models.TerminalErrorCode
 import com.stripe.stripeterminal.external.models.TerminalException
+import com.stripe.stripeterminal.ktx.retrievePaymentIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -44,6 +46,10 @@ object TerminalOfflineListener : OfflineListener {
             try {
                 paymentIntent.id?.let { intentId -> ApiClient.capturePaymentIntent(intentId) }
                         ?: throw IllegalStateException("Capturable payment intents should always have a defined ID.")
+                paymentIntent.clientSecret?.let { secret ->
+                    val updatedPI = Terminal.getInstance().retrievePaymentIntent(secret)
+                    TerminalRepository.addPaymentIntent(updatedPI)
+                }
                 OfflineEvent.CaptureEvent(paymentIntent, null)
             } catch (error: Throwable) {
                 OfflineEvent.CaptureEvent(
@@ -127,6 +133,9 @@ object TerminalOfflineListener : OfflineListener {
         _events.run { value = value + OfflineEvent.ForwardingEvent(paymentIntent, e) }
         if (paymentIntent.isCapturable()) {
             _paymentIntentsToCapture.tryEmit(paymentIntent)
+        }
+        if (e == null) {
+            TerminalRepository.addPaymentIntent(paymentIntent)
         }
     }
 

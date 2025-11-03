@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.os.BundleCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -182,7 +183,7 @@ class DiscoveryFragment :
     class DiscoveryViewModelFactory(private val args: Bundle) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return DiscoveryViewModel(
-                args.getSerializable(DISCOVERY_METHOD) as DiscoveryMethod,
+                BundleCompat.getSerializable(args, DISCOVERY_METHOD, DiscoveryMethod::class.java)!!,
                 args.getBoolean(SIMULATED_KEY)
             ) as T
         }

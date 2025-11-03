@@ -13,13 +13,16 @@ import com.stripe.example.fragment.discovery.DiscoveryMethod.TAP_TO_PAY
 import com.stripe.example.fragment.discovery.DiscoveryMethod.USB
 import com.stripe.example.fragment.discovery.ReaderClickListener
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
-import com.stripe.stripeterminal.external.callable.DiscoveryListener
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.Reader
-import com.stripe.stripeterminal.external.models.TerminalException
+import com.stripe.stripeterminal.ktx.discoverReaders
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
 class DiscoveryViewModel(
@@ -45,6 +48,17 @@ class DiscoveryViewModel(
         }
     }
 
+    private val discoveryConfig: DiscoveryConfiguration
+        get() = when (discoveryMethod) {
+            BLUETOOTH_SCAN -> DiscoveryConfiguration.BluetoothDiscoveryConfiguration(0, isSimulated)
+            INTERNET -> DiscoveryConfiguration.InternetDiscoveryConfiguration(
+                location = selectedLocation.value?.id,
+                isSimulated = isSimulated,
+            )
+            TAP_TO_PAY -> DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated)
+            USB -> DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated)
+        }
+
     @RequiresPermission(
         anyOf = [
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -52,55 +66,28 @@ class DiscoveryViewModel(
         ],
     )
     fun startDiscovery(onFailure: () -> Unit) {
-        if (discoveryTask == null && Terminal.getInstance().connectedReader == null) {
-            discoveryTask = Terminal
-                .getInstance()
-                .discoverReaders(
-                    config = when (discoveryMethod) {
-                        BLUETOOTH_SCAN -> DiscoveryConfiguration.BluetoothDiscoveryConfiguration(0, isSimulated)
-                        INTERNET -> DiscoveryConfiguration.InternetDiscoveryConfiguration(
-                            location = selectedLocation.value?.id,
-                            isSimulated = isSimulated,
-                        )
-                        TAP_TO_PAY -> DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated)
-                        USB -> DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated)
-                    },
-                    discoveryListener = object : DiscoveryListener {
-                        override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
-                            this@DiscoveryViewModel.readers.postValue(
-                                readers.filter { it.networkStatus != Reader.NetworkStatus.OFFLINE }
-                            )
-                        }
-                    },
-                    callback = object : Callback {
-                        override fun onSuccess() {
-                            discoveryTask = null
-                            isRequestingChangeLocation = false
-                        }
-
-                        override fun onFailure(e: TerminalException) {
-                            discoveryTask = null
-                            if (!isRequestingChangeLocation) {
-                                onFailure()
-                            }
-                            isRequestingChangeLocation = false
-                        }
+        viewModelScope.launch {
+            Terminal.getInstance().discoverReaders(config = discoveryConfig)
+                .catch { e ->
+                    if (e is CancellationException) {
+                        // Ignore cancellations
+                        return@catch
                     }
-                )
-        }
+                    onFailure()
+                }
+                .collect { discoveredReaders: List<Reader> ->
+                    readers.postValue(
+                        discoveredReaders.filter { it.networkStatus != Reader.NetworkStatus.OFFLINE }
+                    )
+                }
+        }.also(discoveryJobs::add)
     }
 
+    private val discoveryJobs = mutableListOf<Job>()
     fun stopDiscovery(onSuccess: () -> Unit = { }) {
-        discoveryTask?.cancel(object : Callback {
-            override fun onSuccess() {
-                discoveryTask = null
-                viewModelScope.launch { onSuccess() }
-            }
-
-            override fun onFailure(e: TerminalException) {
-                discoveryTask = null
-            }
-        }) ?: run {
+        viewModelScope.launch {
+            discoveryJobs.forEach { it.cancel("Stopping discovery") }
+            discoveryJobs.joinAll()
             onSuccess()
         }
     }

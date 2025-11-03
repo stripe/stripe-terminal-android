@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
@@ -19,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stripe.example.javaapp.NavigationListener;
 import com.stripe.example.javaapp.R;
-import com.stripe.example.javaapp.fragment.TerminalFragment;
-import com.stripe.example.javaapp.fragment.discovery.DiscoveryMethod;
 import com.stripe.example.javaapp.model.Event;
 import com.stripe.example.javaapp.model.OfflineBehaviorSelection;
 import com.stripe.example.javaapp.network.ApiClient;
@@ -35,7 +32,8 @@ import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
 import com.stripe.stripeterminal.external.models.AllowRedisplay;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
-import com.stripe.stripeterminal.external.models.CollectConfiguration;
+import com.stripe.stripeterminal.external.models.CollectPaymentIntentConfiguration;
+import com.stripe.stripeterminal.external.models.ConfirmPaymentIntentConfiguration;
 import com.stripe.stripeterminal.external.models.CreateConfiguration;
 import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.PaymentIntent;
@@ -47,6 +45,7 @@ import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.SetupIntent;
 import com.stripe.stripeterminal.external.models.SetupIntentCancellationParameters;
+import com.stripe.stripeterminal.external.models.CollectSetupIntentConfiguration;
 import com.stripe.stripeterminal.external.models.SetupIntentParameters;
 import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.external.models.TippingConfiguration;
@@ -57,9 +56,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * The `EventFragment` displays events as they happen during a payment flow
@@ -94,8 +90,6 @@ public class EventFragment extends Fragment implements MobileReaderListener {
     @NotNull
     private static final String OFFLINE_BEHAVIOR =
             "com.stripe.example.fragment.event.EventFragment.offline_behavior";
-
-    private static final boolean DO_NOT_ENABLE_MOTO = false;
 
     public static EventFragment collectSetupIntentPaymentMethod() {
         final EventFragment fragment = new EventFragment();
@@ -136,10 +130,11 @@ public class EventFragment extends Fragment implements MobileReaderListener {
     private PaymentIntent paymentIntent;
     private SetupIntent setupIntent;
 
-    @NotNull private final PaymentIntentCallback confirmPaymentIntentCallback = new PaymentIntentCallback() {
+    @NotNull private final PaymentIntentCallback processPaymentIntentCallback = new PaymentIntentCallback() {
         @Override
         public void onSuccess(@NotNull PaymentIntent paymentIntent) {
-            addEvent("Confirmed payment", "terminal.confirmPaymentIntent");
+            addEvent("Payment processing successful", "terminal.processPaymentIntent");
+            viewModel.processTask = null;
             String paymentIntentId = paymentIntent.getId();
             if (paymentIntentId != null) {
                 try {
@@ -162,24 +157,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         @Override
         public void onSuccess(@NotNull PaymentIntent paymentIntent) {
             addEvent("Canceled PaymentIntent", "terminal.cancelPaymentIntent");
-            final FragmentActivity activity = activityRef.get();
-            if (activity instanceof NavigationListener) {
-                activity.runOnUiThread(((NavigationListener) activity)::onCancelCollectPaymentMethod);
-            }
-        }
-
-        @Override
-        public void onFailure(@NotNull TerminalException e) {
-            EventFragment.this.onFailure(e);
-        }
-    };
-
-    @NotNull private final PaymentIntentCallback collectPaymentMethodCallback = new PaymentIntentCallback() {
-        @Override
-        public void onSuccess(@NotNull PaymentIntent paymentIntent) {
-            addEvent("Collected PaymentMethod", "terminal.collectPaymentMethod");
-            Terminal.getInstance().confirmPaymentIntent(paymentIntent, confirmPaymentIntentCallback);
-            viewModel.collectTask = null;
+            completeFlow();
         }
 
         @Override
@@ -197,14 +175,13 @@ public class EventFragment extends Fragment implements MobileReaderListener {
 
             final Bundle arguments = getArguments();
             final boolean skipTipping = (arguments != null) && arguments.getBoolean(SKIP_TIPPING);
-            final CollectConfiguration collectConfig = new CollectConfiguration.Builder()
+            final CollectPaymentIntentConfiguration collectConfig = new CollectPaymentIntentConfiguration.Builder()
                     .skipTipping(skipTipping)
-                    .setMoto(DO_NOT_ENABLE_MOTO)
                     .setTippingConfiguration(
                             new TippingConfiguration.Builder().build()
                     ).build();
-            viewModel.collectTask = Terminal.getInstance().collectPaymentMethod(
-                    paymentIntent, collectPaymentMethodCallback, collectConfig);
+            viewModel.processTask = Terminal.getInstance().processPaymentIntent(
+                    paymentIntent, collectConfig, new ConfirmPaymentIntentConfiguration.Builder().build(), processPaymentIntentCallback);
         }
 
         @Override
@@ -218,8 +195,8 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         public void onSuccess(@NotNull SetupIntent intent) {
             setupIntent = intent;
             addEvent("Created SetupIntent", "terminal.createSetupIntent");
-            viewModel.collectTask = Terminal.getInstance().collectSetupIntentPaymentMethod(
-                    setupIntent, AllowRedisplay.ALWAYS, collectSetupIntentPaymentMethodCallback);
+            viewModel.processTask = Terminal.getInstance().processSetupIntent(
+                    setupIntent, AllowRedisplay.ALWAYS, new CollectSetupIntentConfiguration.Builder().build(), processSetupIntentCallback);
         }
 
         @Override
@@ -228,24 +205,11 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         }
     };
 
-    @NotNull private final SetupIntentCallback collectSetupIntentPaymentMethodCallback = new SetupIntentCallback() {
+    @NotNull private final SetupIntentCallback processSetupIntentCallback = new SetupIntentCallback() {
         @Override
         public void onSuccess(@NotNull SetupIntent setupIntent) {
-            addEvent("Collected PaymentMethod", "terminal.collectSetupIntentPaymentMethod");
-            viewModel.collectTask = Terminal.getInstance().confirmSetupIntent(setupIntent, confirmSetupIntentCallback);
-        }
-
-        @Override
-        public void onFailure(@NotNull TerminalException e) {
-            EventFragment.this.onFailure(e);
-        }
-    };
-
-    @NotNull private final SetupIntentCallback confirmSetupIntentCallback = new SetupIntentCallback() {
-        @Override
-        public void onSuccess(@NotNull SetupIntent setupIntent) {
-            addEvent("Confirmed SetupIntent", "terminal.confirmSetupIntent");
-            viewModel.collectTask = null;
+            addEvent("Setup intent processing successful", "terminal.processSetupIntent");
+            viewModel.processTask = null;
             completeFlow();
         }
 
@@ -259,10 +223,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         @Override
         public void onSuccess(@NotNull SetupIntent setupIntent) {
             addEvent("Canceled SetupIntent", "terminal.cancelSetupIntent");
-            final FragmentActivity activity = activityRef.get();
-            if (activity instanceof NavigationListener) {
-                activity.runOnUiThread(((NavigationListener) activity)::onCancelCollectSetupIntent);
-            }
+            completeFlow();
         }
 
         @Override
@@ -333,39 +294,13 @@ public class EventFragment extends Fragment implements MobileReaderListener {
         eventRecyclerView.setAdapter(adapter);
 
         view.findViewById(R.id.cancel_button).setOnClickListener(v -> {
-            if (viewModel.collectTask != null) {
-                viewModel.collectTask.cancel(new Callback() {
+            if (viewModel.processTask != null) {
+                viewModel.processTask.cancel(new Callback() {
                     @Override
                     public void onSuccess() {
-                        viewModel.collectTask = null;
+                        viewModel.processTask = null;
                         if (paymentIntent != null) {
-                            if (TerminalFragment.getCurrentDiscoveryMethod(getActivity()) == DiscoveryMethod.INTERNET) {
-                                ApiClient.cancelPaymentIntent(paymentIntent.getId(), new retrofit2.Callback<Void>() {
-                                    @Override
-                                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                                        if (response.isSuccessful()) {
-                                            addEvent("Canceled PaymentIntent", "backend.cancelPaymentIntent");
-                                            final FragmentActivity activity = activityRef.get();
-                                            if (activity instanceof NavigationListener) {
-                                                activity.runOnUiThread(
-                                                        ((NavigationListener) activity)::onCancelCollectPaymentMethod
-                                                );
-                                            }
-                                        } else {
-                                            addEvent("Cancel PaymentIntent failed", "backend.cancelPaymentIntent");
-                                            completeFlow();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                                        completeFlow();
-                                    }
-                                });
-                            } else {
-                                Terminal.getInstance().cancelPaymentIntent(paymentIntent, cancelPaymentIntentCallback);
-                            }
+                            Terminal.getInstance().cancelPaymentIntent(paymentIntent, cancelPaymentIntentCallback);
                         }
                         if (setupIntent != null) {
                             SetupIntentCancellationParameters params = new SetupIntentCancellationParameters.Builder().build();
@@ -375,7 +310,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
 
                     @Override
                     public void onFailure(@NotNull TerminalException e) {
-                        viewModel.collectTask = null;
+                        viewModel.processTask = null;
                         EventFragment.this.onFailure(e);
                     }
                 });
@@ -433,7 +368,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
     }
 
     private void onFailure(@NotNull TerminalException e) {
-        viewModel.collectTask = null;
+        viewModel.processTask = null;
         addEvent(e.getErrorMessage(), e.getErrorCode().toString());
         completeFlow();
     }

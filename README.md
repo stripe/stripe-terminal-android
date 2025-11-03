@@ -26,7 +26,7 @@ To use the Android SDK, add `stripeterminal` to the `dependencies` block of your
 
 ```kotlin
 dependencies {
-  implementation("com.stripe:stripeterminal:4.7.3")
+  implementation("com.stripe:stripeterminal:5.0.0")
 }
 ```
 
@@ -105,8 +105,8 @@ your `build.gradle.kts` file with the following:
 
 ```kotlin
 dependencies {
-  implementation("com.stripe:stripeterminal-taptopay:4.7.3")
-  implementation("com.stripe:stripeterminal-core:4.7.3")
+  implementation("com.stripe:stripeterminal-taptopay:5.0.0")
+  implementation("com.stripe:stripeterminal-core:5.0.0")
 }
 ```
 
@@ -116,7 +116,8 @@ Please note that:
 
 ## Documentation
  - [Getting Started](https://stripe.com/docs/terminal/sdk/android)
- - [4.x API Reference](https://stripe.dev/stripe-terminal-android)
+ - [5.x API Reference](https://stripe.dev/stripe-terminal-android)
+ - [4.x API Reference](https://stripe.dev/stripe-terminal-android/v4)
  - [3.x API Reference](https://stripe.dev/stripe-terminal-android/v3)
  - [2.x API Reference](https://stripe.dev/stripe-terminal-android/v2)
  - [1.x API Reference](https://stripe.dev/stripe-terminal-android/v1)
