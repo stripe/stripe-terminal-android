@@ -16,6 +16,7 @@
     <string name="disconnect">Disconnect</string>
     <string name="discovery">Discovery</string>
     <string name="discover_readers">Discover Readers</string>
+    <string name="easy_connect">Easy Connect</string>
     <string name="discovery_method">DISCOVERY METHOD</string>
     <string name="done">Done</string>
     <string name="empty_reader">Empty Reader</string>

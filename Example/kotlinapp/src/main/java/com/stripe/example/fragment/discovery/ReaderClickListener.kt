@@ -2,14 +2,19 @@ package com.stripe.example.fragment.discovery
 
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.viewModelScope
 import com.stripe.example.MainActivity
 import com.stripe.example.R
 import com.stripe.example.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
+import com.stripe.stripeterminal.ktx.connectReader
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 
 class ReaderClickListener(
@@ -27,63 +32,57 @@ class ReaderClickListener(
                 .show()
             return
         }
-
-        viewModel.isConnecting.value = true
-
         val activityRef = WeakReference(activity)
-        val readerCallback = object : ReaderCallback {
-            override fun onSuccess(reader: Reader) {
-                activityRef.get()?.let {
-                    it.runOnUiThread {
-                        it.onConnectReader()
-                        viewModel.isConnecting.value = false
-                        viewModel.isUpdating.value = false
-                    }
-                }
-            }
 
-            override fun onFailure(e: TerminalException) {
-                activityRef.get()?.let {
-                    it.runOnUiThread {
-                        Toast.makeText(
-                            it,
-                            "Failed to connect with error: " + e.errorMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        it.onCancelDiscovery()
-                        viewModel.isConnecting.value = false
-                        viewModel.isUpdating.value = false
-                    }
-                }
-            }
-        }
+        viewModel.run {
+            val config = when (discoveryMethod) {
+                DiscoveryMethod.BLUETOOTH_SCAN ->
+                    ConnectionConfiguration.BluetoothConnectionConfiguration(
+                        locationId = connectLocationId,
+                        bluetoothReaderListener = activityRef.get()!!,
+                    )
 
-        val config = when (viewModel.discoveryMethod) {
-            DiscoveryMethod.BLUETOOTH_SCAN ->
-                ConnectionConfiguration.BluetoothConnectionConfiguration(
-                    locationId = connectLocationId,
-                    bluetoothReaderListener = activityRef.get()!!,
-                )
-            DiscoveryMethod.INTERNET ->
-                ConnectionConfiguration.InternetConnectionConfiguration(internetReaderListener = activityRef.get())
-            DiscoveryMethod.TAP_TO_PAY ->
-                ConnectionConfiguration.TapToPayConnectionConfiguration(
-                    locationId = connectLocationId,
-                    autoReconnectOnUnexpectedDisconnect = true,
-                    tapToPayReaderListener = activityRef.get()
-                )
-            DiscoveryMethod.USB ->
+                DiscoveryMethod.INTERNET ->
+                    ConnectionConfiguration.InternetConnectionConfiguration(internetReaderListener = activityRef.get())
 
-                ConnectionConfiguration.UsbConnectionConfiguration(
+                DiscoveryMethod.TAP_TO_PAY ->
+                    ConnectionConfiguration.TapToPayConnectionConfiguration(
+                        locationId = connectLocationId,
+                        autoReconnectOnUnexpectedDisconnect = true,
+                        tapToPayReaderListener = activityRef.get()
+                    )
+
+                DiscoveryMethod.USB -> ConnectionConfiguration.UsbConnectionConfiguration(
                     locationId = connectLocationId,
                     usbReaderListener = activityRef.get()!!,
                 )
-        }
+            }
 
-        Terminal.getInstance().connectReader(
-            reader,
-            config,
-            readerCallback
-        )
+            viewModelScope.launch {
+                isConnecting.postValue(true)
+                val result = runCatching { Terminal.getInstance().connectReader(reader, config) }
+                    // rethrow CancellationException to properly cancel the coroutine
+                    .onFailure { if (it is CancellationException) throw it }
+                withContext(Dispatchers.Main) {
+                    // switch to the main thread to update the UI
+                    if (result.isSuccess) {
+                        activityRef.get()?.onConnectReader()
+                        isUpdating.value = false
+                        isConnecting.value = false
+                    } else {
+                        // handle failure
+                        val exception = result.exceptionOrNull() as TerminalException
+                        Toast.makeText(
+                            activityRef.get(),
+                            "Failed to connect with error: ${exception.errorCode} ${exception.errorMessage}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        activityRef.get()?.onCancelDiscovery()
+                        isConnecting.value = false
+                        isUpdating.value = false
+                    }
+                }
+            }
+        }
     }
 }

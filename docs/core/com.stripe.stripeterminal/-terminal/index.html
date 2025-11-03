@@ -1,0 +1,705 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Terminal</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            Stripe Terminal Android SDK (v5.0.0)
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="core::com.stripe.stripeterminal/Terminal///PointingToDeclaration//-1814817128">
+  <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal</a><span class="delimiter">/</span><span class="current">Terminal</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Terminal</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">Terminal</a></div><p class="paragraph">The <code class="lang-kotlin">Terminal</code> is the top-level object for the Stripe Terminal SDK.</p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: <a href="https://stripe.com/terminal/legal">https://stripe.com/terminal/legal</a></p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-455353563%2FClasslikes%2F-1814817128" anchor-label="Companion" id="-455353563%2FClasslikes%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-455353563%2FClasslikes%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="293669234%2FProperties%2F-1814817128" anchor-label="connectedReader" id="293669234%2FProperties%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connected-reader.html"><span>connected</span><wbr><span><span>Reader</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="293669234%2FProperties%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="connected-reader.html">connectedReader</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-reader/index.html">Reader</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Get the currently connected <a href="../../../external/com.stripe.stripeterminal.external.models/-reader/index.html">Reader</a> if there is one.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1631844340%2FProperties%2F-1814817128" anchor-label="connectionStatus" id="-1631844340%2FProperties%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connection-status.html"><span>connection</span><wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1631844340%2FProperties%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="connection-status.html">connectionStatus</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-connection-status/index.html">ConnectionStatus</a></div><div class="brief "><p class="paragraph">Get the current <a href="../../../external/com.stripe.stripeterminal.external.models/-connection-status/index.html">ConnectionStatus</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-561863863%2FProperties%2F-1814817128" anchor-label="offlineStatus" id="-561863863%2FProperties%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="offline-status.html"><span>offline</span><wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-561863863%2FProperties%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="offline-status.html">offlineStatus</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-offline-status/index.html">OfflineStatus</a></div><div class="brief "><p class="paragraph">Get the current <a href="../../../external/com.stripe.stripeterminal.external.models/-offline-status/index.html">OfflineStatus</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-345195834%2FProperties%2F-1814817128" anchor-label="paymentStatus" id="-345195834%2FProperties%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="payment-status.html"><span>payment</span><wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-345195834%2FProperties%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="payment-status.html">paymentStatus</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-status/index.html">PaymentStatus</a></div><div class="brief "><p class="paragraph">Get the current <a href="../../../external/com.stripe.stripeterminal.external.models/-payment-status/index.html">PaymentStatus</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1397650474%2FProperties%2F-1814817128" anchor-label="simulatorConfiguration" id="1397650474%2FProperties%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="simulator-configuration.html"><span>simulator</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1397650474%2FProperties%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="simulator-configuration.html">simulatorConfiguration</a><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-simulator-configuration/index.html">SimulatorConfiguration</a></div><div class="brief "><p class="paragraph">The current configuration of the simulated reader. Change this field to see different behavior.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="52935420%2FFunctions%2F-1814817128" anchor-label="cancelPaymentIntent" id="52935420%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cancel-payment-intent.html"><span>cancel</span><wbr><span>Payment</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="52935420%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="cancel-payment-intent.html"><span class="token function">cancelPaymentIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Cancels a <a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2025360204%2FFunctions%2F-1814817128" anchor-label="cancelSetupIntent" id="-2025360204%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cancel-setup-intent.html"><span>cancel</span><wbr><span>Setup</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2025360204%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="cancel-setup-intent.html"><span class="token function">cancelSetupIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">setupIntent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a><span class="token punctuation">, </span></span><span class="parameter ">params<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent-cancellation-parameters/index.html">SetupIntentCancellationParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Cancel an existing <a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1941019183%2FFunctions%2F-1814817128" anchor-label="clearCachedCredentials" id="1941019183%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-cached-credentials.html"><span>clear</span><wbr><span>Cached</span><wbr><span><span>Credentials</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1941019183%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="clear-cached-credentials.html"><span class="token function">clearCachedCredentials</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-clear-cached-credentials-result/index.html">ClearCachedCredentialsResult</a></div><div class="brief "><p class="paragraph">Clears the current connection token, saved reader sessions, and any other cached credentials. You can use this method to switch accounts in your app, e.g. to switch between live and test Stripe API keys on your backend.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2009718783%2FFunctions%2F-1814817128" anchor-label="clearReaderDisplay" id="-2009718783%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-reader-display.html"><span>clear</span><wbr><span>Reader</span><wbr><span><span>Display</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2009718783%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="clear-reader-display.html"><span class="token function">clearReaderDisplay</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Clears the reader display and resets it to the splash screen</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="593730789%2FFunctions%2F-1814817128" anchor-label="collectData" id="593730789%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collect-data.html"><span>collect</span><wbr><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="593730789%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="collect-data.html"><span class="token function">collectData</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-data-configuration/index.html">CollectDataConfiguration</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-collected-data-callback/index.html">CollectedDataCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Collects data using the hardware interfaces on the reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1277963970%2FFunctions%2F-1814817128" anchor-label="collectInputs" id="-1277963970%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collect-inputs.html"><span>collect</span><wbr><span><span>Inputs</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1277963970%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="collect-inputs.html"><span class="token function">collectInputs</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">collectInputsParameters<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-inputs-parameters/index.html">CollectInputsParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-collect-inputs-result-callback/index.html">CollectInputsResultCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Display forms and collect information from customers. Available for BBPOS WisePOS E and Stripe S700.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1416621482%2FFunctions%2F-1814817128" anchor-label="collectPaymentMethod" id="1416621482%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collect-payment-method.html"><span>collect</span><wbr><span>Payment</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1416621482%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="collect-payment-method.html"><span class="token function">collectPaymentMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-payment-intent-configuration/index.html">CollectPaymentIntentConfiguration</a><span class="token operator"> = </span>CollectPaymentIntentConfiguration.Builder().build()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Collects a payment method for the given <a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1120495328%2FFunctions%2F-1814817128" anchor-label="collectRefundPaymentMethod" id="-1120495328%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collect-refund-payment-method.html"><span>collect</span><wbr><span>Refund</span><wbr><span>Payment</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1120495328%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="collect-refund-payment-method.html"><span class="token function"><strike>collectRefundPaymentMethod</strike></span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">refundParams<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-refund-configuration/index.html">CollectRefundConfiguration</a><span class="token operator"> = </span>CollectRefundConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Initiates an in-person refund with a given set of <a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a> by collecting the payment method that is to be refunded.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1363134281%2FFunctions%2F-1814817128" anchor-label="collectSetupIntentPaymentMethod" id="1363134281%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="collect-setup-intent-payment-method.html"><span>collect</span><wbr><span>Setup</span><wbr><span>Intent</span><wbr><span>Payment</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1363134281%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="collect-setup-intent-payment-method.html"><span class="token function">collectSetupIntentPaymentMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a><span class="token punctuation">, </span></span><span class="parameter ">allowRedisplay<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-allow-redisplay/index.html">AllowRedisplay</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-setup-intent-configuration/index.html">CollectSetupIntentConfiguration</a><span class="token operator"> = </span>CollectSetupIntentConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Collects a payment method for a <a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1996788743%2FFunctions%2F-1814817128" anchor-label="confirmPaymentIntent" id="-1996788743%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="confirm-payment-intent.html"><span>confirm</span><wbr><span>Payment</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1996788743%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="confirm-payment-intent.html"><span class="token function">confirmPaymentIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-confirm-payment-intent-configuration/index.html">ConfirmPaymentIntentConfiguration</a><span class="token operator"> = </span>ConfirmPaymentIntentConfiguration.Builder().build()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Confirm a payment after collecting a payment method succeeds.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="343149285%2FFunctions%2F-1814817128" anchor-label="confirmRefund" id="343149285%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="confirm-refund.html"><span>confirm</span><wbr><span><span>Refund</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="343149285%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="confirm-refund.html"><span class="token function"><strike>confirmRefund</strike></span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-refund-callback/index.html">RefundCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Confirms an in-person refund after the refund payment method has been collected.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-88922335%2FFunctions%2F-1814817128" anchor-label="confirmSetupIntent" id="-88922335%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="confirm-setup-intent.html"><span>confirm</span><wbr><span>Setup</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-88922335%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="confirm-setup-intent.html"><span class="token function">confirmSetupIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Confirm that your customer intends to set up the current or provided payment method.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-40159774%2FFunctions%2F-1814817128" anchor-label="connectExternalChannel" id="-40159774%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connect-external-channel.html"><span>connect</span><wbr><span>External</span><wbr><span><span>Channel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-40159774%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="connect-external-channel.html"><span class="token function">connectExternalChannel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">connection<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-external-usb-channel/index.html">ExternalUsbChannel</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-connection-configuration/-external-usb-channel-configuration/index.html">ConnectionConfiguration.ExternalUsbChannelConfiguration</a><span class="token punctuation">, </span></span><span class="parameter ">connectionCallback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-reader-callback/index.html">ReaderCallback</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1656325082%2FFunctions%2F-1814817128" anchor-label="connectReader" id="1656325082%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connect-reader.html"><span>connect</span><wbr><span><span>Reader</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1656325082%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="connect-reader.html"><span class="token function">connectReader</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">reader<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-reader/index.html">Reader</a><span class="token punctuation">, </span></span><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-connection-configuration/index.html">ConnectionConfiguration</a><span class="token punctuation">, </span></span><span class="parameter ">connectionCallback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-reader-callback/index.html">ReaderCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Attempts to connect to the given reader, with the connection type dependent on <a href="connect-reader.html">config</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1899134852%2FFunctions%2F-1814817128" anchor-label="createPaymentIntent" id="-1899134852%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="create-payment-intent.html"><span>create</span><wbr><span>Payment</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1899134852%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="create-payment-intent.html"><span class="token function">createPaymentIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">params<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/index.html">PaymentIntentParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">See <a href="create-payment-intent.html">createPaymentIntent</a></p></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="create-payment-intent.html"><span class="token function">createPaymentIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">params<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/index.html">PaymentIntentParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a><span class="token punctuation">, </span></span><span class="parameter ">createConfiguration<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-create-configuration/index.html">CreateConfiguration</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Creates a new <a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a> with the given parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-33253348%2FFunctions%2F-1814817128" anchor-label="createSetupIntent" id="-33253348%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="create-setup-intent.html"><span>create</span><wbr><span>Setup</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-33253348%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="create-setup-intent.html"><span class="token function">createSetupIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">params<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/index.html">SetupIntentParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="create-setup-intent.html"><span class="token function">createSetupIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">params<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/index.html">SetupIntentParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a><span class="token punctuation">, </span></span><span class="parameter ">createConfiguration<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-create-configuration/index.html">CreateConfiguration</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Create a new <a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a> with the given parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-265187948%2FFunctions%2F-1814817128" anchor-label="disconnectReader" id="-265187948%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disconnect-reader.html"><span>disconnect</span><wbr><span><span>Reader</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-265187948%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="disconnect-reader.html"><span class="token function">disconnectReader</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Attempts to disconnect from the currently connected reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-307737612%2FFunctions%2F-1814817128" anchor-label="discoverReaders" id="-307737612%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="discover-readers.html"><span>discover</span><wbr><span><span>Readers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-307737612%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html"><span class="token annotation builtin">RequiresPermission</span></a><span class="token punctuation">(</span><span>anyOf<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">"android.permission.ACCESS_COARSE_LOCATION"</span></span><span class="token punctuation">, </span></span><wbr><span><span class="breakable-word"><span class="token string">"android.permission.ACCESS_FINE_LOCATION"</span></span></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><a href="discover-readers.html"><span class="token function">discoverReaders</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-discovery-configuration/index.html">DiscoveryConfiguration</a><span class="token punctuation">, </span></span><span class="parameter ">discoveryListener<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-discovery-listener/index.html">DiscoveryListener</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Begins discovering readers matching the given <a href="../../../external/com.stripe.stripeterminal.external.models/-discovery-configuration/index.html">DiscoveryConfiguration</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="569701661%2FFunctions%2F-1814817128" anchor-label="easyConnect" id="569701661%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="easy-connect.html"><span>easy</span><wbr><span><span>Connect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="569701661%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="easy-connect.html"><span class="token function">easyConnect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-easy-connect-configuration/index.html">EasyConnectConfiguration</a><span class="token punctuation">, </span></span><span class="parameter ">readerCallback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-reader-callback/index.html">ReaderCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Simplifies reader discovery and connection by combining both operations into one method. Under the hood, this method first discovers readers using the provided discovery configuration, and if a single reader is found, it proceeds to connect to the reader using the provided connection configuration. <strong>Note that</strong> this method expects a single reader to be discovered based on the provided <a href="easy-connect.html">config</a> and would fail if more than one reader is found during the discovery step. If either the discovery or connection step fails, the <a href="easy-connect.html">readerCallback</a> will be called with an error. If both steps succeed, the <a href="easy-connect.html">readerCallback</a> will be called with the connected reader, and the terminal's connected status will change to <code class="lang-kotlin">CONNECTED</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1258734067%2FFunctions%2F-1814817128" anchor-label="getReaderSettings" id="1258734067%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-reader-settings.html"><span>get</span><wbr><span>Reader</span><wbr><span><span>Settings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1258734067%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-reader-settings.html"><span class="token function">getReaderSettings</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-reader-settings-callback/index.html">ReaderSettingsCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Retrieves current settings from the connected reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1285198523%2FFunctions%2F-1814817128" anchor-label="installAvailableUpdate" id="-1285198523%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="install-available-update.html"><span>install</span><wbr><span>Available</span><wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1285198523%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="install-available-update.html"><span class="token function">installAvailableUpdate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Installs a pending update on the reader. The update that will be installed is whatever is currently stored in <a href="../../../external/com.stripe.stripeterminal.external.models/-reader/available-update.html">Reader.availableUpdate</a>. This field can be set either during <a href="connect-reader.html">Terminal.connectReader</a>, or whenever a new update is detected. If the field changes, you will be notified via <a href="../../../external/com.stripe.stripeterminal.external.callable/-mobile-reader-listener/on-report-available-update.html">MobileReaderListener.onReportAvailableUpdate</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1721828791%2FFunctions%2F-1814817128" anchor-label="listLocations" id="1721828791%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-locations.html"><span>list</span><wbr><span><span>Locations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1721828791%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="list-locations.html"><span class="token function">listLocations</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">parameters<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-list-locations-parameters/index.html">ListLocationsParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-location-list-callback/index.html">LocationListCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Returns a list of Location objects.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="107827843%2FFunctions%2F-1814817128" anchor-label="print" id="107827843%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="print.html"><span><span>print</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="107827843%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="print.html"><span class="token function">print</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">printContent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-print-content/index.html">PrintContent</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Prints the specified content to the connected reader's printer, if available.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1511829407%2FFunctions%2F-1814817128" anchor-label="processPaymentIntent" id="-1511829407%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="process-payment-intent.html"><span>process</span><wbr><span>Payment</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1511829407%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="process-payment-intent.html"><span class="token function">processPaymentIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a><span class="token punctuation">, </span></span><span class="parameter ">collectConfig<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-payment-intent-configuration/index.html">CollectPaymentIntentConfiguration</a><span class="token operator"> = </span>CollectPaymentIntentConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">confirmConfig<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-confirm-payment-intent-configuration/index.html">ConfirmPaymentIntentConfiguration</a><span class="token operator"> = </span>ConfirmPaymentIntentConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Processes a <a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a> by collecting a payment method and confirming the intent. This is a convenience method that combines the two-step process of <a href="collect-payment-method.html">Terminal.collectPaymentMethod</a> collecting a payment method and <a href="confirm-payment-intent.html">Terminal.confirmPaymentIntent</a> confirming the payment intent into a single call.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-711476984%2FFunctions%2F-1814817128" anchor-label="processRefund" id="-711476984%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="process-refund.html"><span>process</span><wbr><span><span>Refund</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-711476984%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="process-refund.html"><span class="token function">processRefund</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">refundParams<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a><span class="token punctuation">, </span></span><span class="parameter ">collectConfig<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-refund-configuration/index.html">CollectRefundConfiguration</a><span class="token operator"> = </span>CollectRefundConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-refund-callback/index.html">RefundCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Processes an in-person refund with a given set of <a href="../../../external/com.stripe.stripeterminal.external.models/-refund-parameters/index.html">RefundParameters</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1540339595%2FFunctions%2F-1814817128" anchor-label="processSetupIntent" id="-1540339595%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="process-setup-intent.html"><span>process</span><wbr><span>Setup</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1540339595%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="process-setup-intent.html"><span class="token function">processSetupIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a><span class="token punctuation">, </span></span><span class="parameter ">allowRedisplay<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-allow-redisplay/index.html">AllowRedisplay</a><span class="token punctuation">, </span></span><span class="parameter ">collectConfig<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-collect-setup-intent-configuration/index.html">CollectSetupIntentConfiguration</a><span class="token operator"> = </span>CollectSetupIntentConfiguration.Builder().build()<span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-cancelable/index.html">Cancelable</a></div><div class="brief "><p class="paragraph">Processes a <a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a> by collecting a setup intent payment method and confirming the intent. This is a convenience method that combines the two-step process of <a href="collect-setup-intent-payment-method.html">Terminal.collectSetupIntentPaymentMethod</a> collecting a payment method and <a href="confirm-setup-intent.html">Terminal.confirmSetupIntent</a> confirming the setup intent into a single call.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1377916779%2FFunctions%2F-1814817128" anchor-label="rebootReader" id="1377916779%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reboot-reader.html"><span>reboot</span><wbr><span><span>Reader</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1377916779%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="reboot-reader.html"><span class="token function">rebootReader</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Reboots the currently connected reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="299934476%2FFunctions%2F-1814817128" anchor-label="retrievePaymentIntent" id="299934476%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="retrieve-payment-intent.html"><span>retrieve</span><wbr><span>Payment</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="299934476%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="retrieve-payment-intent.html"><span class="token function">retrievePaymentIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientSecret<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-payment-intent-callback/index.html">PaymentIntentCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Retrieves a <a href="../../../external/com.stripe.stripeterminal.external.models/-payment-intent/index.html">PaymentIntent</a> with a client secret.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1585346516%2FFunctions%2F-1814817128" anchor-label="retrieveSetupIntent" id="-1585346516%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="retrieve-setup-intent.html"><span>retrieve</span><wbr><span>Setup</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1585346516%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="retrieve-setup-intent.html"><span class="token function">retrieveSetupIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clientSecret<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-setup-intent-callback/index.html">SetupIntentCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Retrieves a <a href="../../../external/com.stripe.stripeterminal.external.models/-setup-intent/index.html">SetupIntent</a> with a client secret.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2076468920%2FFunctions%2F-1814817128" anchor-label="setOfflineListener" id="-2076468920%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-offline-listener.html"><span>set</span><wbr><span>Offline</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2076468920%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-offline-listener.html"><span class="token function">setOfflineListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">listener<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-offline-listener/index.html">OfflineListener</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets an <a href="../../../external/com.stripe.stripeterminal.external.callable/-offline-listener/index.html">OfflineListener</a> to the <a href="index.html">Terminal</a> sdk, through which the application can be notified of the Terminal's transitions between offline and online states. This will replace any previous <a href="../../../external/com.stripe.stripeterminal.external.callable/-offline-listener/index.html">OfflineListener</a>s that have been registered.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-400352695%2FFunctions%2F-1814817128" anchor-label="setReaderDisplay" id="-400352695%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-reader-display.html"><span>set</span><wbr><span>Reader</span><wbr><span><span>Display</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-400352695%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-reader-display.html"><span class="token function">setReaderDisplay</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cart<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-cart/index.html">Cart</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-callback/index.html">Callback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Updates the reader display with transaction information. This method is for display purposes only and has no correlation with what the customer is actually charged. Tax and total are also not automatically calculated and must be set in <a href="../../../external/com.stripe.stripeterminal.external.models/-cart/index.html">Cart</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="213634940%2FFunctions%2F-1814817128" anchor-label="setReaderSettings" id="213634940%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-reader-settings.html"><span>set</span><wbr><span>Reader</span><wbr><span><span>Settings</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="213634940%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-reader-settings.html"><span class="token function">setReaderSettings</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">params<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-reader-settings-parameters/index.html">ReaderSettingsParameters</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-reader-settings-callback/index.html">ReaderSettingsCallback</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Changes settings on the connected reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1190351978%2FFunctions%2F-1814817128" anchor-label="setTapToPayUxConfiguration" id="-1190351978%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-tap-to-pay-ux-configuration.html"><span>set</span><wbr><span>Tap</span><wbr><span>To</span><wbr><span>Pay</span><wbr><span>Ux</span><wbr><span><span>Configuration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1190351978%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-tap-to-pay-ux-configuration.html"><span class="token function">setTapToPayUxConfiguration</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">config<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-tap-to-pay-ux-configuration/index.html">TapToPayUxConfiguration</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Modifies the visual appearance of the Tap to Pay screen.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-856760360%2FFunctions%2F-1814817128" anchor-label="setTerminalListener" id="-856760360%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-terminal-listener.html"><span>set</span><wbr><span>Terminal</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-856760360%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-terminal-listener.html"><span class="token function">setTerminalListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">listener<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.callable/-terminal-listener/index.html">TerminalListener</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets the current implementation of <a href="../../../external/com.stripe.stripeterminal.external.callable/-terminal-listener/index.html">TerminalListener</a>. This will replace any previous <a href="../../../external/com.stripe.stripeterminal.external.callable/-terminal-listener/index.html">TerminalListener</a>s that have been registered.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1800072424%2FFunctions%2F-1814817128" anchor-label="supportsReadersOfType" id="1800072424%2FFunctions%2F-1814817128" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:core:dokkaHtmlPartial/release" data-filterable-set=":terminalsdk:core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-readers-of-type.html"><span>supports</span><wbr><span>Readers</span><wbr><span>Of</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1800072424%2FFunctions%2F-1814817128"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="supports-readers-of-type.html"><span class="token function">supportsReadersOfType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">deviceType<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-device-type/index.html">DeviceType</a><span class="token punctuation">, </span></span><span class="parameter ">discoveryConfiguration<span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-discovery-configuration/index.html">DiscoveryConfiguration</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../external/com.stripe.stripeterminal.external.models/-reader-support-result/index.html">ReaderSupportResult</a></div><div class="brief "><p class="paragraph">Determine whether the mobile device supports a given reader type using a particular discovery configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -15,7 +15,7 @@ public class EventViewModel extends ViewModel {
     @NotNull private List<Event> eventList;
     @NotNull public final MutableLiveData<List<Event>> events;
     @NotNull public final MutableLiveData<Boolean> isComplete;
-    @Nullable public Cancelable collectTask;
+    @Nullable public Cancelable processTask;
 
     public EventViewModel() {
         this(new ArrayList<>());
@@ -25,7 +25,7 @@ public class EventViewModel extends ViewModel {
         this.eventList = eventList;
         events = new MutableLiveData<>(eventList);
         isComplete = new MutableLiveData<>(false);
-        collectTask = null;
+        processTask = null;
     }
 
     public void addEvent(Event event) {

@@ -46,7 +46,6 @@ class ConnectedReaderFragment : Fragment() {
                 it.deviceType,
                 it.serialNumber,
             )
-            // TODO: Set status as well
         }
 
         // Set up the disconnect button
@@ -98,6 +97,11 @@ class ConnectedReaderFragment : Fragment() {
         // Set up the view offline logs button
         view.findViewById<View>(R.id.view_offline_logs_button).setOnClickListener {
             (activity as? NavigationListener)?.onSelectViewOfflineLogs()
+        }
+
+        // set up the ledger button
+        view.findViewById<View>(R.id.view_ledger_button).setOnClickListener {
+            (activity as? NavigationListener)?.onSelectViewLedger()
         }
 
         return view

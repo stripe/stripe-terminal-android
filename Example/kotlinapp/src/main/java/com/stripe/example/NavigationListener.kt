@@ -51,6 +51,16 @@ interface NavigationListener {
     )
 
     /**
+     * Notify the `Activity` that the user wants to cancel the transaction with the given transaction ID from the ledger.
+     */
+    fun onRequestCancel(transactionId: String)
+
+    /**
+     * Notify the `Activity` that the user wants to fully refund a payment with the given transaction ID from the ledger.
+     */
+    fun onRequestRefundPayment(transactionId: String)
+
+    /**
      * Notify the `Activity` that a [Reader] has been connected
      */
     fun onConnectReader()
@@ -74,6 +84,11 @@ interface NavigationListener {
      * Notify the `Activity` that the user wants to view the offline logs
      */
     fun onSelectViewOfflineLogs()
+
+    /**
+     * Notify the `Activity` that the user wants to view their application's ledger.
+     */
+    fun onSelectViewLedger()
 
     /**
      * Notify the `Activity` that the user has requested to change the location.

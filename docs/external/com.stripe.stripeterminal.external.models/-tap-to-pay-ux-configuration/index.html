@@ -1,0 +1,206 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>TapToPayUxConfiguration</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            Stripe Terminal Android SDK (v5.0.0)
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="external::com.stripe.stripeterminal.external.models/TapToPayUxConfiguration///PointingToDeclaration//-1219334616">
+  <div class="breadcrumbs"><a href="../../index.html">external</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><span class="current">TapToPayUxConfiguration</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Tap</span><wbr><span>To</span><wbr><span>Pay</span><wbr><span>Ux</span><wbr><span><span>Configuration</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">TapToPayUxConfiguration</a> : <a href="https://developer.android.com/reference/kotlin/android/os/Parcelable.html">Parcelable</a></div><p class="paragraph">Configuration for the user experience (UX) of the Tap to Pay screen. This configuration is only used for the Tap to Pay reader to customize the appearance of the Tap to Pay screen. There are three main components to the configuration:</p><ul><li><p class="paragraph">The type and position of the tap zone indicator, which directs the user where to tap their payment method.</p></li><li><p class="paragraph">The overall theme for this screen, either light or dark mode.</p></li><li><p class="paragraph">The color scheme for this screen.</p></li></ul><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-893775634%2FClasslikes%2F-1219334616" anchor-label="Builder" id="-893775634%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-893775634%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-builder/index.html">Builder</a></div><div class="brief "><p class="paragraph">This builder allows you to create a UX configuration and override only the desired properties.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1766440998%2FClasslikes%2F-1219334616" anchor-label="Color" id="1766440998%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color/index.html"><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1766440998%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">interface </span><a href="-color/index.html">Color</a> : <a href="https://developer.android.com/reference/kotlin/android/os/Parcelable.html">Parcelable</a></div><div class="brief "><p class="paragraph">A color for the UX on the Tap to Pay reader, for use in a <a href="-color-scheme/index.html">ColorScheme</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="740010561%2FClasslikes%2F-1219334616" anchor-label="ColorScheme" id="740010561%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color-scheme/index.html"><span>Color</span><wbr><span><span>Scheme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="740010561%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-color-scheme/index.html">ColorScheme</a> : <a href="https://developer.android.com/reference/kotlin/android/os/Parcelable.html">Parcelable</a></div><div class="brief "><p class="paragraph">The color scheme for the UX on the Tap to Pay reader.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="874746013%2FClasslikes%2F-1219334616" anchor-label="Companion" id="874746013%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="874746013%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="281702176%2FClasslikes%2F-1219334616" anchor-label="DarkMode" id="281702176%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-dark-mode/index.html"><span>Dark</span><wbr><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="281702176%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-dark-mode/index.html">DarkMode</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-dark-mode/index.html">TapToPayUxConfiguration.DarkMode</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Whether the UX on the Tap to Pay reader should be in dark mode. If a color resource with dark and light variants is used, the appropriate variant will be chosen based on this setting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="500513050%2FClasslikes%2F-1219334616" anchor-label="TapZone" id="500513050%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-tap-zone/index.html"><span>Tap</span><wbr><span><span>Zone</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="500513050%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">interface </span><a href="-tap-zone/index.html">TapZone</a> : <a href="https://developer.android.com/reference/kotlin/android/os/Parcelable.html">Parcelable</a></div><div class="brief "><p class="paragraph">Configuration for the tap zone on the Tap to Pay reader. The tap zone is the area on the reader where the customer should tap their payment method.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1578325224%2FFunctions%2F-1219334616" anchor-label="describeContents" id="-1578325224%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color/-default/index.html#-1578325224%2FFunctions%2F-1219334616"><span>describe</span><wbr><span><span>Contents</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1578325224%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-color/-default/index.html#-1578325224%2FFunctions%2F-1219334616"><span class="token function">describeContents</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1754457655%2FFunctions%2F-1219334616" anchor-label="writeToParcel" id="-1754457655%2FFunctions%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color/-default/index.html#-1754457655%2FFunctions%2F-1219334616"><span>write</span><wbr><span>To</span><wbr><span><span>Parcel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1754457655%2FFunctions%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-color/-default/index.html#-1754457655%2FFunctions%2F-1219334616"><span class="token function">writeToParcel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Parcel.html">Parcel</a><span class="token punctuation">, </span></span><span class="parameter ">p1<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

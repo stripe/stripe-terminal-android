@@ -1,0 +1,176 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CardPresentParameters</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            Stripe Terminal Android SDK (v5.0.0)
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="external::com.stripe.stripeterminal.external.models/CardPresentParameters///PointingToDeclaration//-1219334616">
+  <div class="breadcrumbs"><a href="../../index.html">external</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><span class="current">CardPresentParameters</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Card</span><wbr><span>Present</span><wbr><span><span>Parameters</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">CardPresentParameters</a></div><p class="paragraph">Card present configuration for this PaymentMethod. <a href="https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method_options-card_present">Card Present</a></p><p class="paragraph">To create an instance of this class, use the <a href="-builder/index.html">CardPresentParameters.Builder</a></p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="638033602%2FClasslikes%2F-1219334616" anchor-label="Builder" id="638033602%2FClasslikes%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="638033602%2FClasslikes%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-builder/index.html">Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="708587459%2FProperties%2F-1219334616" anchor-label="captureMethod" id="708587459%2FProperties%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="capture-method.html"><span>capture</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="708587459%2FProperties%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="capture-method.html">captureMethod</a><span class="token operator">: </span><a href="../-card-present-capture-method/index.html">CardPresentCaptureMethod</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Capture method of a card-present payment method option.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1831178975%2FProperties%2F-1219334616" anchor-label="requestExtendedAuthorization" id="1831178975%2FProperties%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="request-extended-authorization.html"><span>request</span><wbr><span>Extended</span><wbr><span><span>Authorization</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1831178975%2FProperties%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="request-extended-authorization.html">requestExtendedAuthorization</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Using the extended authorizations feature, users in eligible categories can capture up to 31 days later, depending on the card brand. See <a href="https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity">extended authorizations</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1991957007%2FProperties%2F-1219334616" anchor-label="requestIncrementalAuthorizationSupport" id="1991957007%2FProperties%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="request-incremental-authorization-support.html"><span>request</span><wbr><span>Incremental</span><wbr><span>Authorization</span><wbr><span><span>Support</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1991957007%2FProperties%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="request-incremental-authorization-support.html">requestIncrementalAuthorizationSupport</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Allows you to increase the authorized amount on a confirmed PaymentIntent before you capture it. This means you can update the amount on a payment if the estimated price changes or goods and services are added. Before capture, each incremental authorization appears on your customer’s credit card statement as an additional pending charge. See <a href="https://docs.stripe.com/terminal/features/incremental-authorizations">incremental authorizations</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-521251037%2FProperties%2F-1219334616" anchor-label="requestPartialAuthorization" id="-521251037%2FProperties%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="request-partial-authorization.html"><span>request</span><wbr><span>Partial</span><wbr><span><span>Authorization</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-521251037%2FProperties%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="request-partial-authorization.html">requestPartialAuthorization</a><span class="token operator">: </span><a href="../-card-present-request-partial-authorization/index.html">CardPresentRequestPartialAuthorization</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Allows the partial authorization of the transaction amount on a PaymentIntent. This is useful for allowing customers to pay for a portion of a transaction using the available balance on a payment method, even if the available balance is less than the full transaction amount.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-711767708%2FProperties%2F-1219334616" anchor-label="routing" id="-711767708%2FProperties%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="routing.html"><span><span>routing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-711767708%2FProperties%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="routing.html">routing</a><span class="token operator">: </span><a href="../-card-present-routing-option-parameters/index.html">CardPresentRoutingOptionParameters</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

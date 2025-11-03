@@ -8,7 +8,7 @@
     <string name="collect_payment">Collect payment</string>
     <string name="collect_payment_description">Collect a card payment using a physical Stripe test card and a card reader</string>
     <string name="common_workflows">COMMON WORKFLOWS</string>
-    <string name="connecting">Connecting...</string>
+    <string name="connecting">Connecting…</string>
     <string name="currency">CURRENCY</string>
     <string name="current_version">CURRENT VERSION</string>
     <string name="default_amount_int">100</string>
@@ -91,4 +91,15 @@
 
     <string name="view_offline_logs">View stored offline payment logs</string>
     <string name="offline_logs">Offline Logs</string>
+    <string name="close">Close</string>
+    <string name="terminal_payments_help_text">💳 Terminal Payments and Saved Cards.\nPress and hold an item to cancel, refund, or refresh to get the latest state.</string>
+    <string name="transaction_ledger">Transaction Ledger</string>
+    <string name="view_transaction_ledger">View Transaction Ledger</string>
+    <string name="saved_card">Saved Card</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="collected_offline">Collected Offline</string>
+    <string name="requires_sync">Requires Sync</string>
+    <string name="payment">Payment</string>
+    <string name="capture">Capture</string>
+    <string name="refund">Refund</string>
 </resources>

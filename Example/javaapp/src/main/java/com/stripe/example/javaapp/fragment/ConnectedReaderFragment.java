@@ -51,7 +51,6 @@ public class ConnectedReaderFragment extends Fragment implements OfflineListener
         // Set the description of the connected reader
         final Reader connectedReader = Terminal.getInstance().getConnectedReader();
         if (connectedReader != null) {
-            // TODO: Set status as well
             final String description = getString(R.string.reader_description, connectedReader.getDeviceType(), connectedReader.getSerialNumber());
             ((TextView) view.findViewById(R.id.reader_description)).setText(description);
         }

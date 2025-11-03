@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -33,6 +34,7 @@ import com.stripe.stripeterminal.external.callable.MobileReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.DisconnectReason;
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
+import com.stripe.stripeterminal.external.models.DiscoveryFilter;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
@@ -116,12 +118,12 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
         binding.getRoot()
                 .findViewById(R.id.cancel_button)
                 .setOnClickListener(view -> {
+                    final MainActivity activity = activityRef.get();
                     if (viewModel.discoveryTask != null) {
                         viewModel.discoveryTask.cancel(new Callback() {
                             @Override
                             public void onSuccess() {
                                 viewModel.discoveryTask = null;
-                                final MainActivity activity = activityRef.get();
                                 if (activity != null) {
                                     activity.runOnUiThread(activity::onCancelDiscovery);
                                 }
@@ -130,8 +132,13 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
                             @Override
                             public void onFailure(@NotNull TerminalException e) {
                                 viewModel.discoveryTask = null;
+                                if (activity != null) {
+                                    activity.runOnUiThread(activity::onCancelDiscovery);
+                                }
                             }
                         });
+                    } else if (activity != null) {
+                        activity.runOnUiThread(activity::onCancelDiscovery);
                     }
                 });
 
@@ -219,7 +226,14 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
                     viewModel.discoveryTask = null;
                     final MainActivity activity = activityRef.get();
                     if (activity != null) {
-                        activity.onCancelDiscovery();
+                        activity.runOnUiThread(() -> {
+                            Toast.makeText(
+                                requireContext(),
+                                e.getErrorCode() + "\n" + e.getErrorMessage(),
+                                Toast.LENGTH_LONG
+                            ).show();
+                            activity.onCancelDiscovery();
+                        });
                     }
                 }
             };
@@ -233,7 +247,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
                 } else if (discoveryMethod == DiscoveryMethod.USB) {
                     config = new DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated);
                 } else if (discoveryMethod == DiscoveryMethod.INTERNET) {
-                    config = new DiscoveryConfiguration.InternetDiscoveryConfiguration(0, null, isSimulated);
+                    config = new DiscoveryConfiguration.InternetDiscoveryConfiguration(0, null, isSimulated, DiscoveryFilter.None.INSTANCE);
                 } else if (discoveryMethod == DiscoveryMethod.TAP_TO_PAY) {
                     config = new DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated);
                 } else {

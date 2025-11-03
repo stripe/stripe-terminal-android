@@ -3,6 +3,64 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.0.0 - 2025-11-03
+5.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-migration-guide?terminal-sdk-platform=android) for more details.
+#### ⚠️ Breaking changes required
+
+### New Features and Previews
+#### New
+- **Simplified payment integration** - Added `Terminal.processPaymentIntent`, `Terminal.processSetupIntent` and `Terminal.processRefund`. These new methods combine the `collect` and `confirm` steps into a single operation.
+- **Coroutine support for Kotlin** - A new optional module, `com.stripe:stripeterminal-ktx:5.0.0` is now available. This module provides suspend function wrappers for asynchronous `Terminal` APIs, allowing you to write simple, sequential code instead of nesting callbacks.
+- **Streamlined Connection flow** - For Tap to Pay, smart readers, and Apps on Devices integrations, you can now use `Terminal.easyConnect` which combines the discovery and connection steps into a single method call.
+- **`RECONNECTING` status** - Added a new enum value `RECONNECTING` to [`ConnectionStatus`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-status/index.html). This new status is used specifically when an auto-reconnect operation is in progress.
+
+#### Preview
+- **Collect [NFC](https://docs.stripe.com/terminal/features/collect-nfc-data) and [swiped data](https://docs.stripe.com/terminal/features/collect-data)** - The SDK now returns new, specific subclasses for this data: `CollectData.Magstripe` and `CollectData.NfcUid`.
+  - If you are interested in joining this preview, please email [terminal-collect-data@stripe.com](mailto:terminal-collect-data@stripe.com).
+- **Mail Order / Telephone Order (MOTO) Payments** - The `moto` booleans on `CollectConfiguration` and `SetupIntentConfiguration` have been removed. To enable MOTO payments, you must now pass a non-null `MotoConfiguration` object to your collect configuration.
+  - As past of this change, `MotoConfiguration::skipCvv` has been renamed to `MotoConfiguration::skipCvc`.
+  - To request access to the this private preview, please contact [Stripe Support](https://support.stripe.com/).
+
+### Platform & Initialization
+ - `Terminal.init` has replaced `Terminal.initTerminal`. The new method now requires a nullable `OfflineListener` parameter.
+ - Consolidated `Reader` serial number fields. Please use `serialNumber` across all reader types. The duplicative `serial` and `rawSerialNumber` fields have been removed.
+ - `Terminal::clearCachedCredentials` now requires that no reader is connected. It now returns a `ClearCachedCredentialsResult` object, and will fail with an `UNEXPECTED_OPERATION` error if called while connected to a reader.
+
+### Reader Discovery & Connection
+- Internet reader discovery now supports filtering by `Reader::id` or `Reader::serialNumber`. You can set the new `discoveryFilter` property on the `InternetDiscoveryConfiguration` to discover a specific reader.
+- The `InternetConnectionConfiguration` constructor parameters have been reordered, moving the required `internetReaderListener` parameter first to better support optional parameters.
+- The `Terminal.connectedReader` property will now remain `null` until the connection completes successfully. Previously, the property would be populated while the connection was still in progress.
+
+### Payment & Data Collection
+- [Customer-initiated cancellation](https://docs.stripe.com/terminal/payments/collect-card-payment?terminal-sdk-platform=android#customer-initiated-cancellation) is now enabled by default on Smart readers during all relevant flows: payment collection, setup intents, refunds, and data collection flows. This feature can be disabled by setting `customerCancellation` to `DISABLE_IF_AVAILABLE` in the relevant collect configuration.
+- The `PaymentStatus` logic has been refined. After `collectPaymentMethod` succeeds, the status will transition to `READY`. However, if you call `confirmPaymentIntent` immediately from within the `onSuccess` callback of the collect, the status will skip `READY` and transition directly to `PROCESSING`.
+- The `Cancelable::onSuccess` callback is now guaranteed to be invoked after the operation being cancelled has failed, providing a single, reliable signal that the cancellation operation is complete.
+- Key configuration classes have been renamed to better reflect their purposes:
+  - `ConfirmConfiguration` -> `ConfirmPaymentIntentConfiguration`
+  - `CollectConfiguration` -> `CollectPaymentIntentConfiguration`
+  - `SetupIntentConfiguration` -> `CollectSetupIntentConfiguration`
+  - `RefundConfiguration` -> `CollectRefundConfiguration`
+
+### Tap to Pay
+- Increased the minimum OS version requirement to 33 (Android 13).
+- Tap to Pay on Android 5.0.0 requires that your Android device's KeyStore supports hardware-backed key agreements. This is checked automatically for you by [Terminal.supportsReadersOfType()](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/supports-readers-of-type.html), but can also be verified by checking that your device's [FEATURE_HARDWARE_KEYSTORE](https://developer.android.com/reference/android/content/pm/PackageManager#FEATURE_HARDWARE_KEYSTORE) version is >= 100. This may not be supported if your device was released with Android 12 or lower, even if it has been upgraded to meet the Android 13 runtime requirement.
+- For production environments, reader discovery will now fail with a [`TAP_TO_PAY_INSECURE_ENVIRONMENT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-t-a-p_-t-o_-p-a-y_-i-n-s-e-c-u-r-e_-e-n-v-i-r-o-n-m-e-n-t/index.html) error if developer options, USB/Wi-Fi debugging, or other debug options are enabled on the device.
+  - This does not apply to usage of the simulated Tap to Pay reader.
+- The `TapToPayUxConfiguration.TapZone` class has been refactored. The `indicator` and `position` fields have been replaced by a single `TapZone` object. You can now position the tap zone to the left or right side of the screen using `TapZone.Left` and `TapZone.Right`. The `TapZone.Above` and `TapZone.Below` options now also respect the horizontal bias value.
+- Added Discover payment method support for Tap to Pay on Android (Public Preview).
+
+### Apps on Devices
+- The Maven coordinates for this feature has changed to `com.stripe:stripterminal-appsondevices:5.0.0`. Please update your build dependencies.
+- "Handoff" has been renamed to "Apps on Devices" to better reflect the feature's functionality. The following classes have been renamed:
+  - `HandoffReaderListener` -> `AppsOnDevicesReaderListener`
+  - `HandoffConnectConfiguration` -> `AppsOnDevicesConnectionConfiguration`
+  - `HandoffDiscoveryConfiguration` -> `AppsOnDevicesDiscoveryConfiguration`
+  - `HandoffConnectionTokenProvider` -> `AppsOnDevicesConnectionTokenProvider`
+
+### Removal & Deprecation
+- Support for Stripe Reader P400 has been removed.
+- `Terminal.collectRefundPaymentMethod` and `Terminal.confirmRefund` are now deprecated. Please use the new `Terminal.processRefund` method instead.
+
 ## 4.7.4 - 2025-10-29
 
 ### Core
@@ -37,7 +95,8 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 #### New
-- Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.BLUETOOTH_PEER_REMOVED_PAIRING_INFORMATION`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-b-l-u-e-t-o-o-t-h_-p-e-e-r_-r-e-m-o-v-e-d_-p-a-i-r-i-n-g_-i-n-f-o-r-m-a-t-i-o-n/index.html)
+
+- Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.BLUETOOTH_PEER_REMOVED_PAIRING_INFORMATION`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-b-l-u-e-t-o-o-t-h_-p-e-e-r_-r-e-m-o-v-e-d_-p-a-i-r-i-n-g_-i-n-f-o-r-m-a-t-i-o-n/index.html)
 
 #### Fixes
 
@@ -81,7 +140,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### New
 
-- Preview: Added [`ConfirmConfiguration.surcharge`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-confirm-configuration/surcharge.html) and [`SurchargeConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-surcharge-configuration/index.html) to configure surcharging on [`confirmPaymentIntent`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
+- Preview: Added [`ConfirmConfiguration.surcharge`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-confirm-configuration/surcharge.html) and [`SurchargeConfiguration`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-surcharge-configuration/index.html) to configure surcharging on [`confirmPaymentIntent`](https://stripe.dev/stripe-terminal-android/v4/core/com.stripe.stripeterminal/-terminal/confirm-payment-intent.html).
   - If you are interested in joining this preview, please contact [Stripe support](https://support.stripe.com/).
 
 #### Updates
@@ -102,7 +161,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### New
 
-- Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.USB_DISCONNECTED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-u-s-b_-d-i-s-c-o-n-n-e-c-t-e-d/index.html), and [`DisconnectReason.IDLE_POWER_DOWN`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-i-d-l-e_-p-o-w-e-r_-d-o-w-n/index.html).
+- Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.USB_DISCONNECTED`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-u-s-b_-d-i-s-c-o-n-n-e-c-t-e-d/index.html), and [`DisconnectReason.IDLE_POWER_DOWN`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-i-d-l-e_-p-o-w-e-r_-d-o-w-n/index.html).
 
 #### Fixes
 
@@ -112,12 +171,12 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### New
 
-- Added a [`TapToPay.isInTapToPayProcess()`](https://stripe.dev/stripe-terminal-android/cots/com.stripe.stripeterminal.taptopay/-tap-to-pay/-companion/is-in-tap-to-pay-process.html) method to help determine if the current process is the dedicated Tap to Pay process.
+- Added a [`TapToPay.isInTapToPayProcess()`](https://stripe.dev/stripe-terminal-android/v4/cots/com.stripe.stripeterminal.taptopay/-tap-to-pay/-companion/is-in-tap-to-pay-process.html) method to help determine if the current process is the dedicated Tap to Pay process.
 
 #### Fixes
 
 - Gracefully handle device-to-device restore for apps that use the `android:allowBackup="true"` manifest tag. Fixes [issue 513](https://github.com/stripe/stripe-terminal-android/issues/513).
-- [`Terminal.supportsReadersOfType()`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/supports-readers-of-type.html) will now return `false` when checking Tap to Pay on Android compatibility for host devices that do not support certain hardware-backed KeyStore operations. Fixes [issue 553](https://github.com/stripe/stripe-terminal-android/issues/553).
+- [`Terminal.supportsReadersOfType()`](https://stripe.dev/stripe-terminal-android/v4/core/com.stripe.stripeterminal/-terminal/supports-readers-of-type.html) will now return `false` when checking Tap to Pay on Android compatibility for host devices that do not support certain hardware-backed KeyStore operations. Fixes [issue 553](https://github.com/stripe/stripe-terminal-android/issues/553).
 - Prevent Tap to Pay reader connections from failing on devices without an accelerometer. Fixes [issue 562](https://github.com/stripe/stripe-terminal-android/issues/562).
 
 ## 4.3.1 - 2025-04-08
@@ -131,9 +190,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 - New: Added simulated internet reader support for [collecting on-screen inputs](https://docs.stripe.com/terminal/features/collect-inputs). See the updated `SimulatorConfiguration` for usage.
-- Preview: Added field `requestPartialAuthorization` to [`CardPresentOptions`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-options/index.html).
+- Preview: Added field `requestPartialAuthorization` to [`CardPresentOptions`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-card-present-options/index.html).
   - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
-- New: Added field `cardDetails` to [`PaymentMethodDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-method-details/index.html).
+- New: Added field `cardDetails` to [`PaymentMethodDetails`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-payment-method-details/index.html).
   - Note this requires [reader software version](https://docs.corp.stripe.com/terminal/readers/stripe-reader-s700#reader-software-changelog) `2.31` or later to be installed on your internet reader.
 - Update: Added a new `id` parameter to collect input's `SelectionButton` to uniquely identify the button.
 
@@ -148,7 +207,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 ### Core
 
-- New: Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html) for detecting if a mobile reader is tampered on connection.
+- New: Added error code [`READER_TAMPERED`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-r-e-a-d-e-r_-t-a-m-p-e-r-e-d/index.html) for detecting if a mobile reader is tampered on connection.
 - Fix: Addressed an issue where readers lose optional software updates after auto-reconnecting.
 
 ### Tap to Pay
@@ -164,19 +223,19 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
 - New: Added a `returnUrl` parameter to `ConfirmConfiguration` to specify a desired URL to redirect to upon completion of a redirect payment method (such as Affirm).
 - Update: Added support for operating offline with simulated Bluetooth and USB readers.
-- Preview: Added a new enum value `Manual` to [`CardPresentCaptureMethod`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-capture-method/-companion/index.html) which will override the top level [`captureMethod`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/index.html?query=class%20PaymentIntentParameters) set on the Paymentintent specifically for `card_present` transactions.
+- Preview: Added a new enum value `Manual` to [`CardPresentCaptureMethod`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-card-present-capture-method/-companion/index.html) which will override the top level [`captureMethod`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/index.html?query=class%20PaymentIntentParameters) set on the Paymentintent specifically for `card_present` transactions.
   - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
-- Preview: [`Terminal::collectData`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/collect-data.html) will be supported on Smart readers.
+- Preview: [`Terminal::collectData`](https://stripe.dev/stripe-terminal-android/v4/core/com.stripe.stripeterminal/-terminal/collect-data.html) will be supported on Smart readers.
   - _Note: [This feature](https://docs.stripe.com/terminal/features/collect-data) requires [reader software version](https://stripe.com/docs/terminal/readers/bbpos-wisepos-e#reader-software-version) `2.28` or later to be installed on your smart reader._
   - If you are interested in joining this preview, please email [terminal-collect-data@stripe.com](mailto:terminal-collect-data@stripe.com).
 - Fix: Fixed an issue where, if the SDK was initialized offline and a user immediately attempts to pair a reader offline, the first attempt fails with "The selected reader requires a software update", despite the reader being up-to-date.
 
 ### Tap to Pay
 
-- New: Added error code [`TAP_TO_PAY_INSECURE_ENVIRONMENT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-t-a-p_-t-o_-p-a-y_-i-n-s-e-c-u-r-e_-e-n-v-i-r-o-n-m-e-n-t/index.html) for cases when payment collection is attempted in an insecure environment.
+- New: Added error code [`TAP_TO_PAY_INSECURE_ENVIRONMENT`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-t-a-p_-t-o_-p-a-y_-i-n-s-e-c-u-r-e_-e-n-v-i-r-o-n-m-e-n-t/index.html) for cases when payment collection is attempted in an insecure environment.
 
 ## 4.0.0 - 2024-10-31
-4.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-migration-guide?terminal-sdk-platform=android) for more details.
+4.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-v4-migration-guide?terminal-sdk-platform=android) for more details.
 
 ### Core
 
@@ -193,28 +252,28 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
 ### ⚠️ Breaking changes required
 
 #### Reader discovery
-- New: Added a new enum value `DISCOVERING` to [`ConnectionStatus`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-status/index.html) to represent when discovery is running.
-- Update: [`InternetDiscoveryConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-discovery-configuration/-internet-discovery-configuration/index.html) now supports an optional `timeout` value, specifying the timeout in seconds for discover readers request. If the online discovery attempt fails, the operation automatically fall back to offline discovery.
+- New: Added a new enum value `DISCOVERING` to [`ConnectionStatus`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-connection-status/index.html) to represent when discovery is running.
+- Update: [`InternetDiscoveryConfiguration`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-discovery-configuration/-internet-discovery-configuration/index.html) now supports an optional `timeout` value, specifying the timeout in seconds for discover readers request. If the online discovery attempt fails, the operation automatically fall back to offline discovery.
 - Update: If a new discover operation is initiated while one is already in progress, the SDK will now cancel the ongoing operation with a `CANCELED_DUE_TO_INTEGRATION_ERROR` error and start the new operation.
 - Update: Internet and Tap to Pay discovery will now call the `Callback.onSuccess` method as part of `discoverReaders` when the operation completes since these are not long running discovery operations.
-- Update: Fields on the [`Location`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-location/index.html) object are no longer mutable.
+- Update: Fields on the [`Location`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-location/index.html) object are no longer mutable.
 
 #### Reader connection
 
-- Update: There is now a single [`Terminal::connectReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/connect-reader.html) method for all connection types. This replaces the previous methods: `connectBluetoothReader`, `connectUsbReader`, `connectInternetReader`, `connectLocalMobileReader`, and `connectHandoffReader`.
+- Update: There is now a single [`Terminal::connectReader`](https://stripe.dev/stripe-terminal-android/v4/core/com.stripe.stripeterminal/-terminal/connect-reader.html) method for all connection types. This replaces the previous methods: `connectBluetoothReader`, `connectUsbReader`, `connectInternetReader`, `connectLocalMobileReader`, and `connectHandoffReader`.
   - For mobile readers, the `readerListener` parameter has been removed from the old `connectBluetoothReader`, `connectUsbReader` methods and moved into the respective `ConnectionConfiguration` object, replacing `ReaderReconnectionListener`.
   - For Tap to Pay readers, the `TapToPayConnectionConfiguration` now takes in a `TapToPayReaderListener` parameter, replacing `ReaderReconnectionListener`.
-  - For smart readers, `InternetConnectionConfiguration` now takes in an [`InternetReaderListener`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-internet-reader-listener/index.html) parameter, which will alert your integration of events such as reader disconnects.
-  - For [Apps on devices](/terminal/features/apps-on-devices/overview#pos-stripe-device) in handoff mode, [`HandoffReaderListener`]((https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-handoff-reader-listener/index.html)) has been removed from the old `connectHandoffReader` method as a parameter, and moved into the `HandoffConnectionConfiguration` object.
+  - For smart readers, `InternetConnectionConfiguration` now takes in an [`InternetReaderListener`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.callable/-internet-reader-listener/index.html) parameter, which will alert your integration of events such as reader disconnects.
+  - For [Apps on devices](https://docs.stripe.com/terminal/features/apps-on-devices/overview) in handoff mode, [`HandoffReaderListener`]((https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.callable/-handoff-reader-listener/index.html)) has been removed from the old `connectHandoffReader` method as a parameter, and moved into the `HandoffConnectionConfiguration` object.
 - Update: [Auto reconnect on unexpected disconnect](https://docs.stripe.com/terminal/payments/connect-reader?terminal-sdk-platform=android&reader-type=tap-to-pay#automatically-attempt-reconnection) is now enabled by default for mobile readers and Tap to Pay readers.
   - For mobile readers, `ReaderListener` has been renamed to `MobileReaderListener` and now extends `ReaderReconnectionListener` to provide a single interface for handling reader reconnection events.
   - For Tap to Pay readers, `TapToPayReaderListener` extends `ReaderReconnectionListener` to provide a single interface for handling reader reconnection events.
   - The `ReaderReconnectionListener` parameter has been removed from the connection configurations: `LocalMobileConnectionConfiguration`, `BluetoothConnectionConfiguration`, and `UsbConnectionConfiguration`.
-  - Auto-reconnect is now supported for simulated mobile readers. Users can now trigger events, such as [`ReaderReconnectionListener::onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html), by invoking [`Terminal::rebootReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/reboot-reader.html).
-  - The [`ReaderReconnectionListener::onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html) event has been updated to always include the [`DisconnectReason`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-disconnect-reason/index.html) parameter, indicating the possible reasons for a mobile reader disconnection. For other reader types, `UNKNOWN` will be returned.
+  - Auto-reconnect is now supported for simulated mobile readers. Users can now trigger events, such as [`ReaderReconnectionListener::onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html), by invoking [`Terminal::rebootReader`](https://stripe.dev/stripe-terminal-android/v4/core/com.stripe.stripeterminal/-terminal/reboot-reader.html).
+  - The [`ReaderReconnectionListener::onReaderReconnectStarted`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-started.html) event has been updated to always include the [`DisconnectReason`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-disconnect-reason/index.html) parameter, indicating the possible reasons for a mobile reader disconnection. For other reader types, `UNKNOWN` will be returned.
 - Update: The method for handling reader disconnects has changed.
   - The `TerminalListener::onUnexpectedReaderDisconnect` has been removed. Implement `onDisconnect` on any of the following listeners to be informed of their corresponding reader disconnects: `InternetReaderListener`, `MobileReaderListener`, `TapToPayReaderListener`, or `HandoffReaderListener`.
-  - When auto-reconnect on unexpected disconnect is enabled, both `onDisconnect` and [`onReaderReconnectFailed`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-failed.html) methods will be called if the SDK fails to reconnect to the reader and it becomes disconnected.
+  - When auto-reconnect on unexpected disconnect is enabled, both `onDisconnect` and [`onReaderReconnectFailed`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.callable/-reader-reconnection-listener/on-reader-reconnect-failed.html) methods will be called if the SDK fails to reconnect to the reader and it becomes disconnected.
 
 #### Payment acceptance
 - Update: `Terminal::confirmPaymentIntent`, `Terminal::confirmSetupIntent`, and `Terminal::confirmRefund` now return a `Cancelable`, which allows you to cancel the operation in certain scenarios, such as QR Code payment presentment.
@@ -231,12 +290,12 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
 #### Renaming & refactoring
 - Update: Renamed `ReaderListener` to `MobileReaderListener`.
 - Renamed `allowedPaymentMethodTypes` to `paymentMethodTypes`:
-  - `PaymentIntentParameters::allowedPaymentMethodTypes` has been removed and replaced with [`PaymentIntentParameters::paymentMethodTypes`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/payment-method-types.html).
-  - The `allowedPaymentMethodTypes` parameter in the [`PaymentIntentParameters.Builder`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/-builder/index.html) constructors has been renamed to `paymentMethodTypes`.
-  - `SetupIntentParameters::allowedPaymentMethodTypes` has been removed and replaced with [`SetupIntentParameters::paymentMethodTypes`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/payment-method-types.html).
-  - `SetupIntentParameters.Builder::setAllowedPaymentMethodTypes` has been removed and replaced with [`SetupIntentParameters.Builder::setPaymentMethodTypes`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/-builder/set-payment-method-types.html).
+  - `PaymentIntentParameters::allowedPaymentMethodTypes` has been removed and replaced with [`PaymentIntentParameters::paymentMethodTypes`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/payment-method-types.html).
+  - The `allowedPaymentMethodTypes` parameter in the [`PaymentIntentParameters.Builder`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-payment-intent-parameters/-builder/index.html) constructors has been renamed to `paymentMethodTypes`.
+  - `SetupIntentParameters::allowedPaymentMethodTypes` has been removed and replaced with [`SetupIntentParameters::paymentMethodTypes`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/payment-method-types.html).
+  - `SetupIntentParameters.Builder::setAllowedPaymentMethodTypes` has been removed and replaced with [`SetupIntentParameters.Builder::setPaymentMethodTypes`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-setup-intent-parameters/-builder/set-payment-method-types.html).
 
-- Update: in `ReaderSoftwareUpdate`, rename `UpdateTimeEstimate` to [`UpdateDurationEstimate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-reader-software-update/-update-duration-estimate/index.html), and `timeEstimate` to [`durationEstimate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-reader-software-update/duration-estimate.html).
+- Update: in `ReaderSoftwareUpdate`, rename `UpdateTimeEstimate` to [`UpdateDurationEstimate`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-reader-software-update/-update-duration-estimate/index.html), and `timeEstimate` to [`durationEstimate`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-reader-software-update/duration-estimate.html).
 - Update: Converted `java.util.Date` references to timestamps in milliseconds for the following fields: `ReaderSoftwareUpdate::requiredAt`, `OfflineDetails::storedAt` and `OfflineSetupIntentDetails::storedAt`.
 
 ### Tap to Pay
@@ -244,9 +303,9 @@ Add support for apps built with `targetSdkVersion = 35` targeting Android 15 dev
 - **Update**: The Maven coordinates for the Tap to Pay on Android feature have changed to `com.stripe:stripeterminal-taptopay:4.0.0`. Please update your build dependencies to point to the new artifact name. The old one will no longer be updated.
 - Update: SafetyNet Attestation API has been removed and replaced with Play Integrity API. Fixes [issue 458](https://github.com/stripe/stripe-terminal-android/issues/458).
 - Update: `TapToPayConnectionConfiguration` now takes in a `TapToPayReaderListener` parameter. This listener inherits events from both `ReaderReconnectionListener` and `ReaderDisconnectionListener`, providing a unified interface for handling reader events.
-- Update: The `collectPaymentMethod` and `collectSetupIntentPaymentMethod` now time out after 60 seconds for Tap to Pay on Android transactions. If a timeout occurs, a [`TerminalException`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/index.html) will be raised with the error code [`CARD_READ_TIMED_OUT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-c-a-r-d_-r-e-a-d_-t-i-m-e-d_-o-u-t/index.html)
-- Update: When PIN collection is requested for a payment, a [`TerminalException`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/index.html) will be raised with error code [`FEATURE_NOT_ENABLED_ON_ACCOUNT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-f-e-a-t-u-r-e_-n-o-t_-e-n-a-b-l-e-d_-o-n_-a-c-c-o-u-n-t/index.html) instead of [`DECLINED_BY_STRIPE_API`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-d-e-c-l-i-n-e-d_-b-y_-s-t-r-i-p-e_-a-p-i/index.html) with an [`ONLINE_OR_OFFLINE_PIN_REQUIRED`](https://docs.stripe.com/declines/codes#:~:text=online_or_offline_pin_required) [`ApiError`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.api/-api-error/index.html?query=data%20class%20ApiError(error:%20InnerError)%20:%20Serializable).
-- Update: Reduce the amount of time [`Terminal::connectReader`](https://stripe.dev/stripe-terminal-android/core/com.stripe.stripeterminal/-terminal/connect-reader.html) takes to complete attestation.
+- Update: The `collectPaymentMethod` and `collectSetupIntentPaymentMethod` now time out after 60 seconds for Tap to Pay on Android transactions. If a timeout occurs, a [`TerminalException`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-exception/index.html) will be raised with the error code [`CARD_READ_TIMED_OUT`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-c-a-r-d_-r-e-a-d_-t-i-m-e-d_-o-u-t/index.html)
+- Update: When PIN collection is requested for a payment, a [`TerminalException`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-exception/index.html) will be raised with error code [`FEATURE_NOT_ENABLED_ON_ACCOUNT`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-f-e-a-t-u-r-e_-n-o-t_-e-n-a-b-l-e-d_-o-n_-a-c-c-o-u-n-t/index.html) instead of [`DECLINED_BY_STRIPE_API`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-d-e-c-l-i-n-e-d_-b-y_-s-t-r-i-p-e_-a-p-i/index.html) with an [`ONLINE_OR_OFFLINE_PIN_REQUIRED`](https://docs.stripe.com/declines/codes#:~:text=online_or_offline_pin_required) [`ApiError`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.api/-api-error/index.html?query=data%20class%20ApiError(error:%20InnerError)%20:%20Serializable).
+- Update: Reduce the amount of time [`Terminal::connectReader`](https://stripe.dev/stripe-terminal-android/v4/core/com.stripe.stripeterminal/-terminal/connect-reader.html) takes to complete attestation.
 - Update: Improve acceptance of some cards that previously would have displayed "Please use another card"
 
 - Update: "Local Mobile" has been renamed to "Tap To Pay" in all function names and error codes to align with Stripe branding:

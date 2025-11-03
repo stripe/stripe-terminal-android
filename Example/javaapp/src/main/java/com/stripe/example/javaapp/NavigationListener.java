@@ -9,20 +9,16 @@ import org.jetbrains.annotations.NotNull;
  * An `Activity` that should be notified when various navigation activities have been triggered
  */
 public interface NavigationListener {
-    /**
-     * Notify the `Activity` that collecting payment method has been canceled
-     */
-    void onCancelCollectPaymentMethod();
-
-    /**
-     * Notify the `Activity` that collecting setup intent has been canceled
-     */
-    void onCancelCollectSetupIntent();
 
     /**
      * Notify the `Activity` that discovery should begin
      */
     void onRequestDiscovery(boolean isSimulated, DiscoveryMethod discoveryMethod);
+
+    /**
+     * Notify the `Activity` that easy connect should begin
+     */
+    void onRequestEasyConnect(boolean isSimulated, DiscoveryMethod discoveryMethod);
 
     /**
      * Notify the `Activity` that discovery has been canceled

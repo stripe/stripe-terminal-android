@@ -32,17 +32,26 @@ import com.stripe.stripeterminal.Terminal;
 import com.stripe.stripeterminal.external.OfflineMode;
 import com.stripe.stripeterminal.external.callable.Cancelable;
 import com.stripe.stripeterminal.external.callable.InternetReaderListener;
+import com.stripe.stripeterminal.external.callable.LocationListCallback;
 import com.stripe.stripeterminal.external.callable.MobileReaderListener;
+import com.stripe.stripeterminal.external.callable.ReaderCallback;
 import com.stripe.stripeterminal.external.callable.TapToPayReaderListener;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
+import com.stripe.stripeterminal.external.models.ConnectionConfiguration;
 import com.stripe.stripeterminal.external.models.ConnectionStatus;
 import com.stripe.stripeterminal.external.models.DisconnectReason;
+import com.stripe.stripeterminal.external.models.DiscoveryConfiguration;
+import com.stripe.stripeterminal.external.models.DiscoveryFilter;
+import com.stripe.stripeterminal.external.models.EasyConnectConfiguration;
+import com.stripe.stripeterminal.external.models.EasyConnectConfiguration.InternetEasyConnectConfiguration;
+import com.stripe.stripeterminal.external.models.ListLocationsParameters;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
 import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
+import com.stripe.stripeterminal.external.models.EasyConnectConfiguration.TapToPayEasyConnectConfiguration;
 import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.log.LogLevel;
 
@@ -137,6 +146,86 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
+     * Callback function called once easy connect has been selected by the [TerminalFragment]
+     */
+    @Override
+    public void onRequestEasyConnect(boolean isSimulated, DiscoveryMethod discoveryMethod) {
+        Log.d("MainActivity", "Easy Connect requested for " + discoveryMethod + " (simulated: " + isSimulated + ")");
+        
+        // First, list locations to get a location ID
+        ListLocationsParameters.Builder builder = new ListLocationsParameters.Builder();
+        builder.setLimit(1);
+        ListLocationsParameters params = builder.build();
+        
+        Terminal.getInstance().listLocations(params, new LocationListCallback() {
+            @Override
+            public void onSuccess(@NotNull List<Location> locations, boolean hasMore) {
+                if (locations.isEmpty()) {
+                    Log.e("MainActivity", "Easy Connect failed: No locations found. Please create a location first.");
+                    return;
+                }
+                
+                String locationId = locations.get(0).getId();
+                Log.d("MainActivity", "Using location: " + locations.get(0).getDisplayName() + " (" + locationId + ")");
+                performEasyConnect(isSimulated, discoveryMethod, locationId);
+            }
+
+            @Override
+            public void onFailure(@NotNull TerminalException e) {
+                Log.e("MainActivity", "Easy Connect failed to list locations: " + e.getErrorMessage(), e);
+            }
+        });
+    }
+
+    private void performEasyConnect(boolean isSimulated, DiscoveryMethod discoveryMethod, String locationId) {
+        EasyConnectConfiguration config;
+        
+        switch (discoveryMethod) {
+            case TAP_TO_PAY:
+                config = new TapToPayEasyConnectConfiguration(
+                    new DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated),
+                    new ConnectionConfiguration.TapToPayConnectionConfiguration(
+                        locationId,
+                        true, // autoReconnectOnUnexpectedDisconnect
+                        this // TapToPayReaderListener
+                    )
+                );
+                break;
+            case INTERNET:
+                config = new InternetEasyConnectConfiguration(
+                    new DiscoveryConfiguration.InternetDiscoveryConfiguration(
+                        0, // timeout
+                        locationId,
+                        isSimulated,
+                        DiscoveryFilter.None.INSTANCE
+                    ),
+                    new ConnectionConfiguration.InternetConnectionConfiguration(
+                        this, // InternetReaderListener
+                        false // failIfInUse
+                    )
+                );
+                break;
+            default:
+                Log.w("MainActivity", "Easy Connect not supported for " + discoveryMethod);
+                return;
+        }
+
+        Log.d("MainActivity", "Starting Easy Connect...");
+        Terminal.getInstance().easyConnect(config, new ReaderCallback() {
+            @Override
+            public void onSuccess(@NotNull Reader reader) {
+                Log.d("MainActivity", "Easy Connect succeeded! Connected to: " + reader.getLabel() + " (" + reader.getSerialNumber() + ")");
+                runOnUiThread(() -> onConnectReader());
+            }
+
+            @Override
+            public void onFailure(@NotNull TerminalException e) {
+                Log.e("MainActivity", "Easy Connect failed: " + e.getErrorMessage(), e);
+            }
+        });
+    }
+
+    /**
      * Callback function called to exit the payment workflow
      */
     @Override
@@ -193,22 +282,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     // Terminal event callbacks
-
-    /**
-     * Callback function called when collect payment method has been canceled
-     */
-    @Override
-    public void onCancelCollectPaymentMethod() {
-        navigateTo(ConnectedReaderFragment.TAG, new ConnectedReaderFragment());
-    }
-
-    /**
-     * Callback function called when collect setup intent has been canceled
-     */
-    @Override
-    public void onCancelCollectSetupIntent() {
-        navigateTo(ConnectedReaderFragment.TAG, new ConnectedReaderFragment());
-    }
 
     /**
      * Callback function called on completion of [Terminal.connectReader]
@@ -377,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements
         // Initialize the Terminal as soon as possible
         try {
             if (!Terminal.isInitialized()) {
-                Terminal.initTerminal(getApplicationContext(), LogLevel.VERBOSE, new TokenProvider(),
+                Terminal.init(getApplicationContext(), LogLevel.VERBOSE, new TokenProvider(),
                         TerminalEventListener.instance, TerminalOfflineListener.instance);
             }
         } catch (TerminalException e) {
