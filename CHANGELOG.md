@@ -61,6 +61,13 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Support for Stripe Reader P400 has been removed.
 - `Terminal.collectRefundPaymentMethod` and `Terminal.confirmRefund` are now deprecated. Please use the new `Terminal.processRefund` method instead.
 
+## 4.7.5 - 2025-11-04
+
+### Core
+
+#### Fixes
+- Fixes a duplicate class issue with kotlinx.datetime. Fixes [issue 644](https://github.com/stripe/stripe-terminal-android/issues/644).
+
 ## 4.7.4 - 2025-10-29
 
 ### Core
