@@ -22,14 +22,14 @@ import java.lang.ref.WeakReference;
 
 public class ReaderClickListener {
     @NotNull private WeakReference<MainActivity> activityRef;
-    @NotNull private final DiscoveryViewModel viewModel;
+    @NotNull private final WeakReference<DiscoveryViewModel> viewModelRef;
 
     ReaderClickListener(
             @NotNull WeakReference<MainActivity> activityRef,
-            @NotNull DiscoveryViewModel viewModel
+            @NotNull WeakReference<DiscoveryViewModel> viewModelRef
     ) {
         this.activityRef = activityRef;
-        this.viewModel = viewModel;
+        this.viewModelRef = viewModelRef;
     }
 
     public void setActivityRef(@NotNull WeakReference<MainActivity> newRef) {
@@ -38,7 +38,11 @@ public class ReaderClickListener {
 
     public void onClick(@NotNull Reader reader) {
         MainActivity activity = activityRef.get();
+        DiscoveryViewModel viewModel = viewModelRef.get();
+
         if (activity == null) return;
+        if (viewModel == null) return;
+
         Location selectedLocation = viewModel.selectedLocation.getValue();
         Location readerLocation = reader.getLocation();
         String connectLocationId = null;
@@ -61,7 +65,8 @@ public class ReaderClickListener {
             @Override
             public void onSuccess(@NotNull Reader reader) {
                 final MainActivity activity = activityRef.get();
-                if (activity != null) {
+                final DiscoveryViewModel viewModel = viewModelRef.get();
+                if (activity != null && viewModel != null) {
                     activity.runOnUiThread(() -> {
                         viewModel.isConnecting.setValue(false);
                         viewModel.isUpdating.setValue(false);
@@ -73,7 +78,8 @@ public class ReaderClickListener {
             @Override
             public void onFailure(@NotNull TerminalException e) {
                 final MainActivity activity = activityRef.get();
-                if (activity != null) {
+                final DiscoveryViewModel viewModel = viewModelRef.get();
+                if (activity != null && viewModel != null) {
                     activity.runOnUiThread(() -> {
                         viewModel.isConnecting.setValue(false);
                         viewModel.isUpdating.setValue(false);

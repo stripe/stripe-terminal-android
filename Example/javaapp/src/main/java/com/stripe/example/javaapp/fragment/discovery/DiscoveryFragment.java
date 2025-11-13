@@ -55,7 +55,7 @@ import java.util.Map;
  * The `DiscoveryFragment` shows the list of recognized readers and allows the user to
  * select one to connect to.
  */
-public class DiscoveryFragment extends Fragment implements DiscoveryListener, MobileReaderListener, LocationSelectionController {
+public class DiscoveryFragment extends Fragment implements LocationSelectionController {
 
     public static final String TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment";
     private static final String SIMULATED_KEY = "simulated";
@@ -73,6 +73,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
     private DiscoveryViewModel viewModel;
     private ReaderAdapter adapter;
     private WeakReference<MainActivity> activityRef;
+    private WeakDiscoveryListener weakDiscoveryListener;
 
     // Register the permissions callback to handles the response to the system permissions dialog.
     private final ActivityResultLauncher<String[]> requestPermissionLauncher = registerForActivityResult(
@@ -87,8 +88,10 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
         viewModel = new ViewModelProvider(this, discoveryViewModelFactory).get(DiscoveryViewModel.class);
         viewModel.navigationListener = (NavigationListener) getActivity();
         activityRef = new WeakReference<>((MainActivity) getActivity());
+        WeakReference<DiscoveryViewModel> viewModelRef = new WeakReference<>(viewModel);
+        weakDiscoveryListener = new WeakDiscoveryListener(activityRef, viewModelRef);
         if (viewModel.readerClickListener == null) {
-            viewModel.readerClickListener = new ReaderClickListener(activityRef, viewModel);
+            viewModel.readerClickListener = new ReaderClickListener(activityRef, viewModelRef);
         } else {
             viewModel.readerClickListener.setActivityRef(activityRef);
         }
@@ -144,51 +147,6 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
 
         return binding.getRoot();
     }
-
-    @Override
-    public void onStartInstallingUpdate(@NotNull ReaderSoftwareUpdate update, @Nullable Cancelable cancelable) {
-        viewModel.isConnecting.setValue(false);
-        viewModel.isUpdating.setValue(false);
-        viewModel.discoveryTask = cancelable;
-    }
-
-    @Override
-    public void onReportReaderSoftwareUpdateProgress(float progress) {
-        viewModel.updateProgress.setValue(progress);
-    }
-
-    @Override
-    public void onUpdateDiscoveredReaders(@NotNull List<Reader> readers) {
-        final MainActivity activity = activityRef.get();
-        if (activity != null) {
-            activity.runOnUiThread(() -> viewModel.readers.setValue(readers));
-        }
-    }
-
-    // Unused imports
-    @Override
-    public void onFinishInstallingUpdate(@Nullable ReaderSoftwareUpdate update, @Nullable TerminalException e) { }
-
-    @Override
-    public void onRequestReaderInput(@NotNull ReaderInputOptions options) { }
-
-    @Override
-    public void onRequestReaderDisplayMessage(@NotNull ReaderDisplayMessage message) { }
-
-    @Override
-    public void onReportAvailableUpdate(@NotNull ReaderSoftwareUpdate update) { }
-
-    @Override
-    public void onReportReaderEvent(@NotNull ReaderEvent event) { }
-
-    @Override
-    public void onReportLowBatteryWarning() { }
-
-    @Override
-    public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
-
-    @Override
-    public void onDisconnect(@NonNull DisconnectReason reason) { }
 
     @Override
     public void onLocationSelected(Location location) {
@@ -256,7 +214,7 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
                 if (viewModel.discoveryTask == null && Terminal.getInstance().getConnectedReader() == null) {
                     viewModel.discoveryTask = Terminal
                             .getInstance()
-                            .discoverReaders(config, this, discoveryCallback);
+                            .discoverReaders(config, weakDiscoveryListener, discoveryCallback);
                 }
             }
         }
@@ -298,6 +256,77 @@ public class DiscoveryFragment extends Fragment implements DiscoveryListener, Mo
 
     private boolean isGranted(String permission) {
         return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * WeakDiscoveryListener prevents memory leaks by holding only weak references to the activity,
+     * and view model. This ensures the Terminal SDK doesn't prevent garbage collection of the
+     * fragment when discovery is running.
+     */
+    static class WeakDiscoveryListener implements DiscoveryListener, MobileReaderListener {
+
+        private final WeakReference<MainActivity> activityRef;
+        private final WeakReference<DiscoveryViewModel> viewModelRef;
+
+        WeakDiscoveryListener(
+                @NonNull WeakReference<MainActivity> activityRef,
+                @NonNull  WeakReference<DiscoveryViewModel> viewModelRef
+        ) {
+            this.activityRef = activityRef;
+            this.viewModelRef = viewModelRef;
+        }
+
+        @Override
+        public void onUpdateDiscoveredReaders(@NotNull List<Reader> readers) {
+            final MainActivity activity = activityRef.get();
+            final DiscoveryViewModel viewModel = viewModelRef.get();
+            if (activity != null && viewModel != null) {
+                activity.runOnUiThread(() -> viewModel.readers.setValue(readers));
+            }
+        }
+
+        @Override
+        public void onStartInstallingUpdate(@NotNull ReaderSoftwareUpdate update, @Nullable Cancelable cancelable) {
+            final DiscoveryViewModel viewModel = viewModelRef.get();
+            if (viewModel != null) {
+                viewModel.isConnecting.setValue(false);
+                viewModel.isUpdating.setValue(false);
+                viewModel.discoveryTask = cancelable;
+            }
+        }
+
+        @Override
+        public void onReportReaderSoftwareUpdateProgress(float progress) {
+            final DiscoveryViewModel viewModel = viewModelRef.get();
+            if (viewModel != null) {
+                viewModel.updateProgress.setValue(progress);
+            }
+        }
+
+        // Unused imports
+        @Override
+        public void onFinishInstallingUpdate(@Nullable ReaderSoftwareUpdate update, @Nullable TerminalException e) { }
+
+        @Override
+        public void onRequestReaderInput(@NotNull ReaderInputOptions options) { }
+
+        @Override
+        public void onRequestReaderDisplayMessage(@NotNull ReaderDisplayMessage message) { }
+
+        @Override
+        public void onReportAvailableUpdate(@NotNull ReaderSoftwareUpdate update) { }
+
+        @Override
+        public void onReportReaderEvent(@NotNull ReaderEvent event) { }
+
+        @Override
+        public void onReportLowBatteryWarning() { }
+
+        @Override
+        public void onBatteryLevelUpdate(float batteryLevel, @NonNull BatteryStatus batteryStatus, boolean isCharging) { }
+
+        @Override
+        public void onDisconnect(@NonNull DisconnectReason reason) { }
     }
 
     static class DiscoveryViewModelFactory implements ViewModelProvider.Factory {
