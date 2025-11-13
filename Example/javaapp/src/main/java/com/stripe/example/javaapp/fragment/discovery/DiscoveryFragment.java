@@ -270,7 +270,7 @@ public class DiscoveryFragment extends Fragment implements LocationSelectionCont
 
         WeakDiscoveryListener(
                 @NonNull WeakReference<MainActivity> activityRef,
-                @NonNull  WeakReference<DiscoveryViewModel> viewModelRef
+                @NonNull WeakReference<DiscoveryViewModel> viewModelRef
         ) {
             this.activityRef = activityRef;
             this.viewModelRef = viewModelRef;
