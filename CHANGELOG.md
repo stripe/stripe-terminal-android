@@ -169,6 +169,8 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### New
 
 - Improved visibility into mobile reader disconnects by exposing new disconnect reasons: [`DisconnectReason.USB_DISCONNECTED`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-u-s-b_-d-i-s-c-o-n-n-e-c-t-e-d/index.html), and [`DisconnectReason.IDLE_POWER_DOWN`](https://stripe.dev/stripe-terminal-android/v4/external/com.stripe.stripeterminal.external.models/-disconnect-reason/-i-d-l-e_-p-o-w-e-r_-d-o-w-n/index.html).
+- Preview: Added a `print` method to enable printing images on the Verifone V660p reader.
+  - If you are interested in joining the preview, please contact [Stripe support](https://support.stripe.com/).
 
 #### Fixes
 
