@@ -66,7 +66,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Core
 
 #### Fixes
-- Addresses an issue where Tap&Chip devices may return a truncated device info, causing random firmware updates. This issue only takes place when connecting with an external USB channel.
+- Addresses an issue where Tap & Chip devices may return a truncated device info, causing random firmware updates. This issue only takes place when connecting with an external USB channel.
 
 ## 4.7.5 - 2025-11-04
 
