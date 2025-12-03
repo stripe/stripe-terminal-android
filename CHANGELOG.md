@@ -61,6 +61,13 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Support for Stripe Reader P400 has been removed.
 - `Terminal.collectRefundPaymentMethod` and `Terminal.confirmRefund` are now deprecated. Please use the new `Terminal.processRefund` method instead.
 
+## 4.7.6 - 2025-12-03
+
+### Core
+
+#### Fixes
+- Addresses an issue where Tap&Chip devices may return a truncated device info, causing random firmware updates. This issue only takes place when connecting with an external USB channel.
+
 ## 4.7.5 - 2025-11-04
 
 ### Core
