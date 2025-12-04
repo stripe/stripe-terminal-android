@@ -3,6 +3,25 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.1.0 - 2025-12-03
+
+### Core
+
+#### New
+- Added simulated reader support for Mail Order / Telephone Order payments.
+  - To request access to this feature, please contact [Stripe Support](https://support.stripe.com/).
+- Added QR payment support for mobile readers.
+
+### Tap to Pay
+
+#### Updates
+- Updated list of root certificates for Stripe domains based on the latest updates to Stripe's policy on pinning [TLS Certificates](https://docs.stripe.com/tls-certificates). This supports the root certificate chain migration for api.stripe.com and other Stripe domains. See the [announcement](https://groups.google.com/a/lists.stripe.com/g/api-announce/c/YPBJzWSvTTA) for more details.
+
+#### Fixes
+- Added missing `-dontwarn` rules for Tap to Pay Proguard configuration. Fixes [issue 590](https://github.com/stripe/stripe-terminal-android/issues/590).
+- Prevent unexpected reader disconnects when a card cannot be properly read. Fixes [issue 649](https://github.com/stripe/stripe-terminal-android/issues/649).
+- Resolved issue preventing usage of simulated Tap to Pay reader. Fixes [issue 652](https://github.com/stripe/stripe-terminal-android/issues/652).
+
 ## 5.0.0 - 2025-11-03
 5.0.0 includes breaking changes in both APIs and behavior. See the [migration guide](https://stripe.com/docs/terminal/references/sdk-migration-guide?terminal-sdk-platform=android) for more details.
 #### ⚠️ Breaking changes required
