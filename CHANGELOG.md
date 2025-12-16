@@ -3,6 +3,13 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.1.1 - 2025-12-16
+
+### Tap to Pay
+
+#### Updates
+- Updated list of root certificates for Stripe domains based on the latest updates to Stripe's policy on pinning [TLS Certificates](https://docs.stripe.com/tls-certificates). This supports the root certificate chain migration for api.stripe.com and other Stripe domains. See the [announcement](https://groups.google.com/a/lists.stripe.com/g/api-announce/c/YPBJzWSvTTA) for more details.
+
 ## 5.1.0 - 2025-12-03
 
 ### Core
@@ -13,9 +20,6 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Added QR payment support for mobile readers.
 
 ### Tap to Pay
-
-#### Updates
-- Updated list of root certificates for Stripe domains based on the latest updates to Stripe's policy on pinning [TLS Certificates](https://docs.stripe.com/tls-certificates). This supports the root certificate chain migration for api.stripe.com and other Stripe domains. See the [announcement](https://groups.google.com/a/lists.stripe.com/g/api-announce/c/YPBJzWSvTTA) for more details.
 
 #### Fixes
 - Added missing `-dontwarn` rules for Tap to Pay Proguard configuration. Fixes [issue 590](https://github.com/stripe/stripe-terminal-android/issues/590).

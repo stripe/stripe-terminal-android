@@ -186,9 +186,9 @@ public class DiscoveryFragment extends Fragment implements LocationSelectionCont
                     if (activity != null) {
                         activity.runOnUiThread(() -> {
                             Toast.makeText(
-                                requireContext(),
-                                e.getErrorCode() + "\n" + e.getErrorMessage(),
-                                Toast.LENGTH_LONG
+                                    requireContext(),
+                                    e.getErrorCode() + "\n" + e.getErrorMessage(),
+                                    Toast.LENGTH_LONG
                             ).show();
                             activity.onCancelDiscovery();
                         });
