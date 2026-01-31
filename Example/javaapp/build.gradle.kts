@@ -43,7 +43,7 @@ android {
 
 val androidxLifecycleVersion = "2.6.2"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "5.1.1"
+val stripeTerminalVersion = "5.2.0"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")
@@ -52,7 +52,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Annotations
-    implementation("org.jetbrains:annotations:24.1.0")
+    implementation("org.jetbrains:annotations:26.0.2-1")
 
     // ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-livedata:$androidxLifecycleVersion")
