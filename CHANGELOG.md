@@ -3,6 +3,36 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.2.0 - 2026-01-30
+
+### Core
+
+#### New
+- [Tip-eligible amounts](https://docs.stripe.com/terminal/features/collecting-tips/on-reader#tip-eligible) are supported on WisePad 3 devices, allowing configuration of the portion of a transaction amount on which tips are calculated.
+
+#### Updates
+- [Mail order / telephone order (MOTO)](https://docs.stripe.com/terminal/features/mail-telephone-orders/overview) support is now generally available. Once access is granted, it no longer requires opt-in annotation.
+    - To request access to this feature, please contact [Stripe Support](https://support.stripe.com/).
+- `Reader::toString` no longer includes the reader’s `label` property in its output.
+
+#### Fixes
+- Fixed stale network connectivity state in offline mode caused by multiple failed health checks polluting the connection pool. Fixes [issue 640](https://github.com/stripe/stripe-terminal-android/issues/640).
+
+### Tap to Pay
+
+#### New
+- Devices are required to have installed an Android security patch update from the last 12 months in order to use Tap to Pay. Devices that have an outdated security patch version will fail to connect to the Tap to Pay reader.
+    - You can find a device's Android version number and security update status in the system Settings app. Update schedules may vary by manufacturer, device, and mobile carrier; check [support guides](https://support.google.com/android/answer/7680439) for more details.
+
+#### Updates
+- Removed support for the SUNMI D3 PRO. This device has been classified as a non-standard form factor and can no longer be used for Tap to Pay on Android payments. SUNMI is aware of this issue and may provide a solution in the future to re-enable support for this device.
+- The cancel button on the payment collection screen has been moved to the top-left corner. If the NFC tap indicator is positioned on the left, the cancel button appears in the top-right corner instead.
+- The PIN screen has been redesigned with an updated PIN pad and confirm button. Minor positioning and size adjustments have also been made.
+- The PIN screen now displays the brand of the card application (e.g. Visa Debit) above the amount text, if available.
+
+### Fixes
+- Changed names of internal layout files to prevent conflicts when using both Tap to Pay and the Stripe SDK. Fixes [issue 662](https://github.com/stripe/stripe-terminal-android/issues/662).
+
 ## 5.1.1 - 2025-12-16
 
 ### Tap to Pay
