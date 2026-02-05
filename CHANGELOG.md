@@ -23,6 +23,8 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### New
 - Devices are required to have installed an Android security patch update from the last 12 months in order to use Tap to Pay. Devices that have an outdated security patch version will fail to connect to the Tap to Pay reader.
     - You can find a device's Android version number and security update status in the system Settings app. Update schedules may vary by manufacturer, device, and mobile carrier; check [support guides](https://support.google.com/android/answer/7680439) for more details.
+- Added Cartes Bancaires payment method support for Tap to Pay on Android (Public Preview).
+- Added support for additional payment methods using a QR code for Tap to Pay on Android (Public Preview). See [docs](https://docs.stripe.com/terminal/payments/additional-payment-methods) for more details.
 
 #### Updates
 - Removed support for the SUNMI D3 PRO. This device has been classified as a non-standard form factor and can no longer be used for Tap to Pay on Android payments. SUNMI is aware of this issue and may provide a solution in the future to re-enable support for this device.
