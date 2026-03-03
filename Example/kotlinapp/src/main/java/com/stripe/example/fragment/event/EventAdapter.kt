@@ -1,43 +1,46 @@
 package com.stripe.example.fragment.event
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.stripe.example.databinding.ListItemEventBinding
 import com.stripe.example.model.Event
-import com.stripe.example.viewmodel.EventViewModel
-
-object EventsBindingAdapter {
-    @BindingAdapter("events")
-    @JvmStatic
-    fun RecyclerView.bindItems(events: List<Event>) {
-        val adapter = adapter as EventAdapter
-        adapter.updateEvents(events)
-        scrollToPosition(events.size - 1)
-    }
-}
 
 /**
  * Our [RecyclerView.Adapter] implementation that allows us to update the list of events
  */
-class EventAdapter(
-    viewModel: EventViewModel
-) : RecyclerView.Adapter<EventHolder>() {
-    private var events: List<Event> = viewModel.events.value ?: emptyList()
+class EventAdapter : RecyclerView.Adapter<EventHolder>() {
+    private val differ = AsyncListDiffer(this, ItemCallback())
 
     fun updateEvents(events: List<Event>) {
-        this.events = events
-        notifyDataSetChanged()
+        differ.submitList(events)
     }
 
-    override fun getItemCount(): Int {
-        return events.size
-    }
+    override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
-        holder.bind(events[position])
+        holder.bind(differ.currentList[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
-        return EventHolder(parent)
+        return EventHolder(
+            ListItemEventBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false,
+            )
+        )
+    }
+
+    private class ItemCallback : DiffUtil.ItemCallback<Event>() {
+        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem == newItem
+        }
     }
 }

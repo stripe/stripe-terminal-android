@@ -14,6 +14,7 @@ import com.stripe.stripeterminal.external.models.ConnectionConfiguration;
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration.BluetoothConnectionConfiguration;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
+import com.stripe.stripeterminal.external.models.TapUseCase;
 import com.stripe.stripeterminal.external.models.TerminalException;
 
 import org.jetbrains.annotations.NotNull;
@@ -113,7 +114,7 @@ public class ReaderClickListener {
             case TAP_TO_PAY:
                 Terminal.getInstance().connectReader(reader,
                         new ConnectionConfiguration.TapToPayConnectionConfiguration(
-                                connectLocationId,
+                                new TapUseCase.Pay(connectLocationId),
                                 true,
                                 activityRef.get()
                         ),

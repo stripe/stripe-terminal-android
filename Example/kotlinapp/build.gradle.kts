@@ -4,7 +4,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.parcelize")
-    id("kotlin-kapt")
 }
 
 android {
@@ -30,7 +29,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
         buildConfig = true
     }
@@ -47,17 +45,10 @@ android {
     }
 }
 
-// Force Kapt task to use Java 8. See https://youtrack.jetbrains.com/issue/KT-55947.
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs>().configureEach {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_1_8
-    }
-}
-
 val androidxLifecycleVersion = "2.6.2"
 val kotlinCoroutinesVersion = "1.7.3"
 val retrofitVersion = "2.11.0"
-val stripeTerminalVersion = "5.2.0"
+val stripeTerminalVersion = "5.3.0"
 
 dependencies {
     implementation("com.google.android.material:material:1.11.0")
@@ -65,6 +56,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.fragment:fragment-ktx:1.8.9")
 
     // ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")

@@ -32,10 +32,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
-class EventViewModel(eventsList: List<Event> = mutableListOf()) : ViewModel() {
-    private val eventList: ArrayList<Event> = ArrayList(eventsList)
-    var events: MutableLiveData<List<Event>> = MutableLiveData(eventList)
-    var isComplete: MutableLiveData<Boolean> = MutableLiveData(false)
+class EventViewModel : ViewModel() {
+    private val eventList = mutableListOf<Event>()
+    val events: MutableLiveData<List<Event>> = MutableLiveData(emptyList())
+    val isComplete: MutableLiveData<Boolean> = MutableLiveData(false)
     private val jobs = mutableListOf<Job>()
 
     fun addEvent(event: Event) {

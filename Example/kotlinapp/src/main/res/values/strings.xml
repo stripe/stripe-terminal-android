@@ -99,7 +99,13 @@
     <string name="cancelled">Cancelled</string>
     <string name="collected_offline">Collected Offline</string>
     <string name="requires_sync">Requires Sync</string>
-    <string name="payment">Payment</string>
-    <string name="capture">Capture</string>
-    <string name="refund">Refund</string>
+    <string name="label_payment">Payment</string>
+    <string name="label_capture">Capture</string>
+    <string name="label_refund">Refund</string>
+    <string name="action_capture">Capture</string>
+    <string name="action_refund">Refund</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_refresh">Refresh</string>
+
+    <string name="formatted_amount">$%s</string>
 </resources>

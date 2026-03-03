@@ -52,6 +52,7 @@ import com.stripe.stripeterminal.external.models.ReaderEvent;
 import com.stripe.stripeterminal.external.models.ReaderInputOptions;
 import com.stripe.stripeterminal.external.models.ReaderSoftwareUpdate;
 import com.stripe.stripeterminal.external.models.EasyConnectConfiguration.TapToPayEasyConnectConfiguration;
+import com.stripe.stripeterminal.external.models.TapUseCase;
 import com.stripe.stripeterminal.external.models.TerminalException;
 import com.stripe.stripeterminal.log.LogLevel;
 
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements
                 config = new TapToPayEasyConnectConfiguration(
                     new DiscoveryConfiguration.TapToPayDiscoveryConfiguration(isSimulated),
                     new ConnectionConfiguration.TapToPayConnectionConfiguration(
-                        locationId,
+                        new TapUseCase.Pay(locationId),
                         true, // autoReconnectOnUnexpectedDisconnect
                         this // TapToPayReaderListener
                     )

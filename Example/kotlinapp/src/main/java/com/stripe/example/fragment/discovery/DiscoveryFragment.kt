@@ -9,10 +9,11 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stripe.example.MainActivity
 import com.stripe.example.NavigationListener
@@ -42,30 +43,18 @@ class DiscoveryFragment :
         ::onPermissionResult,
     )
 
-    companion object {
-        private const val DISCOVERY_METHOD = "discovery_method"
-        private const val SIMULATED_KEY = "simulated"
-
-        const val TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment"
-
-        fun newInstance(simulated: Boolean, discoveryMethod: DiscoveryMethod): DiscoveryFragment {
-            val fragment = DiscoveryFragment()
-            val bundle = Bundle()
-            bundle.putBoolean(SIMULATED_KEY, simulated)
-            bundle.putSerializable(DISCOVERY_METHOD, discoveryMethod)
-            fragment.arguments = bundle
-            return fragment
+    private val viewModel: DiscoveryViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                createViewModel()
+            }
         }
     }
-
-    private lateinit var viewModel: DiscoveryViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val discoveryViewModelFactory = DiscoveryViewModelFactory(requireArguments())
-        viewModel =
-            ViewModelProvider(this, discoveryViewModelFactory)[DiscoveryViewModel::class.java]
+        val binding = FragmentDiscoveryBinding.bind(view)
 
         viewModel.readerClickListener = ReaderClickListener(
             activity as MainActivity,
@@ -74,33 +63,58 @@ class DiscoveryFragment :
 
         viewModel.navigationListener = activity as NavigationListener
 
-        val viewBinding = requireNotNull(
-            DataBindingUtil.bind<FragmentDiscoveryBinding>(view)
-        )
-        viewBinding.lifecycleOwner = viewLifecycleOwner
-        viewBinding.viewModel = viewModel
-
-        val readerRecyclerView = viewBinding.readerRecyclerView
+        val readerRecyclerView = binding.readerRecyclerView
         readerRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         val adapter = ReaderAdapter(viewModel, layoutInflater)
         readerRecyclerView.adapter = adapter
 
-        viewBinding.cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             viewModel.stopDiscovery { (requireActivity() as MainActivity).onCancelDiscovery() }
         }
 
-        launchAndRepeatWithViewLifecycle {
-            startDiscovery()
+        binding.currentLocation.setOnClickListener {
+            viewModel.requestChangeLocation()
         }
 
+        // Observe LiveData and update views
         viewModel.selectedLocation.observe(viewLifecycleOwner) { location ->
             adapter.updateLocationSelection(location)
+            binding.currentLocation.text = location?.displayName
+                ?: getString(R.string.select_location_last)
 
             if (location != null) {
                 startDiscovery()
             }
         }
+
+        viewModel.isConnecting.observe(viewLifecycleOwner) { isConnecting ->
+            binding.updateVisibility(isConnecting, viewModel.isUpdating.value ?: false)
+        }
+
+        viewModel.isUpdating.observe(viewLifecycleOwner) { isUpdating ->
+            binding.updateVisibility(viewModel.isConnecting.value ?: false, isUpdating)
+        }
+
+        viewModel.updateProgress.observe(viewLifecycleOwner) { progress ->
+            binding.updateProgress.text = getString(R.string.update_progress, progress)
+        }
+
+        viewModel.readers.observe(viewLifecycleOwner) { readers ->
+            adapter.updateReaders(readers)
+        }
+
+        launchAndRepeatWithViewLifecycle {
+            startDiscovery()
+        }
+    }
+
+    private fun FragmentDiscoveryBinding.updateVisibility(isConnecting: Boolean, isUpdating: Boolean) {
+        readerDescription.isVisible = isConnecting
+        updateDescription.isVisible = isUpdating
+        updateProgress.isVisible = isUpdating
+        nearbyReadersLayout.isVisible = !isConnecting && !isUpdating
+        readerRecyclerView.isVisible = !isConnecting && !isUpdating
     }
 
     override fun onDestroyView() {
@@ -180,12 +194,28 @@ class DiscoveryFragment :
         return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
     }
 
-    class DiscoveryViewModelFactory(private val args: Bundle) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return DiscoveryViewModel(
-                BundleCompat.getSerializable(args, DISCOVERY_METHOD, DiscoveryMethod::class.java)!!,
-                args.getBoolean(SIMULATED_KEY)
-            ) as T
+    private fun createViewModel(): DiscoveryViewModel {
+        val args = arguments ?: Bundle.EMPTY
+        val discoveryMethod =
+            BundleCompat.getSerializable(args, DISCOVERY_METHOD_KEY, DiscoveryMethod::class.java)
+                ?: DiscoveryMethod.entries.first()
+        val simulated = args.getBoolean(SIMULATED_KEY)
+        return DiscoveryViewModel(discoveryMethod, simulated)
+    }
+
+    companion object {
+        private const val DISCOVERY_METHOD_KEY = "discovery_method"
+        private const val SIMULATED_KEY = "simulated"
+
+        const val TAG = "com.stripe.example.fragment.discovery.DiscoveryFragment"
+
+        fun newInstance(simulated: Boolean, discoveryMethod: DiscoveryMethod): DiscoveryFragment {
+            return DiscoveryFragment().also {
+                it.arguments = Bundle().apply {
+                    putBoolean(SIMULATED_KEY, simulated)
+                    putSerializable(DISCOVERY_METHOD_KEY, discoveryMethod)
+                }
+            }
         }
     }
 }

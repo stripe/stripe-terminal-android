@@ -1,16 +1,14 @@
 package com.stripe.example.fragment.event
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
 import com.stripe.example.TerminalRepository
@@ -38,7 +36,7 @@ import java.util.Locale
 /**
  * The `EventFragment` displays events as they happen during a payment flow
  */
-class EventFragment : Fragment(), MobileReaderListener {
+class EventFragment : Fragment(R.layout.fragment_event), MobileReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.event.EventFragment"
@@ -103,18 +101,13 @@ class EventFragment : Fragment(), MobileReaderListener {
         }
     }
 
-    private lateinit var adapter: EventAdapter
-    private lateinit var eventRecyclerView: RecyclerView
     private lateinit var activityRef: WeakReference<FragmentActivity?>
 
-    private lateinit var binding: FragmentEventBinding
-    private lateinit var viewModel: EventViewModel
+    private val viewModel: EventViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityRef = WeakReference(activity)
-        viewModel = ViewModelProvider(this)[EventViewModel::class.java]
-        adapter = EventAdapter(viewModel)
 
         if (savedInstanceState == null) {
             val fragmentArgs = requireArguments()
@@ -193,24 +186,15 @@ class EventFragment : Fragment(), MobileReaderListener {
         viewModel.cancelTransaction(args.getString(TRANSACTION_ID))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        val binding = FragmentEventBinding.bind(view)
+        val adapter = EventAdapter()
 
-        eventRecyclerView = binding.eventRecyclerView
+        val eventRecyclerView = binding.eventRecyclerView
         eventRecyclerView.layoutManager = LinearLayoutManager(activity)
         eventRecyclerView.adapter = adapter
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.cancelButton.setOnClickListener {
             viewModel.cancel()
         }
@@ -223,6 +207,26 @@ class EventFragment : Fragment(), MobileReaderListener {
                     }
                 }
             }
+        }
+
+        viewModel.isComplete.observe(viewLifecycleOwner) { isComplete ->
+            binding.doneButton.isVisible = isComplete
+
+            binding.cancelButton.setTextColor(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    if (isComplete) {
+                        R.color.colorPrimaryDark
+                    } else {
+                        R.color.colorAccent
+                    }
+                )
+            )
+        }
+
+        viewModel.events.observe(viewLifecycleOwner) { events ->
+            adapter.updateEvents(events)
+            eventRecyclerView.scrollToPosition(events.size - 1)
         }
     }
 
@@ -239,10 +243,6 @@ class EventFragment : Fragment(), MobileReaderListener {
     }
 
     fun addEvent(message: String, method: String) {
-        activityRef.get()?.let { activity ->
-            activity.runOnUiThread {
-                viewModel.addEvent(Event(message, method))
-            }
-        }
+        viewModel.addEvent(Event(message, method))
     }
 }

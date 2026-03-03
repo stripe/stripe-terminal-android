@@ -1,12 +1,11 @@
 package com.stripe.example.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.stripe.example.MainActivity
 import com.stripe.example.R
 import com.stripe.example.databinding.FragmentUpdateReaderBinding
@@ -24,39 +23,32 @@ import java.lang.ref.WeakReference
  * The `UpdateReaderFragment` allows the user to check the current version of the [Reader] software,
  * as well as update it when necessary.
  */
-class UpdateReaderFragment : Fragment(), MobileReaderListener {
+class UpdateReaderFragment : Fragment(R.layout.fragment_update_reader), MobileReaderListener {
 
     companion object {
         const val TAG = "com.stripe.example.fragment.UpdateReaderFragment"
     }
 
-    private lateinit var binding: FragmentUpdateReaderBinding
-    private lateinit var viewModel: UpdateReaderViewModel
+    private val viewModel: UpdateReaderViewModel by viewModels()
     private lateinit var activityRef: WeakReference<MainActivity>
 
-    override fun onCreate(bundle: Bundle?) {
-        super.onCreate(bundle)
-        viewModel = ViewModelProvider(this)[UpdateReaderViewModel::class.java]
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_update_reader, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = FragmentUpdateReaderBinding.bind(view)
 
         if (viewModel.reader == null) {
             viewModel.reader = Terminal.getInstance().connectedReader
         }
 
-        return binding.root
-    }
+        // Set initial reader info
+        viewModel.reader?.let { reader ->
+            binding.readerDescription.text = getString(
+                R.string.reader_description,
+                reader.deviceType.name,
+                reader.serialNumber
+            )
+            binding.currentVersion.text = reader.softwareVersion
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Cancel update on button click
         activityRef = WeakReference(activity as MainActivity)
         binding.cancelButton.setOnClickListener {
@@ -93,6 +85,48 @@ class UpdateReaderFragment : Fragment(), MobileReaderListener {
 
         // Done button onClick listeners
         binding.doneButton.setOnClickListener { exitWorkflow(activityRef) }
+
+        // Observe LiveData for UI updates
+        viewModel.doneButtonVisibility.observe(viewLifecycleOwner) { visible ->
+            binding.doneButton.isVisible = visible
+        }
+
+        viewModel.checkForUpdateButtonVisibility.observe(viewLifecycleOwner) { visible ->
+            binding.checkForUpdateButton.isVisible = visible
+        }
+
+        viewModel.checkForUpdateButtonText.observe(viewLifecycleOwner) { textRes ->
+            binding.checkForUpdateButton.text = getString(textRes)
+        }
+
+        viewModel.checkForUpdateButtonColor.observe(viewLifecycleOwner) { colorRes ->
+            binding.checkForUpdateButton.setTextColor(ContextCompat.getColor(requireContext(), colorRes))
+            // Also update cancel button color based on done button visibility
+            val cancelColor = if (viewModel.doneButtonVisibility.value == true) {
+                R.color.colorPrimaryDark
+            } else {
+                R.color.colorAccent
+            }
+            binding.cancelButton.setTextColor(ContextCompat.getColor(requireContext(), cancelColor))
+        }
+
+        viewModel.checkForUpdateDescriptionVisibility.observe(viewLifecycleOwner) { visible ->
+            binding.checkForUpdateDescription.isVisible = visible
+        }
+
+        viewModel.checkForUpdateDescriptionText.observe(viewLifecycleOwner) { text ->
+            binding.checkForUpdateDescription.text = text
+        }
+
+        viewModel.hasStartedInstallingUpdate.observe(viewLifecycleOwner) { started ->
+            val finished = viewModel.hasFinishedFetchingUpdate.value ?: false
+            binding.installDisclaimer.isVisible = started && finished
+        }
+
+        viewModel.hasFinishedFetchingUpdate.observe(viewLifecycleOwner) { finished ->
+            val started = viewModel.hasStartedInstallingUpdate.value ?: false
+            binding.installDisclaimer.isVisible = started && finished
+        }
     }
 
     fun onCompleteUpdate() {
