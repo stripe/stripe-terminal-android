@@ -3,6 +3,34 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.3.0 - 2026-03-02
+
+### Core
+
+#### New
+
+#### Updates
+
+#### Fixes
+- Fixes an issue where calling discoverReaders() while a reader is already connected incorrectly resets the internal connection status, causing subsequent operations to fail with a "You did not provide an API key" error. 
+  - Fixes [issue 1053](https://github.com/stripe/stripe-terminal-react-native/issues/1053).
+
+### Tap to Pay
+
+#### New
+
+#### Updates
+
+#### Fixes
+
+### Apps on Devices: Handoff mode
+
+#### New
+
+#### Updates
+
+#### Fixes
+
 ## 5.2.0 - 2026-01-30
 
 ### Core

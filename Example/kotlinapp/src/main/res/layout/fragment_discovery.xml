@@ -1,173 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Widget.Example.Backdrop"
+    tools:context=".fragment.discovery.DiscoveryFragment">
 
-    <data>
-        <import type="android.view.View"/>
-        <variable
-            name="viewModel"
-            type="com.stripe.example.viewmodel.DiscoveryViewModel"/>
-    </data>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textAlignment="textStart"
+            android:layout_gravity="start"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="16dp"
+            android:text="@string/cancel"
+            android:textColor="@color/colorAccent" />
+
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Widget.Example.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
+            app:contentInsetStart="0dp"
+            app:title="@string/discovery" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/select_reader_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAllCaps="true"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        android:text="@string/select_location" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/current_location"
+        style="@style/Widget.Example.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/select_reader_label"
+        android:text="@string/select_location_last"
+        app:cornerRadius="0dp"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/location_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/current_location"
+        android:text="@string/discovery_location_caption" />
+
+    <TextView
+        android:id="@+id/reader_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/connecting"
+        android:gravity="center_horizontal"
+        android:drawableTop="@mipmap/readerempty"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:visibility="gone"
+        style="@style/Widget.Example.Backdrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_caption"
+        tools:ignore="UseCompatTextViewDrawableXml" />
+
+    <TextView
+        android:id="@+id/update_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_in_progress"
+        android:gravity="center_horizontal"
+        android:drawableTop="@mipmap/readerempty"
+        android:paddingTop="40dp"
+        android:visibility="gone"
+        style="@style/Widget.Example.Backdrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_caption"
+        tools:ignore="UseCompatTextViewDrawableXml" />
+
+    <TextView
+        android:id="@+id/update_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="40dp"
+        android:visibility="gone"
+        style="@style/Widget.Example.Backdrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/update_description"
+        tools:text="@string/update_progress" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/nearby_readers_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/Widget.Example.Backdrop"
-        tools:context=".fragment.discovery.DiscoveryFragment">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/cancel_button"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:textAlignment="textStart"
-                android:layout_gravity="start"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingTop="16dp"
-                android:text="@string/cancel"
-                android:textColor="@color/colorAccent" />
-
-            <androidx.appcompat.widget.Toolbar
-                style="@style/Widget.Example.Toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:paddingStart="8dp"
-                android:paddingLeft="8dp"
-                android:paddingEnd="8dp"
-                android:paddingRight="8dp"
-                app:contentInsetStart="0dp"
-                app:title="@string/discovery" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_caption"
+        app:layout_constraintBottom_toTopOf="@id/reader_recycler_view">
 
         <TextView
-            android:id="@+id/select_reader_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textAllCaps="true"
-            app:layout_constraintTop_toBottomOf="@id/app_bar"
-            android:text="@string/select_location" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/current_location"
-            style="@style/Widget.Example.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/select_reader_label"
-            android:onClick="@{() -> viewModel.requestChangeLocation()}"
-            android:text="@{viewModel.selectedLocation == null ? @string/select_location_last : viewModel.selectedLocation.displayName}"
-            app:cornerRadius="0dp"
-            android:drawableEnd="@drawable/ic_right_arrow"
-            android:textAlignment="textStart" />
-
-        <TextView
-            android:id="@+id/location_caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/nearby_readers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            app:layout_constraintTop_toBottomOf="@id/current_location"
-            android:text="@string/discovery_location_caption" />
-
-        <TextView
-            android:id="@+id/reader_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/connecting"
-            android:gravity="center_horizontal"
-            android:drawableTop="@mipmap/readerempty"
-            android:paddingTop="40dp"
-            android:paddingBottom="40dp"
-            android:visibility="@{viewModel.isConnecting ? View.VISIBLE : View.GONE}"
-            style="@style/Widget.Example.Backdrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_caption"
-            tools:ignore="UseCompatTextViewDrawableXml" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/nearby_readers" />
 
-        <TextView
-            android:id="@+id/update_description"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/update_in_progress"
-            android:gravity="center_horizontal"
-            android:drawableTop="@mipmap/readerempty"
-            android:paddingTop="40dp"
-            android:visibility="@{viewModel.isUpdating ? View.VISIBLE : View.GONE}"
-            style="@style/Widget.Example.Backdrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_caption"
-            tools:ignore="UseCompatTextViewDrawableXml" />
-
-        <TextView
-            android:id="@+id/update_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{String.format(@string/update_progress, viewModel.updateProgress)}"
-            android:gravity="center_horizontal"
-            android:paddingBottom="40dp"
-            android:visibility="@{viewModel.isUpdating ? View.VISIBLE : View.GONE}"
-            style="@style/Widget.Example.Backdrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/update_description" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/nearby_readers_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{(viewModel.isConnecting || viewModel.isUpdating) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_caption"
-            app:layout_constraintBottom_toTopOf="@id/reader_recycler_view">
-
-            <TextView
-                android:id="@+id/nearby_readers_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:text="@string/nearby_readers" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:indeterminate="true" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reader_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{(viewModel.isConnecting || viewModel.isUpdating) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nearby_readers_layout"
-            app:items="@{viewModel.readers}"/>
+            android:indeterminate="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reader_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nearby_readers_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

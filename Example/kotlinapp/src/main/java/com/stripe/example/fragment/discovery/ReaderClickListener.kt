@@ -9,6 +9,7 @@ import com.stripe.example.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
 import com.stripe.stripeterminal.external.models.Reader
+import com.stripe.stripeterminal.external.models.TapUseCase
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.ktx.connectReader
 import kotlinx.coroutines.CancellationException
@@ -45,7 +46,7 @@ class ReaderClickListener(
 
             DiscoveryMethod.TAP_TO_PAY ->
                 ConnectionConfiguration.TapToPayConnectionConfiguration(
-                    locationId = connectLocationId,
+                    useCase = TapUseCase.Pay(connectLocationId),
                     autoReconnectOnUnexpectedDisconnect = true,
                     tapToPayReaderListener = activity,
                 )

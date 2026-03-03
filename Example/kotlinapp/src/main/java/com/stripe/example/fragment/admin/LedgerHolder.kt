@@ -1,14 +1,13 @@
 package com.stripe.example.fragment.admin
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.stripe.example.R
 import com.stripe.example.databinding.ListItemLedgerCardBinding
 import com.stripe.example.databinding.ListItemLedgerPaymentBinding
 import com.stripe.example.model.LedgerEntry
+import java.util.Locale
 
 sealed class LedgerHolder(
     view: View,
@@ -20,24 +19,24 @@ sealed class LedgerHolder(
     ) : LedgerHolder(binding.root) {
         override fun bind(entry: LedgerEntry, onLongClickListener: (LedgerEntry) -> Unit) {
             if (entry is LedgerEntry.Payment) {
-                binding.entry = entry
-                binding.onLongClickListener = View.OnLongClickListener {
+                binding.cardView.setOnLongClickListener {
                     onLongClickListener(entry)
                     true
                 }
-                binding.executePendingBindings()
-            }
-        }
 
-        companion object {
-            fun create(parent: ViewGroup): PaymentViewHolder {
-                val binding: ListItemLedgerPaymentBinding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.list_item_ledger_payment,
-                    parent,
-                    false
+                binding.cancelledIcon.isVisible = entry.isCancelled
+                binding.offlineIcon.isVisible = entry.collectedOffline
+                binding.syncIcon.isVisible = !entry.syncedToStripe
+                binding.capturableIcon.isVisible = entry.isCapturable
+                binding.refundedIcon.isVisible = entry.refunded
+
+                binding.amountText.text = itemView.resources.getString(
+                    R.string.formatted_amount,
+                    entry.formattedAmount,
                 )
-                return PaymentViewHolder(binding)
+                binding.currencyText.text = entry.intent.currency?.uppercase(Locale.getDefault()).orEmpty()
+                binding.metadataText.text = entry.intent.metadata.toString()
+                binding.dateText.text = entry.createdDate
             }
         }
     }
@@ -47,24 +46,20 @@ sealed class LedgerHolder(
     ) : LedgerHolder(binding.root) {
         override fun bind(entry: LedgerEntry, onLongClickListener: (LedgerEntry) -> Unit) {
             if (entry is LedgerEntry.Card) {
-                binding.entry = entry
-                binding.onLongClickListener = View.OnLongClickListener {
+                binding.cardView.setOnLongClickListener {
                     onLongClickListener(entry)
                     true
                 }
-                binding.executePendingBindings()
-            }
-        }
 
-        companion object {
-            fun create(parent: ViewGroup): CardViewHolder {
-                val binding: ListItemLedgerCardBinding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.list_item_ledger_card,
-                    parent,
-                    false
-                )
-                return CardViewHolder(binding)
+                binding.cancelledIcon.isVisible = entry.isCancelled
+                binding.offlineIcon.isVisible = entry.collectedOffline
+                binding.syncIcon.isVisible = !entry.syncedToStripe
+
+                val paymentMethod = entry.intent.paymentMethod
+                binding.brandText.text = paymentMethod?.cardPresentDetails?.brand.orEmpty()
+                binding.last4Text.text = paymentMethod?.let { "****${it.cardPresentDetails?.last4}" }.orEmpty()
+                binding.metadataText.text = entry.intent.metadata.toString()
+                binding.dateText.text = entry.createdDate
             }
         }
     }

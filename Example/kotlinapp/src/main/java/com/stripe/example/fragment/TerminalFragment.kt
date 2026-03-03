@@ -1,13 +1,12 @@
 package com.stripe.example.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
 import androidx.core.os.BundleCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.stripe.example.NavigationListener
 import com.stripe.example.R
@@ -28,24 +27,10 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
         const val TAG = "com.stripe.example.fragment.TerminalFragment"
 
         // A string to store if the simulated switch is set
-        private const val SIMULATED_SWITCH = "simulated_switch"
+        private const val SIMULATED_SWITCH_KEY = "simulated_switch"
 
         // A string to store the selected discovery method
-        private const val DISCOVERY_METHOD = "discovery_method"
-        private val discoveryMethods =
-            listOf(
-                DiscoveryMethod.BLUETOOTH_SCAN,
-                DiscoveryMethod.INTERNET,
-                DiscoveryMethod.TAP_TO_PAY,
-                DiscoveryMethod.USB
-            )
-
-        fun getCurrentDiscoveryMethod(activity: Activity?): DiscoveryMethod {
-            val pos = activity?.getSharedPreferences(TAG, Context.MODE_PRIVATE)
-                ?.getInt(DISCOVERY_METHOD, 0) ?: 0
-
-            return discoveryMethods[pos]
-        }
+        private const val DISCOVERY_METHOD_KEY = "discovery_method"
     }
 
     private lateinit var viewModel: TerminalViewModel
@@ -54,22 +39,27 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             viewModel = TerminalViewModel(
-                BundleCompat.getSerializable(it, DISCOVERY_METHOD, DiscoveryMethod::class.java)!!,
-                discoveryMethods,
-                it.getBoolean(SIMULATED_SWITCH)
+                BundleCompat.getSerializable(
+                    it,
+                    DISCOVERY_METHOD_KEY,
+                    DiscoveryMethod::class.java
+                ) ?: DiscoveryMethod.entries.first(),
+                it.getBoolean(SIMULATED_SWITCH_KEY),
             )
         } ?: run {
             CoroutineScope(Dispatchers.IO).launch {
                 val isSimulated = activity?.getSharedPreferences(
                     TAG,
                     Context.MODE_PRIVATE
-                )?.getBoolean(SIMULATED_SWITCH, false) ?: false
+                )?.getBoolean(SIMULATED_SWITCH_KEY, false) ?: false
                 val discoveryMethod = activity?.getSharedPreferences(
                     TAG,
                     Context.MODE_PRIVATE
-                )?.getInt(DISCOVERY_METHOD, 0) ?: 0
-                viewModel =
-                    TerminalViewModel(discoveryMethods[discoveryMethod], discoveryMethods, isSimulated)
+                )?.getInt(DISCOVERY_METHOD_KEY, 0) ?: 0
+                viewModel = TerminalViewModel(
+                    DiscoveryMethod.entries[discoveryMethod],
+                    isSimulated,
+                )
             }
         }
     }
@@ -77,22 +67,35 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inflate the layout for this fragment
-        val viewBinding = requireNotNull(
-            DataBindingUtil.bind<FragmentTerminalBinding>(view)
-        )
-        viewBinding.lifecycleOwner = viewLifecycleOwner
-        viewBinding.viewModel = viewModel
+        val binding = FragmentTerminalBinding.bind(view)
 
         // Set the device type spinner
-        viewBinding.discoveryMethodSpinner.adapter = ArrayAdapter(
+        binding.discoveryMethodSpinner.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            discoveryMethods
+            DiscoveryMethod.entries,
         )
 
+        // Set initial values from viewModel
+        binding.discoveryMethodSpinner.setSelection(viewModel.discoveryMethodPosition)
+        binding.simulatedSwitch.isChecked = viewModel.simulated
+
+        // Set up spinner listener for two-way binding
+        binding.discoveryMethodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.discoveryMethodPosition = position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
+
+        // Set up switch listener for two-way binding
+        binding.simulatedSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.simulated = isChecked
+        }
+
         // Link up the discovery button
-        viewBinding.discoverButton.setOnClickListener {
+        binding.discoverButton.setOnClickListener {
             (activity as? NavigationListener)?.onRequestDiscovery(
                 viewModel.simulated,
                 viewModel.discoveryMethod,
@@ -104,8 +107,8 @@ class TerminalFragment : Fragment(R.layout.fragment_terminal) {
         super.onPause()
         activity?.let {
             it.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit {
-                putBoolean(SIMULATED_SWITCH, viewModel.simulated)
-                putInt(DISCOVERY_METHOD, viewModel.discoveryMethodPosition)
+                putBoolean(SIMULATED_SWITCH_KEY, viewModel.simulated)
+                putInt(DISCOVERY_METHOD_KEY, viewModel.discoveryMethodPosition)
             }
         }
     }
