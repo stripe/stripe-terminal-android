@@ -3,6 +3,41 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.4.0 - 2026-03-30
+
+### Core
+
+#### New
+- Preview: **Terminal Donations**
+  - Added support to skip donations flow per transaction by adding a `skipDonation` parameter to the `CollectPaymentIntentConfiguration` model.
+  - To request access to this private preview, please contact [Stripe Support](https://support.stripe.com/).
+- Preview: **Multi Capture**
+  - Added `requestMulticapture` to [`CardPresentParameters`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-parameters/index.html) for requesting multicapture support when creating card-present PaymentIntents.
+  - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
+- Preview: **Reauthorizations**
+  - Added support to authorize a `PaymentIntent` again after its capture window has lapsed.
+  - Added a new field `requestReauthorization` to [`CardPresentOptions`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-options/index.html).
+  - Added new fields `reauthorization.status` and `reauthorizeBefore` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html).
+  - Added a new enum value `REQUIRES_REAUTHORIZATION` to [`PaymentIntentStatus`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-payment-intent-status/index.html).
+  - If you are interested in joining this preview, please email [stripe-terminal-betas@stripe.com](mailto:stripe-terminal-betas@stripe.com).
+- Added `captureBefore` to [`CardPresentDetails`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-card-present-details/index.html).
+  - Previously only available via the server-side API.
+
+#### Updates
+- [`TerminalException`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-exception/index.html) now exposes a `refund` field, when the exception is from a declined refund attempt.
+- [`ApiError`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.api/-api-error/index.html) now exposes `request_log_url`, `advice_code`, `network_advice_code` and `network_decline_code` to provide more details about Stripe API errors.
+- [`SetupError`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-error/index.html) now exposes `advice_code`, `network_advice_code` and `network_decline_code` to provide more details about SetupIntent errors from `Terminal.retrieveSetupIntent`.
+- Reduced offline fallback timeout during Bluetooth & USB reader discovery when discovering offline-enabled readers, resulting in faster falling back to offline if network connectivity is not available. Timeout reduced from 30s to 15s.
+
+### Tap to Pay
+
+#### Updates
+- The payment collection screen UI has been updated with improved designs.
+
+#### Fixes
+- Fixed issue where tap zone would change size on tablets, depending on the device being in portrait or landscape.
+- Fixed `SecurityException` when user taps and removes a card quickly. Fixes [issue 689](https://github.com/stripe/stripe-terminal-android/issues/689).
+
 ## 5.3.0 - 2026-03-03
 
 ### Core
@@ -148,6 +183,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ## 4.7.3 - 2025-09-25
 
 ### Tap to Pay
+
+#### New
+- Added Interac payment method support in Canada for Tap to Pay on Android (Public Preview).
 
 #### Fixes
 - Addresses issues where a device may erroneously report as not being compatible with Tap to Pay on Android, or fail during the Tap to Pay on Android connection process with a `KEY_ERROR`. Fixes [issue 629](https://github.com/stripe/stripe-terminal-android/issues/629).
