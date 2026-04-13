@@ -3,6 +3,14 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.4.1 - 2026-04-13
+
+### Tap to Pay
+
+#### Fixes
+- Fixed an issue with memory allocation causing connections to Tap to Pay on Android readers to fail. Fixes [issue 691](https://github.com/stripe/stripe-terminal-android/issues/691).
+- Fixed an issue where Tap to Pay connections failed with a [`TAP_TO_PAY_INSECURE_ENVIRONMENT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-t-a-p_-t-o_-p-a-y_-i-n-s-e-c-u-r-e_-e-n-v-i-r-o-n-m-e-n-t/index.html) error on certain devices even when developer options were not enabled.
+
 ## 5.4.0 - 2026-03-30
 
 ### Core
@@ -28,6 +36,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - [`ApiError`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.api/-api-error/index.html) now exposes `request_log_url`, `advice_code`, `network_advice_code` and `network_decline_code` to provide more details about Stripe API errors.
 - [`SetupError`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-setup-error/index.html) now exposes `advice_code`, `network_advice_code` and `network_decline_code` to provide more details about SetupIntent errors from `Terminal.retrieveSetupIntent`.
 - Reduced offline fallback timeout during Bluetooth & USB reader discovery when discovering offline-enabled readers, resulting in faster falling back to offline if network connectivity is not available. Timeout reduced from 30s to 15s.
+
+#### Fixes
+- Fix: Resolved an issue where Bluetooth/USB auto-reconnection for a mobile reader could hang indefinitely, requiring a restart.
 
 ### Tap to Pay
 
@@ -145,7 +156,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - For production environments, reader discovery will now fail with a [`TAP_TO_PAY_INSECURE_ENVIRONMENT`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-terminal-error-code/-t-a-p_-t-o_-p-a-y_-i-n-s-e-c-u-r-e_-e-n-v-i-r-o-n-m-e-n-t/index.html) error if developer options, USB/Wi-Fi debugging, or other debug options are enabled on the device.
   - This does not apply to usage of the simulated Tap to Pay reader.
 - The `TapToPayUxConfiguration.TapZone` class has been refactored. The `indicator` and `position` fields have been replaced by a single `TapZone` object. You can now position the tap zone to the left or right side of the screen using `TapZone.Left` and `TapZone.Right`. The `TapZone.Above` and `TapZone.Below` options now also respect the horizontal bias value.
-- Added Discover payment method support for Tap to Pay on Android (Public Preview).
+- Added Discover payment method support for Tap to Pay on Android.
 
 ### Apps on Devices
 - The Maven coordinates for this feature has changed to `com.stripe:stripterminal-appsondevices:5.0.0`. Please update your build dependencies.
