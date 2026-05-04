@@ -3,6 +3,35 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.5.0 - 2026-05-04
+
+### Core
+
+#### New
+- Preview: Surcharging - Refactored the surcharge API surface.
+  - Added new `AmountDetails.SurchargeDetails` class with `amount`, `maximumAmount`, and `status` on `amountDetails.surchargeDetails`.
+  - **Breaking:** `CardPresentOptions.Surcharge` has been removed. Use `AmountDetails.SurchargeDetails` for `maximumAmount` and `status`. `status` is now a `SurchargeStatus` enum instead of `String`.
+  - **Breaking:** Top-level `amountSurcharge` on `PaymentIntent` has been removed. Use `amountDetails.surchargeDetails.amount` instead.
+  - To request access to this feature, please contact [Stripe Support](https://support.stripe.com/).
+- Added support for [simulating software update scenarios](https://docs.stripe.com/terminal/references/testing#simulated-reader-updates) on physical mobile readers in test mode.
+  - Added [`TestReaderUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-test-reader-update/index.html) and [`TestReaderUpdateType`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-test-reader-update/-test-reader-update-type/index.html) with scenarios: available, required, required-for-offline, and low battery.
+  - Set `testReaderUpdate` on [`BluetoothConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-bluetooth-connection-configuration/index.html) or [`UsbConnectionConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-connection-configuration/-usb-connection-configuration/index.html) before connecting.
+  - `SimulatorConfiguration.update` is deprecated in favor of this new per-connection API.
+
+#### Updates
+- When offline mode is enabled, the SDK now falls back to offline processing faster when the device can't reach Stripe. Previously, the SDK waited up to 15 seconds before falling back. Now, timeouts are optimized per request type, reducing wait times for common operations like payment creation.
+
+### Tap to Pay
+
+#### Updates
+- The simulated payment collection screen UI was updated to match the livemode UI and can now be customized with [`TapToPayUxConfiguration`](https://docs.stripe.com/terminal/payments/setup-reader/tap-to-pay?terminal-sdk-platform=android#user-interface).
+  - Pressing the screen simulates a successful payment; long pressing simulates a failed payment collection.
+
+### Apps on Devices: Handoff mode
+
+#### New
+- `AppsOnDevicesConnectionConfiguration` now accepts an optional `appTransitionAnimation` parameter of type `AppTransitionAnimation`. Use `AppTransitionAnimation.Preset` with an `AppTransitionPreset` (e.g. `SLIDE_FROM_BOTTOM`) for a built-in transition, or `AppTransitionAnimation.Custom(enterAnim, exitAnim)` with your own `@AnimRes` resource IDs for full control over the animation. Pass `0` for either resource to disable that direction. Defaults to `AppTransitionAnimation.SystemDefault`, which is a slide from the right.
+
 ## 5.4.1 - 2026-04-13
 
 ### Tap to Pay

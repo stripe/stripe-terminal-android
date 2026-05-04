@@ -1,5 +1,10 @@
 package com.stripe.example.model
 
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+
 /**
  * Data class representing the detailed view of a ledger entry
  * Used for the exploded card dialog that appears on long press
@@ -44,8 +49,12 @@ data class DetailedLedgerCard(
                         cardBrand = intent.getCharges().firstOrNull()?.paymentMethodDetails?.cardPresentDetails?.brand,
                         cardLast4 = intent.getCharges().firstOrNull()?.paymentMethodDetails?.cardPresentDetails?.last4,
                         metadata = intent.metadata ?: emptyMap(),
-                        createdDate = java.text.DateFormat.getDateTimeInstance()
-                            .format(java.util.Date(intent.created * 1000)),
+                        createdDate = DateTimeFormatter
+                            .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                            .format(
+                                Instant.ofEpochSecond(intent.created)
+                                    .atZone(ZoneId.systemDefault())
+                            ),
                         status = intent.status?.name ?: "Unknown",
                         availableActions = actions
                     )
@@ -68,8 +77,12 @@ data class DetailedLedgerCard(
                         cardBrand = intent.paymentMethod?.cardPresentDetails?.brand,
                         cardLast4 = intent.paymentMethod?.cardPresentDetails?.last4,
                         metadata = intent.metadata,
-                        createdDate = java.text.DateFormat.getDateTimeInstance()
-                            .format(java.util.Date(intent.created * 1000)),
+                        createdDate = DateTimeFormatter
+                            .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                            .format(
+                                Instant.ofEpochSecond(intent.created)
+                                    .atZone(ZoneId.systemDefault())
+                            ),
                         status = intent.status?.name ?: "Unknown",
                         availableActions = actions
                     )
