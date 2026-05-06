@@ -83,7 +83,7 @@ object TerminalOfflineListener : OfflineListener {
             combine(offlineEventsFlow, lastShownSummaryEventTimestamp) { events, timestamp ->
                 events
                         .filterIsInstance<OfflineEvent.ForwardingEvent>() // filter only forwarding events
-                        .filter { it.timestamp.time >= timestamp } // exclude events we've shown a summary
+                        .filter { it.timestamp.toEpochMilli() >= timestamp } // exclude events we've shown a summary
                         .groupBy { it.isSuccessFul }
                         .let { map ->
                             // Aggregate results by successful flag

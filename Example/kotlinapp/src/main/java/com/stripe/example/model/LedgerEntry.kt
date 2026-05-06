@@ -5,7 +5,10 @@ import com.stripe.stripeterminal.external.models.PaymentIntentStatus
 import com.stripe.stripeterminal.external.models.Refund
 import com.stripe.stripeterminal.external.models.SetupIntent
 import com.stripe.stripeterminal.external.models.SetupIntentStatus
-import java.util.Date
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 
 sealed interface LedgerEntry {
@@ -49,7 +52,8 @@ sealed interface LedgerEntry {
         val refunded: Boolean = refund != null
 
         override val createdDate: String
-            get() = java.text.DateFormat.getDateTimeInstance().format(Date(intent.created * 1000))
+            get() = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .format(Instant.ofEpochSecond(intent.created).atZone(ZoneId.systemDefault()))
         val formattedAmount: String = String.format(Locale.US, "%.2f", intent.amount / 100.0)
         override val uniqueId: String = intent.metadata?.get("transaction_id") ?: intent.id ?: ""
     }
@@ -61,7 +65,8 @@ sealed interface LedgerEntry {
         override val syncedToStripe: Boolean = intent.offlineDetails?.requiresUpload != true
         override val collectedOffline: Boolean = intent.offlineDetails != null
         override val createdDate: String
-            get() = java.text.DateFormat.getDateTimeInstance().format(Date(intent.created * 1000))
+            get() = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .format(Instant.ofEpochSecond(intent.created).atZone(ZoneId.systemDefault()))
         override val uniqueId: String = intent.metadata["transaction_id"] ?: intent.id ?: ""
     }
 }

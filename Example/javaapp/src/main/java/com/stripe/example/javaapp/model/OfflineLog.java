@@ -7,9 +7,6 @@ import androidx.annotation.Nullable;
 
 import com.stripe.stripeterminal.external.models.PaymentIntent;
 
-import java.util.Calendar;
-import java.util.Locale;
-
 public class OfflineLog implements Comparable<OfflineLog> {
 
     final long timestamp;
@@ -23,9 +20,7 @@ public class OfflineLog implements Comparable<OfflineLog> {
     }
 
     public String toMessage() {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(timestamp);
-        return DateFormat.format("yyyy-MM-dd HH:mm:ss", cal).toString() + " : " + message;
+        return DateFormat.format("yyyy-MM-dd HH:mm:ss", timestamp).toString() + " : " + message;
     }
     @Override
     public int compareTo(OfflineLog o) {

@@ -7,20 +7,20 @@ import com.stripe.stripeterminal.external.OfflineMode
 import com.stripe.stripeterminal.external.models.NetworkStatus
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.TerminalException
-import java.util.Date
+import java.time.Instant
 
 @OptIn(OfflineMode::class)
 sealed interface OfflineEvent {
     val summary: String
     val details: List<Pair<String, String>>
-    val timestamp: Date
+    val timestamp: Instant
 
     abstract class ChangeEvent<T : Any?>(
         event: String,
         previous: T,
         new: T,
     ) : OfflineEvent {
-        final override val timestamp: Date = Date(System.currentTimeMillis())
+        final override val timestamp: Instant = Instant.now()
         override val summary: String = "$timestamp : $event Change from $previous to $new"
         override val details: List<Pair<String, String>> = emptyList()
         val changed = previous != new
@@ -37,7 +37,7 @@ sealed interface OfflineEvent {
         details: List<Pair<String, String>>,
         val isSuccessFul: Boolean,
     ) : OfflineEvent {
-        override val timestamp = Date(System.currentTimeMillis())
+        override val timestamp = Instant.now()
         override val summary = "$timestamp : $summary"
         override val details = details.plus(TIME to timestamp.toString())
 
@@ -63,7 +63,7 @@ sealed interface OfflineEvent {
     }
 
     class CaptureEvent(summary: String, details: List<Pair<String, String>>) : OfflineEvent {
-        override val timestamp = Date(System.currentTimeMillis())
+        override val timestamp = Instant.now()
         override val summary = "$timestamp : $summary"
         override val details = details.apply {
             if (isNotEmpty()) {
