@@ -3,7 +3,7 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
-## 5.5.0 - 2026-05-04
+## 5.5.0 - 2026-05-06
 
 ### Core
 
