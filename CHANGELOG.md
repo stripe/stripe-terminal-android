@@ -3,9 +3,14 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
-## 5.5.0 - 2026-05-06
+## 5.5.1 - 2026-05-22
 
-### Core
+### Tap to Pay
+
+#### Fixes
+- Fixed an issue that caused transactions to fail if the amount was above the regional PIN limit. The bug was introduced in SDK version 5.4.0.
+
+## 5.5.0 - 2026-05-06
 
 #### New
 - Preview: Surcharging - Refactored the surcharge API surface.
