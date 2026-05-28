@@ -1,6 +1,9 @@
 name: Sync GitHub issues to Jira
 on: [issues, issue_comment]
 
+permissions:
+  contents: read
+
 jobs:
   sync-issues:
     name: Sync issues to Jira
