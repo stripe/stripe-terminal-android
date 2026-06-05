@@ -3,6 +3,31 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.6.0 - 2026-06-08
+
+### Core
+
+#### New
+- Added [`LocaleConfig`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-locale-config/index.html) parameter to `Terminal.init()` to configure localization of API error messages. Pass `LocaleConfig.CardLanguagePreferenceIfAvailable` to localize messages to the cardholder's preferred language when available (falling back to the device locale), or `LocaleConfig.HardcodedLocale` for a fixed locale.
+
+#### Updates
+- The `Terminal.init()` overload without a `LocaleConfig` parameter is now deprecated. Use the new overload and pass a `LocaleConfig` to configure API error message localization.
+- `MobileReaderListener.onBatteryLevelUpdate` now only fires when the battery level, status, or charging state changes from the last reported value. Previously it fired on every battery poll from the reader firmware (~every 10 minutes), regardless of whether the value changed.
+
+#### Fixes
+- `OfflineListener.onPaymentIntentForwarded` and `OfflineListener.onSetupIntentForwarded` now receive the up-to-date intent returned by the Stripe API (when present in the error) rather than the stale locally-stored snapshot.
+- Fixed a race condition where calling `Cancelable.cancel()` within milliseconds of `collectPaymentMethod()` (or other cancelable operations) could cause the original operation callback's `onFailure` to never fire, leaving callers hanging indefinitely or causing `UNEXPECTED_SDK_ERROR` on the next operation.
+- Fixed a race condition where calling `Terminal.cancelPaymentIntent()` or `Terminal.cancelSetupIntent()` while `collectPaymentMethod` was in-flight on an internet reader could cause an unexpected disconnect (`onDisconnect` with reason `UNKNOWN`) after a 45-second timeout.
+- When programmatically canceling a payment on a smart reader using the SDK, the `TerminalException.message` in the collect callback's `onFailure` is now `"Transaction is cancelled by the user."` instead of `"Job was canceled"`. The `errorCode` remains `CANCELED`.
+
+### Tap to Pay
+
+#### Updates
+- API error messages from Tap to Pay attestation now default to English (`en-US`) instead of the application locale. Pass `LocaleConfig.CardLanguagePreferenceIfAvailable` to `Terminal.init()` to localize by the application locale, matching the previous behavior.
+
+#### Fixes
+- Prevent the immersive mode system overlay from causing the Tap to Pay collection screen from prematurely closing. Fixes [issue 1120](https://github.com/stripe/stripe-terminal-react-native/issues/1120).
+
 ## 5.5.1 - 2026-05-22
 
 ### Tap to Pay
@@ -10,7 +35,10 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### Fixes
 - Fixed an issue that caused transactions to fail if the amount was above the regional PIN limit. The bug was introduced in SDK version 5.4.0.
 
+
 ## 5.5.0 - 2026-05-06
+
+### Core
 
 #### New
 - Preview: Surcharging - Refactored the surcharge API surface.
@@ -111,7 +139,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### New
 - Devices are required to have installed an Android security patch update from the last 12 months in order to use Tap to Pay. Devices that have an outdated security patch version will fail to connect to the Tap to Pay reader.
     - You can find a device's Android version number and security update status in the system Settings app. Update schedules may vary by manufacturer, device, and mobile carrier; check [support guides](https://support.google.com/android/answer/7680439) for more details.
-- Added Cartes Bancaires payment method support for Tap to Pay on Android (Public Preview).
+- Added Cartes Bancaires payment method support in France for Tap to Pay on Android.
 - Added support for additional payment methods using a QR code for Tap to Pay on Android (Public Preview). See [docs](https://docs.stripe.com/terminal/payments/additional-payment-methods) for more details.
 
 #### Updates
@@ -230,7 +258,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 ### Tap to Pay
 
 #### New
-- Added Interac payment method support in Canada for Tap to Pay on Android (Public Preview).
+- Added Interac payment method support in Canada for Tap to Pay on Android.
 
 #### Fixes
 - Addresses issues where a device may erroneously report as not being compatible with Tap to Pay on Android, or fail during the Tap to Pay on Android connection process with a `KEY_ERROR`. Fixes [issue 629](https://github.com/stripe/stripe-terminal-android/issues/629).

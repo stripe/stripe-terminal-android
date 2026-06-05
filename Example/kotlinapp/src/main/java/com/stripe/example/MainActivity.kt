@@ -30,6 +30,7 @@ import com.stripe.stripeterminal.external.callable.MobileReaderListener
 import com.stripe.stripeterminal.external.callable.TapToPayReaderListener
 import com.stripe.stripeterminal.external.models.ConnectionStatus
 import com.stripe.stripeterminal.external.models.DisconnectReason
+import com.stripe.stripeterminal.external.models.LocaleConfig
 import com.stripe.stripeterminal.external.models.Location
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage
@@ -326,7 +327,8 @@ class MainActivity :
                         LogLevel.VERBOSE,
                         TokenProvider(),
                         TerminalEventListener,
-                        TerminalOfflineListener
+                        TerminalOfflineListener,
+                        LocaleConfig.HardcodedLocale.Builder("en-US").build(),
                 )
             }
         } catch (e: TerminalException) {
