@@ -39,7 +39,7 @@
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
 <a class="library-name--link" href="../../../index.html">
-                            Stripe Terminal Android SDK (v5.5.1)
+                            Stripe Terminal Android SDK (v5.6.0)
                     </a>            </div>
             <div class="library-version">
             </div>
@@ -59,7 +59,7 @@
   <div class="breadcrumbs"><a href="../../index.html">external</a><span class="delimiter">/</span><a href="../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><span class="current">PaymentMethod</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Payment</span><wbr><span><span>Method</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span></div></div><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">PaymentMethod</a> : <a href="https://developer.android.com/reference/kotlin/java/io/Serializable.html">Serializable</a></div><p class="paragraph"><code class="lang-kotlin">PaymentMethod</code> objects represent your customer's payment instruments. They can be used with <a href="../-payment-intent/index.html">PaymentIntent</a>s to collect payments, or saved to Customer objects to store instrument details for future payments.</p><p class="paragraph">For more information, see the official Stripe docs: <a href="https://stripe.com/docs/api/payment_methods">Payment methods</a> <a href="https://stripe.com/docs/payments/payment-methods/saving#attach-method">Attach payment method</a></p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span></div></div><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">PaymentMethod</a> : <span data-unresolved-link="java.io/Serializable///PointingToDeclaration/">Serializable</span></div><p class="paragraph"><code class="lang-kotlin">PaymentMethod</code> objects represent your customer's payment instruments. They can be used with <a href="../-payment-intent/index.html">PaymentIntent</a>s to collect payments, or saved to Customer objects to store instrument details for future payments.</p><p class="paragraph">For more information, see the official Stripe docs: <a href="https://stripe.com/docs/api/payment_methods">Payment methods</a> <a href="https://stripe.com/docs/payments/payment-methods/saving#attach-method">Attach payment method</a></p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -121,7 +121,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="created.html">created</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Time at which the <a href="index.html">PaymentMethod</a> was created. Measured in seconds since the Unix epoch.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="created.html">created</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator"> = </span><span class="token constant">0</span></div><div class="brief "><p class="paragraph">Time at which the <a href="index.html">PaymentMethod</a> was created. Measured in seconds since the Unix epoch.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -136,7 +136,22 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="customer.html">customer</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">The ID of the Customer to which this <a href="index.html">PaymentMethod</a> is saved. This will not be set when the <a href="index.html">PaymentMethod</a> has not been saved to a Customer.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="customer.html">customer</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">The ID of the Customer to which this <a href="index.html">PaymentMethod</a> is saved. This will not be set when the <a href="index.html">PaymentMethod</a> has not been saved to a Customer.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="891130742%2FProperties%2F-1219334616" anchor-label="giftCardDetails" id="891130742%2FProperties%2F-1219334616" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":terminalsdk:external:dokkaHtmlPartial/main" data-filterable-set=":terminalsdk:external:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="gift-card-details.html"><span>gift</span><wbr><span>Card</span><wbr><span><span>Details</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="891130742%2FProperties%2F-1219334616"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/SerialName///PointingToDeclaration/"><span class="token annotation builtin">SerialName</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"giftCard"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">val </span><a href="gift-card-details.html">giftCardDetails</a><span class="token operator">: </span><a href="../-gift-card-details/index.html">GiftCardDetails</a><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">A <a href="../-gift-card-details/index.html">GiftCardDetails</a> object containing more information about a payment method of type GIFT_CARD</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -151,7 +166,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="id.html">id</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Unique identifier for the object.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="id.html">id</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span></div><div class="brief "><p class="paragraph">Unique identifier for the object.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -196,7 +211,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="livemode.html">livemode</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></div><div class="brief "><p class="paragraph">Has the value <code class="lang-kotlin">true</code> if the object exists in live mode or the value <code class="lang-kotlin">false</code> if the object exists in test mode.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="livemode.html">livemode</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Boolean///PointingToDeclaration/">Boolean</span><span class="token operator"> = </span><span class="token boolean">false</span></div><div class="brief "><p class="paragraph">Has the value <code class="lang-kotlin">true</code> if the object exists in live mode or the value <code class="lang-kotlin">false</code> if the object exists in test mode.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -211,7 +226,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="metadata.html">metadata</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Return any metadata that was attached to this PaymentMethod upon creation</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="metadata.html">metadata</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/Map///PointingToDeclaration/">Map</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token punctuation">, </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Return any metadata that was attached to this PaymentMethod upon creation</p></div></div></div>
                 </div>
               </div>
             </div>
