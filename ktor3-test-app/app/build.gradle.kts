@@ -38,9 +38,12 @@ dependencies {
     // Stripe Terminal SDK
     implementation("com.stripe:stripeterminal-core:$stripeTerminalVersion")
 
-    // Ktor 3.x - simulating an integrator who uses Ktor 3 in their app
-    implementation("io.ktor:ktor-client-core:3.1.3")
-    implementation("io.ktor:ktor-client-okhttp:3.1.3")
-    implementation("io.ktor:ktor-client-content-negotiation:3.1.3")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.3")
+    // Local lib compiled against Ktor 2.3.13 (simulates a third-party lib using Ktor 2)
+    implementation(project(":ktor2lib"))
+
+    // Ktor 3.x with BOM to align all ktor modules
+    implementation(platform("io.ktor:ktor-bom:3.1.3"))
+    implementation("io.ktor:ktor-client-core")
+    implementation("io.ktor:ktor-client-content-negotiation")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
 }

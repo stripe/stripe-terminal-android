@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ktor3-test-app"
 include(":app")
+include(":ktor2lib")
