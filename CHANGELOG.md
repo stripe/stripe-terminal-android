@@ -3,6 +3,37 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.7.0 - 2026-07-13
+
+### Core
+
+#### New
+- Added `CardPresentDetails.overcaptureStatus` to indicate whether overcapture is supported for a card present transaction.
+  - For smart reader integrations, this feature requires reader software version `2.43` or later.
+
+#### Fixes
+- Fixed `collectPaymentMethod()` to correctly populate `PaymentIntent.paymentMethod` for non-card payment methods (e.g. Affirm) when `updatePaymentIntent` is enabled.
+- Fixed a data-loss bug introduced in 5.6.0 where the offline database migration could permanently delete stored offline payments when upgrading from SDK version 4.1.0 or earlier. Fixes [issue 731](https://github.com/stripe/stripe-terminal-android/issues/731).
+
+### Tap to Pay
+
+#### New
+- Preview: Surcharging - Added support for collecting surcharges on Tap to Pay on Android readers.
+  - To request access to this feature, please contact [Stripe Support](https://support.stripe.com/).
+
+#### Updates
+- Tap to Pay readers that have already been registered to a location will have a valid `location` property set during discovery. This `Location` can be passed directly to `connectReader` to avoid a separate lookup.
+
+#### Fixes
+- Fixed an issue that could cause devices to fail to connect when Keystore certificates registered to the device had expired.
+- Fixed a bug where the `generated_card` field was not populated after processing a PaymentIntent. Fixes [issue 717](https://github.com/stripe/stripe-terminal-android/issues/717).
+- Fixed a crash that occurred when initiating payment collection in portrait orientation while the app was running in landscape orientation. Fixes [issue 1116](https://github.com/stripe/stripe-terminal-react-native/issues/1116).
+- Fixed a bug where the SDK could encounter attribute resource name collisions with certain third-party libraries. Fixes [issue 721](https://github.com/stripe/stripe-terminal-android/issues/721).
+
+### Apps on Devices: Handoff mode
+
+#### Fixes
+- Fixed `collectPaymentMethod()` to correctly populate `PaymentIntent.paymentMethod` for non-card payment methods (e.g. Affirm) when `updatePaymentIntent` is enabled.
 ## 5.6.0 - 2026-06-08
 
 ### Core
@@ -20,13 +51,16 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Fixed a race condition where calling `Terminal.cancelPaymentIntent()` or `Terminal.cancelSetupIntent()` while `collectPaymentMethod` was in-flight on an internet reader could cause an unexpected disconnect (`onDisconnect` with reason `UNKNOWN`) after a 45-second timeout.
 - When programmatically canceling a payment on a smart reader using the SDK, the `TerminalException.message` in the collect callback's `onFailure` is now `"Transaction is cancelled by the user."` instead of `"Job was canceled"`. The `errorCode` remains `CANCELED`.
 
+#### Known Issues
+- **Offline mode data loss**: There is a database migration bug in this release that can permanently delete stored offline payments when upgrading from SDK version 4.1.0 or earlier. If you use offline mode and your users may have stored offline payments from an SDK version at or before 4.1.0, we strongly recommend upgrading directly to 5.7.0. This issue is fixed in 5.7.0.
+
 ### Tap to Pay
 
 #### Updates
 - API error messages from Tap to Pay attestation now default to English (`en-US`) instead of the application locale. Pass `LocaleConfig.CardLanguagePreferenceIfAvailable` to `Terminal.init()` to localize by the application locale, matching the previous behavior.
 
 #### Fixes
-- Prevent the immersive mode system overlay from causing the Tap to Pay collection screen from prematurely closing. Fixes [issue 1120](https://github.com/stripe/stripe-terminal-react-native/issues/1120).
+- Fixed an issue where the immersive mode system overlay could cause the Tap to Pay collection screen to prematurely close. Fixes [issue 1120](https://github.com/stripe/stripe-terminal-react-native/issues/1120).
 
 ## 5.5.1 - 2026-05-22
 
@@ -45,6 +79,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
   - Added new `AmountDetails.SurchargeDetails` class with `amount`, `maximumAmount`, and `status` on `amountDetails.surchargeDetails`.
   - **Breaking:** `CardPresentOptions.Surcharge` has been removed. Use `AmountDetails.SurchargeDetails` for `maximumAmount` and `status`. `status` is now a `SurchargeStatus` enum instead of `String`.
   - **Breaking:** Top-level `amountSurcharge` on `PaymentIntent` has been removed. Use `amountDetails.surchargeDetails.amount` instead.
+  - _Note for smart reader integrations, this feature requires reader software version `2.42` or later to be installed on your smart reader._
   - To request access to this feature, please contact [Stripe Support](https://support.stripe.com/).
 - Added support for [simulating software update scenarios](https://docs.stripe.com/terminal/references/testing#simulated-reader-updates) on physical mobile readers in test mode.
   - Added [`TestReaderUpdate`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-test-reader-update/index.html) and [`TestReaderUpdateType`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-test-reader-update/-test-reader-update-type/index.html) with scenarios: available, required, required-for-offline, and low battery.
