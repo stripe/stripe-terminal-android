@@ -59,12 +59,7 @@ class DiscoveryViewModel(
             USB -> DiscoveryConfiguration.UsbDiscoveryConfiguration(0, isSimulated)
         }
 
-    @RequiresPermission(
-        anyOf = [
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        ],
-    )
+    @RequiresPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
     fun startDiscovery(onFailure: () -> Unit) {
         viewModelScope.launch {
             Terminal.getInstance().discoverReaders(config = discoveryConfig)

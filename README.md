@@ -26,17 +26,17 @@ To use the Android SDK, add `stripeterminal` to the `dependencies` block of your
 
 ```kotlin
 dependencies {
-  implementation("com.stripe:stripeterminal:5.7.0")
+  implementation("com.stripe:stripeterminal:5.8.0")
 }
 ```
 
 ### Configure your app
 
-Location access must be enabled in order to use the SDK. You’ll need to make sure that the `ACCESS_FINE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
+Location access must be enabled in order to use the SDK. You’ll need to make sure that at a minimum, the `ACCESS_COARSE_LOCATION` permission is enabled in your app. To do this, add the following check before you initialize the `Terminal` object:
 
 ```kotlin
-if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-    val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
     // Define the REQUEST_CODE_LOCATION on your app level
     ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_LOCATION)
 }
@@ -105,8 +105,8 @@ your `build.gradle.kts` file with the following:
 
 ```kotlin
 dependencies {
-  implementation("com.stripe:stripeterminal-taptopay:5.7.0")
-  implementation("com.stripe:stripeterminal-core:5.7.0")
+  implementation("com.stripe:stripeterminal-taptopay:5.8.0")
+  implementation("com.stripe:stripeterminal-core:5.8.0")
 }
 ```
 

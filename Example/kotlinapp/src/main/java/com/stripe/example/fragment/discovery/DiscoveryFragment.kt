@@ -165,12 +165,7 @@ class DiscoveryFragment :
     }
 
     private fun checkPermission(discoveryMethod: DiscoveryMethod): Boolean {
-        val hasGpsModule = requireContext().packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)
-        val locationPermission = if (hasGpsModule) {
-            Manifest.permission.ACCESS_FINE_LOCATION
-        } else {
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        }
+        val locationPermission = Manifest.permission.ACCESS_COARSE_LOCATION
 
         val ungrantedPermissions = buildList {
             if (!isGranted(locationPermission)) add(locationPermission)
