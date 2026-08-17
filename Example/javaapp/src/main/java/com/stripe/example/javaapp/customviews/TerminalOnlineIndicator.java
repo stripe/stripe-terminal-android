@@ -150,8 +150,6 @@ public class TerminalOnlineIndicator extends View implements ValueAnimator.Anima
         paint.setStrokeWidth(pulseStrokeWidth);
         paint.setAlpha(pulseAlpha);
         canvas.drawCircle(ZERO, ZERO, radius * pulseScale, paint);
-        canvas.save();
-        canvas.restore();
     }
 
     @Override

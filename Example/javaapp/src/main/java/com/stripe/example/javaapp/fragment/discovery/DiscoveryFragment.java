@@ -221,13 +221,7 @@ public class DiscoveryFragment extends Fragment implements LocationSelectionCont
     }
 
     private boolean checkPermission(DiscoveryMethod discoveryMethod) {
-        boolean hasGpsModule = requireContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-        String locationPermission;
-        if (hasGpsModule) {
-            locationPermission = Manifest.permission.ACCESS_FINE_LOCATION;
-        } else {
-            locationPermission = Manifest.permission.ACCESS_COARSE_LOCATION;
-        }
+        String locationPermission = Manifest.permission.ACCESS_COARSE_LOCATION;
 
         List<String> ungrantedPermissions = new ArrayList<>();
         if (!isGranted(locationPermission)) {

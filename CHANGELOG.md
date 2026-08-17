@@ -3,6 +3,42 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.8.0 - 2026-08-17
+
+### Core
+
+#### New
+- Added `TerminalErrorCode.PRINTER_LOW_BATTERY` error code. This error is returned when the reader's battery is too low to complete a print operation.
+- Added support for reading and setting the buzzer volume on supported readers via `Terminal.getReaderSettings` and `Terminal.setReaderSettings`. Pass `ReaderSettingsParameters.BuzzerVolumeParameters` with a `BuzzerVolumeLevel` of `Low`, `High`, or `Exact(volume)`. The current and maximum volume are reported through `ReaderSettings.readerBuzzerVolume`.
+
+#### Updates
+- `ACCESS_COARSE_LOCATION` is now sufficient for the SDK's location reporting. Apps that previously relied on the SDK to declare `ACCESS_FINE_LOCATION` in their merged manifest should add it explicitly if their app requires precise location for other purposes. The SDK will still use GPS when `ACCESS_FINE_LOCATION` is granted, falling back to the network provider otherwise.
+- The SDK now declares the Bluetooth permissions required for reader discovery. On Android 12 and later, `BLUETOOTH_SCAN` is declared with `neverForLocation` because the SDK does not derive physical location from Bluetooth scan results. On Android 11 and earlier, `ACCESS_FINE_LOCATION` is declared with `maxSdkVersion="30"` because those Android versions require it for BLE scanning.
+
+  If your app derives physical location from Bluetooth scan results, replace the SDK declarations in your app's manifest and request fine location at runtime:
+
+  ```xml
+  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools">
+
+      <uses-permission
+          android:name="android.permission.BLUETOOTH_SCAN"
+          tools:node="replace" />
+      <uses-permission
+          android:name="android.permission.ACCESS_FINE_LOCATION"
+          tools:node="replace" />
+  </manifest>
+  ```
+
+#### Fixes
+- Fixed a crash during `Terminal.init()` on devices with unsupported Android Keystore implementations. Fixes [issue 726](https://github.com/stripe/stripe-terminal-android/issues/726).
+- Fixed mobile reader software updates timing out on slow network connections.
+
+### Tap to Pay
+
+#### Fixes
+- Fixed an issue causing PIN collections to fail on Tap to Pay on Android for certain device models. Fixes [issue 722](https://github.com/stripe/stripe-terminal-android/issues/722).
+
 ## 5.7.0 - 2026-07-13
 
 ### Core
@@ -34,6 +70,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### Fixes
 - Fixed `collectPaymentMethod()` to correctly populate `PaymentIntent.paymentMethod` for non-card payment methods (e.g. Affirm) when `updatePaymentIntent` is enabled.
+
 ## 5.6.0 - 2026-06-08
 
 ### Core
