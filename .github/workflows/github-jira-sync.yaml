@@ -6,6 +6,6 @@ jobs:
     name: Sync issues to Jira
     runs-on: ubuntu-latest
     steps:
-      - uses: canonical/sync-issues-github-jira@v1
+      - uses: canonical/sync-issues-github-jira@6e532ab8d30c561158f2ccbe702ef366dedcbb44 # v1
         with:
           webhook-url: ${{ secrets.JIRA_WEBHOOK_URL }}
