@@ -3,6 +3,14 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 5.8.1 - 2026-09-14
+
+### Tap to Pay
+
+#### New
+
+- Added China Union Pay payment method support in Hong Kong for Tap to Pay on Android.
+
 ## 5.8.0 - 2026-08-17
 
 ### Core
