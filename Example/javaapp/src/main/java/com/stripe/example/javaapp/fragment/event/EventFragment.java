@@ -30,6 +30,7 @@ import com.stripe.stripeterminal.external.callable.MobileReaderListener;
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
 import com.stripe.stripeterminal.external.models.AllowRedisplay;
+import com.stripe.stripeterminal.external.models.CaptureMethod;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
 import com.stripe.stripeterminal.external.models.CollectPaymentIntentConfiguration;
@@ -196,7 +197,7 @@ public class EventFragment extends Fragment implements MobileReaderListener {
             setupIntent = intent;
             addEvent("Created SetupIntent", "terminal.createSetupIntent");
             viewModel.processTask = Terminal.getInstance().processSetupIntent(
-                    setupIntent, AllowRedisplay.ALWAYS, new CollectSetupIntentConfiguration.Builder().build(), processSetupIntentCallback);
+                    setupIntent, new CollectSetupIntentConfiguration.Builder(AllowRedisplay.ALWAYS).build(), processSetupIntentCallback);
         }
 
         @Override
@@ -260,6 +261,8 @@ public class EventFragment extends Fragment implements MobileReaderListener {
                     final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
                             .setAmount(arguments.getLong(AMOUNT))
                             .setCurrency(currency)
+                            // The success callback captures this payment through the example backend.
+                            .setCaptureMethod(CaptureMethod.Manual)
                             .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
                             .build();
 

@@ -45,6 +45,7 @@ import com.stripe.stripeterminal.external.models.DiscoveryFilter;
 import com.stripe.stripeterminal.external.models.EasyConnectConfiguration;
 import com.stripe.stripeterminal.external.models.EasyConnectConfiguration.InternetEasyConnectConfiguration;
 import com.stripe.stripeterminal.external.models.ListLocationsParameters;
+import com.stripe.stripeterminal.external.models.LocaleConfig;
 import com.stripe.stripeterminal.external.models.Location;
 import com.stripe.stripeterminal.external.models.Reader;
 import com.stripe.stripeterminal.external.models.ReaderDisplayMessage;
@@ -452,7 +453,8 @@ public class MainActivity extends AppCompatActivity implements
         try {
             if (!Terminal.isInitialized()) {
                 Terminal.init(getApplicationContext(), LogLevel.VERBOSE, new TokenProvider(),
-                        TerminalEventListener.instance, TerminalOfflineListener.instance);
+                        TerminalEventListener.instance, TerminalOfflineListener.instance,
+                        new LocaleConfig.HardcodedLocale.Builder("en-US").build());
             }
         } catch (TerminalException e) {
             throw new RuntimeException(e);
