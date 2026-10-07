@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.stripe.example.TerminalRepository
 import com.stripe.example.model.Event
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.models.AllowRedisplay
 import com.stripe.stripeterminal.external.models.CollectPaymentIntentConfiguration
 import com.stripe.stripeterminal.external.models.CollectRefundConfiguration
 import com.stripe.stripeterminal.external.models.CollectSetupIntentConfiguration
@@ -14,7 +13,7 @@ import com.stripe.stripeterminal.external.models.ConfirmPaymentIntentConfigurati
 import com.stripe.stripeterminal.external.models.CreateConfiguration
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentIntentParameters
-import com.stripe.stripeterminal.external.models.RefundParameters
+import com.stripe.stripeterminal.external.models.ProcessRefundParameters
 import com.stripe.stripeterminal.external.models.SetupIntent
 import com.stripe.stripeterminal.external.models.SetupIntentCancellationParameters
 import com.stripe.stripeterminal.external.models.SetupIntentParameters
@@ -79,7 +78,6 @@ class EventViewModel : ViewModel() {
 
     fun saveCard(
         setupIntentParameters: SetupIntentParameters,
-        allowRedisplay: AllowRedisplay,
         collectConfiguration: CollectSetupIntentConfiguration,
     ) {
         viewModelScopeSafeLaunch {
@@ -93,7 +91,6 @@ class EventViewModel : ViewModel() {
                 // to perform between collect and confirm.
                 val processedSI = processSetupIntent(
                     intent = createdSI,
-                    allowRedisplay = allowRedisplay,
                     collectConfig = collectConfiguration,
                 )
                 TerminalRepository.addSetupIntent(processedSI)
@@ -131,7 +128,7 @@ class EventViewModel : ViewModel() {
 
     private fun refundPayment(paymentIntent: PaymentIntent) {
         viewModelScopeSafeLaunch {
-            val refundParameters = RefundParameters.ByPaymentIntentId(
+            val refundParameters = ProcessRefundParameters.ByPaymentIntentId(
                 id = paymentIntent.id!!,
                 clientSecret = paymentIntent.clientSecret!!,
                 amount = paymentIntent.amount,

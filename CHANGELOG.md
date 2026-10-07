@@ -3,11 +3,97 @@
 This document details changes made to the SDK by version. The current status
 of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
+## 6.0.0 - 2026-10-07
+
+### Core
+
+#### New
+- Private preview: Added `ConfirmRefundParameters` and `RefundReason` for creating Refunds without collecting a payment
+  method. This feature is subject to change.
+- Private preview: Added `Refund.nextAction`, including typed display and email details for Refunds that require
+  additional action. This feature is subject to change.
+- Private preview: Added `Terminal.confirmRefund(ConfirmRefundParameters, RefundCallback)` for mobile readers, Tap to
+  Pay, and Internet readers. This creates a Refund for a PaymentIntent without collecting a payment method and is
+  subject to change.
+- Mobile readers: Added `ReaderPaymentInteractionListener`, a new interface for handling payment flow interactions that require UI from your app, such as displaying a QR code or selecting a payment method. Pass it during reader connection alongside `MobileReaderListener` when connecting to your mobile reader.
+  - **Breaking:** `onQrCodeDisplayRequired` and `onPaymentMethodSelectionRequired` have been removed from `MobileReaderListener`. Implement `ReaderPaymentInteractionListener`, pass it during reader connection, and handle `onInteractionRequired` by inspecting the concrete `PaymentInteraction` type and invoking its callback.
+- Added `TerminalErrorCode.CANCELED_BY_READER`, returned when a payment flow is canceled on the reader, including
+  through its touchscreen or a physical cancel button. Programmatic cancellations initiated through the SDK continue
+  to return `TerminalErrorCode.CANCELED`.
+- Added `paymentMethodDetails.card.authorizationCode` field for MOTO transactions.
+  - _Note for smart reader integrations, this feature requires reader software version `2.45` or later to be installed on your smart reader._
+
+#### Updates
+- **Breaking:** `Refund.id` is now nullable. Check for a value before using it.
+- **Breaking:** Renamed `RefundParameters` to `ProcessRefundParameters`, including its `ByChargeId` and
+  `ByPaymentIntentId` builders. `processRefund` behavior is unchanged.
+- **Breaking:** Removed `PaymentIntent.getCharges()`. Use `PaymentIntent.latestCharge` for the expanded most recent Charge and `PaymentIntent.latestChargeId` for its ID.
+- **Breaking:** Removed `PaymentIntent.invoice`. Retrieve the PaymentIntent's invoice relationship through the Stripe API from your server.
+- **Breaking:** Renamed `SetupIntentPaymentMethodDetails` to `SetupAttemptPaymentMethodDetails` and
+  `SetupIntentCardPresentDetails` to `SetupAttemptCardPresentDetails` to reflect that these models describe a
+  `SetupAttempt`. `SetupAttempt.paymentMethodDetails` now returns `SetupAttemptPaymentMethodDetails`, whose `type`
+  property is now public.
+- **Breaking:** Split the former `CardPresentDetails` model into object-specific card-present models:
+  - `PaymentMethod.cardPresentDetails` and `PaymentMethod.interacPresentDetails` now return
+    `PaymentMethod.CardPresent`. This model contains reusable payment-method fields, keeps the
+    PaymentMethod-only `networks` field, adds `brandProduct`, and makes `expMonth` and `expYear`
+    nullable. Charge-only transaction fields are no longer exposed on expanded PaymentMethods.
+  - `Charge.paymentMethodDetails.cardPresentDetails` and
+    `Charge.paymentMethodDetails.interacPresentDetails` now return `Charge.CardPresent`. This model
+    contains the transaction snapshot, including receipt and authorization lifecycle fields, and no
+    longer exposes the PaymentMethod-only `networks` field.
+  - The top-level `CardPresentDetails` type has been removed. Use `PaymentMethod.CardPresent` or
+    `Charge.CardPresent`, depending on the parent object.
+- **Breaking:** Exceptions reported in `ReaderSupportResult.NotSupported` will now only be of type `TerminalException`.
+- Replaced `TerminalErrorCode.PRINTER_LOW_BATTERY` with the more general `TerminalErrorCode.READER_BATTERY_LOW`, returned when a reader remains connected but cannot complete an operation, such as printing, because its battery is too low.
+- `PaymentIntentParameters.Builder` now defaults `captureMethod` to `CaptureMethod.AutomaticAsync` instead of
+  `CaptureMethod.Manual`. Integrations that require separate capture, including those using on-receipt tipping,
+  incremental authorization, or extended authorization, must explicitly set `CaptureMethod.Manual`.
+- Removed deprecated APIs:
+  - `Terminal.collectRefundPaymentMethod` and `Terminal.confirmRefund`. Use `Terminal.processRefund` instead.
+  - The `Terminal.init` overload without `LocaleConfig`. Pass a `LocaleConfig` when initializing the SDK.
+  - The `TapToPayConnectionConfiguration` constructor that accepts a location ID. Pass `TapUseCase.Pay` instead.
+  - `SimulatorConfiguration.update` and the obsolete `SimulateReaderUpdate` enum. Set `testReaderUpdate` using `TestReaderUpdate` on `BluetoothConnectionConfiguration` or `UsbConnectionConfiguration` instead.
+- Moved `allowRedisplay` into `CollectSetupIntentConfiguration` for `collectSetupIntentPaymentMethod` and `processSetupIntent`.
+- SDKs have been updated to depend on [Kotlin 2.3.21](https://github.com/JetBrains/kotlin/releases/tag/v2.3.21).
+- SDKs have been updated to require integrations to have a `compileSdkVersion` set to 35 (Android 15) or above.
+- Consumer Proguard files have been updated to remove unnecessarily broad keep rules. Fixes [issue 739](https://github.com/stripe/stripe-terminal-android/issues/739) and [issue 748](https://github.com/stripe/stripe-terminal-android/issues/748).
+
+#### Fixes
+
+### Tap to Pay
+
+#### New
+- [`MODIFY_AUDIO_SETTINGS`](https://developer.android.com/reference/android/Manifest.permission#MODIFY_AUDIO_SETTINGS) permission is now required for Tap to Pay to ensure that the volume is not muted during a payment.
+- Added [`TapToPayReaderListener.onUpdateRequirementsAvailable`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.callable/-tap-to-pay-reader-listener/on-update-requirements-available.html), which reports upcoming Tap to Pay on Android update requirements. Each requirement carries the earliest version the device should upgrade to, along with the timestamp at which enforcement begins.
+
+#### Updates
+- [`TapToPayUxConfiguration`](https://stripe.dev/stripe-terminal-android/external/com.stripe.stripeterminal.external.models/-tap-to-pay-ux-configuration/index.html) and its associated data models are no longer Parcelable.
+- `TapToPayUxConfiguration.DarkMode` has been renamed to `TapToPayUxConfiguration.Theme`.
+- `TapToPayUxConfiguration::colors` has been renamed to `TapToPayUxConfiguration::colorScheme`.
+- `TapToPayUxConfiguration::darkMode` has been renamed to `TapToPayUxConfiguration::theme`.
+- `TapToPayUxConfiguration.Builder::colors` has been renamed to `TapToPayUxConfiguration.Builder::colorScheme`.
+- `TapToPayUxConfiguration.Builder::darkMode` has been renamed to `TapToPayUxConfiguration.Builder::theme`.
+- The default `Theme` when using `TapToPayUxConfiguration.Builder` has been updated from `LIGHT` to `SYSTEM`.
+- An expired session token resulting in an attestation failure during `Terminal.connectReader` now returns `TerminalErrorCode.SESSION_EXPIRED`, instead of `TerminalErrorCode.STRIPE_API_CONNECTION_ERROR`.
+
+#### Fixes
+- Returns an appropriate error code for events that cause payment collection to be canceled. Fixes [issue 750](https://github.com/stripe/stripe-terminal-android/issues/750).
+
+### Apps on Devices: Handoff mode
+
+#### New
+
+#### Updates
+
+#### Fixes
+
 ## 5.8.2 - 2026-10-02
 
 ### Tap to Pay
 
 #### Fixes
+
 - Fixed an issue that caused payment failures for China UnionPay cards.
 
 ## 5.8.1 - 2026-09-14
@@ -77,7 +163,7 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### Fixes
 - Fixed an issue that could cause devices to fail to connect when Keystore certificates registered to the device had expired.
-- Fixed a bug where the `generated_card` field was not populated after processing a PaymentIntent. Fixes [issue 717](https://github.com/stripe/stripe-terminal-android/issues/717).
+- Fixed a bug affecting SDK versions 5.4.0 through 5.6.0 where the `generated_card` field was not populated after processing a PaymentIntent. Fixes [issue 717](https://github.com/stripe/stripe-terminal-android/issues/717).
 - Fixed a crash that occurred when initiating payment collection in portrait orientation while the app was running in landscape orientation. Fixes [issue 1116](https://github.com/stripe/stripe-terminal-react-native/issues/1116).
 - Fixed a bug where the SDK could encounter attribute resource name collisions with certain third-party libraries. Fixes [issue 721](https://github.com/stripe/stripe-terminal-android/issues/721).
 
@@ -114,6 +200,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### Fixes
 - Fixed an issue where the immersive mode system overlay could cause the Tap to Pay collection screen to prematurely close. Fixes [issue 1120](https://github.com/stripe/stripe-terminal-react-native/issues/1120).
 
+#### Known Issues
+- **Missing `generated_card` field**: SDK versions 5.4.0 through 5.6.0 contain a bug where the `generated_card` field is not populated after processing a PaymentIntent. This issue is fixed in 5.7.0.
+
 ## 5.5.1 - 2026-05-22
 
 ### Tap to Pay
@@ -146,6 +235,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### Updates
 - The simulated payment collection screen UI was updated to match the livemode UI and can now be customized with [`TapToPayUxConfiguration`](https://docs.stripe.com/terminal/payments/setup-reader/tap-to-pay?terminal-sdk-platform=android#user-interface).
   - Pressing the screen simulates a successful payment; long pressing simulates a failed payment collection.
+
+#### Known Issues
+- **Missing `generated_card` field**: SDK versions 5.4.0 through 5.6.0 contain a bug where the `generated_card` field is not populated after processing a PaymentIntent. This issue is fixed in 5.7.0.
 
 ### Apps on Devices: Handoff mode
 
@@ -197,6 +289,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 #### Fixes
 - Fixed issue where tap zone would change size on tablets, depending on the device being in portrait or landscape.
 - Fixed `SecurityException` when user taps and removes a card quickly. Fixes [issue 689](https://github.com/stripe/stripe-terminal-android/issues/689).
+
+#### Known Issues
+- **Missing `generated_card` field**: SDK versions 5.4.0 through 5.6.0 contain a bug where the `generated_card` field is not populated after processing a PaymentIntent. This issue is fixed in 5.7.0.
 
 ## 5.3.0 - 2026-03-03
 

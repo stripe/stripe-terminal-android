@@ -1,0 +1,525 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CardPresent</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
+                    Stripe Terminal Android SDK (v6.0.0)
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Stripe Terminal Android SDK (v6.0.0)
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="external::com.stripe.stripeterminal.external.models/Charge.CardPresent///PointingToDeclaration//1255199810">
+  <div class="breadcrumbs"><a href="../../../index.html">external</a><span class="delimiter">/</span><a href="../../index.html">com.stripe.stripeterminal.external.models</a><span class="delimiter">/</span><a href="../index.html">Charge</a><span class="delimiter">/</span><span class="current">CardPresent</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Card</span><wbr><span><span>Present</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Serializable///PointingToDeclaration/"><span class="token annotation builtin">Serializable</span></span></div></div><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">CardPresent</a> : <span data-unresolved-link="java.io/Serializable///PointingToDeclaration/">Serializable</span></div><p class="paragraph">Transaction details captured for a card-present payment on this Charge.</p><p class="paragraph">This is the <code class="lang-kotlin">charge.payment_method_details.card_present</code> or <code class="lang-kotlin">charge.payment_method_details.interac_present</code> snapshot. For reusable instrument details on an expanded <a href="../../-payment-method/index.html">PaymentMethod</a>, see <a href="../../-payment-method/-card-present/index.html">PaymentMethod.CardPresent</a>.</p><p class="paragraph">For more information, see the official Stripe docs: <a href="https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present">Card present</a></p><p class="paragraph">Use of this SDK is subject to the Stripe Terminal Terms: https://stripe.com/terminal/legal</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-1134258143%2FProperties%2F1255199810" anchor-label="brand" id="-1134258143%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="brand.html"><span><span>brand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1134258143%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="brand.html">brand</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The brand of the payment method used</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2123044867%2FProperties%2F1255199810" anchor-label="captureBefore" id="2123044867%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="capture-before.html"><span>capture</span><wbr><span><span>Before</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2123044867%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="capture-before.html">captureBefore</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Time at which the authorization will expire and can no longer be captured. Measured in seconds since the Unix epoch.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1844651381%2FProperties%2F1255199810" anchor-label="cardholderName" id="-1844651381%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cardholder-name.html"><span>cardholder</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1844651381%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="cardholder-name.html">cardholderName</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The cardholder name as read from the card. May include alphanumeric characters, special characters and first/last name separator (/). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="382637106%2FProperties%2F1255199810" anchor-label="country" id="382637106%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="country.html"><span><span>country</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="382637106%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="country.html">country</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The country of the payment method used</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-966760180%2FProperties%2F1255199810" anchor-label="description" id="-966760180%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="description.html"><span><span>description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-966760180%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="description.html">description</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="551962210%2FProperties%2F1255199810" anchor-label="dynamicCurrencyConversion" id="551962210%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="dynamic-currency-conversion.html"><span>dynamic</span><wbr><span>Currency</span><wbr><span><span>Conversion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="551962210%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="dynamic-currency-conversion.html">dynamicCurrencyConversion</a><span class="token operator">: </span><a href="../../-dynamic-currency-conversion/index.html">DynamicCurrencyConversion</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Dynamic currency conversion details for this transaction.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1403848408%2FProperties%2F1255199810" anchor-label="emvAuthData" id="-1403848408%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="emv-auth-data.html"><span>emv</span><wbr><span>Auth</span><wbr><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1403848408%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="emv-auth-data.html">emvAuthData</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The EMV auth data string of the payment method used</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1573696305%2FProperties%2F1255199810" anchor-label="expMonth" id="-1573696305%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="exp-month.html"><span>exp</span><wbr><span><span>Month</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1573696305%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="exp-month.html">expMonth</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">The expiration month of the payment method used</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2065812402%2FProperties%2F1255199810" anchor-label="expYear" id="-2065812402%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="exp-year.html"><span>exp</span><wbr><span><span>Year</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2065812402%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="exp-year.html">expYear</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Int///PointingToDeclaration/">Int</span></div><div class="brief "><p class="paragraph">The expiration year of the payment method used</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="729086635%2FProperties%2F1255199810" anchor-label="funding" id="729086635%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="funding.html"><span><span>funding</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="729086635%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="funding.html">funding</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Card funding type. Can be <code class="lang-kotlin">credit</code>, <code class="lang-kotlin">debit</code>, <code class="lang-kotlin">prepaid</code>, or <code class="lang-kotlin">unknown</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1398201961%2FProperties%2F1255199810" anchor-label="generatedCard" id="1398201961%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="generated-card.html"><span>generated</span><wbr><span><span>Card</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1398201961%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="generated-card.html">generatedCard</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The ID of a generated card that can be used for recurring charges</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1604866298%2FProperties%2F1255199810" anchor-label="iin" id="1604866298%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="iin.html"><span><span>iin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1604866298%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="iin.html">iin</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1321744991%2FProperties%2F1255199810" anchor-label="incrementalAuthorizationStatus" id="-1321744991%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="incremental-authorization-status.html"><span>incremental</span><wbr><span>Authorization</span><wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1321744991%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Transient///PointingToDeclaration/"><span class="token annotation builtin">Transient</span></span></div></div><span class="token keyword">val </span><a href="incremental-authorization-status.html">incrementalAuthorizationStatus</a><span class="token operator">: </span><a href="../../-incremental-authorization-status/index.html">IncrementalAuthorizationStatus</a></div><div class="brief "><p class="paragraph">Whether this payment method is eligible for incremental authorizations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1969273465%2FProperties%2F1255199810" anchor-label="issuer" id="1969273465%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="issuer.html"><span><span>issuer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1969273465%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="issuer.html">issuer</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-223448278%2FProperties%2F1255199810" anchor-label="last4" id="-223448278%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="last4.html"><span><span>last4</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-223448278%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="last4.html">last4</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The last four digits of the card used</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1309630397%2FProperties%2F1255199810" anchor-label="location" id="1309630397%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="location.html"><span><span>location</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1309630397%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="location.html">location</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">ID of the location that this transaction’s reader is assigned to.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-205927419%2FProperties%2F1255199810" anchor-label="multicapture" id="-205927419%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="multicapture.html"><span><span>multicapture</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-205927419%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="multicapture.html">multicapture</a><span class="token operator">: </span><a href="../../-multicapture/index.html">Multicapture</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Multicapture details for this transaction. Contains the multicapture status indicating whether multicapture is available after authorization. Only present when <code class="lang-kotlin">request_multicapture</code> was set to <code class="lang-kotlin">if_available</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-990630758%2FProperties%2F1255199810" anchor-label="network" id="-990630758%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="network.html"><span><span>network</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-990630758%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="network.html">network</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Identifies which network this charge was processed on. Only available after confirming the <code class="lang-kotlin">PaymentIntent</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1995874492%2FProperties%2F1255199810" anchor-label="overcaptureStatus" id="-1995874492%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="overcapture-status.html"><span>overcapture</span><wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1995874492%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/Transient///PointingToDeclaration/"><span class="token annotation builtin">Transient</span></span></div></div><span class="token keyword">val </span><a href="overcapture-status.html">overcaptureStatus</a><span class="token operator">: </span><a href="../../-overcapture-status/index.html">OvercaptureStatus</a></div><div class="brief "><p class="paragraph">Whether this payment method supports overcapture.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1027439676%2FProperties%2F1255199810" anchor-label="paymentAccountReference" id="-1027439676%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="payment-account-reference.html"><span>payment</span><wbr><span>Account</span><wbr><span><span>Reference</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1027439676%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="payment-account-reference.html">paymentAccountReference</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A unique identifier assigned by the card network to the underlying payment account. This value can identify the same account across a physical card and its wallet tokens.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1304753606%2FProperties%2F1255199810" anchor-label="preferredLocales" id="-1304753606%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="preferred-locales.html"><span>preferred</span><wbr><span><span>Locales</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1304753606%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="preferred-locales.html">preferredLocales</a><span class="token operator">: </span><span data-unresolved-link="kotlin.collections/List///PointingToDeclaration/">List</span><span class="token operator">&lt;</span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">EMV tag 5F2D. Preferred languages specified by the integrated circuit chip. https://stripe.com/docs/api/payment_methods/object#payment_method_object-interac_present-preferred_locales</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1117705135%2FProperties%2F1255199810" anchor-label="reader" id="1117705135%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reader.html"><span><span>reader</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1117705135%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="reader.html">reader</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">ID of the reader this transaction was made on.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1280528987%2FProperties%2F1255199810" anchor-label="readMethod" id="1280528987%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="read-method.html"><span>read</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1280528987%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="read-method.html">readMethod</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">How were card details read in this transaction.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1241901662%2FProperties%2F1255199810" anchor-label="reauthorization" id="-1241901662%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reauthorization.html"><span><span>reauthorization</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1241901662%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="reauthorization.html">reauthorization</a><span class="token operator">: </span><a href="../../-reauthorization/index.html">Reauthorization</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Reauthorization details for this transaction. Contains the reauthorization status indicating whether reauthorization is available after authorization. Only present when <code class="lang-kotlin">request_reauthorization</code> was set to <code class="lang-kotlin">if_available</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-40524621%2FProperties%2F1255199810" anchor-label="reauthorizeBefore" id="-40524621%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reauthorize-before.html"><span>reauthorize</span><wbr><span><span>Before</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-40524621%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="reauthorize-before.html">reauthorizeBefore</a><span class="token operator">: </span><span data-unresolved-link="kotlin/Long///PointingToDeclaration/">Long</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Time at which the authorization will expire and must be reauthorized to extend the authorization window. Measured in seconds since the Unix epoch. Only present when reauthorization is available for this transaction.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="836700264%2FProperties%2F1255199810" anchor-label="receiptDetails" id="836700264%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="receipt-details.html"><span>receipt</span><wbr><span><span>Details</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="836700264%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/SerialName///PointingToDeclaration/"><span class="token annotation builtin">SerialName</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"receipt"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">val </span><a href="receipt-details.html">receiptDetails</a><span class="token operator">: </span><a href="../../-receipt-details/index.html">ReceiptDetails</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Any information necessary for generating receipts</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1030308046%2FProperties%2F1255199810" anchor-label="retrievalReferenceNumber" id="-1030308046%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="retrieval-reference-number.html"><span>retrieval</span><wbr><span>Reference</span><wbr><span><span>Number</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1030308046%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/SerialName///PointingToDeclaration/"><span class="token annotation builtin">SerialName</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"retrieval_reference_number"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">val </span><a href="retrieval-reference-number.html">retrievalReferenceNumber</a><span class="token operator">: </span><span data-unresolved-link="kotlin/String///PointingToDeclaration/">String</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Unique reference number associated with the authorization of a transaction. Used by processors to identify transactions in their systems.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-115228359%2FProperties%2F1255199810" anchor-label="wallet" id="-115228359%2FProperties%2F1255199810" data-filterable-set=":terminalsdk:external/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":terminalsdk:external/main" data-filterable-set=":terminalsdk:external/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="wallet.html"><span><span>wallet</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-115228359%2FProperties%2F1255199810"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":terminalsdk:external/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="wallet.html">wallet</a><span class="token operator">: </span><a href="../../-wallet/index.html">Wallet</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">If this payment is from a card wallet, this contains the details of the card wallet.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
