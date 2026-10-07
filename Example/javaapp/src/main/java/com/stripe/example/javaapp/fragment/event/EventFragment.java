@@ -31,6 +31,7 @@ import com.stripe.stripeterminal.external.callable.PaymentIntentCallback;
 import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
 import com.stripe.stripeterminal.external.models.AllowRedisplay;
 import com.stripe.stripeterminal.external.models.BatteryStatus;
+import com.stripe.stripeterminal.external.models.CaptureMethod;
 import com.stripe.stripeterminal.external.models.CardPresentParameters;
 import com.stripe.stripeterminal.external.models.CollectPaymentIntentConfiguration;
 import com.stripe.stripeterminal.external.models.ConfirmPaymentIntentConfiguration;
@@ -196,7 +197,9 @@ public class EventFragment extends Fragment implements MobileReaderListener {
             setupIntent = intent;
             addEvent("Created SetupIntent", "terminal.createSetupIntent");
             viewModel.processTask = Terminal.getInstance().processSetupIntent(
-                    setupIntent, AllowRedisplay.ALWAYS, new CollectSetupIntentConfiguration.Builder().build(), processSetupIntentCallback);
+                    setupIntent,
+                    new CollectSetupIntentConfiguration.Builder(AllowRedisplay.ALWAYS).build(),
+                    processSetupIntentCallback);
         }
 
         @Override
@@ -257,11 +260,14 @@ public class EventFragment extends Fragment implements MobileReaderListener {
                             .setCardPresentParameters(cardPresentParametersBuilder.build())
                             .build();
 
-                    final PaymentIntentParameters params = new PaymentIntentParameters.Builder()
+                    final PaymentIntentParameters.Builder paramsBuilder = new PaymentIntentParameters.Builder()
                             .setAmount(arguments.getLong(AMOUNT))
                             .setCurrency(currency)
-                            .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
-                            .build();
+                            .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters);
+                    if (extendedAuth || incrementalAuth) {
+                        paramsBuilder.setCaptureMethod(CaptureMethod.Manual);
+                    }
+                    final PaymentIntentParameters params = paramsBuilder.build();
 
                     OfflineBehaviorSelection offlineBehaviorSelection = (OfflineBehaviorSelection) arguments.getSerializable(OFFLINE_BEHAVIOR);
                     if (offlineBehaviorSelection == null) {

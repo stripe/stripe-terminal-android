@@ -46,8 +46,8 @@ data class DetailedLedgerCard(
                         subtitle = intent.id ?: "Unknown ID",
                         amount = String.format("%.2f", intent.amount / 100.0),
                         currency = intent.currency?.uppercase(),
-                        cardBrand = intent.getCharges().firstOrNull()?.paymentMethodDetails?.cardPresentDetails?.brand,
-                        cardLast4 = intent.getCharges().firstOrNull()?.paymentMethodDetails?.cardPresentDetails?.last4,
+                        cardBrand = intent.latestCharge?.paymentMethodDetails?.cardPresentDetails?.brand,
+                        cardLast4 = intent.latestCharge?.paymentMethodDetails?.cardPresentDetails?.last4,
                         metadata = intent.metadata ?: emptyMap(),
                         createdDate = DateTimeFormatter
                             .ofLocalizedDateTime(FormatStyle.MEDIUM)

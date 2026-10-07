@@ -3,8 +3,6 @@ $dokka.linkExtension:html
 
 module:core
 com.stripe.stripeterminal
-module:taptopay
-com.stripe.stripeterminal.taptopay
 module:external
 com.stripe.stripeterminal.external
 com.stripe.stripeterminal.external.api
@@ -19,3 +17,5 @@ com.stripe.stripeterminal.appsondevices.models
 com.stripe.stripeterminal.appsondevices.models.callable
 module:ktx
 com.stripe.stripeterminal.ktx
+module:taptopay
+com.stripe.stripeterminal.taptopay

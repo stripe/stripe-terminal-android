@@ -18,6 +18,7 @@ import com.stripe.example.model.OfflineBehaviorSelection
 import com.stripe.example.viewmodel.EventViewModel
 import com.stripe.stripeterminal.external.callable.MobileReaderListener
 import com.stripe.stripeterminal.external.models.AllowRedisplay
+import com.stripe.stripeterminal.external.models.CaptureMethod
 import com.stripe.stripeterminal.external.models.CardPresentParameters
 import com.stripe.stripeterminal.external.models.CollectPaymentIntentConfiguration
 import com.stripe.stripeterminal.external.models.CollectSetupIntentConfiguration
@@ -152,6 +153,11 @@ class EventFragment : Fragment(R.layout.fragment_event), MobileReaderListener {
         )
             .setAmount(args.getLong(AMOUNT))
             .setCurrency(currency)
+            .apply {
+                if (extendedAuth || incrementalAuth) {
+                    setCaptureMethod(CaptureMethod.Manual)
+                }
+            }
             .setPaymentMethodOptionsParameters(paymentMethodOptionsParameters)
             .setMetadata(TerminalRepository.genMetaData())
             .build()
@@ -173,8 +179,8 @@ class EventFragment : Fragment(R.layout.fragment_event), MobileReaderListener {
         val params = SetupIntentParameters.Builder().setMetadata(TerminalRepository.genMetaData()).build()
         viewModel.saveCard(
             setupIntentParameters = params,
-            allowRedisplay = AllowRedisplay.ALWAYS,
-            collectConfiguration = CollectSetupIntentConfiguration.Builder().build()
+            collectConfiguration = CollectSetupIntentConfiguration.Builder(AllowRedisplay.ALWAYS)
+                .build()
         )
     }
 
