@@ -59,8 +59,6 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - SDKs have been updated to require integrations to have a `compileSdkVersion` set to 35 (Android 15) or above.
 - Consumer Proguard files have been updated to remove unnecessarily broad keep rules. Fixes [issue 739](https://github.com/stripe/stripe-terminal-android/issues/739) and [issue 748](https://github.com/stripe/stripe-terminal-android/issues/748).
 
-#### Fixes
-
 ### Tap to Pay
 
 #### New
@@ -79,14 +77,6 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 
 #### Fixes
 - Returns an appropriate error code for events that cause payment collection to be canceled. Fixes [issue 750](https://github.com/stripe/stripe-terminal-android/issues/750).
-
-### Apps on Devices: Handoff mode
-
-#### New
-
-#### Updates
-
-#### Fixes
 
 ## 5.8.2 - 2026-10-02
 
@@ -136,6 +126,9 @@ of each release can be found in the [Support Lifecycle](SUPPORT.md).
 - Fixed mobile reader software updates timing out on slow network connections.
 
 ### Tap to Pay
+
+#### New
+- Added JCB payment method support in Japan for Tap to Pay on Android.
 
 #### Fixes
 - Fixed an issue causing PIN collections to fail on Tap to Pay on Android for certain device models. Fixes [issue 722](https://github.com/stripe/stripe-terminal-android/issues/722).
